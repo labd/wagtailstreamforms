@@ -1,0 +1,6 @@
+# The app itself
+-e .
+
+django
+wagtail
+psycopg2

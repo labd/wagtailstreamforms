@@ -1,0 +1,12 @@
+<h2>{{ value.form.name }}</h2>
+<form action="{{ action_url }}" method="post" id="streamforms_{{ form_id }}" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="field-row">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}<p class="help-text">{{ field.help_text }}</p>{% endif %}
+        </div>
+    {% endfor %}
+    <input type="submit" class="button button-primary" value="{{ value.form.submit_button_text }}">
+</form>
