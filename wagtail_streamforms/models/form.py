@@ -101,7 +101,7 @@ class BaseForm(ClusterableModel):
             )
 
 
-if recaptcha_enabled():
+if recaptcha_enabled():  # pragma: no cover
     BaseForm.field_panels.insert(0, FieldPanel('add_recaptcha'))
 
 

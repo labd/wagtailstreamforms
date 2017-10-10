@@ -84,3 +84,12 @@ $ python manage.py createsuperuser
 ```
 
 3. Go to [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+## Useful commands
+
+Clean cache:
+
+```
+find . -name \*.pyc -delete
+find . -name \*__pycache__ -delete
+```

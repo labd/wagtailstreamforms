@@ -41,7 +41,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
             for name, label in data_fields:
                 data_row.append(smart_str(form_data.get(name)))
             writer.writerow(data_row)
-            
+
         return response
 
     def get_queryset(self):

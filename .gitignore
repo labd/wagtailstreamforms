@@ -1,5 +1,10 @@
+.cache
+.coverage
 .DS_Store
 .idea
 .postgres
+.tox
 **__pycache__**
 *.pyc
+/htmlcov/
+/wagtail_streamforms.egg-info/

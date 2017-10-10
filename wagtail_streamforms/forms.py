@@ -39,4 +39,3 @@ class FormBuilder(OrigFormBuilder):
             fields['recaptcha'] = ReCaptchaField()
 
         return fields
-

@@ -1,0 +1,11 @@
+[run]
+branch = True
+source = wagtail_streamforms
+omit =
+    */migrations/*
+parallel = true
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
