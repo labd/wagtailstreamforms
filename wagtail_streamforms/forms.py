@@ -21,9 +21,7 @@ class FormBuilder(OrigFormBuilder):
             })
         else:
             # otherwise allow anything
-            options.update({
-                'regex': '(.*?)'
-            })
+            options.update({'regex': '(.*?)'})
         return django.forms.RegexField(**options)
 
     OrigFormBuilder.FIELD_TYPES.update(
