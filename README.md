@@ -1,5 +1,7 @@
 # wagtail_streamforms
 
+[![CircleCI](https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master.svg?style=svg)](https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master)
+
 ## General Setup
 
 1. Add wagtail_streamforms to your INSTALLED_APPS:
