@@ -17,6 +17,7 @@ class FormSubmission(models.Model):
     )
 
     def get_data(self):
+        # TODO: handle if form_data is ""
         form_data = json.loads(self.form_data)
         form_data.update({'submit_time': self.submit_time, })
         return form_data
