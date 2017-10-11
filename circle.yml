@@ -2,7 +2,6 @@ machine:
   python:
     version: '2.7.12'
   environment:
-    TOX_PY27: '2.7.12'
     TOX_PY34: '3.4.4'
     TOX_PY35: '3.5.3'
     TOX_PY36: '3.6.2'
@@ -13,7 +12,7 @@ dependencies:
   override:
     - pip -V
     - pip install -U tox coveralls
-    - pyenv local $TOX_PY27 $TOX_PY34 $TOX_PY35 $TOX_PY36
+    - pyenv local $TOX_PY34 $TOX_PY35 $TOX_PY36
 
 test:
   override:
