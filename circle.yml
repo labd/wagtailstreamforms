@@ -1,0 +1,22 @@
+machine:
+  python:
+    version: '2.7.12'
+  environment:
+    TOX_PY27: '2.7.12'
+    TOX_PY34: '3.4.4'
+    TOX_PY35: '3.5.3'
+    TOX_PY36: '3.6.2'
+
+dependencies:
+  pre:
+    - sudo apt-get install python-dev
+  override:
+    - pip -V
+    - pip install -U tox coveralls
+    - pyenv local $TOX_PY27 $TOX_PY34 $TOX_PY35 $TOX_PY36
+
+test:
+  override:
+    - tox -v --recreate
+  post:
+    - cp -r htmlcov $CIRCLE_ARTIFACTS
