@@ -19,3 +19,4 @@ test:
     - tox -v --recreate
   post:
     - cp -r htmlcov $CIRCLE_ARTIFACTS
+    - coveralls

@@ -1,6 +1,7 @@
 # wagtail_streamforms
 
 [![CircleCI](https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master.svg?style=svg)](https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/AccentDesign/wagtail_streamforms/badge.svg?branch=master)](https://coveralls.io/github/AccentDesign/wagtail_streamforms?branch=master)
 
 ## General Setup
 
