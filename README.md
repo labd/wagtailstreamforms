@@ -24,13 +24,6 @@ WAGTAIL_STREAMFORMS_FORM_TEMPLATES = (
 )
 ```
 
-3. Include in your base template the javascript to handle the post and response
-
-```html
-<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="{% static 'streamforms/js/form-handler.js' %}"></script>
-```
-
 ## Enable Recaptcha
 
 Has been enabled via the [django-recaptcha](https://github.com/praekelt/django-recaptcha) package. Please note that only one recapcha should be used per page.
@@ -117,4 +110,10 @@ $ pyenv local 3.4.4 3.5.3 3.6.2
 
 ```bash
 $ tox
+```
+
+or run for a single environment
+
+```bash
+$ tox -e py36-dj111-wt112
 ```

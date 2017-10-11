@@ -2,9 +2,10 @@ from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.models import Page
 from wagtail_streamforms.blocks import WagtailFormBlock
+from wagtail_streamforms.models import StreamFormPageMixin
 
 
-class BasicPage(Page):
+class BasicPage(StreamFormPageMixin, Page):
 
     body = StreamField([
         ('form', WagtailFormBlock())
