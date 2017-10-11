@@ -52,3 +52,5 @@ TEMPLATES = [
         },
     },
 ]
+
+ROOT_URLCONF = 'tests.urls'
