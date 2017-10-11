@@ -44,3 +44,12 @@ class ModelPropertyTests(AppTestCase):
         model = FormSubmission.objects.create(form_data='{"foo": 1}', form=form)
         expected_data = {"foo": 1, "submit_time": model.submit_time}
         self.assertEquals(model.get_data(), expected_data)
+
+    def test_get_data_blank_edge_case(self):
+        form = BaseForm.objects.create(
+            name='Form',
+            template_name='streamforms/form_block.html'
+        )
+        model = FormSubmission.objects.create(form_data='', form=form)
+        expected_data = {"submit_time": model.submit_time}
+        self.assertEquals(model.get_data(), expected_data)
