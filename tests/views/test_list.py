@@ -23,6 +23,7 @@ class ListViewTestCase(AppTestCase):
 
         self.list_url = reverse('streamforms_submissions', kwargs={'pk': form.pk})
         self.filter_url = '{}?date_from=2017-01-01&date_to=2017-01-02&action=filter'.format(self.list_url)
+        self.invalid_filter_url = '{}?date_from=xx&date_to=xx&action=filter'.format(self.list_url)
         self.csv_url = '{}?date_from=2017-01-01&date_to=2017-01-02&action=CSV'.format(self.list_url)
 
         self.client.login(username='user', password='password')
@@ -41,6 +42,10 @@ class ListViewTestCase(AppTestCase):
     def test_get_filtering(self):
         response = self.client.get(self.filter_url)
         self.assertEquals(len(response.context['data_rows']), 2)
+
+    def test_get_filtering_doesnt_happen_with_invalid_form(self):
+        response = self.client.get(self.invalid_filter_url)
+        self.assertEquals(len(response.context['data_rows']), 3)
 
     def test_get_csv(self):
         response = self.client.get(self.csv_url)

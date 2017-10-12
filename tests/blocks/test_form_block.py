@@ -19,10 +19,12 @@ class TestFormBlockTestCase(AppTestCase):
 
     def test_render(self):
         block = WagtailFormBlock()
+
         html = block.render(block.to_python({
             'form': self.form.pk,
             'form_action': '/foo/'
         }))
+
         expected_html = '\n'.join([
             '<h2>Form</h2>',
             '<form action="/foo/" method="post" novalidate>',
@@ -34,4 +36,38 @@ class TestFormBlockTestCase(AppTestCase):
             '<input type="submit" value="Submit">',
             '</form>',
         ])
+
         self.assertHTMLEqual(html, expected_html)
+
+    def test_context_has_form(self):
+        block = WagtailFormBlock()
+
+        context = block.get_context(block.to_python({
+            'form': self.form.pk,
+            'form_action': '/foo/'
+        }))
+
+        self.assertIsNotNone(context['form'])
+
+    def test_context_form_is_invalid_when_parent_context_has_this_form_with_errors(self):
+        invalid_form = self.form.get_form({'form_id': self.form.id})
+        assert not invalid_form.is_valid()
+
+        self.assertEquals(invalid_form.errors, {'name': ['This field is required.']})
+
+        # this is the context a page will set for an invalid form
+        parent_context = {
+            'invalid_stream_form_id': self.form.id,
+            'invalid_stream_form': invalid_form
+        }
+
+        block = WagtailFormBlock()
+
+        # get a new block context
+        context = block.get_context(block.to_python({
+            'form': self.form.pk,
+            'form_action': '/foo/'
+        }), parent_context)
+
+        # finally make sure the form in the block is the one with errors
+        self.assertEquals(context['form'], invalid_form)
