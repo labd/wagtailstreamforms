@@ -88,11 +88,33 @@ $ python manage.py createsuperuser
 
 3. Go to [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-## Useful commands
+## Tests
 
-Clean cache:
+1, Install dependencies
 
+You will need pyenv installed see [http://snippets.accentdesign.co.uk/snippets/pyenv-osx/](http://snippets.accentdesign.co.uk/snippets/pyenv-osx/)
+
+Also tox
+```bash
+$ pip install tox
 ```
-find . -name \*.pyc -delete
-find . -name \*__pycache__ -delete
+
+2, Install python versions in pyenv
+
+```bash
+$ pyenv install 3.4.4
+$ pyenv install 3.5.3
+$ pyenv install 3.6.2
+```
+
+3, Set local project versions
+
+```bash
+$ pyenv local 3.4.4 3.5.3 3.6.2
+```
+
+4, Run the tests
+
+```bash
+$ tox
 ```
