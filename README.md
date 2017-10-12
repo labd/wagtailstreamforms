@@ -5,19 +5,31 @@
 
 This package is currently a concept but allows you to add add forms that are built in the cms admin area to
 any streamfield. You can also create your own form templates which will then appear as a template choice when you build
-your form in the admin section. This allows you te decide how the form is submitted and where.
+your form. This allows you to decide how the form is submitted and to where.
 
 Documentation is currently being worked on but the basics are below
 
 
 ## Whats included?
 
-- Forms can be build in the cms admin and used site wide in any streamfield.
+- Forms can be built in the cms admin and used site wide in any streamfield.
+- You can create your own form templates to display/submit how ever you wish to do it.
 - We have included a mixin which will handle the form post if it is being submitted to a wagtail page.
 - Forms are catagorised by their class in the cms admin for easier navigation.
 - Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
 - Recaptcha can be added to a form.
 - You can also add site wide regex validators fo use in regex fields.
+
+
+## Screen shots
+
+![Screen1](/images/screen1.png)
+
+![Screen2](/images/screen2.png)
+
+![Screen3](/images/screen3.png)
+
+![Screen4](/images/screen4.png)
 
 
 ## General setup
@@ -51,7 +63,8 @@ WAGTAIL_STREAMFORMS_ADMIN_MENU_LABEL = 'Streamforms'
 
 ## Optionally enable recaptcha
 
-Has been enabled via the [django-recaptcha](https://github.com/praekelt/django-recaptcha) package. Please note that only one recapcha should be used per page, this is a known issue and we are looking to fix it.
+Has been enabled via the [django-recaptcha](https://github.com/praekelt/django-recaptcha) package. 
+Please note that only one recapcha should be used per page, this is a known issue and we are looking to fix it.
 
 Just add captcha to your INSTALLED_APPS:
 
