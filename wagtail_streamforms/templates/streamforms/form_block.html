@@ -1,21 +1,12 @@
-{% load streamforms_tags %}
-
 {# if the invalid form in page serve is this form show that instead of the empty streamfield form #}
 {# currently this only works if there is not more than one of the same form per page #}
 {# otherwise all of the same type of form will show the errors #}
-
-{# either use the invalid form in the pages context or the original in the streamfield #}
-{% if invalid_stream_form_id == form_id %}
-    {% define invalid_stream_form as current_form %}
-{% else %}
-    {% define form as current_form %}
-{% endif %}
 
 <h2>{{ value.form.name }}</h2>
 <form action="{{ value.form_action }}" method="post" novalidate>
     {% csrf_token %}
     <input name="form_id" type="hidden" value="{{ form_id }}">
-    {% for field in current_form.visible_fields %}
+    {% for field in form.visible_fields %}
         {% include 'streamforms/partials/form_field.html' %}
     {% endfor %}
     <input type="submit" value="{{ value.form.submit_button_text }}">
