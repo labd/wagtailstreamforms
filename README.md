@@ -31,6 +31,8 @@ Documentation is currently being worked on but the basics are below
 
 ![Screen4](/images/screen4.png)
 
+![Screen5](/images/screen5.png)
+
 
 ## General setup
 
