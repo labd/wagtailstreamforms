@@ -68,23 +68,44 @@ class ModelPropertyTests(AppTestCase):
             template_name='streamforms/form_block.html', 
             store_submission=store_submission
         )
-        FormField.objects.create(
-            form=form, 
-            label='name',
-            field_type='singleline'
-        )
+        FormField.objects.bulk_create([
+            FormField(form=form, label='singleline', field_type='singleline'),
+            FormField(form=form, label='multiline', field_type='multiline'),
+            FormField(form=form, label='email', field_type='email'),
+            FormField(form=form, label='number', field_type='number'),
+            FormField(form=form, label='url', field_type='url'),
+            FormField(form=form, label='checkbox', field_type='checkbox'),
+            FormField(form=form, label='checkboxes', field_type='checkboxes', choices='A,B,C'),
+            FormField(form=form, label='dropdown', field_type='dropdown', choices='A,B,C'),
+            FormField(form=form, label='multiselect', field_type='multiselect', choices='A,B,C'),
+            FormField(form=form, label='radio', field_type='radio', choices='A,B,C'),
+            FormField(form=form, label='date', field_type='date'),
+            FormField(form=form, label='datetime', field_type='datetime'),
+            FormField(form=form, label='regexfield', field_type='regexfield')
+        ])
         return form
 
     def test_get_form_fields(self):
         form = self.test_form()
-        self.assertEquals(form.get_form_fields().count(), 1)
-        self.assertEquals(form.get_form_fields()[0], form.form_fields.all()[0])
+        self.assertEquals(form.get_form_fields().count(), 13)
 
     def test_get_data_fields(self):
         form = self.test_form()
         expected_fields = [
             ('submit_time', _('Submission date')),
-            ('name', _('name'))
+            ('singleline', _('singleline')),
+            ('multiline', _('multiline')),
+            ('email', _('email')),
+            ('number', _('number')),
+            ('url', _('url')),
+            ('checkbox', _('checkbox')),
+            ('checkboxes', _('checkboxes')),
+            ('dropdown', _('dropdown')),
+            ('multiselect', _('multiselect')),
+            ('radio', _('radio')),
+            ('date', _('date')),
+            ('datetime', _('datetime')),
+            ('regexfield', _('regexfield'))
         ]
         self.assertEquals(form.get_data_fields(), expected_fields)
 
@@ -95,12 +116,41 @@ class ModelPropertyTests(AppTestCase):
     def test_get_form(self):
         form = self.test_form()
         actual_fields = [f for f in form.get_form().fields]
-        expected_fields = ['name']
+        expected_fields = [
+            'singleline',
+            'multiline',
+            'email',
+            'number',
+            'url',
+            'checkbox',
+            'checkboxes',
+            'dropdown',
+            'multiselect',
+            'radio',
+            'date',
+            'datetime',
+            'regexfield'
+        ]
         self.assertEqual(actual_fields, expected_fields)
     
     def test_process_form_submission__saves_record_when_store_submission_is_true(self):
         form = self.test_form(True)
-        form_class = form.get_form({'name': 'foo'})
+        data = {
+            'singleline': 'text',
+            'multiline': 'text\r\ntext',
+            'email': 'foo@example.com',
+            'number': 1,
+            'url': 'http://www.google.com',
+            'checkbox': 'on',
+            'checkboxes': ['A', 'B'],
+            'dropdown': 'A',
+            'multiselect': ['A', 'B'],
+            'radio': 'A',
+            'date': '2017-01-01',
+            'datetime': '2017-01-01 00:00:00',
+            'regexfield': 'text',
+        }
+        form_class = form.get_form(data)
         assert form_class.is_valid()
         form.process_form_submission(form_class)
         saved_form_data = json.dumps(form_class.cleaned_data, cls=DjangoJSONEncoder)
@@ -109,7 +159,22 @@ class ModelPropertyTests(AppTestCase):
     
     def test_process_form_submission__does_not_save_record_when_store_submission_is_false(self):
         form = self.test_form()
-        form_class = form.get_form({'name': 'foo'})
+        data = {
+            'singleline': 'text',
+            'multiline': 'text\r\ntext',
+            'email': 'foo@example.com',
+            'number': 1,
+            'url': 'http://www.google.com',
+            'checkbox': 'on',
+            'checkboxes': ['A', 'B'],
+            'dropdown': 'A',
+            'multiselect': ['A', 'B'],
+            'radio': 'A',
+            'date': '2017-01-01',
+            'datetime': '2017-01-01 00:00:00',
+            'regexfield': 'text',
+        }
+        form_class = form.get_form(data)
         assert form_class.is_valid()
         form.process_form_submission(form_class)
         self.assertEquals(form.formsubmission_set.count(), 0)
