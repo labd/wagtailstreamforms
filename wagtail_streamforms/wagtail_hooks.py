@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
 
+from wagtail_streamforms.conf import settings
 from wagtail_streamforms.models import BaseForm, RegexFieldValidator
 
 
@@ -85,7 +86,7 @@ class RegexFieldValidatorModelAdmin(ModelAdmin):
 
 @modeladmin_register
 class FormGroup(ModelAdminGroup):
-    menu_label = _("Forms")
+    menu_label = _(settings.WAGTAIL_STREAMFORMS_ADMIN_MENU_LABEL)
     menu_icon = 'icon icon-form'
     items = form_admins + [
         RegexFieldValidatorModelAdmin
