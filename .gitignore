@@ -3,6 +3,7 @@
 .DS_Store
 .idea
 .postgres
+.python-version
 .tox
 **__pycache__**
 *.pyc
