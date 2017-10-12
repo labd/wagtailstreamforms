@@ -27,6 +27,10 @@ class FormChooserBlock(blocks.ChooserBlock):
 
 class WagtailFormBlock(blocks.StructBlock):
     form = FormChooserBlock()
+    form_action = blocks.CharBlock(
+        default='.',
+        help_text='The action to use in the form. "." means it will post to the current page.'
+    )
 
     class Meta:
         icon = 'icon icon-form'
@@ -37,13 +41,9 @@ class WagtailFormBlock(blocks.StructBlock):
         self.meta.template = form.template_name
         return super(WagtailFormBlock, self).render(value, context)
 
-    def get_action_url(self, form):
-        return reverse('streamforms_submit', kwargs={'pk': form.id})
-
     def get_context(self, value, parent_context=None):
         context = super(WagtailFormBlock, self).get_context(value, parent_context)
         form = value['form']
-        context['form'] = form.get_form()
+        context['form'] = form.get_form(initial={'form_id': form.id})
         context['form_id'] = form.id
-        context['action_url'] = self.get_action_url(form)
         return context

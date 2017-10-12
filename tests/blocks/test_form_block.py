@@ -21,10 +21,12 @@ class TestFormBlockTestCase(AppTestCase):
         block = WagtailFormBlock()
         html = block.render(block.to_python({
             'form': self.form.pk,
+            'form_action': '/foo/'
         }))
         expected_html = '\n'.join([
             '<h2>Form</h2>',
-            '<form action="/forms/1/submit/" method="post" id="streamforms_1" novalidate>',
+            '<form action="/foo/" method="post" novalidate>',
+            '<input name="form_id" type="hidden" value="%s">' % self.form.pk,
             '<div class="field-row">',
             '<label for="id_name">name</label>',
             '<input type="text" name="name" maxlength="255" required id="id_name" />',
