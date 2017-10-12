@@ -1,11 +1,28 @@
-# wagtail_streamforms
+# Wagtail StreamForms
 
 [![CircleCI](https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master.svg?style=svg)](https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/AccentDesign/wagtail_streamforms/badge.svg?branch=master)](https://coveralls.io/github/AccentDesign/wagtail_streamforms?branch=master)
 
-## General Setup
+This package is currently a concept but allows you to add add forms that are built in the cms admin area to
+any streamfield. You can also create your own form templates which will then appear as a template choice when you build
+your form in the admin section. This allows you te decide how the form is submitted and where.
 
-1. Add wagtail_streamforms to your INSTALLED_APPS:
+Documentation is currently being worked on but the basics are below
+
+
+## Whats included?
+
+- Forms can be build in the cms admin and used site wide in any streamfield.
+- We have included a mixin which will handle the form post if it is being submitted to a wagtail page.
+- Forms are catagorised by their class in the cms admin for easier navigation.
+- Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
+- Recaptcha can be added to a form.
+- You can also add site wide regex validators fo use in regex fields.
+
+
+## General setup
+
+Add wagtail_streamforms to your INSTALLED_APPS:
 
 ```
 INSTALLED_APPS = [
@@ -15,18 +32,26 @@ INSTALLED_APPS = [
 ]
 ```
 
-2. Define the form templates in your settings.py:
+Next define the form templates in your settings.py:
 
-```python
-# defaults 
+```
+# this is the defaults 
 WAGTAIL_STREAMFORMS_FORM_TEMPLATES = (
     ('streamforms/form_block.html', 'Default Form Template'),
 )
 ```
 
-## Enable Recaptcha
+and if you want to the admin base area label:
 
-Has been enabled via the [django-recaptcha](https://github.com/praekelt/django-recaptcha) package. Please note that only one recapcha should be used per page.
+```
+# this is the default
+WAGTAIL_STREAMFORMS_ADMIN_MENU_LABEL = 'Streamforms'
+```
+
+
+## Optionally enable recaptcha
+
+Has been enabled via the [django-recaptcha](https://github.com/praekelt/django-recaptcha) package. Please note that only one recapcha should be used per page, this is a known issue and we are looking to fix it.
 
 Just add captcha to your INSTALLED_APPS:
 
@@ -38,7 +63,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-and add the required keys in your settings.py which you can get from google's recapcha service:
+Add the required keys in your settings.py which you can get from google's recapcha service:
 
 ```
 RECAPTCHA_PUBLIC_KEY = 'xxx'
@@ -48,51 +73,85 @@ RECAPTCHA_PRIVATE_KEY = 'xxx'
 NOCAPTCHA = True
 ```
 
-## Styling Form Errors
 
-Below is an example of the css you will need to highlight the form errors:
+## Defining your own form functionality
 
-```scss
-// errors
-.has-error input,
-.has-error select,
-.has-error textarea { border-color: red; }
- 
-.has-error label,
-.has-error .error-msg { color: red; }
- 
-// recaptcha
-.g-recaptcha { margin-bottom: 20px; }
+Currently we have defined two different types of forms one which just enables saving the submission and one to 
+addionally email the results of the submission, As shown [here](https://github.com/AccentDesign/wagtail_streamforms/blob/master/wagtail_streamforms/models/form.py#L112).
+
+You can easily add your own all you have to do is create a model that inherits from our form base class add any addional
+fields/properties and this will be added to the cms admin area.
+
+Example:
+
+```
+from wagtail_streamforms.models import BaseForm
+
+class SomeForm(BaseForm):
+
+    def process_form_submission(self, form):
+        super(SomeForm, self).process_form_submission(form) # handles the submission saving
+        # do your own stuff here
+
 ```
 
-## Example Site
 
-1. Run the docker container
+## Choosing a form in a streamfield
+
+The below is an example of a page model with the form block in a stream field. It inherits from our form submission
+mixin fo that the forms can be posted to the page they appear on.
+
+```
+from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailcore.models import Page
+from wagtail_streamforms.blocks import WagtailFormBlock
+from wagtail_streamforms.models import StreamFormPageMixin
+
+
+class BasicPage(StreamFormPageMixin, Page):
+
+    body = StreamField([
+        ('form', WagtailFormBlock())
+    ])
+
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+    ]
+```
+
+
+## Example site with docker
+
+Run the docker container
 
 ```bash
 $ docker-compose up
 ```
 
-2. Create yourself a superuser
+Create yourself a superuser
+
 ```bash
 $ docker exec -it <container_name> bash
 $ python manage.py createsuperuser
 ```
 
-3. Go to [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Go to [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-## Tests
 
-1, Install dependencies
+## Testing
 
-You will need pyenv installed see [http://snippets.accentdesign.co.uk/snippets/pyenv-osx/](http://snippets.accentdesign.co.uk/snippets/pyenv-osx/)
+Install dependencies
 
-Also tox
+You will need pyenv installed see [https://github.com/pyenv/pyenv](https://github.com/pyenv/pyenv)
+
+Also tox needs to be installed
+
 ```bash
 $ pip install tox
 ```
 
-2, Install python versions in pyenv
+Install python versions in pyenv
 
 ```bash
 $ pyenv install 3.4.4
@@ -100,13 +159,13 @@ $ pyenv install 3.5.3
 $ pyenv install 3.6.2
 ```
 
-3, Set local project versions
+Set local project versions
 
 ```bash
 $ pyenv local 3.4.4 3.5.3 3.6.2
 ```
 
-4, Run the tests
+Run the tests
 
 ```bash
 $ tox
