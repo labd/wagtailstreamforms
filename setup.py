@@ -1,10 +1,18 @@
 from setuptools import setup
 
+from codecs import open
+from os import path
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='wagtail_streamforms',
-    version='1.0.1',
-    description='wagtail_streamforms',
-    long_description=open('README.md').read(),
+    version='1.0.3',
+    description='Wagtail forms in a streamfield',
+    long_description=long_description,
     author='Stuart George',
     author_email='stuart@accentdesign.co.uk',
     url='https://github.com/AccentDesign/wagtail_streamforms/',

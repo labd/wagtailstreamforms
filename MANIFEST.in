@@ -1,1 +1,2 @@
-include *.md
+include LICENSE
+recursive-include wagtail_streamforms *.py *.html
