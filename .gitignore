@@ -7,5 +7,6 @@
 .tox
 **__pycache__**
 *.pyc
+/dist/
 /htmlcov/
 /wagtail_streamforms.egg-info/

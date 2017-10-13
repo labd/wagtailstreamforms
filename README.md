@@ -63,6 +63,20 @@ WAGTAIL_STREAMFORMS_ADMIN_MENU_LABEL = 'Streamforms'
 ```
 
 
+Add the urls to urls.py:
+
+```
+from wagtail_streamforms import urls as streamforms_urls
+
+urlpatterns = [
+    ...
+    url(r'^streamforms/', include(streamforms_urls)),
+    ...
+]
+
+```
+
+
 ## Optionally enable recaptcha
 
 Has been enabled via the [django-recaptcha](https://github.com/praekelt/django-recaptcha) package. 
