@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='wagtail_streamforms',
-    version='1.0.0',
+    version='1.0.1',
     description='wagtail_streamforms',
     long_description=open('README.md').read(),
     author='Stuart George',
