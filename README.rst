@@ -30,27 +30,27 @@ Whats included?
 Screen shots
 ------------
 
-.. figure:: /images/screen1.png
+.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen1.png
    :alt: Screen1
 
    Screen1
 
-.. figure:: /images/screen2.png
+.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen2.png
    :alt: Screen2
 
    Screen2
 
-.. figure:: /images/screen3.png
+.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen3.png
    :alt: Screen3
 
    Screen3
 
-.. figure:: /images/screen4.png
+.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen4.png
    :alt: Screen4
 
    Screen4
 
-.. figure:: /images/screen5.png
+.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen5.png
    :alt: Screen5
 
    Screen5
