@@ -6,7 +6,7 @@ from django.contrib import admin
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
-from wagtail_streamforms import urls as streamforms_urls
+from wagtailstreamforms import urls as streamforms_urls
 
 
 urlpatterns = [

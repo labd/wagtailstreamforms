@@ -1,5 +1,5 @@
-from wagtail_streamforms.blocks import WagtailFormBlock
-from wagtail_streamforms.models import BasicForm, FormField
+from wagtailstreamforms.blocks import WagtailFormBlock
+from wagtailstreamforms.models import BasicForm, FormField
 
 from ..test_case import AppTestCase
 

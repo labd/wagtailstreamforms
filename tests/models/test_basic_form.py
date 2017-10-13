@@ -1,4 +1,4 @@
-from wagtail_streamforms.models import BaseForm, BasicForm
+from wagtailstreamforms.models import BaseForm, BasicForm
 
 from ..test_case import AppTestCase
 

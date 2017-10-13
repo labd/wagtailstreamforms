@@ -10,4 +10,4 @@ class AppConf(AppConf):
     )
 
     class Meta:
-        prefix = 'wagtail_streamforms'
+        prefix = 'wagtailstreamforms'

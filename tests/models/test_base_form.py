@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel
 
-from wagtail_streamforms.models import BaseForm, FormField
+from wagtailstreamforms.models import BaseForm, FormField
 
 from ..test_case import AppTestCase
 
@@ -39,7 +39,7 @@ class ModelFieldTests(AppTestCase):
         field = self.get_field(BaseForm, 'template_name')
         self.assertModelField(field, models.CharField)
         self.assertEquals(field.max_length, 255)
-        self.assertEquals(field.choices, settings.WAGTAIL_STREAMFORMS_FORM_TEMPLATES)
+        self.assertEquals(field.choices, settings.WAGTAILSTREAMFORMS_FORM_TEMPLATES)
 
     def test_submit_button_text(self):
         field = self.get_field(BaseForm, 'submit_button_text')

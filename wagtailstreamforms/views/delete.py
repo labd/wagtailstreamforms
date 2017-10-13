@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.utils.translation import ungettext
 from django.views.generic import DeleteView
 
-from wagtail_streamforms.models import BaseForm
+from wagtailstreamforms.models import BaseForm
 
 
 class SubmissionDeleteView(DeleteView):

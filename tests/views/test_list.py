@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from wagtail_streamforms.models import BasicForm, FormSubmission
+from wagtailstreamforms.models import BasicForm, FormSubmission
 
 from ..test_case import AppTestCase
 

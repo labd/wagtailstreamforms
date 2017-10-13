@@ -1,6 +1,6 @@
 from django.contrib import messages
 
-from wagtail_streamforms.models import BaseForm
+from wagtailstreamforms.models import BaseForm
 
 
 class StreamFormPageMixin(object):

@@ -1,6 +1,6 @@
 from django.db import models
 
-from wagtail_streamforms.models import BaseForm, FormSubmission
+from wagtailstreamforms.models import BaseForm, FormSubmission
 
 from ..test_case import AppTestCase
 

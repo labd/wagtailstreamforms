@@ -15,9 +15,9 @@ from wagtail.wagtailadmin.edit_handlers import (
 
 from .partials import EmailPartial
 from .submission import FormSubmission
-from wagtail_streamforms.conf import settings
-from wagtail_streamforms.forms import FormBuilder
-from wagtail_streamforms.utils import recaptcha_enabled
+from wagtailstreamforms.conf import settings
+from wagtailstreamforms.forms import FormBuilder
+from wagtailstreamforms.utils import recaptcha_enabled
 
 
 class BaseForm(ClusterableModel):
@@ -27,7 +27,7 @@ class BaseForm(ClusterableModel):
     template_name = models.CharField(
         verbose_name='template',
         max_length=255,
-        choices=settings.WAGTAIL_STREAMFORMS_FORM_TEMPLATES
+        choices=settings.WAGTAILSTREAMFORMS_FORM_TEMPLATES
     )
     submit_button_text = models.CharField(
         max_length=100,

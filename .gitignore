@@ -9,4 +9,4 @@
 *.pyc
 /dist/
 /htmlcov/
-/wagtail_streamforms.egg-info/
+/wagtailstreamforms.egg-info/

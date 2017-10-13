@@ -1,7 +1,7 @@
 from django.core import mail
 
-from wagtail_streamforms.models import BaseForm, EmailForm, FormField
-from wagtail_streamforms.models.partials import EmailPartial
+from wagtailstreamforms.models import BaseForm, EmailForm, FormField
+from wagtailstreamforms.models.partials import EmailPartial
 
 from ..test_case import AppTestCase
 

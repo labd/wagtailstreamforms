@@ -1,5 +1,5 @@
-from wagtail_streamforms.blocks import FormChooserBlock
-from wagtail_streamforms.models import BasicForm
+from wagtailstreamforms.blocks import FormChooserBlock
+from wagtailstreamforms.models import BasicForm
 
 from ..test_case import AppTestCase
 

@@ -1,6 +1,6 @@
 from django.db import models
 
-from wagtail_streamforms.models import RegexFieldValidator
+from wagtailstreamforms.models import RegexFieldValidator
 
 from ..test_case import AppTestCase
 

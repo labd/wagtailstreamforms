@@ -1,7 +1,7 @@
 from django.db import models
 
 from multi_email_field.fields import MultiEmailField
-from wagtail_streamforms.models.partials import EmailPartial
+from wagtailstreamforms.models.partials import EmailPartial
 
 from ..test_case import AppTestCase
 

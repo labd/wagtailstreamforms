@@ -3,8 +3,8 @@ import mock
 from django import forms
 
 from captcha.fields import ReCaptchaField
-from wagtail_streamforms.forms import FormBuilder
-from wagtail_streamforms.models import BaseForm, FormField, RegexFieldValidator
+from wagtailstreamforms.forms import FormBuilder
+from wagtailstreamforms.models import BaseForm, FormField, RegexFieldValidator
 
 from ..test_case import AppTestCase
 
@@ -51,7 +51,7 @@ class FormBuilderTests(AppTestCase):
 
     # recaptcha field
 
-    @mock.patch('wagtail_streamforms.forms.recaptcha_enabled')
+    @mock.patch('wagtailstreamforms.forms.recaptcha_enabled')
     def test_recaptcha_field_not_added_when_not_enabled(self, mock_stub):
         mock_stub.return_value = False
         fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
@@ -59,7 +59,7 @@ class FormBuilderTests(AppTestCase):
         field_names = form_class.base_fields.keys()
         self.assertNotIn('recaptcha', field_names)
 
-    @mock.patch('wagtail_streamforms.forms.recaptcha_enabled')
+    @mock.patch('wagtailstreamforms.forms.recaptcha_enabled')
     def test_recaptcha_field_added(self, mock_stub):
         mock_stub.return_value = True
         fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=True)

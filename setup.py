@@ -9,17 +9,17 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='wagtail_streamforms',
-    version='1.0.3',
+    name='wagtailstreamforms',
+    version='1.0.0',
     description='Wagtail forms in a streamfield',
     long_description=long_description,
     author='Stuart George',
     author_email='stuart@accentdesign.co.uk',
-    url='https://github.com/AccentDesign/wagtail_streamforms/',
-    download_url='https://pypi.python.org/pypi/wagtail_streamforms',
+    url='https://github.com/AccentDesign/wagtailstreamforms/',
+    download_url='https://pypi.python.org/pypi/wagtailstreamforms',
     license='MIT',
     packages=[
-        'wagtail_streamforms'
+        'wagtailstreamforms'
     ],
     install_requires=[
         'Django>=1.11,<1.12',

@@ -3,7 +3,7 @@ import django.forms
 from captcha.fields import ReCaptchaField
 from wagtail.wagtailforms.forms import FormBuilder as OrigFormBuilder
 
-from wagtail_streamforms.utils import recaptcha_enabled
+from wagtailstreamforms.utils import recaptcha_enabled
 
 
 class FormBuilder(OrigFormBuilder):

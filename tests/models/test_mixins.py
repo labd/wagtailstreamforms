@@ -1,7 +1,7 @@
 from django.test.client import RequestFactory
 from wagtail.wagtailcore.models import Page
 
-from wagtail_streamforms.models import StreamFormPageMixin, BasicForm, FormField
+from wagtailstreamforms.models import StreamFormPageMixin, BasicForm, FormField
 from ..test_case import AppTestCase
 
 

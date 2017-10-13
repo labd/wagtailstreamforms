@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from wagtail.wagtailcore import blocks
 
-from wagtail_streamforms.models import BaseForm
+from wagtailstreamforms.models import BaseForm
 
 
 class FormChooserBlock(blocks.ChooserBlock):

@@ -78,17 +78,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BasicForm',
             fields=[
-                ('baseform_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtail_streamforms.BaseForm')),
+                ('baseform_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailstreamforms.BaseForm')),
             ],
             options={
                 'abstract': False,
             },
-            bases=('wagtail_streamforms.baseform',),
+            bases=('wagtailstreamforms.baseform',),
         ),
         migrations.CreateModel(
             name='EmailForm',
             fields=[
-                ('baseform_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtail_streamforms.BaseForm')),
+                ('baseform_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailstreamforms.BaseForm')),
                 ('subject', models.CharField(max_length=255)),
                 ('from_address', models.EmailField(max_length=254)),
                 ('to_addresses', multi_email_field.fields.MultiEmailField()),
@@ -98,21 +98,21 @@ class Migration(migrations.Migration):
             options={
                 'abstract': False,
             },
-            bases=('wagtail_streamforms.baseform', models.Model),
+            bases=('wagtailstreamforms.baseform', models.Model),
         ),
         migrations.AddField(
             model_name='formsubmission',
             name='form',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='wagtail_streamforms.BaseForm'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='wagtailstreamforms.BaseForm'),
         ),
         migrations.AddField(
             model_name='formfield',
             name='form',
-            field=modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='form_fields', to='wagtail_streamforms.BaseForm'),
+            field=modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='form_fields', to='wagtailstreamforms.BaseForm'),
         ),
         migrations.AddField(
             model_name='formfield',
             name='regex_validator',
-            field=models.ForeignKey(blank=True, help_text="Applicable only for the field type 'regex validated field'.", null=True, on_delete=django.db.models.deletion.PROTECT, to='wagtail_streamforms.RegexFieldValidator'),
+            field=models.ForeignKey(blank=True, help_text="Applicable only for the field type 'regex validated field'.", null=True, on_delete=django.db.models.deletion.PROTECT, to='wagtailstreamforms.RegexFieldValidator'),
         ),
     ]

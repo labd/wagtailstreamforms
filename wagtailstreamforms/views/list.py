@@ -7,7 +7,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
 from wagtail.wagtailforms.forms import SelectDateForm
 
-from wagtail_streamforms.models import BaseForm
+from wagtailstreamforms.models import BaseForm
 
 
 class SubmissionListView(SingleObjectMixin, ListView):

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     # app specific
     'captcha',
     'example',
-    'wagtail_streamforms'
+    'wagtailstreamforms'
 ]
 
 MIDDLEWARE_CLASSES = [

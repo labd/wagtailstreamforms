@@ -30,41 +30,31 @@ Whats included?
 Screen shots
 ------------
 
-.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen1.png
+.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen1.png
    :alt: Screen1
 
-   Screen1
-
-.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen2.png
+.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen2.png
    :alt: Screen2
 
-   Screen2
-
-.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen3.png
+.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen3.png
    :alt: Screen3
 
-   Screen3
-
-.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen4.png
+.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen4.png
    :alt: Screen4
 
-   Screen4
-
-.. figure:: https://github.com/AccentDesign/wagtail_streamforms/raw/master/images/screen5.png
+.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen5.png
    :alt: Screen5
-
-   Screen5
 
 General setup
 -------------
 
-Add wagtail\_streamforms to your INSTALLED\_APPS:
+Add wagtailstreamforms to your INSTALLED\_APPS:
 
 ::
 
     INSTALLED_APPS = [
         ...
-        'wagtail_streamforms'
+        'wagtailstreamforms'
         ...
     ]
 
@@ -73,7 +63,7 @@ Next define the form templates in your settings.py:
 ::
 
     # this is the defaults 
-    WAGTAIL_STREAMFORMS_FORM_TEMPLATES = (
+    WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
         ('streamforms/form_block.html', 'Default Form Template'),
     )
 
@@ -82,13 +72,13 @@ and if you want to the admin base area label:
 ::
 
     # this is the default
-    WAGTAIL_STREAMFORMS_ADMIN_MENU_LABEL = 'Streamforms'
+    WAGTAILSTREAMFORMS_ADMIN_MENU_LABEL = 'Streamforms'
 
 Add the urls to urls.py:
 
 ::
 
-    from wagtail_streamforms import urls as streamforms_urls
+    from wagtailstreamforms import urls as streamforms_urls
 
     urlpatterns = [
         ...
@@ -104,7 +94,7 @@ Has been enabled via the
 package. Please note that only one recapcha should be used per page,
 this is a known issue and we are looking to fix it.
 
-Just add captcha to your INSTALLED\_APPS:
+Just add captcha to your INSTALLED_APPS:
 
 ::
 
@@ -131,7 +121,7 @@ Defining your own form functionality
 Currently we have defined two different types of forms one which just
 enables saving the submission and one to addionally email the results of
 the submission, As shown
-`here <https://github.com/AccentDesign/wagtail_streamforms/blob/master/wagtail_streamforms/models/form.py#L112>`__.
+`here <https://github.com/AccentDesign/wagtailstreamforms/blob/master/wagtailstreamforms/models/form.py#L112>`__.
 
 You can easily add your own all you have to do is create a model that
 inherits from our form base class add any addional fields/properties and
@@ -141,7 +131,7 @@ Example:
 
 ::
 
-    from wagtail_streamforms.models import BaseForm
+    from wagtailstreamforms.models import BaseForm
 
     class SomeForm(BaseForm):
 
@@ -161,8 +151,8 @@ be posted to the page they appear on.
     from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
     from wagtail.wagtailcore.fields import StreamField
     from wagtail.wagtailcore.models import Page
-    from wagtail_streamforms.blocks import WagtailFormBlock
-    from wagtail_streamforms.models import StreamFormPageMixin
+    from wagtailstreamforms.blocks import WagtailFormBlock
+    from wagtailstreamforms.models import StreamFormPageMixin
 
 
     class BasicPage(StreamFormPageMixin, Page):
@@ -232,7 +222,7 @@ or run for a single environment
 
     $ tox -e py36-dj111-wt112
 
-.. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master.svg?style=svg
-   :target: https://circleci.com/gh/AccentDesign/wagtail_streamforms/tree/master
-.. |Coverage Status| image:: https://coveralls.io/repos/github/AccentDesign/wagtail_streamforms/badge.svg?branch=master
-   :target: https://coveralls.io/github/AccentDesign/wagtail_streamforms?branch=master
+.. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master.svg?style=svg
+   :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master
+.. |Coverage Status| image:: https://coveralls.io/repos/github/AccentDesign/wagtailstreamforms/badge.svg?branch=master
+   :target: https://coveralls.io/github/AccentDesign/wagtailstreamforms?branch=master

@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'taggit',
 
     'captcha',
-    'wagtail_streamforms',
+    'wagtailstreamforms',
 ]
 
 MIDDLEWARE_CLASSES = [
