@@ -1,0 +1,10 @@
+.cache
+.coverage
+.DS_Store
+.idea
+.python-version
+.tox
+dist
+htmlcov
+images
+wagtailstreamforms.egg-info
