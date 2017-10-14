@@ -3,6 +3,22 @@ from setuptools import setup
 from codecs import open
 from os import path
 
+install_requires = [
+    'Django>=1.11,<1.12',
+    'django-appconf>=1.0.2',
+    'django-model-utils>=3.0.0',
+    'django-multi-email-field>=0.5.1',
+    'django-recaptcha>=1.3.1',
+    'wagtail>=1.12,<2'
+]
+
+documentation_extras = [
+    'sphinxcontrib-spelling>=2.3.0',
+    'Sphinx>=1.5.2',
+    'sphinx-autobuild>=0.6.0',
+    'sphinx_rtd_theme>=0.1.9',
+]
+
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
@@ -21,14 +37,10 @@ setup(
     packages=[
         'wagtailstreamforms'
     ],
-    install_requires=[
-        'Django>=1.11,<1.12',
-        'django-appconf>=1.0.2',
-        'django-model-utils>=3.0.0',
-        'django-multi-email-field>=0.5.1',
-        'django-recaptcha>=1.3.1',
-        'wagtail>=1.12,<2'
-    ],
+    install_requires=install_requires,
+    extras_require={
+        'docs': documentation_extras
+    },
     include_package_data=True,
     keywords=['wagtail', 'streamfield', 'forms', 'accent', 'design'],
     classifiers=[

@@ -8,5 +8,6 @@
 **__pycache__**
 *.pyc
 /dist/
+/docs/_build/
 /htmlcov/
 /wagtailstreamforms.egg-info/
