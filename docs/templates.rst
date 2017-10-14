@@ -1,5 +1,5 @@
-Creating your own form templates
-================================
+Creating Form Templates
+=======================
 
 You can create your own form templates to use against any form in the system, providing a vast array of ways to
 create, style and submit your forms.
@@ -17,6 +17,8 @@ The default `template <https://github.com/AccentDesign/wagtailstreamforms/blob/m
         {% endfor %}
         <input type="submit" value="{{ value.form.submit_button_text }}">
     </form>
+
+.. note:: It is important here to keep the hidden field for the form_id so the submission knows what type of form it is.
 
 Once you have created you own you will need to add it to the list of available templates. 
 

@@ -1,5 +1,5 @@
-Writing your own form functionality
-===================================
+Custom Form Functionality
+=========================
 
 Currently we have defined two different types of forms, one which just
 enables saving the submission and one to addionally email the results of
