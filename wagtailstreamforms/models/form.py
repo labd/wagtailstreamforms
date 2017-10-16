@@ -18,6 +18,8 @@ from .submission import FormSubmission
 
 
 class BaseForm(ClusterableModel):
+    """ A form base class, any form should inherit from this. """
+
     name = models.CharField(
         max_length=255
     )
@@ -70,9 +72,19 @@ class BaseForm(ClusterableModel):
         verbose_name = _('form')
 
     def get_form_fields(self):
+        """
+        Form expects `form_fields` to be declared.
+        If you want to change backwards relation name,
+        you need to override this method.
+        """
+
         return self.form_fields.all()
 
     def get_data_fields(self):
+        """
+        Returns a list of tuples with (field_name, field_label).
+        """
+
         data_fields = [
             ('submit_time', _('Submission date')),
         ]
@@ -80,10 +92,11 @@ class BaseForm(ClusterableModel):
             (field.clean_name, field.label)
             for field in self.get_form_fields()
         ]
+
         return data_fields
 
     def get_form_class(self):
-        fb = FormBuilder(self.form_fields.all(), add_recaptcha=self.add_recaptcha)
+        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
         return fb.get_form_class()
 
     def get_form_parameters(self):
@@ -93,9 +106,18 @@ class BaseForm(ClusterableModel):
         form_class = self.get_form_class()
         form_params = self.get_form_parameters()
         form_params.update(kwargs)
+
         return form_class(*args, **form_params)
 
     def process_form_submission(self, form):
+        """
+        Accepts form instance with submitted data.
+        Creates submission instance if self.store_submission = True.
+
+        You can override this method if you want to have custom creation logic.
+        For example, you want to additionally send an email.
+        """
+
         if self.store_submission:
             FormSubmission.objects.create(
                 form_data=json.dumps(form.cleaned_data, cls=DjangoJSONEncoder),
@@ -108,10 +130,12 @@ if recaptcha_enabled():  # pragma: no cover
 
 
 class BasicForm(BaseForm):
-    pass
+    """ A basic form. """
 
 
 class EmailForm(BaseForm):
+    """ A form that sends and email. """
+
     subject = models.CharField(
         max_length=255
     )

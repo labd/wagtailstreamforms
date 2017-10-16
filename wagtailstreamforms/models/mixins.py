@@ -4,6 +4,10 @@ from wagtailstreamforms.models import BaseForm
 
 
 class StreamFormPageMixin(object):
+    """
+    A form submission mixin for a Page. Pages that require processing forms within their
+    own streafields should inherit from it.
+    """
 
     _invalid_stream_form_id = None
     _invalid_stream_form = None

@@ -12,6 +12,8 @@ FORM_FIELD_CHOICES += (
 
 
 class FormField(AbstractFormField):
+    """ Database Fields required for building a Django Form field. """
+
     field_type = models.CharField(verbose_name=_('field type'), max_length=16, choices=FORM_FIELD_CHOICES)
     regex_validator = models.ForeignKey(
         'RegexFieldValidator',

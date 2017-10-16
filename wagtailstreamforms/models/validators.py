@@ -5,6 +5,8 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
 class RegexFieldValidator(models.Model):
+    """ Regex validation data for a regex validated form field. """
+
     name = models.CharField(
         max_length=255
     )

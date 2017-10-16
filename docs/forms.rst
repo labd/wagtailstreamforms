@@ -20,3 +20,15 @@ Example:
         def process_form_submission(self, form):
             super(SomeForm, self).process_form_submission(form) # handles the submission saving
             # do your own stuff here
+
+Reference
+---------
+
+.. autoclass:: wagtailstreamforms.models.BaseForm
+   :members:
+
+.. autoclass:: wagtailstreamforms.models.BasicForm
+   :members:
+
+.. autoclass:: wagtailstreamforms.models.EmailForm
+   :members:
