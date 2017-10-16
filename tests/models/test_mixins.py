@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 from django.test.client import RequestFactory
 from wagtail.wagtailcore.models import Page
 
@@ -31,6 +32,7 @@ class TestPageServeMixin(AppTestCase):
 
     def test_get_responds(self):
         fake_request = self.rf.get('/fake/')
+        fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)
 
@@ -39,6 +41,7 @@ class TestPageServeMixin(AppTestCase):
     def test_post_responds(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {'form_id': form.pk, 'name': 'Bill'})
+        fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)
 
@@ -47,6 +50,7 @@ class TestPageServeMixin(AppTestCase):
     def test_post_saves_submission(self):
         form = self.test_form(True)
         fake_request = self.rf.post('/fake/', {'form_id': form.pk, 'name': 'Bill'})
+        fake_request.user = AnonymousUser()
 
         SomePage().serve(fake_request)
 
@@ -55,6 +59,7 @@ class TestPageServeMixin(AppTestCase):
     def test_invalid_form_id_does_not_break_view(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {'form_id': 100})
+        fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)
 
@@ -63,6 +68,7 @@ class TestPageServeMixin(AppTestCase):
     def test_no_form_id_does_not_break_view(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {})
+        fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)
 
@@ -71,6 +77,7 @@ class TestPageServeMixin(AppTestCase):
     def test_invalid_data_does_not_break_view(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {'form_id': form.pk, 'name': ''})
+        fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)
 

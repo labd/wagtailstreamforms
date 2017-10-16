@@ -5,60 +5,73 @@ from wagtailstreamforms.models import BaseForm
 
 class StreamFormPageMixin(object):
     """
-    A form submission mixin for a Page. Pages that require processing forms within their
-    own streafields should inherit from it.
+    A form submission mixin for a Page.
+
+    Pages that require processing forms within their own streafields should inherit from it.
     """
 
-    _invalid_stream_form_id = None
-    _invalid_stream_form = None
+    invalid_stream_form_id = None
+    invalid_stream_form = None
 
     def get_context(self, request, *args, **kwargs):
+        """ Set the invalid form and its id in the pages context """
+
         context = super(StreamFormPageMixin, self).get_context(request, *args, **kwargs)
-        if self._invalid_stream_form_id:
-            context.update({
-                'invalid_stream_form_id': self._invalid_stream_form_id,
-                'invalid_stream_form': self._invalid_stream_form
-            })
+
+        context.update({
+            'invalid_stream_form_id': self.invalid_stream_form_id,
+            'invalid_stream_form': self.invalid_stream_form
+        })
+
         return context
 
+    def get_form_def(self, request):
+        """ Get the form class. """
+
+        form_id = request.POST.get('form_id')
+
+        if form_id and form_id.isdigit():
+
+            try:
+                return BaseForm.objects.get_subclass(pk=int(form_id))
+            except BaseForm.DoesNotExist:
+                pass
+
+        return None
+
     def serve(self, request, *args, **kwargs):
+        """ If we are posting and there is a form, process it. """
 
         # reset these each time so we don't hang onto invalid forms on page round trips
-        self._invalid_stream_form_id = None
-        self._invalid_stream_form = None
+        self.invalid_stream_form_id = None
+        self.invalid_stream_form = None
 
         if request.method == 'POST':
 
-            # get the form id
-            form_id = request.POST.get('form_id')
+            form_def = self.get_form_def(request)
 
-            # process request
-            if form_id and form_id.isdigit():
+            if form_def:
 
-                form_id = int(form_id)
+                form = form_def.get_form(request.POST, request.FILES, page=self, user=request.user)
 
-                try:
-                    form_def = BaseForm.objects.get_subclass(pk=form_id)
-                except BaseForm.DoesNotExist:
-                    form_def = None
+                if form.is_valid():
+                    # process the form submission
+                    form_def.process_form_submission(form)
 
-                if form_def:
+                    # create success message
+                    if form_def.success_message:
+                        self.success_message(request, form_def)
 
-                    form = form_def.get_form(request.POST)
-
-                    # check the form and either process it or push it back as invalid
-                    if form.is_valid():
-                        form_def.process_form_submission(form)
-
-                        if form_def.success_message:
-                            self.success_message(request, form_def)
-
-                    else:
-                        self._invalid_stream_form_id = form_id
-                        self._invalid_stream_form = form
+                else:
+                    # the form is invalid, set these so the FormChooserBlock
+                    # can pick them up in the context
+                    self.invalid_stream_form_id = form_def.pk
+                    self.invalid_stream_form = form
 
         return super(StreamFormPageMixin, self).serve(request, *args, **kwargs)
 
     @staticmethod
     def success_message(request, form_def):
+        """ Create a success message. """
+
         messages.success(request, form_def.success_message)
