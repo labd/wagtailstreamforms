@@ -1,5 +1,4 @@
 from django import forms
-from django.urls import reverse
 
 from wagtail.wagtailcore import blocks
 
@@ -14,6 +13,11 @@ class FormChooserBlock(blocks.ChooserBlock):
         if isinstance(value, self.target_model):
             return value.pk
         return value
+
+    def value_from_form(self, value):
+        if value == '':
+            return None
+        return super(FormChooserBlock, self).value_from_form(value)
 
     def to_python(self, value):
         if value is None:
