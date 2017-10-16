@@ -13,7 +13,8 @@ class SubmissionDeleteView(DeleteView):
 
     def get_submissions(self):
         submission_ids = self.request.GET.getlist('selected-submissions')
-        return self.object.formsubmission_set.filter(id__in=submission_ids)
+        submission_class = self.object.get_submission_class()
+        return submission_class._default_manager.filter(id__in=submission_ids)
 
     def get_context_data(self, **kwargs):
         context = super(SubmissionDeleteView, self).get_context_data(**kwargs)

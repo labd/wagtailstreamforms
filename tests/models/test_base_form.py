@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel
 
-from wagtailstreamforms.models import BaseForm, FormField
+from wagtailstreamforms.models import BaseForm, FormField, FormSubmission
 
 from ..test_case import AppTestCase
 
@@ -132,7 +132,11 @@ class ModelPropertyTests(AppTestCase):
             'regexfield'
         ]
         self.assertEqual(actual_fields, expected_fields)
-    
+
+    def test_get_submission_class(self):
+        form = self.test_form()
+        self.assertEquals(form.get_submission_class(), FormSubmission)
+
     def test_process_form_submission__saves_record_when_store_submission_is_true(self):
         form = self.test_form(True)
         data = {
@@ -154,8 +158,8 @@ class ModelPropertyTests(AppTestCase):
         assert form_class.is_valid()
         form.process_form_submission(form_class)
         saved_form_data = json.dumps(form_class.cleaned_data, cls=DjangoJSONEncoder)
-        self.assertEquals(form.formsubmission_set.count(), 1)
-        self.assertEquals(form.formsubmission_set.all()[0].form_data, saved_form_data)
+        self.assertEquals(form.get_submission_class().objects.count(), 1)
+        self.assertEquals(form.get_submission_class().objects.all()[0].form_data, saved_form_data)
     
     def test_process_form_submission__does_not_save_record_when_store_submission_is_false(self):
         form = self.test_form()
@@ -177,4 +181,4 @@ class ModelPropertyTests(AppTestCase):
         form_class = form.get_form(data)
         assert form_class.is_valid()
         form.process_form_submission(form_class)
-        self.assertEquals(form.formsubmission_set.count(), 0)
+        self.assertEquals(form.get_submission_class().objects.count(), 0)

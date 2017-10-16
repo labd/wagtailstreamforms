@@ -109,6 +109,16 @@ class BaseForm(ClusterableModel):
 
         return form_class(*args, **form_params)
 
+    def get_submission_class(self):
+        """
+        Returns submission class.
+
+        You can override this method to provide custom submission class.
+        Your class must be inherited from AbstractFormSubmission.
+        """
+
+        return FormSubmission
+
     def process_form_submission(self, form):
         """
         Accepts form instance with submitted data.
@@ -119,7 +129,7 @@ class BaseForm(ClusterableModel):
         """
 
         if self.store_submission:
-            FormSubmission.objects.create(
+            return self.get_submission_class().objects.create(
                 form_data=json.dumps(form.cleaned_data, cls=DjangoJSONEncoder),
                 form=self
             )

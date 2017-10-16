@@ -50,7 +50,7 @@ class TestPageServeMixin(AppTestCase):
 
         SomePage().serve(fake_request)
 
-        self.assertEquals(form.formsubmission_set.count(), 1)
+        self.assertEquals(form.get_submission_class().objects.count(), 1)
 
     def test_invalid_form_id_does_not_break_view(self):
         form = self.test_form()
