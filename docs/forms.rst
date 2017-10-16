@@ -1,12 +1,12 @@
-Custom Form Functionality
-=========================
+Form Customisation
+==================
 
 Currently we have defined two different types of forms, one which just
-enables saving the submission and one to addionally email the results of
+enables saving the submission and one to additionally email the results of
 the submission.
 
 You can easily add your own all you have to do is create a model that
-inherits from ``wagtailstreamforms.models.BaseForm`` add any addional fields or properties and
+inherits from ``wagtailstreamforms.models.BaseForm`` add any additional fields or properties and
 this will be added to the cms admin area.
 
 Example:
@@ -31,4 +31,10 @@ Reference
    :members:
 
 .. autoclass:: wagtailstreamforms.models.EmailForm
+   :members:
+
+.. autoclass:: wagtailstreamforms.models.AbstractFormSubmission
+   :members:
+
+.. autoclass:: wagtailstreamforms.models.FormSubmission
    :members:

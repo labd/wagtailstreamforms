@@ -1,5 +1,5 @@
-Creating Form Templates
-=======================
+Form Templates
+==============
 
 You can create your own form templates to use against any form in the system, providing a vast array of ways to
 create, style and submit your forms.
