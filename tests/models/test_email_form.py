@@ -1,7 +1,8 @@
 from django.core import mail
+from django.db import models
 
+from multi_email_field.fields import MultiEmailField
 from wagtailstreamforms.models import BaseForm, EmailForm, FormField
-from wagtailstreamforms.models.partials import EmailPartial
 
 from ..test_case import AppTestCase
 
@@ -10,15 +11,38 @@ class ModelGenericTests(AppTestCase):
 
     def test_inheritance(self):
         self.assertTrue(issubclass(EmailForm, BaseForm))
-        self.assertTrue(issubclass(EmailForm, EmailPartial))
+
+
+class ModelFieldTests(AppTestCase):
+
+    def test_subject(self):
+        field = self.get_field(EmailForm, 'subject')
+        self.assertModelField(field, models.CharField)
+        self.assertEquals(field.max_length, 255)
+
+    def test_from_address(self):
+        field = self.get_field(EmailForm, 'from_address')
+        self.assertModelField(field, models.EmailField)
+
+    def test_to_addresses(self):
+        field = self.get_field(EmailForm, 'to_addresses')
+        self.assertModelField(field, MultiEmailField)
+
+    def test_message(self):
+        field = self.get_field(EmailForm, 'message')
+        self.assertModelField(field, models.TextField)
+
+    def test_fail_silently(self):
+        field = self.get_field(EmailForm, 'fail_silently')
+        self.assertModelField(field, models.BooleanField, False, False, False)
 
 
 class ModelPropertyTests(AppTestCase):
 
     def test_form(self, store_submission=False):
         form = EmailForm.objects.create(
-            name='Form', 
-            template_name='streamforms/form_block.html', 
+            name='Form',
+            template_name='streamforms/form_block.html',
             store_submission=store_submission,
             subject='Form Submission',
             from_address='foo@example.com',
@@ -26,7 +50,7 @@ class ModelPropertyTests(AppTestCase):
             message='See data below:'
         )
         FormField.objects.create(
-            form=form, 
+            form=form,
             label='name',
             field_type='singleline'
         )

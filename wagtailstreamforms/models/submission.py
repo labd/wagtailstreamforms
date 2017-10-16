@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class FormSubmission(models.Model):
+    """ Data for a Form submission. """
 
     form_data = models.TextField()
     form = models.ForeignKey(

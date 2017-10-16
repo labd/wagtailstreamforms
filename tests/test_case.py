@@ -1,7 +1,14 @@
-from django.db import models
+from django.db import models, connection
 from django.test import TestCase
 
+
 class AppTestCase(TestCase):
+
+    def setupModels(*models):
+        """ Create test models """
+        with connection.schema_editor(atomic=True) as schema_editor:
+            for model in models:
+                schema_editor.create_model(model)
 
     def get_field(self, modelClass, name):
         return modelClass._meta.get_field(name)
