@@ -45,7 +45,8 @@ class SubmissionListView(SingleObjectMixin, ListView):
         return response
 
     def get_queryset(self):
-        self.queryset = self.object.formsubmission_set.all()
+        submission_class = self.object.get_submission_class()
+        self.queryset = submission_class._default_manager.filter(form=self.object)
 
         # filter the queryset by the required dates
         if self.filter_form.is_valid():

@@ -69,4 +69,4 @@ class ModelPropertyTests(AppTestCase):
         form_class = form.get_form({'name': 'foo'})
         assert form_class.is_valid()
         form.process_form_submission(form_class)
-        self.assertEquals(form.formsubmission_set.count(), 1)
+        self.assertEquals(form.get_submission_class().objects.count(), 1)

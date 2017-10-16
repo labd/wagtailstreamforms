@@ -46,10 +46,12 @@ class FormModelAdmin(ModelAdmin):
     url_helper_class = FormURLHelper
 
     def latest_submission_date(self, obj):
-        return obj.formsubmission_set.latest('submit_time').submit_time
+        submission_class = obj.get_submission_class()
+        return submission_class._default_manager.filter(form=obj).latest('submit_time').submit_time
 
     def number_of_submissions(self, obj):
-        return obj.formsubmission_set.count()
+        submission_class = obj.get_submission_class()
+        return submission_class._default_manager.filter(form=obj).count()
 
 
 def _get_valid_subclasses(cls):
