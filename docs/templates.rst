@@ -6,7 +6,7 @@ create, style and submit your forms.
 
 The default `template <https://github.com/AccentDesign/wagtailstreamforms/blob/master/wagtailstreamforms/templates/streamforms/form_block.html>`_ used can be seen below:
 
-::
+.. code-block:: html
 
     <h2>{{ value.form.name }}</h2>
     <form action="{{ value.form_action }}" method="post" novalidate>
@@ -24,7 +24,7 @@ Once you have created you own you will need to add it to the list of available t
 
 This is as simple as adding it to the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` in settings:
 
-::
+.. code-block:: python
 
     # this is the defaults 
 

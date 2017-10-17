@@ -1,9 +1,9 @@
 Basic Usage
 ===========
 
-Firstly add the ``WagtailFormBlock()`` in any of your streamfields:
+Firstly add the ``wagtailstreamforms.blocks.WagtailFormBlock()`` in any of your streamfields:
 
-::
+.. code-block:: python
 
     body = StreamField([
         ...
@@ -13,15 +13,15 @@ Firstly add the ``WagtailFormBlock()`` in any of your streamfields:
 
 And make sure your ``Page`` inherits from the ``StreamFormPageMixin`` mixin:
 
-::
+.. code-block:: python
 
     class BasicPage(StreamFormPageMixin, Page):
 
 This allows forms to be posted to the current page and processed, any validation errors will appear on the round trip.
 
-Full example:
+Example:
 
-::
+.. code-block:: python
 
     from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
     from wagtail.wagtailcore.fields import StreamField
