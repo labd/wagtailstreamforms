@@ -30,7 +30,7 @@ Custom form submission model
 If you need to save additional data, you can use a custom form submission model. To do this, you need to:
 
 * Define a model that extends ``wagtailstreamforms.models.AbstractFormSubmission``.
-* Override the ``get_submission_class`` and ``process_form_submission`` methods in your page model.
+* Override the ``get_submission_class`` and ``process_form_submission`` methods in your form model.
 
 Example:
 
@@ -83,7 +83,7 @@ Example:
            return form_data
 
 .. note:: Its important to note here that the ``form.page`` and ``form.user`` seen above are passed in via the
-   ``wagtailstreamforms.models.StreamFormPageMixin`` which is for forms that post to their owm page.
+   ``wagtailstreamforms.models.StreamFormPageMixin`` which is for forms that post to their own page.
 
    If you want to use a different method of saving the form and you require these you will need to pass
    them in yourself.
