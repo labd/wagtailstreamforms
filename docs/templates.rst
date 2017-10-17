@@ -11,14 +11,14 @@ The default `template <https://github.com/AccentDesign/wagtailstreamforms/blob/m
     <h2>{{ value.form.name }}</h2>
     <form action="{{ value.form_action }}" method="post" novalidate>
         {% csrf_token %}
-        <input name="form_id" type="hidden" value="{{ form_id }}">
+        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
         {% for field in form.visible_fields %}
             {% include 'streamforms/partials/form_field.html' %}
         {% endfor %}
         <input type="submit" value="{{ value.form.submit_button_text }}">
     </form>
 
-.. note:: It is important here to keep the hidden field for the form_id so the submission knows what type of form it is.
+.. note:: It is important here to keep the hidden fields the form will create an additional field for the form id.
 
 Once you have created you own you will need to add it to the list of available templates. 
 

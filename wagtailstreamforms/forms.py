@@ -32,7 +32,10 @@ class FormBuilder(OrigFormBuilder):
     def formfields(self):
         fields = super(FormBuilder, self).formfields
 
-        # If enabled add recaptcha field
+        # add form id to identify the form type
+        fields['form_id'] = django.forms.CharField(widget=django.forms.HiddenInput)
+
+        # if enabled add recaptcha field
         if self.add_recaptcha and recaptcha_enabled():
             fields['recaptcha'] = ReCaptchaField()
 

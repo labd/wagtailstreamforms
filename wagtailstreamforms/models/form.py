@@ -175,13 +175,17 @@ class EmailForm(BaseForm):
         self.send_form_mail(form)
 
     def send_form_mail(self, form):
-        content = [self.message, '', ]
+        content = [self.message + '\n\nSubmission\n', ]
 
         for name, field in form.fields.items():
             data = form.cleaned_data.get(name)
-            if name == 'recaptcha' or not data:
+
+            if name == 'recaptcha' or name == 'form_id' or not data:
                 continue
-            content.append(field.label + ': ' + six.text_type(data))
+
+            label = field.label or name
+
+            content.append(label + ': ' + six.text_type(data))
 
         send_mail(
             self.subject,

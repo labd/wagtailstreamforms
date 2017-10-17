@@ -48,12 +48,12 @@ class WagtailFormBlock(blocks.StructBlock):
     def get_context(self, value, parent_context=None):
         context = super(WagtailFormBlock, self).get_context(value, parent_context)
         form = value['form']
-        context['form_id'] = form.id
 
         # see if the page has an invalid form in the context and
         # use it if its the same id
         invalid_form_id = context.get('invalid_stream_form_id')
         invalid_form = context.get('invalid_stream_form')
+
         if invalid_form_id and invalid_form and invalid_form_id == form.id:
             context['form'] = invalid_form
         else:

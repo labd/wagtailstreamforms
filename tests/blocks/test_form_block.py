@@ -8,6 +8,7 @@ class TestFormBlockTestCase(AppTestCase):
 
     def setUp(self):
         self.form = BasicForm.objects.create(
+            pk=999,
             name='Form',
             template_name='streamforms/form_block.html'
         )
@@ -28,7 +29,7 @@ class TestFormBlockTestCase(AppTestCase):
         expected_html = '\n'.join([
             '<h2>Form</h2>',
             '<form action="/foo/" method="post" novalidate>',
-            '<input name="form_id" type="hidden" value="%s">' % self.form.pk,
+            '<input id="id_form_id" name="form_id" type="hidden" value="%s">' % self.form.pk,
             '<div class="field-row">',
             '<label for="id_name">name</label>',
             '<input type="text" name="name" maxlength="255" required id="id_name" />',

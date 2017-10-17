@@ -1,7 +1,7 @@
 <h2>{{ value.form.name }}</h2>
 <form action="{{ value.form_action }}" method="post" novalidate>
     {% csrf_token %}
-    <input name="form_id" type="hidden" value="{{ form_id }}">
+    {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
     {% for field in form.visible_fields %}
         {% include 'streamforms/partials/form_field.html' %}
     {% endfor %}
