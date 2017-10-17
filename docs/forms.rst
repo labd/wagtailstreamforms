@@ -29,8 +29,8 @@ Custom form submission model
 
 If you need to save additional data, you can use a custom form submission model. To do this, you need to:
 
-* Define a model that extends `wagtailstreamforms.models.AbstractFormSubmission`.
-* Override the `get_submission_class` and `process_form_submission` methods in your page model.
+* Define a model that extends ``wagtailstreamforms.models.AbstractFormSubmission``.
+* Override the ``get_submission_class`` and ``process_form_submission`` methods in your page model.
 
 Example:
 
