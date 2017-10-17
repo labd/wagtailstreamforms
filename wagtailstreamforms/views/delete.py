@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
-from django.utils.translation import ungettext
+from django.utils.translation import ungettext, ugettext as _
 from django.views.generic import DeleteView
 
 from wagtailstreamforms.models import BaseForm
@@ -10,6 +10,13 @@ from wagtailstreamforms.models import BaseForm
 class SubmissionDeleteView(DeleteView):
     model = BaseForm
     template_name = 'streamforms/confirm_delete.html'
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        try:
+            return BaseForm.objects.get_subclass(pk=pk)
+        except self.model.DoesNotExist:
+            raise Http404(_("No BaseForm found matching the query"))
 
     def get_submissions(self):
         submission_ids = self.request.GET.getlist('selected-submissions')

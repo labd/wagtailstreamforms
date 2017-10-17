@@ -14,7 +14,7 @@ class AbstractFormSubmission(models.Model):
 
     form_data = models.TextField()
     form = models.ForeignKey(
-        'BaseForm',
+        'wagtailstreamforms.BaseForm',
         on_delete=models.CASCADE
     )
     submit_time = models.DateTimeField(

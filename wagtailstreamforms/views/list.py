@@ -1,8 +1,9 @@
 import csv
 import datetime
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils.encoding import smart_str
+from django.utils.translation import ugettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
 from wagtail.wagtailforms.forms import SelectDateForm
@@ -15,9 +16,17 @@ class SubmissionListView(SingleObjectMixin, ListView):
     page_kwarg = 'p'
     template_name = 'streamforms/submissions.html'
     filter_form = None
+    model = BaseForm
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        try:
+            return BaseForm.objects.get_subclass(pk=pk)
+        except self.model.DoesNotExist:
+            raise Http404(_("No BaseForm found matching the query"))
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=BaseForm.objects.all())
+        self.object = self.get_object()
         self.filter_form = SelectDateForm(request.GET)
 
         if request.GET.get('action') == 'CSV':
