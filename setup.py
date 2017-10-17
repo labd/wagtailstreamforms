@@ -2,6 +2,8 @@ from setuptools import setup
 
 from codecs import open
 from os import path
+from wagtailstreamforms import __version__
+
 
 install_requires = [
     'Django>=1.11,<1.12',
@@ -26,7 +28,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='wagtailstreamforms',
-    version='1.0.0',
+    version=__version__,
     description='Wagtail forms in a streamfield',
     long_description=long_description,
     author='Stuart George',
