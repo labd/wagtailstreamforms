@@ -10,7 +10,7 @@ class StreamFormPageMixin(object):
     Pages that require processing forms within their own streafields should inherit from it.
     """
 
-    invalid_stream_form_id = None
+    invalid_stream_form_reference = None
     invalid_stream_form = None
 
     def get_context(self, request, *args, **kwargs):
@@ -19,7 +19,7 @@ class StreamFormPageMixin(object):
         context = super(StreamFormPageMixin, self).get_context(request, *args, **kwargs)
 
         context.update({
-            'invalid_stream_form_id': self.invalid_stream_form_id,
+            'invalid_stream_form_reference': self.invalid_stream_form_reference,
             'invalid_stream_form': self.invalid_stream_form
         })
 
@@ -43,7 +43,7 @@ class StreamFormPageMixin(object):
         """ If we are posting and there is a form, process it. """
 
         # reset these each time so we don't hang onto invalid forms on page round trips
-        self.invalid_stream_form_id = None
+        self.invalid_stream_form_reference = None
         self.invalid_stream_form = None
 
         if request.method == 'POST':
@@ -65,7 +65,7 @@ class StreamFormPageMixin(object):
                 else:
                     # the form is invalid, set these so the FormChooserBlock
                     # can pick them up in the context
-                    self.invalid_stream_form_id = form_def.pk
+                    self.invalid_stream_form_reference = form.data.get('form_reference')
                     self.invalid_stream_form = form
 
         return super(StreamFormPageMixin, self).serve(request, *args, **kwargs)
