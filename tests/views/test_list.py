@@ -22,6 +22,7 @@ class ListViewTestCase(AppTestCase):
         FormSubmission.objects.create(form=form, form_data='{"foo":1}')
 
         self.list_url = reverse('streamforms_submissions', kwargs={'pk': form.pk})
+        self.invalid_list_url = reverse('streamforms_submissions', kwargs={'pk': 100})
         self.filter_url = '{}?date_from=2017-01-01&date_to=2017-01-02&action=filter'.format(self.list_url)
         self.invalid_filter_url = '{}?date_from=xx&date_to=xx&action=filter'.format(self.list_url)
         self.csv_url = '{}?date_from=2017-01-01&date_to=2017-01-02&action=CSV'.format(self.list_url)
@@ -31,6 +32,10 @@ class ListViewTestCase(AppTestCase):
     def test_get_responds(self):
         response = self.client.get(self.list_url)
         self.assertEquals(response.status_code, 200)
+
+    def test_invalid_pk_raises_404(self):
+        response = self.client.get(self.invalid_list_url)
+        self.assertEquals(response.status_code, 404)
 
     def test_get_context(self):
         response = self.client.get(self.list_url)

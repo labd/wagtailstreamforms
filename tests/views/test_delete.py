@@ -17,6 +17,7 @@ class DeleteViewTestCase(AppTestCase):
 
         delete_url = reverse('streamforms_delete_submissions', kwargs={'pk': form.pk})
 
+        self.invalid_delete_url = reverse('streamforms_delete_submissions', kwargs={'pk': 100})
         self.single_url = '{}?selected-submissions={}'.format(delete_url, s1.pk)
         self.multiple_url = '{}?selected-submissions={}&selected-submissions={}'.format(delete_url, s1.pk, s2.pk)
         self.redirect_url = reverse('streamforms_submissions', kwargs={'pk': form.pk})
@@ -26,6 +27,10 @@ class DeleteViewTestCase(AppTestCase):
     def test_get_responds(self):
         response = self.client.get(self.multiple_url)
         self.assertEquals(response.status_code, 200)
+
+    def test_invalid_pk_raises_404(self):
+        response = self.client.get(self.invalid_delete_url)
+        self.assertEquals(response.status_code, 404)
 
     def test_get_context_has_submissions(self):
         response = self.client.get(self.multiple_url)
