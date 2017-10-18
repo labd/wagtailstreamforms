@@ -58,7 +58,7 @@ def _get_valid_subclasses(cls):
     clss = []
     for subcls in cls.__subclasses__():
         if subcls._meta.abstract:
-            continue
+            continue  # pragma: no cover
         clss.append(subcls)
         sub_classes = _get_valid_subclasses(subcls)
         if sub_classes:

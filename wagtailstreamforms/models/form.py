@@ -184,7 +184,7 @@ class EmailForm(BaseForm):
             data = form.cleaned_data.get(name)
 
             if name in self.ignored_fields or not data:
-                continue
+                continue  # pragma: no cover
 
             label = field.label or name
 
