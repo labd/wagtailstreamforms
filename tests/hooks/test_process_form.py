@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AnonymousUser
-from django.test.client import RequestFactory
+from django.test.client import RequestFactory, Client
 from mock import patch
 from wagtail.wagtailcore.models import Page
 
@@ -11,11 +11,7 @@ from ..test_case import AppTestCase
 class TestHook(AppTestCase):
 
     def setUp(self):
-        self.page = Page.objects.create(
-            title='My Page',
-            path='0002',
-            depth=1
-        )
+        self.page = Page.objects.get(url_path='/home/')
         self.mock_messages_success = patch('django.contrib.messages.success')
         self.mock_success_message = self.mock_messages_success.start()
 
@@ -44,7 +40,7 @@ class TestHook(AppTestCase):
 
         self.assertIsNone(response)
 
-    def test_valid_post_returns_nothing(self):
+    def test_valid_post_redirects(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
@@ -54,8 +50,9 @@ class TestHook(AppTestCase):
         fake_request.user = AnonymousUser()
 
         response = process_form(self.page, fake_request)
+        response.client = Client()
 
-        self.assertIsNone(response)
+        self.assertRedirects(response, self.page.get_url(fake_request))
 
     def test_valid_post_saves_submission(self):
         form = self.test_form(True)
@@ -117,7 +114,7 @@ class TestHook(AppTestCase):
 
         self.assertIsNone(response)
 
-    def test_invalid_form_returns_correct_response(self):
+    def test_invalid_form_returns_response_with_form(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': '',

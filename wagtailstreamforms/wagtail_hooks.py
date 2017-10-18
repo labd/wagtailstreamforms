@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.admin.utils import quote
+from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -92,6 +93,7 @@ def process_form(page, request, *args, **kwargs):
 
         if form_def:
             form = form_def.get_form(request.POST, request.FILES, page=page, user=request.user)
+            context = page.get_context(request, *args, **kwargs)
 
             if form.is_valid():
                 # process the form submission
@@ -101,9 +103,11 @@ def process_form(page, request, *args, **kwargs):
                 if form_def.success_message:
                     messages.success(request, form_def.success_message, fail_silently=True)
 
+                # redirect to current page - this will avoid refreshing and submitting again
+                return redirect(page.get_url(request), context=context)
+
             else:
                 # update the context with the invalid form and serve the page
-                context = page.get_context(request, *args, **kwargs)
                 context.update({
                     'invalid_stream_form_reference': form.data.get('form_reference'),
                     'invalid_stream_form': form
