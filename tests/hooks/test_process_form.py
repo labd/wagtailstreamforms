@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AnonymousUser
+from django.test import override_settings
 from django.test.client import RequestFactory, Client
 from mock import patch
 from wagtail.wagtailcore.models import Page
@@ -34,6 +35,20 @@ class TestHook(AppTestCase):
 
     def test_get_returns_nothing(self):
         fake_request = self.rf.get('/fake/')
+        fake_request.user = AnonymousUser()
+
+        response = process_form(self.page, fake_request)
+
+        self.assertIsNone(response)
+
+    @override_settings(WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING=False)
+    def test_hook_disabled_when_setting_false(self):
+        form = self.test_form()
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
         fake_request.user = AnonymousUser()
 
         response = process_form(self.page, fake_request)

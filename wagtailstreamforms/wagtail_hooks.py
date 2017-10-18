@@ -88,6 +88,11 @@ class FormGroup(ModelAdminGroup):
 @hooks.register('before_serve_page')
 def process_form(page, request, *args, **kwargs):
     """ Process the form if there is one, if not just continue. """
+
+    # only process if settings.WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING is True
+    if not settings.WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING:
+        return
+
     if request.method == 'POST':
         form_def = get_form_instance_from_request(request)
 
