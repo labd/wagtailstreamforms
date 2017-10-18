@@ -11,7 +11,7 @@ dependencies:
     - sudo apt-get install python-dev
   override:
     - pip -V
-    - pip install -U tox coveralls
+    - pip install -U tox codecov
     - pyenv local $TOX_PY34 $TOX_PY35 $TOX_PY36
 
 test:
@@ -19,4 +19,4 @@ test:
     - tox -v --recreate
   post:
     - cp -r htmlcov $CIRCLE_ARTIFACTS
-    - coveralls
+    - codecov

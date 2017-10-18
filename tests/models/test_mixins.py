@@ -40,7 +40,11 @@ class TestPageServeMixin(AppTestCase):
 
     def test_post_responds(self):
         form = self.test_form()
-        fake_request = self.rf.post('/fake/', {'form_id': form.pk, 'name': 'Bill'})
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
         fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)
@@ -49,7 +53,11 @@ class TestPageServeMixin(AppTestCase):
 
     def test_post_saves_submission(self):
         form = self.test_form(True)
-        fake_request = self.rf.post('/fake/', {'form_id': form.pk, 'name': 'Bill'})
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
         fake_request.user = AnonymousUser()
 
         SomePage().serve(fake_request)
@@ -76,7 +84,11 @@ class TestPageServeMixin(AppTestCase):
 
     def test_invalid_data_does_not_break_view(self):
         form = self.test_form()
-        fake_request = self.rf.post('/fake/', {'form_id': form.pk, 'name': ''})
+        fake_request = self.rf.post('/fake/', {
+            'name': '',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
         fake_request.user = AnonymousUser()
 
         response = SomePage().serve(fake_request)

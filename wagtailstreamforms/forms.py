@@ -34,6 +34,7 @@ class FormBuilder(OrigFormBuilder):
 
         # add form id to identify the form type
         fields['form_id'] = django.forms.CharField(widget=django.forms.HiddenInput)
+        fields['form_reference'] = django.forms.CharField(widget=django.forms.HiddenInput)
 
         # if enabled add recaptcha field
         if self.add_recaptcha and recaptcha_enabled():

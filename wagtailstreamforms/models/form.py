@@ -146,6 +146,9 @@ class BasicForm(BaseForm):
 class EmailForm(BaseForm):
     """ A form that sends and email. """
 
+    # do not add these fields to the email
+    ignored_fields = ['recaptcha', 'form_id', 'form_reference']
+
     subject = models.CharField(
         max_length=255
     )
@@ -180,7 +183,7 @@ class EmailForm(BaseForm):
         for name, field in form.fields.items():
             data = form.cleaned_data.get(name)
 
-            if name == 'recaptcha' or name == 'form_id' or not data:
+            if name in self.ignored_fields or not data:
                 continue
 
             label = field.label or name

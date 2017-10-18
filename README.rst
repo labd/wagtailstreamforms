@@ -1,7 +1,7 @@
 Wagtail StreamForms
 ===================
 
-|CircleCI| |Coverage Status|
+|CircleCI| |Codecov|
 
 This package is currently a concept but allows you to add add forms that
 are built in the cms admin area to any streamfield. You can also create
@@ -109,5 +109,5 @@ or run for a single environment
 
 .. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master.svg?style=svg
    :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master
-.. |Coverage Status| image:: https://coveralls.io/repos/github/AccentDesign/wagtailstreamforms/badge.svg?branch=master
-   :target: https://coveralls.io/github/AccentDesign/wagtailstreamforms?branch=master
+.. |Codecov| image:: https://codecov.io/gh/AccentDesign/wagtailstreamforms/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/AccentDesign/wagtailstreamforms
