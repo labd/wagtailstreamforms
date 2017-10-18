@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test.client import RequestFactory
+from mock import patch
 from wagtail.wagtailcore.models import Page
 
 from wagtailstreamforms.models import StreamFormPageMixin, BasicForm, FormField
@@ -12,6 +13,10 @@ class SomePage(StreamFormPageMixin, Page):
 
 
 class TestPageServeMixin(AppTestCase):
+
+    def setUp(self):
+        self.mock_messages_success = patch('django.contrib.messages.success')
+        self.mock_success_message = self.mock_messages_success.start()
 
     @property
     def rf(self):
@@ -64,6 +69,35 @@ class TestPageServeMixin(AppTestCase):
 
         self.assertEquals(form.get_submission_class().objects.count(), 1)
 
+    def test_post_success_message__sent_when_form_has_message(self):
+        form = self.test_form()
+        form.success_message = 'well done'
+        form.save()
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
+        fake_request.user = AnonymousUser()
+
+        SomePage().serve(fake_request)
+
+        self.assertEqual(self.mock_success_message.call_args[0][1], 'well done')
+        self.assertEqual(self.mock_success_message.call_args[1], {'fail_silently': True})
+
+    def test_post_success_message__not_sent_when_form_has_no_message(self):
+        form = self.test_form()
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
+        fake_request.user = AnonymousUser()
+
+        SomePage().serve(fake_request)
+
+        assert not self.mock_success_message.called, 'messages.success should not have been called'
+
     def test_invalid_form_id_does_not_break_view(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {'form_id': 100})
@@ -94,3 +128,6 @@ class TestPageServeMixin(AppTestCase):
         response = SomePage().serve(fake_request)
 
         self.assertEquals(response.status_code, 200)
+
+    def tearDown(self):
+        self.mock_messages_success.stop()

@@ -74,4 +74,4 @@ class StreamFormPageMixin(object):
     def success_message(request, form_def):
         """ Create a success message. """
 
-        messages.success(request, form_def.success_message)
+        messages.success(request, form_def.success_message, fail_silently=True)
