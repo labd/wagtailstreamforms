@@ -12,6 +12,9 @@ class ModelGenericTests(AppTestCase):
     def test_inheritance(self):
         self.assertTrue(issubclass(EmailForm, BaseForm))
 
+    def test_ignored_fields(self):
+        self.assertEquals(EmailForm.ignored_fields, ['recaptcha', 'form_id', 'form_reference'])
+
 
 class ModelFieldTests(AppTestCase):
 
@@ -58,7 +61,11 @@ class ModelPropertyTests(AppTestCase):
 
     def test_process_form_submission__sends_an_email(self):
         form = self.test_form()
-        form_class = form.get_form({'name': 'foo', 'form_id': form.pk})
+        form_class = form.get_form({
+            'name': 'foo',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
         assert form_class.is_valid()
         form.process_form_submission(form_class)
         self.assertEqual(len(mail.outbox), 1)
@@ -66,7 +73,11 @@ class ModelPropertyTests(AppTestCase):
 
     def test_process_form_submission__still_saves_submission(self):
         form = self.test_form(True)
-        form_class = form.get_form({'name': 'foo', 'form_id': form.pk})
+        form_class = form.get_form({
+            'name': 'foo',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
         assert form_class.is_valid()
         form.process_form_submission(form_class)
         self.assertEquals(form.get_submission_class().objects.count(), 1)

@@ -130,7 +130,8 @@ class ModelPropertyTests(AppTestCase):
             'date',
             'datetime',
             'regexfield',
-            'form_id'
+            'form_id',
+            'form_reference'
         ]
         self.assertEqual(actual_fields, expected_fields)
 
@@ -154,7 +155,8 @@ class ModelPropertyTests(AppTestCase):
             'date': '2017-01-01',
             'datetime': '2017-01-01 00:00:00',
             'regexfield': 'text',
-            'form_id': form.pk
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
         }
         form_class = form.get_form(data)
         assert form_class.is_valid()
@@ -179,7 +181,8 @@ class ModelPropertyTests(AppTestCase):
             'date': '2017-01-01',
             'datetime': '2017-01-01 00:00:00',
             'regexfield': 'text',
-            'form_id': form.pk
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
         }
         form_class = form.get_form(data)
         assert form_class.is_valid()
