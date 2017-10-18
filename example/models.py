@@ -48,7 +48,7 @@ class ExampleFormSubmission(AbstractFormSubmission):
         return form_data
 
 
-class BasicPage(StreamFormPageMixin, Page):
+class BasicPage(Page):
 
     body = StreamField([
         ('form', WagtailFormBlock())

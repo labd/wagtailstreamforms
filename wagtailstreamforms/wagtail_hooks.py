@@ -1,12 +1,16 @@
+from django.contrib import messages
 from django.contrib.admin.utils import quote
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
+from wagtail.wagtailcore import hooks
 
 from wagtailstreamforms.conf import settings
 from wagtailstreamforms.models import BaseForm, RegexFieldValidator
+from wagtailstreamforms.utils import get_form_instance_from_request, get_valid_subclasses
 
 
 class FormURLHelper(AdminURLHelper):
@@ -54,24 +58,9 @@ class FormModelAdmin(ModelAdmin):
         return submission_class._default_manager.filter(form=obj).count()
 
 
-def _get_valid_subclasses(cls):
-    clss = []
-    for subcls in cls.__subclasses__():
-        if subcls._meta.abstract:
-            continue  # pragma: no cover
-        clss.append(subcls)
-        sub_classes = _get_valid_subclasses(subcls)
-        if sub_classes:
-            clss.extend(sub_classes)
-    return clss
-
-
-all_classes = _get_valid_subclasses(BaseForm)
-form_admins = []
-
-
 # loop all subclasses of BaseForm and create model admin classes for them
-for cls in all_classes:
+form_admins = []
+for cls in get_valid_subclasses(BaseForm):
     object_name = cls._meta.object_name
     admin_name = "{}Admin".format(object_name)
     admin_defs = {'model': cls}
@@ -93,3 +82,35 @@ class FormGroup(ModelAdminGroup):
     items = form_admins + [
         RegexFieldValidatorModelAdmin
     ]
+
+
+@hooks.register('before_serve_page')
+def process_form(page, request, *args, **kwargs):
+    """ Process the form if there is one, if not just continue. """
+    if request.method == 'POST':
+        form_def = get_form_instance_from_request(request)
+
+        if form_def:
+            form = form_def.get_form(request.POST, request.FILES, page=page, user=request.user)
+
+            if form.is_valid():
+                # process the form submission
+                form_def.process_form_submission(form)
+
+                # create success message
+                if form_def.success_message:
+                    messages.success(request, form_def.success_message, fail_silently=True)
+
+            else:
+                # update the context with the invalid form and serve the page
+                context = page.get_context(request, *args, **kwargs)
+                context.update({
+                    'invalid_stream_form_reference': form.data.get('form_reference'),
+                    'invalid_stream_form': form
+                })
+
+                return TemplateResponse(
+                    request,
+                    page.get_template(request, *args, **kwargs),
+                    context
+                )
