@@ -108,8 +108,11 @@ def process_form(page, request, *args, **kwargs):
                 if form_def.success_message:
                     messages.success(request, form_def.success_message, fail_silently=True)
 
-                # redirect to current page - this will avoid refreshing and submitting again
-                return redirect(page.get_url(request), context=context)
+                # redirect to the page defined in the form
+                # or the current page as a fallback - this will avoid refreshing and submitting again
+                redirect_page = form_def.post_redirect_page or page
+
+                return redirect(redirect_page.get_url(request), context=context)
 
             else:
                 # update the context with the invalid form and serve the page

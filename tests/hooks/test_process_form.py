@@ -55,7 +55,24 @@ class TestHook(AppTestCase):
 
         self.assertIsNone(response)
 
-    def test_valid_post_redirects(self):
+    def test_valid_post_redirects__to_the_forms_post_redirect_page(self):
+        redirect_to = self.page.add_child(instance=Page(title="another", slug="another"))
+        form = self.test_form()
+        form.post_redirect_page = redirect_to
+        form.save()
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
+        fake_request.user = AnonymousUser()
+
+        response = process_form(self.page, fake_request)
+        response.client = Client()
+
+        self.assertRedirects(response, redirect_to.get_url(fake_request))
+
+    def test_valid_post_redirects__falls_back_to_current_page(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
