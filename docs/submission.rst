@@ -18,7 +18,7 @@ If you do not want the current hook to be used you need to disable it by setting
 
 .. code-block:: python
 
-    WAGTAILSTREAMFORMS_ADMIN_MENU_LABEL = False
+    WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = False
 
 With this set no forms will be processed of any kind and you are free to process them how you feel fit.
 
