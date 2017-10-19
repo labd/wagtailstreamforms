@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel
+from wagtail.wagtailcore.models import Page
 
 from wagtailstreamforms.models import BaseForm, FormField, FormSubmission
 
@@ -27,6 +28,7 @@ class ModelGenericTests(AppTestCase):
 
     def test_ordering(self):
         self.assertEqual(BaseForm._meta.ordering, ['name', ])
+
 
 class ModelFieldTests(AppTestCase):
 
@@ -58,6 +60,10 @@ class ModelFieldTests(AppTestCase):
         field = self.get_field(BaseForm, 'success_message')
         self.assertModelField(field, models.CharField, False, True)
         self.assertEquals(field.max_length, 255)
+
+    def test_post_redirect_page(self):
+        field = self.get_field(BaseForm, 'post_redirect_page')
+        self.assertModelPKField(field, Page, models.SET_NULL, True, True)
 
 
 class ModelPropertyTests(AppTestCase):
