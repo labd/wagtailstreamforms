@@ -31,3 +31,35 @@ This is as simple as adding it to the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` in s
     WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
         ('streamforms/form_block.html', 'Default Form Template'),
     )
+
+Messaging
+---------
+
+When the ``success message`` option is completed in the form builder and upon successful submission of the form
+a message is sent to django's messaging framework.
+
+You will need to add ``django.contrib.messages`` to your ``INSTALLED_APPS`` setting:
+
+.. code-block:: python
+
+    INSTALLED_APPS = [
+        ...
+        'django.contrib.messages'
+        ...
+    ]
+
+
+To display these in your site you will need to include somewhere in your page's markup a snippet
+similar to the following:
+
+::
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+Any success message from the form will then be displayed.
