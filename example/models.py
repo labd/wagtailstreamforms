@@ -9,7 +9,7 @@ from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.models import Page
 from wagtailstreamforms.blocks import WagtailFormBlock
-from wagtailstreamforms.models import AbstractFormSubmission, StreamFormPageMixin, BaseForm
+from wagtailstreamforms.models import AbstractFormSubmission, BaseForm
 
 
 class ExampleForm(BaseForm):
@@ -48,7 +48,7 @@ class ExampleFormSubmission(AbstractFormSubmission):
         return form_data
 
 
-class BasicPage(StreamFormPageMixin, Page):
+class BasicPage(Page):
 
     body = StreamField([
         ('form', WagtailFormBlock())

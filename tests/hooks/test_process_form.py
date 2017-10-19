@@ -1,20 +1,18 @@
 from django.contrib.auth.models import AnonymousUser
-from django.test.client import RequestFactory
+from django.test import override_settings
+from django.test.client import RequestFactory, Client
 from mock import patch
 from wagtail.wagtailcore.models import Page
 
-from wagtailstreamforms.models import StreamFormPageMixin, BasicForm, FormField
+from wagtailstreamforms.models import BasicForm, FormField
+from wagtailstreamforms.wagtail_hooks import process_form
 from ..test_case import AppTestCase
 
 
-class SomePage(StreamFormPageMixin, Page):
-    class Meta:
-        app_label = 'tests'
-
-
-class TestPageServeMixin(AppTestCase):
+class TestHook(AppTestCase):
 
     def setUp(self):
+        self.page = Page.objects.get(url_path='/home/')
         self.mock_messages_success = patch('django.contrib.messages.success')
         self.mock_success_message = self.mock_messages_success.start()
 
@@ -35,15 +33,16 @@ class TestPageServeMixin(AppTestCase):
         )
         return form
 
-    def test_get_responds(self):
+    def test_get_returns_nothing(self):
         fake_request = self.rf.get('/fake/')
         fake_request.user = AnonymousUser()
 
-        response = SomePage().serve(fake_request)
+        response = process_form(self.page, fake_request)
 
-        self.assertEquals(response.status_code, 200)
+        self.assertIsNone(response)
 
-    def test_post_responds(self):
+    @override_settings(WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING=False)
+    def test_hook_disabled_when_setting_false(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
@@ -52,11 +51,25 @@ class TestPageServeMixin(AppTestCase):
         })
         fake_request.user = AnonymousUser()
 
-        response = SomePage().serve(fake_request)
+        response = process_form(self.page, fake_request)
 
-        self.assertEquals(response.status_code, 200)
+        self.assertIsNone(response)
 
-    def test_post_saves_submission(self):
+    def test_valid_post_redirects(self):
+        form = self.test_form()
+        fake_request = self.rf.post('/fake/', {
+            'name': 'Bill',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
+        fake_request.user = AnonymousUser()
+
+        response = process_form(self.page, fake_request)
+        response.client = Client()
+
+        self.assertRedirects(response, self.page.get_url(fake_request))
+
+    def test_valid_post_saves_submission(self):
         form = self.test_form(True)
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
@@ -65,11 +78,11 @@ class TestPageServeMixin(AppTestCase):
         })
         fake_request.user = AnonymousUser()
 
-        SomePage().serve(fake_request)
+        process_form(self.page, fake_request)
 
         self.assertEquals(form.get_submission_class().objects.count(), 1)
 
-    def test_post_success_message__sent_when_form_has_message(self):
+    def test_success_message__sent_when_form_has_message(self):
         form = self.test_form()
         form.success_message = 'well done'
         form.save()
@@ -80,12 +93,12 @@ class TestPageServeMixin(AppTestCase):
         })
         fake_request.user = AnonymousUser()
 
-        SomePage().serve(fake_request)
+        process_form(self.page, fake_request)
 
         self.assertEqual(self.mock_success_message.call_args[0][1], 'well done')
         self.assertEqual(self.mock_success_message.call_args[1], {'fail_silently': True})
 
-    def test_post_success_message__not_sent_when_form_has_no_message(self):
+    def test_success_message__not_sent_when_form_has_no_message(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
@@ -94,29 +107,29 @@ class TestPageServeMixin(AppTestCase):
         })
         fake_request.user = AnonymousUser()
 
-        SomePage().serve(fake_request)
+        process_form(self.page, fake_request)
 
         assert not self.mock_success_message.called, 'messages.success should not have been called'
 
-    def test_invalid_form_id_does_not_break_view(self):
-        form = self.test_form()
+    def test_invalid_form_id_returns_nothing(self):
+        self.test_form()
         fake_request = self.rf.post('/fake/', {'form_id': 100})
         fake_request.user = AnonymousUser()
 
-        response = SomePage().serve(fake_request)
+        response = process_form(self.page, fake_request)
 
-        self.assertEquals(response.status_code, 200)
+        self.assertIsNone(response)
 
-    def test_no_form_id_does_not_break_view(self):
+    def test_no_form_id_returns_nothing(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {})
         fake_request.user = AnonymousUser()
 
-        response = SomePage().serve(fake_request)
+        response = process_form(self.page, fake_request)
 
-        self.assertEquals(response.status_code, 200)
+        self.assertIsNone(response)
 
-    def test_invalid_data_does_not_break_view(self):
+    def test_invalid_form_returns_response_with_form(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': '',
@@ -125,9 +138,13 @@ class TestPageServeMixin(AppTestCase):
         })
         fake_request.user = AnonymousUser()
 
-        response = SomePage().serve(fake_request)
+        response = process_form(self.page, fake_request)
 
         self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.context_data['invalid_stream_form_reference'], 'some-ref')
+
+        invalid_form = response.context_data['invalid_stream_form']
+        self.assertEquals(invalid_form.errors, {'name': ['This field is required.']})
 
     def tearDown(self):
         self.mock_messages_success.stop()

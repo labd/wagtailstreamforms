@@ -14,18 +14,18 @@ Documentation is currently being worked on but the basics are below
 Whats included?
 ---------------
 
--  Forms can be built in the cms admin and used site wide in any
-   streamfield.
--  You can create your own form templates to display/submit how ever you
-   wish to do it.
--  We have included a mixin which will handle the form post if it is
-   being submitted to a wagtail page.
--  Forms are catagorised by their class in the cms admin for easier
-   navigation.
--  Form submissions are also listed by their form which you can filter
-   by date and are ordered by newest first.
+-  Forms can be built in the cms admin and used site wide in any streamfield.
+-  You can create your own form templates to display/submit how ever you wish to do it.
+-  There is a ``before_page_serve`` hook that will handle the form ``POST`` submission. Which can easily be disabled to provide your own.
+-  Forms are catagorised by their class in the cms admin for easier navigation.
+-  Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
 -  Recaptcha can be added to a form.
 -  You can also add site wide regex validators fo use in regex fields.
+
+Documentation
+-------------
+
+Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 
 Screen shots
 ------------
@@ -33,30 +33,37 @@ Screen shots
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen1.png
    :alt: Screen1
 
+   Menu
+
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen2.png
    :alt: Screen2
+
+   Form Listing
 
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen3.png
    :alt: Screen3
 
+   Submission Listing
+
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen4.png
    :alt: Screen4
 
-.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen5.png
-   :alt: Screen5
-
-Documentation
--------------
-
-Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
+   Form Editing
 
 Example site with docker
 ------------------------
+
+Clone the repo
+
+.. code:: bash
+
+    $ git clone https://github.com/AccentDesign/wagtailstreamforms.git
 
 Run the docker container
 
 .. code:: bash
 
+    $ cd wagtailstreamforms
     $ docker-compose up
 
 Create yourself a superuser

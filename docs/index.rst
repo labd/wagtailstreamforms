@@ -23,6 +23,7 @@ You can also add site wide regex validators fo use in regex fields.
    usage
    templates
    forms
+   submission
    recaptcha
    additional
 
