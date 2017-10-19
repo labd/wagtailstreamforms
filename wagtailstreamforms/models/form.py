@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel
 from multi_email_field.fields import MultiEmailField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, TabbedInterface, ObjectList
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, TabbedInterface, ObjectList, PageChooserPanel
 from wagtailstreamforms.conf import settings
 from wagtailstreamforms.forms import FormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
@@ -44,6 +44,14 @@ class BaseForm(ClusterableModel):
         max_length=255,
         help_text=_('An optional success message to show when the form has been successfully submitted')
     )
+    post_redirect_page = models.ForeignKey(
+        'wagtailcore.Page',
+        models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='+',
+        help_text=_('The page to redirect to after a successful submission')
+    )
 
     settings_panels = [
         FieldPanel('name', classname='full'),
@@ -51,6 +59,7 @@ class BaseForm(ClusterableModel):
         FieldPanel('submit_button_text'),
         FieldPanel('success_message', classname='full'),
         FieldPanel('store_submission'),
+        PageChooserPanel('post_redirect_page')
     ]
 
     field_panels = [
