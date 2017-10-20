@@ -33,7 +33,7 @@ Screen shots
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen5.png
    :alt: screen5
 
-   Example Front end
+   Example Front End
 
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen1.png
    :alt: Screen1
