@@ -32,6 +32,22 @@ This is as simple as adding it to the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` in s
         ('streamforms/form_block.html', 'Default Form Template'),
     )
 
+Deleted forms
+-------------
+
+In the event of a form being deleted which is still in use in a streamfield the following template will be rendered
+in its place:
+
+``streamforms/non_existent_form.html``
+
+.. code-block:: html
+
+    <p>Sorry, this form has been deleted.</p>
+
+You can override this by putting a copy of the template in you own project using the same 
+path under a templates directory ie ``app/templates/streamforms/non_existent_form.html``. As long as the app is before
+``wagtailstreamforms`` in ``INSTALLED_APPS`` it will use your template instead.
+
 Messaging
 ---------
 
