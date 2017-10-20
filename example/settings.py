@@ -1,17 +1,18 @@
-import os
+from os import environ
+from os.path import dirname, abspath, join
 
 from django.core.urlresolvers import reverse_lazy
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+SITE_DIR = dirname(abspath(__file__))
 
 
 # Security
 
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = environ.get('SECRET_KEY', '')
 
 DEBUG = True
 
-ALLOWED_HOSTS = [] + os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = [] + environ.get('ALLOWED_HOSTS', '').split(',')
 
 
 # Application definition
@@ -70,7 +71,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            join(SITE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -93,11 +94,11 @@ WSGI_APPLICATION = 'example.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': os.environ.get('RDS_HOSTNAME'),
-        'PORT': os.environ.get('RDS_PORT'),
-        'NAME': os.environ.get('RDS_DB_NAME'),
-        'USER': os.environ.get('RDS_USERNAME'),
-        'PASSWORD': os.environ.get('RDS_PASSWORD'),
+        'HOST': environ.get('RDS_HOSTNAME'),
+        'PORT': environ.get('RDS_PORT'),
+        'NAME': environ.get('RDS_DB_NAME'),
+        'USER': environ.get('RDS_USERNAME'),
+        'PASSWORD': environ.get('RDS_PASSWORD'),
     }
 }
 
@@ -105,10 +106,10 @@ DATABASES = {
 # Email
 
 DEFAULT_FROM_EMAIL = 'Django <no_reply@example.com>'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = os.environ.get('EMAIL_PORT')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = environ.get('EMAIL_HOST')
+EMAIL_PORT = environ.get('EMAIL_PORT')
+EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False
 
@@ -140,12 +141,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    join(SITE_DIR, "static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, "public/static")
 STATIC_URL = "/static/"
-
-MEDIA_ROOT = os.path.join(BASE_DIR, "public/media")
 MEDIA_URL = "/media/"
 
 
