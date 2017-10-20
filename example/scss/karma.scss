@@ -8,6 +8,9 @@
 @import "karma-css/scss/import";
 
 /* add your custom modules here */
+@import "module/form";
+@import "module/layout";
+@import "module/message";
 
 /* karma-css utilities */
 @import "karma-css/scss/utilities";

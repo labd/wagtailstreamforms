@@ -1,0 +1,18 @@
+// layout
+// -------------------------------------------------
+
+.messages {
+    list-style-type: none;
+
+    li {
+        padding: 1.5rem 2rem;
+        border-radius: $global-radius; 
+    }
+
+    li.success {
+        border: 1px solid color(green);
+        background: lighten(color(green), 40%);
+        color: color(green);
+    }
+
+}

@@ -1,0 +1,23 @@
+// Form
+// -------------------------------------------------
+
+form .field-row.has-error {
+
+    input,
+    select,
+    textarea {
+        border-color: color(red);
+    }
+
+    .errorlist {
+        margin-bottom: 0;
+        float: right;
+        list-style-type: none;
+        color: color(red);
+    }
+    
+}
+
+form .form-actions {
+    padding-top: 3rem;
+}
