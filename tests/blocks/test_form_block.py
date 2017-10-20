@@ -42,6 +42,21 @@ class TestFormBlockTestCase(AppTestCase):
 
         self.assertHTMLEqual(html, expected_html)
 
+    def test_render_when_form_deleted(self):
+        block = WagtailFormBlock()
+
+        html = block.render(block.to_python({
+            'form': 100,
+            'form_action': '/foo/',
+            'form_reference': 'some-ref'
+        }))
+
+        expected_html = '\n'.join([
+            '<p>Sorry, this form has been deleted.</p>',
+        ])
+
+        self.assertHTMLEqual(html, expected_html)
+
     def test_clean_adds_form_reference(self):
         block = WagtailFormBlock()
 

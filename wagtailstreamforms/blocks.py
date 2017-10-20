@@ -54,25 +54,34 @@ class WagtailFormBlock(blocks.StructBlock):
         template = None
 
     def render(self, value, context=None):
-        form = value['form']
-        self.meta.template = form.template_name
+        form = value.get('form')
+
+        # check if we have a form, as they can be deleted, and we dont want to break the site with
+        # a none template value
+        if form:
+            self.meta.template = form.template_name
+        else:
+            self.meta.template = 'streamforms/non_existent_form.html'
+
         return super(WagtailFormBlock, self).render(value, context)
 
     def get_context(self, value, parent_context=None):
         context = super(WagtailFormBlock, self).get_context(value, parent_context)
 
-        form = value['form']
+        form = value.get('form')
         form_reference = value.get('form_reference')
 
-        # check the context for an invalid form submitted to the page.
-        # Use that instead if it has the same unique form_reference number
-        invalid_form_reference = context.get('invalid_stream_form_reference')
-        invalid_form = context.get('invalid_stream_form')
+        if form:
 
-        if invalid_form_reference and invalid_form and invalid_form_reference == form_reference:
-            context['form'] = invalid_form
-        else:
-            context['form'] = form.get_form(initial={'form_id': form.id, 'form_reference': form_reference})
+            # check the context for an invalid form submitted to the page.
+            # Use that instead if it has the same unique form_reference number
+            invalid_form_reference = context.get('invalid_stream_form_reference')
+            invalid_form = context.get('invalid_stream_form')
+
+            if invalid_form_reference and invalid_form and invalid_form_reference == form_reference:
+                context['form'] = invalid_form
+            else:
+                context['form'] = form.get_form(initial={'form_id': form.id, 'form_reference': form_reference})
 
         return context
 
