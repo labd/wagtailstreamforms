@@ -1,0 +1,15 @@
+<h2>{{ value.form.name }}</h2>
+<form action="{{ value.form_action }}" method="post" novalidate>
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+    <div class="row">
+    {% for field in form.visible_fields %}
+        <div class="col-12 col-md-6">
+            {% include 'streamforms/partials/form_field.html' %}
+        </div>
+    {% endfor %}
+    </div>
+    <div class="form-actions">
+        <input class="button button-primary" type="submit" value="{{ value.form.submit_button_text }}">
+    </div>
+</form>

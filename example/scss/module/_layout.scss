@@ -1,0 +1,27 @@
+// layout
+// -------------------------------------------------
+
+body {
+    padding-top: 5rem;
+    padding-bottom: 5rem; 
+}
+
+header {
+    margin-bottom: 5rem;
+}
+
+footer {
+    padding-top: 5rem;
+
+    .links {
+        list-style-type: none;
+
+        li {
+            display: inline;
+        }
+
+        li + li {
+            margin-left: 2rem;
+        }
+    }
+}

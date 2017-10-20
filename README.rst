@@ -30,6 +30,11 @@ Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 Screen shots
 ------------
 
+.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen5.png
+   :alt: screen5
+
+   Example Front end
+
 .. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen1.png
    :alt: Screen1
 
