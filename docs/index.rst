@@ -12,7 +12,7 @@ you build your form.
 
 This allows you to decide how the form is submitted and to where.
 
-You can also add site wide regex validators fo use in regex fields.
+You can also add site wide regex validators for use in regex fields.
 
 
 .. toctree::
