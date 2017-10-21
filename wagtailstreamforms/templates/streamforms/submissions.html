@@ -31,7 +31,7 @@
     <div>
         {% if object_list %}
             <form action="{% url 'streamforms_delete_submissions' object.id %}" method="get">
-                {% include "wagtailforms/list_submissions.html" %}
+                {% include "streamforms/list_submissions.html" %}
                 {% include "wagtailadmin/shared/pagination_nav.html" with items=page_obj is_searching=False linkurl='-' %}
             </form>
         {% else %}

@@ -1,0 +1,42 @@
+{% load i18n %}
+<div class="overflow">
+<table class="listing">
+    <col />
+    <col />
+    <col />
+    <thead>
+        {% if has_delete_permission %}
+        <tr>
+            <th colspan="{{ data_headings|length|add:1 }}">
+                <button class="button no" id="delete-submissions" style="visibility: hidden">{% trans "Delete selected submissions" %}</button>
+            </th>
+        </tr>
+        {% endif %}
+        <tr>
+            {% if has_delete_permission %}
+                <th><input type="checkbox" id="select-all" /></th>
+            {% endif %}
+            {% for heading in data_headings %}
+                <th>{{ heading }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data_rows %}
+            <tr>
+                {% if has_delete_permission %}
+                <td>
+                    <input type="checkbox" name="selected-submissions" class="select-submission" value="{{ row.model_id }}" />
+                </td>
+                {% endif %}
+                {% for cell in row.fields %}
+                    <td>
+                        {{ cell }}
+                    </td>
+                {% endfor %}
+                <td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
