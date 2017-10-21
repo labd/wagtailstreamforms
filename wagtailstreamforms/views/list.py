@@ -1,11 +1,13 @@
 import csv
 import datetime
 
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, Http404
 from django.utils.encoding import smart_str
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
+from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.wagtailforms.forms import SelectDateForm
 
 from wagtailstreamforms.models import BaseForm
@@ -18,6 +20,16 @@ class SubmissionListView(SingleObjectMixin, ListView):
     filter_form = None
     model = BaseForm
 
+    @property
+    def permission_helper(self):
+        return PermissionHelper(model=self.object.__class__)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.permission_helper.user_can_list(self.request.user):
+            raise PermissionDenied
+        return super(SubmissionListView, self).dispatch(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
         try:
@@ -26,7 +38,6 @@ class SubmissionListView(SingleObjectMixin, ListView):
             raise Http404(_("No BaseForm found matching the query"))
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
         self.filter_form = SelectDateForm(request.GET)
 
         if request.GET.get('action') == 'CSV':
@@ -82,8 +93,11 @@ class SubmissionListView(SingleObjectMixin, ListView):
             data_row = [form_data.get(name) for name, label in data_fields]
             data_rows.append({'model_id': s.id, 'fields': data_row})
 
-        context['filter_form'] = self.filter_form
-        context['data_rows'] = data_rows
-        context['data_headings'] = data_headings
+        context.update({
+            'filter_form': self.filter_form,
+            'data_rows': data_rows,
+            'data_headings': data_headings,
+            'has_delete_permission': self.permission_helper.user_can_delete_obj(self.request.user, self.object)
+        })
 
         return context

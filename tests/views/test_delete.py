@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.urls import reverse
 
-from wagtailstreamforms.models import BasicForm, FormSubmission
+from wagtailstreamforms.models import BasicForm, FormSubmission, EmailForm
 
 from ..test_case import AppTestCase
 
@@ -51,3 +51,79 @@ class DeleteViewTestCase(AppTestCase):
     def test_post_redirects(self):
         response = self.client.post(self.multiple_url)
         self.assertRedirects(response, self.redirect_url)
+
+
+class DeleteViewPermissionTestCase(AppTestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user('user', 'user@test.com', 'password')
+
+        self.basic_form = BasicForm.objects.create(
+            name='Form',
+            template_name='streamforms/form_block.html'
+        )
+        self.basic_form_submission = FormSubmission.objects.create(
+            form=self.basic_form,
+            form_data='{}'
+        )
+        self.email_form = EmailForm.objects.create(
+            name='Form',
+            template_name='streamforms/form_block.html'
+        )
+        self.email_form_submission = FormSubmission.objects.create(
+            form=self.email_form,
+            form_data='{}'
+        )
+
+        self.basic_delete_url = '{}?selected-submissions={}'.format(
+            reverse('streamforms_delete_submissions', kwargs={'pk': self.basic_form.pk}),
+            self.basic_form_submission.pk
+        )
+
+        self.email_delete_url = '{}?selected-submissions={}'.format(
+            reverse('streamforms_delete_submissions', kwargs={'pk': self.email_form.pk}),
+            self.email_form_submission.pk
+        )
+
+    def test_no_user_no_access(self):
+        response = self.client.get(self.basic_delete_url)
+        self.assertEquals(response.status_code, 403)
+
+        response = self.client.get(self.email_delete_url)
+        self.assertEquals(response.status_code, 403)
+
+    def test_user_with_no_perm_no_access(self):
+        self.client.login(username='user', password='password')
+
+        response = self.client.get(self.basic_delete_url)
+        self.assertEquals(response.status_code, 403)
+
+        response = self.client.get(self.email_delete_url)
+        self.assertEquals(response.status_code, 403)
+
+    def test_user_with_delete_perm_has_access(self):
+        basic_form_perm = Permission.objects.get(codename='delete_basicform')
+        email_form_perm = Permission.objects.get(codename='delete_emailform')
+        self.user.user_permissions.add(basic_form_perm, email_form_perm)
+
+        self.client.login(username='user', password='password')
+
+        response = self.client.get(self.basic_delete_url)
+        self.assertEquals(response.status_code, 200)
+
+        response = self.client.get(self.email_delete_url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_permissions_are_on_an_class_type_basis(self):
+        basic_form_perm = Permission.objects.get(codename='delete_basicform')
+        self.user.user_permissions.add(basic_form_perm)
+
+        self.client.login(username='user', password='password')
+
+        response = self.client.get(self.basic_delete_url)
+        self.assertEquals(response.status_code, 200)
+
+        # user should not be able to access this as they have no got
+        # any delete_emailform perm
+        response = self.client.get(self.email_delete_url)
+        self.assertEquals(response.status_code, 403)

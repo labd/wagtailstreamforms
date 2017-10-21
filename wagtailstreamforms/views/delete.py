@@ -1,15 +1,27 @@
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.utils.translation import ungettext, ugettext as _
 from django.views.generic import DeleteView
 
+from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtailstreamforms.models import BaseForm
 
 
 class SubmissionDeleteView(DeleteView):
     model = BaseForm
     template_name = 'streamforms/confirm_delete.html'
+
+    @property
+    def permission_helper(self):
+        return PermissionHelper(model=self.object.__class__)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.permission_helper.user_can_delete_obj(self.request.user, self.object):
+            raise PermissionDenied
+        return super(SubmissionDeleteView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
@@ -29,7 +41,6 @@ class SubmissionDeleteView(DeleteView):
         return context
 
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
         success_url = self.get_success_url()
         submissions = self.get_submissions()
         count = submissions.count()

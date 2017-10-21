@@ -1,3 +1,5 @@
+from django.urls import reverse_lazy
+
 SECRET_KEY = 'secret'
 
 INSTALLED_APPS = [
@@ -69,3 +71,5 @@ TEMPLATES = [
 ROOT_URLCONF = 'tests.urls'
 
 STATIC_URL = '/static/'
+
+LOGIN_URL = reverse_lazy('admin:login')
