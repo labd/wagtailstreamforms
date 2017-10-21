@@ -26,6 +26,7 @@ You can also add site wide regex validators fo use in regex fields.
    submission
    recaptcha
    additional
+   screenshots
 
 
 Indices and tables

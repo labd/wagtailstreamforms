@@ -27,33 +27,18 @@ Documentation
 
 Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 
-Screen shots
-------------
+Screenshots
+-----------
 
-.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen5.png
-   :alt: screen5
+.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen5.png
+   :width: 728 px
 
    Example Front End
 
-.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen1.png
-   :alt: Screen1
+.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen1.png
+   :width: 728 px
 
    Menu
-
-.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen2.png
-   :alt: Screen2
-
-   Form Listing
-
-.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen3.png
-   :alt: Screen3
-
-   Submission Listing
-
-.. figure:: https://github.com/AccentDesign/wagtailstreamforms/raw/master/images/screen4.png
-   :alt: Screen4
-
-   Form Editing
 
 Example site with docker
 ------------------------
