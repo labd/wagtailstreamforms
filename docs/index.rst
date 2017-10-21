@@ -24,6 +24,7 @@ You can also add site wide regex validators fo use in regex fields.
    templates
    forms
    submission
+   permissions
    recaptcha
    additional
    screenshots
