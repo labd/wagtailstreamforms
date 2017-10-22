@@ -1,3 +1,5 @@
+import urllib.parse as urlparse
+
 from ..test_case import AppTestCase
 
 
@@ -9,7 +11,9 @@ class TemplateTagTests(AppTestCase):
             "{% load streamforms_tags %}?{% url_replace page=1 %}",
             {'request': fake_request}
         )
-        self.assertEqual(rendered, "?page=1")
+        # parse the url as they can be reordered unpredictably
+        parsed = urlparse.parse_qs(urlparse.urlparse(rendered).query)
+        self.assertDictEqual(parsed, {'page': ['1']})
     
     def test_kwarg_appended(self):
         fake_request = self.rf.get('/?foo=bar')
@@ -17,7 +21,9 @@ class TemplateTagTests(AppTestCase):
             "{% load streamforms_tags %}?{% url_replace page=1 %}",
             {'request': fake_request}
         )
-        self.assertEqual(rendered, "?foo=bar&amp;page=1")
+        # parse the url as they can be reordered unpredictably
+        parsed = urlparse.parse_qs(urlparse.urlparse(rendered).query)
+        self.assertDictEqual(parsed, {'foo': ['bar'], 'page': ['1']})
     
     def test_kwarg_replaced(self):
         fake_request = self.rf.get('/?foo=bar&page=1')
@@ -25,4 +31,6 @@ class TemplateTagTests(AppTestCase):
             "{% load streamforms_tags %}?{% url_replace page=5 %}",
             {'request': fake_request}
         )
-        self.assertEqual(rendered, "?foo=bar&amp;page=5")
+        # parse the url as they can be reordered unpredictably
+        parsed = urlparse.parse_qs(urlparse.urlparse(rendered).query)
+        self.assertDictEqual(parsed, {'foo': ['bar'], 'page': ['5']})
