@@ -30,7 +30,7 @@ Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 Screenshots
 -----------
 
-.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen5.png
+.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen6.png
    :width: 728 px
 
    Example Front End

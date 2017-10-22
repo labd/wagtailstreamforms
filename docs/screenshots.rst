@@ -1,7 +1,7 @@
 Screenshots
 ===========
 
-.. figure:: _static/images/screen5.png
+.. figure:: _static/images/screen6.png
    :width: 728 px
 
    Example Front End

@@ -1,5 +1,5 @@
-<h2>{{ value.form.name }}</h2>
 <form action="{{ value.form_action }}" method="post" novalidate>
+    <h2>{{ value.form.name }}</h2>
     {% csrf_token %}
     {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
     <div class="row">
@@ -10,6 +10,6 @@
     {% endfor %}
     </div>
     <div class="form-actions">
-        <input class="button button-primary" type="submit" value="{{ value.form.submit_button_text }}">
+        <input class="button button-mineshaft" type="submit" value="{{ value.form.submit_button_text }}">
     </div>
 </form>

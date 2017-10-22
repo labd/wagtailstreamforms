@@ -3,6 +3,7 @@
 
 .messages {
     list-style-type: none;
+    margin-bottom: 4rem;
 
     li {
         padding: 1.5rem 2rem;
@@ -10,9 +11,9 @@
     }
 
     li.success {
-        border: 1px solid color(green);
-        background: lighten(color(green), 40%);
-        color: color(green);
+        border: 1px solid color(primary);
+        background: lighten(color(primary), 45%);
+        color: color(primary);
     }
 
 }

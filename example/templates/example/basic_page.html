@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="{% static 'css/karma.min.css' %}">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>Wagtail Streamforms</h1>
+        </div>
+    </header>
     <div class="container">
-        <header>
-            <h1>Wagtail Streamforms Example</h1>
-        </header>
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -25,7 +27,7 @@
             {% include_block block %}
         {% endfor %}
         <footer>
-            <ul class="links small muted">
+            <ul class="links muted">
                 <li>Wagtail Streamforms on <a href="https://github.com/AccentDesign/wagtailstreamforms">Github</a></li>
                 <li>Styled with <a href="http://karmacss.com">KarmaCSS</a></li>
             </ul>

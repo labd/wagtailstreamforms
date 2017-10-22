@@ -1,17 +1,16 @@
 // layout
 // -------------------------------------------------
 
-body {
-    padding-top: 5rem;
-    padding-bottom: 5rem; 
-}
-
 header {
+    @include box-shadow(0, 0, 10px, color(grey));
+    background: color(primary);
+    color: color(white);
     margin-bottom: 5rem;
+    padding: 5rem 0;
 }
 
 footer {
-    padding-top: 5rem;
+    padding-top: 10rem;
 
     .links {
         list-style-type: none;
