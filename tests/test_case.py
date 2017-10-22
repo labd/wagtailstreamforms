@@ -1,8 +1,14 @@
 from django.db import models, connection
+from django.template import Context, Template
 from django.test import TestCase
+from django.test.client import RequestFactory
 
 
 class AppTestCase(TestCase):
+
+    @property
+    def rf(self):
+        return RequestFactory()
 
     def setupModels(*models):
         """ Create test models """
@@ -12,6 +18,11 @@ class AppTestCase(TestCase):
 
     def get_field(self, modelClass, name):
         return modelClass._meta.get_field(name)
+
+    def render_template(self, string, context=None):
+        context = context or {}
+        context = Context(context)
+        return Template(string).render(context)
 
     _non_blankable_fields = [
         models.BooleanField

@@ -32,7 +32,7 @@
         {% if object_list %}
             <form action="{% url 'streamforms_delete_submissions' object.id %}" method="get">
                 {% include "streamforms/list_submissions.html" %}
-                {% include "wagtailadmin/shared/pagination_nav.html" with items=page_obj is_searching=False linkurl='-' %}
+                {% include "streamforms/partials/pagination_nav.html" with items=page_obj %}
             </form>
         {% else %}
             <p class="no-results-message nice-padding">{% blocktrans with title=object.name %}There have been no submissions of the '{{ title }}' form.{% endblocktrans %}</p>
