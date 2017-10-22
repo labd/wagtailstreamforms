@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test import override_settings
-from django.test.client import RequestFactory, Client
+from django.test.client import Client
 from mock import patch
 from wagtail.wagtailcore.models import Page
 
@@ -15,10 +15,6 @@ class TestHook(AppTestCase):
         self.page = Page.objects.get(url_path='/home/')
         self.mock_messages_success = patch('django.contrib.messages.success')
         self.mock_success_message = self.mock_messages_success.start()
-
-    @property
-    def rf(self):
-        return RequestFactory()
 
     def test_form(self, store_submission=False):
         form = BasicForm.objects.create(
