@@ -7,7 +7,7 @@ def get_form_instance_from_request(request):
     form_id = request.POST.get('form_id')
     if form_id and form_id.isdigit():
         try:
-            return BaseForm.objects.get_subclass(pk=int(form_id))
+            return BaseForm.objects.get(pk=int(form_id)).specific
         except BaseForm.DoesNotExist:
             pass
     return None

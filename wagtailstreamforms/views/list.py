@@ -7,9 +7,9 @@ from django.utils.encoding import smart_str
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
+
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.wagtailforms.forms import SelectDateForm
-
 from wagtailstreamforms.models import BaseForm
 
 
@@ -22,7 +22,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
 
     @property
     def permission_helper(self):
-        return PermissionHelper(model=self.object.__class__)
+        return PermissionHelper(model=self.object.specific_class)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()

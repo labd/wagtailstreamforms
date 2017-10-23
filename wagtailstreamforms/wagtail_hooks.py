@@ -16,29 +16,43 @@ from wagtailstreamforms.utils import get_form_instance_from_request, get_valid_s
 
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
-        if action == 'submissions':
+        if action == 'copy':
+            return reverse('streamforms_copy', args=args, kwargs=kwargs)
+        elif action == 'submissions':
             return reverse('streamforms_submissions', args=args, kwargs=kwargs)
         return super(FormURLHelper, self).get_action_url(action, *args, **kwargs)
 
 
 class FormButtonHelper(ButtonHelper):
-    submissions_button_classnames = []
+
+    def copy_button(self, pk, classnames_add=[], classnames_exclude=[]):
+        cn = self.finalise_classname(classnames_add, classnames_exclude)
+        button = {
+            'url': self.url_helper.get_action_url('copy', quote(pk)),
+            'label': _('Copy'),
+            'classname': cn,
+            'title': _('Copy this %s') % self.verbose_name,
+        }
+        return button
 
     def submissions_button(self, pk, classnames_add=[], classnames_exclude=[]):
-        classnames = self.submissions_button_classnames + classnames_add
-        cn = self.finalise_classname(classnames, classnames_exclude)
+        cn = self.finalise_classname(classnames_add, classnames_exclude)
         button = {
             'url': self.url_helper.get_action_url('submissions', quote(pk)),
             'label': _('Submissions'),
             'classname': cn,
-            'title': _('Submissions for %s') % self.verbose_name,
+            'title': _('Submissions of this %s') % self.verbose_name,
         }
         return button
 
     def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
         btns = super(FormButtonHelper, self).get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
         pk = getattr(obj, self.opts.pk.attname)
+        ph = self.permission_helper
+        usr = self.request.user
         btns.append(self.submissions_button(pk, classnames_add, classnames_exclude))
+        if ph.user_can_create(usr):
+            btns.append(self.copy_button(pk, classnames_add, classnames_exclude))
         return btns
 
 

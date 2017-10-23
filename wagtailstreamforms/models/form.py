@@ -210,10 +210,8 @@ class BaseForm(ClusterableModel):
         """ Returns the specific form instance. """
 
         # TODO: dig to see if another query is executed and if we can avoid it
-        try:
-            return BaseForm.objects.get_subclass(pk=self.pk)
-        except BaseForm.DoesNotExist:
-            return self
+        # We already know the PK is good as self is an instance
+        return BaseForm.objects.get_subclass(pk=self.pk)
 
     @cached_property
     def specific_class(self):

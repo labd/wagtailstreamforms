@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.translation import ungettext, ugettext as _
+from django.utils.translation import ungettext
 from django.views.generic import DeleteView
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
@@ -15,7 +15,7 @@ class SubmissionDeleteView(DeleteView):
 
     @property
     def permission_helper(self):
-        return PermissionHelper(model=self.object.__class__)
+        return PermissionHelper(model=self.object.specific_class)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -24,11 +24,8 @@ class SubmissionDeleteView(DeleteView):
         return super(SubmissionDeleteView, self).dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        try:
-            return BaseForm.objects.get_subclass(pk=pk)
-        except self.model.DoesNotExist:
-            raise Http404(_("No BaseForm found matching the query"))
+        obj = super(SubmissionDeleteView, self).get_object(queryset)
+        return obj.specific
 
     def get_submissions(self):
         submission_ids = self.request.GET.getlist('selected-submissions')
