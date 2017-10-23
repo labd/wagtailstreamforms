@@ -2,7 +2,7 @@ from django.core import mail
 from django.db import models
 
 from multi_email_field.fields import MultiEmailField
-from wagtailstreamforms.models import BaseForm, EmailForm, FormField
+from wagtailstreamforms.models import BaseForm, EmailForm, FormField, FormSubmission
 
 from ..test_case import AppTestCase
 
@@ -58,6 +58,14 @@ class ModelPropertyTests(AppTestCase):
             field_type='singleline'
         )
         return form
+
+    def test_copy_is_right_class(self):
+        form = self.test_form()
+
+        copied = BaseForm.objects.get(pk=form.pk).copy()
+
+        self.assertNotEquals(copied.pk, form.pk)
+        self.assertEquals(copied.specific_class, form.specific_class)
 
     def test_process_form_submission__sends_an_email(self):
         form = self.test_form()

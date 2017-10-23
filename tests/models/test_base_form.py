@@ -91,9 +91,31 @@ class ModelPropertyTests(AppTestCase):
         ])
         return form
 
-    def test_get_form_fields(self):
+    def test_copy(self):
         form = self.test_form()
-        self.assertEquals(form.get_form_fields().count(), 13)
+
+        copied = form.copy()
+
+        self.assertNotEquals(copied.pk, form.pk)
+        self.assertEquals(copied.specific_class, form.specific_class)
+
+    def test_copy_has_form_fields(self):
+        form = self.test_form()
+
+        copied = form.copy()
+
+        self.assertEquals(copied.get_form_fields().count(), 13)
+
+    def test_copy_does_not_copy_form_submissions(self):
+        # it should never do any way as its a reverse fk but incase modelcluster
+        # ever changes we are testing for it
+
+        form = self.test_form()
+        FormSubmission.objects.create(form_data='{}', form=form)
+
+        copied = form.copy()
+
+        self.assertEquals(FormSubmission.objects.filter(form=copied).count(), 0)
 
     def test_get_data_fields(self):
         form = self.test_form()
@@ -114,10 +136,6 @@ class ModelPropertyTests(AppTestCase):
             ('regexfield', _('regexfield'))
         ]
         self.assertEquals(form.get_data_fields(), expected_fields)
-
-    def test_get_form_parameters(self):
-        form = BaseForm()
-        self.assertEquals(form.get_form_parameters(), {})
 
     def test_get_form(self):
         form = self.test_form()
@@ -140,6 +158,14 @@ class ModelPropertyTests(AppTestCase):
             'form_reference'
         ]
         self.assertEqual(actual_fields, expected_fields)
+
+    def test_get_form_fields(self):
+        form = self.test_form()
+        self.assertEquals(form.get_form_fields().count(), 13)
+
+    def test_get_form_parameters(self):
+        form = BaseForm()
+        self.assertEquals(form.get_form_parameters(), {})
 
     def test_get_submission_class(self):
         form = self.test_form()
