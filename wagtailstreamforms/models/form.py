@@ -4,6 +4,7 @@ import six
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from model_utils.managers import InheritanceManager
@@ -142,6 +143,25 @@ class BaseForm(ClusterableModel):
                 form_data=json.dumps(form.cleaned_data, cls=DjangoJSONEncoder),
                 form=self
             )
+
+    @cached_property
+    def specific(self):
+        """ Returns the specific form instance. """
+
+        # TODO: dig to see if another query can be avoided
+        try:
+            return BaseForm.objects.get_subclass(pk=self.pk)
+        except BaseForm.DoesNotExist:
+            return self
+
+    @cached_property
+    def specific_class(self):
+        """
+        Return the class that this form would be if instantiated in its
+        most specific form
+        """
+
+        return self.specific.__class__
 
 
 if recaptcha_enabled():  # pragma: no cover

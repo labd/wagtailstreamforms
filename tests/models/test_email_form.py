@@ -81,3 +81,13 @@ class ModelPropertyTests(AppTestCase):
         assert form_class.is_valid()
         form.process_form_submission(form_class)
         self.assertEquals(form.get_submission_class().objects.count(), 1)
+
+    def test_specific(self):
+        form = self.test_form()
+        self.assertEquals(form.specific, form)
+        self.assertEquals(BaseForm.objects.get(pk=form.pk).specific, form)
+
+    def test_specific_class(self):
+        form = self.test_form()
+        self.assertEquals(form.specific_class, form.__class__)
+        self.assertEquals(BaseForm.objects.get(pk=form.pk).specific_class, form.__class__)
