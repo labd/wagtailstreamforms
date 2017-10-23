@@ -1,9 +1,13 @@
-import django.forms
+from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
 from wagtail.wagtailforms.forms import FormBuilder as OrigFormBuilder
-
 from wagtailstreamforms.utils import recaptcha_enabled
+
+
+class CopyForm(forms.Form):
+    name = forms.CharField(label=_('Enter a new name'))
 
 
 class FormBuilder(OrigFormBuilder):
@@ -22,7 +26,7 @@ class FormBuilder(OrigFormBuilder):
         else:
             # otherwise allow anything
             options.update({'regex': '(.*?)'})
-        return django.forms.RegexField(**options)
+        return forms.RegexField(**options)
 
     OrigFormBuilder.FIELD_TYPES.update(
         {'regexfield': create_regex_field}
@@ -33,8 +37,8 @@ class FormBuilder(OrigFormBuilder):
         fields = super(FormBuilder, self).formfields
 
         # add form id to identify the form type
-        fields['form_id'] = django.forms.CharField(widget=django.forms.HiddenInput)
-        fields['form_reference'] = django.forms.CharField(widget=django.forms.HiddenInput)
+        fields['form_id'] = forms.CharField(widget=forms.HiddenInput)
+        fields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
 
         # if enabled add recaptcha field
         if self.add_recaptcha and recaptcha_enabled():
