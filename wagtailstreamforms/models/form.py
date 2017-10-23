@@ -80,15 +80,6 @@ class BaseForm(ClusterableModel):
         ordering = ['name', ]
         verbose_name = _('form')
 
-    def get_form_fields(self):
-        """
-        Form expects `form_fields` to be declared.
-        If you want to change backwards relation name,
-        you need to override this method.
-        """
-
-        return self.form_fields.all()
-
     def get_data_fields(self):
         """
         Returns a list of tuples with (field_name, field_label).
@@ -104,19 +95,28 @@ class BaseForm(ClusterableModel):
 
         return data_fields
 
-    def get_form_class(self):
-        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
-        return fb.get_form_class()
-
-    def get_form_parameters(self):
-        return {}
-
     def get_form(self, *args, **kwargs):
         form_class = self.get_form_class()
         form_params = self.get_form_parameters()
         form_params.update(kwargs)
 
         return form_class(*args, **form_params)
+
+    def get_form_class(self):
+        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
+        return fb.get_form_class()
+
+    def get_form_fields(self):
+        """
+        Form expects `form_fields` to be declared.
+        If you want to change backwards relation name,
+        you need to override this method.
+        """
+
+        return self.form_fields.all()
+
+    def get_form_parameters(self):
+        return {}
 
     def get_submission_class(self):
         """
