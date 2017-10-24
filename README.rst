@@ -9,8 +9,6 @@ your own form templates which will then appear as a template choice when
 you build your form. This allows you to decide how the form is submitted
 and to where.
 
-Documentation is currently being worked on but the basics are below
-
 Whats included?
 ---------------
 
@@ -21,6 +19,7 @@ Whats included?
 -  Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
 -  Recaptcha can be added to a form.
 -  You can also add site wide regex validators fo use in regex fields.
+-  A form and it's fields can easily be copied to a new form.
 
 Documentation
 -------------
