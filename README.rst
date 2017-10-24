@@ -20,6 +20,7 @@ Whats included?
 -  Recaptcha can be added to a form.
 -  You can also add site wide regex validators fo use in regex fields.
 -  A form and it's fields can easily be copied to a new form.
+-  There is a template tag that can be used to render a form. Incase you want it to appear outside a streamfield.
 
 Documentation
 -------------

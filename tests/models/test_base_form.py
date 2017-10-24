@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -36,6 +37,12 @@ class ModelFieldTests(AppTestCase):
         field = self.get_field(BaseForm, 'name')
         self.assertModelField(field, models.CharField)
         self.assertEquals(field.max_length, 255)
+
+    def test_slug(self):
+        field = self.get_field(BaseForm, 'slug')
+        self.assertModelField(field, models.SlugField, True, True)
+        self.assertEquals(field.max_length, 255)
+        self.assertTrue(field.allow_unicode)
 
     def test_template_name(self):
         field = self.get_field(BaseForm, 'template_name')
@@ -90,6 +97,35 @@ class ModelPropertyTests(AppTestCase):
             FormField(form=form, label='regexfield', field_type='regexfield')
         ])
         return form
+
+    def test_clean_raises_error_when_duplicate_slug(self):
+        form = self.test_form()
+        form.slug = 'foo'
+        form.save()
+        new_form = BaseForm(name=form.name, slug=form.slug)
+
+        with self.assertRaises(ValidationError) as cm:
+            new_form.clean()
+
+        self.assertEquals(
+            cm.exception.message_dict,
+            {'slug': ['This slug is already in use']}
+        )
+
+    def test_clean_ok_for_null_slug(self):
+        form = self.test_form()
+        form.slug = 'foo'
+        form.save()
+        new_form = BaseForm(name=form.name)
+
+        self.assertIsNone(new_form.clean())
+
+    def test_clean_ok_for_self(self):
+        form = self.test_form()
+        form.slug = 'foo'
+        form.save()
+
+        self.assertIsNone(form.clean())
 
     def test_copy(self):
         form = self.test_form()

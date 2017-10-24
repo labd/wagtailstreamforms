@@ -58,9 +58,9 @@ class FormButtonHelper(ButtonHelper):
 
 class FormModelAdmin(ModelAdmin):
     model = BaseForm
-    list_display = ('name', 'latest_submission_date', 'number_of_submissions')
+    list_display = ('name', 'slug', 'latest_submission_date', 'number_of_submissions')
     menu_icon = 'icon icon-form'
-    search_fields = ('name', )
+    search_fields = ('name', 'slug')
     button_helper_class = FormButtonHelper
     url_helper_class = FormURLHelper
 

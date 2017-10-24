@@ -2,6 +2,7 @@ import json
 import six
 from collections import defaultdict
 
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -24,6 +25,13 @@ class BaseForm(ClusterableModel):
 
     name = models.CharField(
         max_length=255
+    )
+    slug = models.SlugField(
+        allow_unicode=True,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_('Used to identify the form in template tags')
     )
     template_name = models.CharField(
         verbose_name='template',
@@ -57,6 +65,7 @@ class BaseForm(ClusterableModel):
 
     settings_panels = [
         FieldPanel('name', classname='full'),
+        FieldPanel('slug'),
         FieldPanel('template_name'),
         FieldPanel('submit_button_text'),
         FieldPanel('success_message', classname='full'),
@@ -82,10 +91,15 @@ class BaseForm(ClusterableModel):
         ordering = ['name', ]
         verbose_name = _('form')
 
+    def clean(self):
+        super(BaseForm, self).clean()
+        if BaseForm.objects.filter(slug=self.slug, slug__isnull=False).exclude(pk=self.pk).exists():
+            raise ValidationError({'slug': _("This slug is already in use")})
+
     def copy(self):
         """ Copy this form and its fields. """
 
-        exclude_fields = ['id', ]
+        exclude_fields = ['id', 'slug']
         specific_self = self.specific
         specific_dict = {}
 
