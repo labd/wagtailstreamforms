@@ -1,4 +1,4 @@
-FROM python:3.6-slim
+FROM python:3.6
 
 # Copy the application code to the container:
 RUN mkdir /code/
