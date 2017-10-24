@@ -7,7 +7,7 @@ from wagtailstreamforms.utils import recaptcha_enabled
 
 
 class CopyForm(forms.Form):
-    name = forms.CharField(label=_('Enter a new name'))
+    name = forms.CharField(label=_('New name'))
 
 
 class FormBuilder(OrigFormBuilder):
