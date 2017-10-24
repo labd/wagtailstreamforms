@@ -1,13 +1,15 @@
 import json
 import six
+from collections import defaultdict
 
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from model_utils.managers import InheritanceManager
-from modelcluster.models import ClusterableModel
+from modelcluster.models import ClusterableModel, get_all_child_relations
 from multi_email_field.fields import MultiEmailField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, TabbedInterface, ObjectList, PageChooserPanel
 from wagtailstreamforms.conf import settings
@@ -80,14 +82,65 @@ class BaseForm(ClusterableModel):
         ordering = ['name', ]
         verbose_name = _('form')
 
-    def get_form_fields(self):
-        """
-        Form expects `form_fields` to be declared.
-        If you want to change backwards relation name,
-        you need to override this method.
-        """
+    def copy(self):
+        """ Copy this form and its fields. """
 
-        return self.form_fields.all()
+        exclude_fields = ['id', ]
+        specific_self = self.specific
+        specific_dict = {}
+
+        for field in specific_self._meta.get_fields():
+
+            # ignore explicitly excluded fields
+            if field.name in exclude_fields:
+                continue  # pragma: no cover
+
+            # ignore reverse relations
+            if field.auto_created:
+                continue  # pragma: no cover
+
+            # ignore m2m relations - they will be copied as child objects
+            # if modelcluster supports them at all (as it does for tags)
+            if field.many_to_many:
+                continue  # pragma: no cover
+
+            # ignore parent links (baseform_ptr)
+            if isinstance(field, models.OneToOneField) and field.rel.parent_link:
+                continue  # pragma: no cover
+
+            specific_dict[field.name] = getattr(specific_self, field.name)
+
+        # new instance from prepared dict values, in case the instance class implements multiple levels inheritance
+        form_copy = self.specific_class(**specific_dict)
+
+        # a dict that maps child objects to their new ids
+        # used to remap child object ids in revisions
+        child_object_id_map = defaultdict(dict)
+
+        form_copy.save()
+
+        # copy child objects
+        for child_relation in get_all_child_relations(specific_self):
+            accessor_name = child_relation.get_accessor_name()
+            parental_key_name = child_relation.field.attname
+            child_objects = getattr(specific_self, accessor_name, None)
+
+            if child_objects:
+                for child_object in child_objects.all():
+                    old_pk = child_object.pk
+                    child_object.pk = None
+                    setattr(child_object, parental_key_name, form_copy.id)
+                    child_object.save()
+
+                    # add mapping to new primary key (so we can apply this change to revisions)
+                    child_object_id_map[accessor_name][old_pk] = child_object.pk
+
+            else:  # we should never get here as there is always a FormField child class
+                pass  # pragma: no cover
+
+        return form_copy
+
+    copy.alters_data = True
 
     def get_data_fields(self):
         """
@@ -104,19 +157,28 @@ class BaseForm(ClusterableModel):
 
         return data_fields
 
-    def get_form_class(self):
-        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
-        return fb.get_form_class()
-
-    def get_form_parameters(self):
-        return {}
-
     def get_form(self, *args, **kwargs):
         form_class = self.get_form_class()
         form_params = self.get_form_parameters()
         form_params.update(kwargs)
 
         return form_class(*args, **form_params)
+
+    def get_form_class(self):
+        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
+        return fb.get_form_class()
+
+    def get_form_fields(self):
+        """
+        Form expects `form_fields` to be declared.
+        If you want to change backwards relation name,
+        you need to override this method.
+        """
+
+        return self.form_fields.all()
+
+    def get_form_parameters(self):
+        return {}
 
     def get_submission_class(self):
         """
@@ -142,6 +204,23 @@ class BaseForm(ClusterableModel):
                 form_data=json.dumps(form.cleaned_data, cls=DjangoJSONEncoder),
                 form=self
             )
+
+    @cached_property
+    def specific(self):
+        """ Returns the specific form instance. """
+
+        # TODO: dig to see if another query is executed and if we can avoid it
+        # We already know the PK is good as self is an instance
+        return BaseForm.objects.get_subclass(pk=self.pk)
+
+    @cached_property
+    def specific_class(self):
+        """
+        Return the class that this form would be if instantiated in its
+        most specific form
+        """
+
+        return self.specific.__class__
 
 
 if recaptcha_enabled():  # pragma: no cover
