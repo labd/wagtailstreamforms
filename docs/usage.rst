@@ -13,8 +13,8 @@ Just add the ``wagtailstreamforms.blocks.WagtailFormBlock()`` in any of your str
 
 And you are ready to go.
 
-Template tag
-------------
+Using the template tag
+----------------------
 
 There is also a template tag you can use outside of a streamfield (but within a page served by wagtail).
 
@@ -22,7 +22,7 @@ All this is doing is rendering the form using the same block as in the streamfie
 
 The tag takes three parameters:
 
-* **slug**: The ``slug`` of the form. If your form doesn't have one please add one.
+* **slug**: The ``slug`` of the form.
 * **reference**: This should be a unique string and needs to be persistent on refresh/reload. See note below.
 * **action**: The form action url.
 
@@ -38,5 +38,5 @@ Usage:
 ::
 
     {% load streamforms_tags %}
-    {% streamforms_form slug="the-slug" reference="some-very-unique-reference" action="." %}
+    {% streamforms_form slug="form-slug" reference="some-very-unique-reference" action="." %}
 
