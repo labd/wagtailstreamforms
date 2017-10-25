@@ -51,7 +51,7 @@ path under a templates directory ie ``app/templates/streamforms/non_existent_for
 Messaging
 ---------
 
-When the ``success message`` option is completed in the form builder and upon successful submission of the form
+When the ``success`` or ``error`` message options are completed in the form builder and upon submission of the form
 a message is sent to django's messaging framework.
 
 You will need to add ``django.contrib.messages`` to your ``INSTALLED_APPS`` setting:
@@ -78,4 +78,4 @@ similar to the following:
     </ul>
     {% endif %}
 
-Any success message from the form will then be displayed.
+Any message from the form will then be displayed.
