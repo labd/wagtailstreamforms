@@ -1,4 +1,6 @@
 import json
+import uuid
+
 import six
 from collections import defaultdict
 
@@ -29,8 +31,7 @@ class BaseForm(ClusterableModel):
     slug = models.SlugField(
         allow_unicode=True,
         max_length=255,
-        null=True,
-        blank=True,
+        unique=True,
         help_text=_('Used to identify the form in template tags')
     )
     template_name = models.CharField(
@@ -91,11 +92,6 @@ class BaseForm(ClusterableModel):
         ordering = ['name', ]
         verbose_name = _('form')
 
-    def clean(self):
-        super(BaseForm, self).clean()
-        if BaseForm.objects.filter(slug=self.slug, slug__isnull=False).exclude(pk=self.pk).exists():
-            raise ValidationError({'slug': _("This slug is already in use")})
-
     def copy(self):
         """ Copy this form and its fields. """
 
@@ -130,6 +126,9 @@ class BaseForm(ClusterableModel):
         # a dict that maps child objects to their new ids
         # used to remap child object ids in revisions
         child_object_id_map = defaultdict(dict)
+
+        # create the slug - temp as will be changed from the copy form
+        form_copy.slug = uuid.uuid4()
 
         form_copy.save()
 

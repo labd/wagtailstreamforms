@@ -1,12 +1,23 @@
+from django import forms
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseDetailView
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
-
-from wagtailstreamforms.forms import CopyForm
 from wagtailstreamforms.wagtail_hooks import FormURLHelper
 from wagtailstreamforms.models import BaseForm
+
+
+class CopyForm(forms.Form):
+    name = forms.CharField(label=_('New name'))
+    slug = forms.SlugField(label=_('New slug'))
+
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        if BaseForm.objects.filter(slug=slug).exists():
+            raise forms.ValidationError("This slug is already in use")
+        return slug
 
 
 class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
@@ -38,6 +49,8 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
             copied = self.object.copy()
             copied.name = form.cleaned_data['name']
+            copied.slug = form.cleaned_data['slug']
+
             copied.save()
 
             return HttpResponseRedirect(self.get_success_url())
@@ -49,7 +62,7 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(object=self.object)
-        context['form'] = CopyForm(initial={'name': self.object.name})
+        context['form'] = CopyForm(initial={'name': self.object.name, 'slug': self.object.slug})
 
         return self.render_to_response(context)
 

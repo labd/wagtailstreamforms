@@ -14,7 +14,8 @@ class FormBuilderTests(AppTestCase):
     def setUp(self):
         self.form = BaseForm.objects.create(
             name='Form',
-            template_name='streamforms/form_block.html'
+            slug='form',
+            template_name='streamforms/form_block.html',
         )
         self.field = FormField.objects.create(
             form=self.form,

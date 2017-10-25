@@ -9,7 +9,7 @@ class AdminListViewTestCase(AppTestCase):
 
     def setUp(self):
         User.objects.create_superuser('user', 'user@test.com', 'password')
-        BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html')
+        BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html', slug='form')
 
         self.client.login(username='user', password='password')
 

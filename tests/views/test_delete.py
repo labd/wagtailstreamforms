@@ -10,7 +10,7 @@ class DeleteViewTestCase(AppTestCase):
 
     def setUp(self):
         User.objects.create_superuser('user', 'user@test.com', 'password')
-        form = BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html')
+        form = BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html', slug='form')
         s1 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         s2 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         FormSubmission.objects.create(form=form, form_data='{"foo":1}')
@@ -60,6 +60,7 @@ class DeleteViewPermissionTestCase(AppTestCase):
 
         self.basic_form = BasicForm.objects.create(
             name='Form',
+            slug='basic-form',
             template_name='streamforms/form_block.html'
         )
         self.basic_form_submission = FormSubmission.objects.create(
@@ -68,6 +69,7 @@ class DeleteViewPermissionTestCase(AppTestCase):
         )
         self.email_form = EmailForm.objects.create(
             name='Form',
+            slug='email-form',
             template_name='streamforms/form_block.html'
         )
         self.email_form_submission = FormSubmission.objects.create(

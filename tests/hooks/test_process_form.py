@@ -19,6 +19,7 @@ class TestHook(AppTestCase):
     def test_form(self, store_submission=False):
         form = BasicForm.objects.create(
             name='Form',
+            slug='form',
             template_name='streamforms/form_block.html',
             store_submission=store_submission
         )

@@ -40,9 +40,10 @@ class ModelFieldTests(AppTestCase):
 
     def test_slug(self):
         field = self.get_field(BaseForm, 'slug')
-        self.assertModelField(field, models.SlugField, True, True)
+        self.assertModelField(field, models.SlugField)
         self.assertEquals(field.max_length, 255)
         self.assertTrue(field.allow_unicode)
+        self.assertTrue(field.unique)
 
     def test_template_name(self):
         field = self.get_field(BaseForm, 'template_name')
@@ -79,7 +80,8 @@ class ModelPropertyTests(AppTestCase):
         form = BaseForm.objects.create(
             name='Form', 
             template_name='streamforms/form_block.html', 
-            store_submission=store_submission
+            store_submission=store_submission,
+            slug='form'
         )
         FormField.objects.bulk_create([
             FormField(form=form, label='singleline', field_type='singleline'),
@@ -100,32 +102,16 @@ class ModelPropertyTests(AppTestCase):
 
     def test_clean_raises_error_when_duplicate_slug(self):
         form = self.test_form()
-        form.slug = 'foo'
-        form.save()
-        new_form = BaseForm(name=form.name, slug=form.slug)
+
+        new_form = BaseForm(name=form.name, slug=form.slug, template_name=form.template_name)
 
         with self.assertRaises(ValidationError) as cm:
-            new_form.clean()
+            new_form.full_clean()
 
         self.assertEquals(
             cm.exception.message_dict,
-            {'slug': ['This slug is already in use']}
+            {'slug': ['Form with this Slug already exists.']}
         )
-
-    def test_clean_ok_for_null_slug(self):
-        form = self.test_form()
-        form.slug = 'foo'
-        form.save()
-        new_form = BaseForm(name=form.name)
-
-        self.assertIsNone(new_form.clean())
-
-    def test_clean_ok_for_self(self):
-        form = self.test_form()
-        form.slug = 'foo'
-        form.save()
-
-        self.assertIsNone(form.clean())
 
     def test_copy(self):
         form = self.test_form()

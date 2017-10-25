@@ -1,13 +1,8 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
 from wagtail.wagtailforms.forms import FormBuilder as OrigFormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
-
-
-class CopyForm(forms.Form):
-    name = forms.CharField(label=_('New name'))
 
 
 class FormBuilder(OrigFormBuilder):
