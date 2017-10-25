@@ -13,6 +13,7 @@ which will then appear as choices when you build your form. Allowing you to disp
 What else is included?
 ----------------------
 
+*  Customise things like success and error messages, post submit redirects and more.
 *  Forms are processed via a ``before_page_serve`` hook. Meaning there is no fuss like remembering to include a page mixin.
 *  The hook can easily be disabled to provide the ability to create your own.
 *  Forms are catagorised by their class in the cms admin for easier navigation.
