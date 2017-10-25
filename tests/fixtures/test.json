@@ -10,6 +10,7 @@
       "store_submission": true,
       "add_recaptcha": false,
       "success_message": "Thankyou",
+      "error_message": "Oops",
       "post_redirect_page": null
     }
   },
@@ -44,6 +45,7 @@
       "store_submission": true,
       "add_recaptcha": false,
       "success_message": "Thankyou",
+      "error_message": "Oops",
       "post_redirect_page": null
     }
   },

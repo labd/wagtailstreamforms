@@ -136,7 +136,7 @@ class TestHook(AppTestCase):
         self.assertEqual(self.mock_error_message.call_args[0][1], 'oops')
         self.assertEqual(self.mock_error_message.call_args[1], {'fail_silently': True})
 
-    def test_success_message__not_sent_when_form_has_no_message(self):
+    def test_error_message__not_sent_when_form_has_no_message(self):
         form = self.test_form()
         form.error_message = ''
         form.save()
@@ -187,4 +187,5 @@ class TestHook(AppTestCase):
         self.assertEquals(invalid_form.errors, {'name': ['This field is required.']})
 
     def tearDown(self):
+        self.mock_messages_error.stop()
         self.mock_messages_success.stop()
