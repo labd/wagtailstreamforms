@@ -14,7 +14,9 @@ class TestHook(AppTestCase):
 
     def setUp(self):
         self.page = Page.objects.get(url_path='/home/')
+        self.mock_messages_error = patch('django.contrib.messages.error')
         self.mock_messages_success = patch('django.contrib.messages.success')
+        self.mock_error_message = self.mock_messages_error.start()
         self.mock_success_message = self.mock_messages_success.start()
 
     def test_form(self):
@@ -117,6 +119,37 @@ class TestHook(AppTestCase):
         process_form(self.page, fake_request)
 
         assert not self.mock_success_message.called, 'messages.success should not have been called'
+
+    def test_error_message__sent_when_form_has_message(self):
+        form = self.test_form()
+        form.error_message = 'oops'
+        form.save()
+        fake_request = self.rf.post('/fake/', {
+            'name': '',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
+        fake_request.user = AnonymousUser()
+
+        process_form(self.page, fake_request)
+
+        self.assertEqual(self.mock_error_message.call_args[0][1], 'oops')
+        self.assertEqual(self.mock_error_message.call_args[1], {'fail_silently': True})
+
+    def test_success_message__not_sent_when_form_has_no_message(self):
+        form = self.test_form()
+        form.error_message = ''
+        form.save()
+        fake_request = self.rf.post('/fake/', {
+            'name': '',
+            'form_id': form.pk,
+            'form_reference': 'some-ref'
+        })
+        fake_request.user = AnonymousUser()
+
+        process_form(self.page, fake_request)
+
+        assert not self.mock_error_message.called, 'messages.error should not have been called'
 
     def test_invalid_form_id_returns_nothing(self):
         self.test_form()

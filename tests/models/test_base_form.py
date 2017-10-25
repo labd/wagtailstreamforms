@@ -69,6 +69,11 @@ class ModelFieldTests(AppTestCase):
         self.assertModelField(field, models.CharField, False, True)
         self.assertEquals(field.max_length, 255)
 
+    def test_error_message(self):
+        field = self.get_field(BaseForm, 'error_message')
+        self.assertModelField(field, models.CharField, False, True)
+        self.assertEquals(field.max_length, 255)
+
     def test_post_redirect_page(self):
         field = self.get_field(BaseForm, 'post_redirect_page')
         self.assertModelPKField(field, Page, models.SET_NULL, True, True)
