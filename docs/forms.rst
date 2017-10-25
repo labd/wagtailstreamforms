@@ -83,13 +83,12 @@ Example:
            return form_data
 
 .. note:: Its important to note here that the ``form.page`` and ``form.user`` seen above are passed in via the
-   ``wagtailstreamforms.models.StreamFormPageMixin`` which is for forms that post to their own page.
+   ``before_serve_page`` hook ``wagtailstreamforms.wagtail_hooks.process_form``.
 
    If you want to use a different method of saving the form and you require these you will need to pass
-   them in yourself.
+   them in yourself when adding ``request.POST`` to the form.
 
-   Example usage cam be seen in the mixins serve method
-   `here <https://github.com/AccentDesign/wagtailstreamforms/blob/master/wagtailstreamforms/models/mixins.py#L55>`_.
+   Example usage can be seen in :ref:`rst_provide_own_submission`
 
 Reference
 ---------

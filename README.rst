@@ -3,24 +3,21 @@ Wagtail StreamForms
 
 |CircleCI| |Codecov|
 
-This package is currently a concept but allows you to add add forms that
-are built in the cms admin area to any streamfield. You can also create
-your own form templates which will then appear as a template choice when
-you build your form. This allows you to decide how the form is submitted
-and to where.
+Allows you to built forms in the cms admin area and add them to any streamfield in your site.
+You can create your own types of forms meaning an endless array of possibilities. Templates can be created
+which will then appear as choices when you build your form. Allowing you to display and submit a form however you want.
 
-Whats included?
----------------
+What else is included?
+----------------------
 
--  Forms can be built in the cms admin and used site wide in any streamfield.
--  You can create your own form templates to display/submit how ever you wish to do it.
--  There is a ``before_page_serve`` hook that will handle the form ``POST`` submission. Which can easily be disabled to provide your own.
--  Forms are catagorised by their class in the cms admin for easier navigation.
--  Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
--  Recaptcha can be added to a form.
--  You can also add site wide regex validators fo use in regex fields.
--  A form and it's fields can easily be copied to a new form.
--  There is a template tag that can be used to render a form. Incase you want it to appear outside a streamfield.
+*  Forms are processed via a ``before_page_serve`` hook. Meaning there is no fuss like remembering to include a page mixin.
+*  The hook can easily be disabled to provide the ability to create your own.
+*  Forms are catagorised by their class in the cms admin for easier navigation.
+*  Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
+*  You can add site wide regex validators for use in regex fields.
+*  A form and it's fields can easily be copied to a new form.
+*  There is a template tag that can be used to render a form. Incase you want it to appear outside a streamfield.
+*  Recaptcha can be added to a form.
 
 Documentation
 -------------

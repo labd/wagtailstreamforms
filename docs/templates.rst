@@ -4,7 +4,7 @@ Form Templates
 You can create your own form templates to use against any form in the system, providing a vast array of ways to
 create, style and submit your forms.
 
-The default `template <https://github.com/AccentDesign/wagtailstreamforms/blob/master/wagtailstreamforms/templates/streamforms/form_block.html>`_ used can be seen below:
+The default template located at ``streamforms/form_block.html`` can be seen below:
 
 .. code-block:: html
 
@@ -18,7 +18,7 @@ The default `template <https://github.com/AccentDesign/wagtailstreamforms/blob/m
         <input type="submit" value="{{ value.form.submit_button_text }}">
     </form>
 
-.. note:: It is important here to keep the hidden fields the form will create an additional field for the form id.
+.. note:: It is important here to keep the hidden fields as the form will have some in order to process correctly.
 
 Once you have created you own you will need to add it to the list of available templates. 
 

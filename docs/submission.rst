@@ -3,12 +3,16 @@ Form Submission
 
 Form submissions are handled by the means of a wagtail ``before_serve_page`` hook. The built in hook at
 ``wagtailstreamforms.wagtail_hooks.process_form`` looks for a form in the post request,
-and either processes it redirecting back to the current page or just renders the page with
-any validation errors if there are any.
+and either:
+
+* processes it redirecting back to the current page or defined page in the form setup.
+* or renders the current page with any validation error.
 
 If no form was posted then the page serves in the usual manner.
 
 .. note:: Currently the hook expects the form to be posting to the same page it exists on.
+
+.. _rst_provide_own_submission:
 
 Providing your own submission method
 ------------------------------------
@@ -21,10 +25,6 @@ If you do not want the current hook to be used you need to disable it by setting
     WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = False
 
 With this set no forms will be processed of any kind and you are free to process them how you feel fit.
-
-* Your own hook
-* A page mixin
-* A view in django
 
 An example of a hook:
 
