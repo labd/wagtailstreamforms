@@ -10,19 +10,10 @@ class ModelGenericTests(AppTestCase):
 
 
 class ModelPropertyTests(AppTestCase):
+    fixtures = ['test.json']
 
-    def test_form(self, store_submission=False):
-        form = BasicForm.objects.create(
-            name='Form',
-            slug='form',
-            template_name='streamforms/form_block.html',
-            store_submission=store_submission
-        )
-        FormField.objects.create(
-            form=form,
-            label='name',
-            field_type='singleline'
-        )
+    def test_form(self):
+        form = BasicForm.objects.get(pk=1)
         return form
 
     def test_copy_is_right_class(self):

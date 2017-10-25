@@ -9,10 +9,11 @@ from ..test_case import AppTestCase
 
 
 class ListViewTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         User.objects.create_superuser('user', 'user@test.com', 'password')
-        form = BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html', slug='form')
+        form = BasicForm.objects.get(pk=1)
         s1 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         s1.submit_time = datetime(2017, 1, 1, 0, 0, 0, 0)
         s1.save()
@@ -58,20 +59,13 @@ class ListViewTestCase(AppTestCase):
 
 
 class ListViewPermissionTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@test.com', 'password')
 
-        self.basic_form = BasicForm.objects.create(
-            name='Form',
-            slug='b-form',
-            template_name='streamforms/form_block.html'
-        )
-        self.email_form = EmailForm.objects.create(
-            name='Form',
-            slug='e-form',
-            template_name='streamforms/form_block.html'
-        )
+        self.basic_form = BasicForm.objects.get(pk=1)
+        self.email_form = EmailForm.objects.get(pk=2)
 
         self.basic_list_url = reverse('streamforms_submissions', kwargs={'pk': self.basic_form.pk})
         self.email_list_url = reverse('streamforms_submissions', kwargs={'pk': self.email_form.pk})

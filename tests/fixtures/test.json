@@ -1,0 +1,76 @@
+[
+  {
+    "model": "wagtailstreamforms.baseform",
+    "pk": 1,
+    "fields": {
+      "name": "Basic Form",
+      "slug": "basic-form",
+      "template_name": "streamforms/form_block.html",
+      "submit_button_text": "Submit",
+      "store_submission": true,
+      "add_recaptcha": false,
+      "success_message": "Thankyou",
+      "post_redirect_page": null
+    }
+  },
+  {
+    "model": "wagtailstreamforms.basicform",
+    "pk": 1,
+    "fields": {}
+  },
+  {
+    "model": "wagtailstreamforms.formfield",
+    "pk": 1,
+    "fields": {
+      "sort_order": 0,
+      "label": "Name",
+      "required": true,
+      "choices": "",
+      "default_value": "",
+      "help_text": "Please enter your name",
+      "field_type": "singleline",
+      "regex_validator": null,
+      "form": 1
+    }
+  },
+  {
+    "model": "wagtailstreamforms.baseform",
+    "pk": 2,
+    "fields": {
+      "name": "Email Form",
+      "slug": "email-form",
+      "template_name": "streamforms/form_block.html",
+      "submit_button_text": "Submit",
+      "store_submission": true,
+      "add_recaptcha": false,
+      "success_message": "Thankyou",
+      "post_redirect_page": null
+    }
+  },
+  {
+    "model": "wagtailstreamforms.emailform",
+    "pk": 2,
+    "fields": {
+      "subject": "New Form Submission",
+      "from_address": "from@example.com",
+      "to_addresses": "['to@example.com']",
+      "message": "Please see below submission",
+      "fail_silently": true
+    }
+  },
+  {
+    "model": "wagtailstreamforms.formfield",
+    "pk": 2,
+    "fields": {
+      "sort_order": 0,
+      "label": "Name",
+      "required": true,
+      "choices": "",
+      "default_value": "",
+      "help_text": "Please enter your name",
+      "field_type": "singleline",
+      "regex_validator": null,
+      "form": 2
+    }
+  }
+]

@@ -10,13 +10,10 @@ from ..test_case import AppTestCase
 
 
 class FormBuilderTests(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
-        self.form = BaseForm.objects.create(
-            name='Form',
-            slug='form',
-            template_name='streamforms/form_block.html',
-        )
+        self.form = BaseForm.objects.get(pk=2)
         self.field = FormField.objects.create(
             form=self.form,
             label='My regex',
