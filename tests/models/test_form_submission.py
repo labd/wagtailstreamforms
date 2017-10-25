@@ -35,21 +35,16 @@ class ModelFieldTests(AppTestCase):
 
 
 class ModelPropertyTests(AppTestCase):
+    fixtures = ['test.json']
 
     def test_get_data(self):
-        form = BaseForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html'
-        )
+        form = BaseForm.objects.get(pk=1)
         model = FormSubmission.objects.create(form_data='{"foo": 1}', form=form)
         expected_data = {"foo": 1, "submit_time": model.submit_time}
         self.assertEquals(model.get_data(), expected_data)
 
     def test_get_data_blank(self):
-        form = BaseForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html'
-        )
+        form = BaseForm.objects.get(pk=1)
         model = FormSubmission.objects.create(form_data='{}', form=form)
         expected_data = {"submit_time": model.submit_time}
         self.assertEquals(model.get_data(), expected_data)

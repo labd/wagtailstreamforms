@@ -7,10 +7,11 @@ from ..test_case import AppTestCase
 
 
 class DeleteViewTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         User.objects.create_superuser('user', 'user@test.com', 'password')
-        form = BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html')
+        form = BasicForm.objects.get(pk=1)
         s1 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         s2 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         FormSubmission.objects.create(form=form, form_data='{"foo":1}')
@@ -54,22 +55,17 @@ class DeleteViewTestCase(AppTestCase):
 
 
 class DeleteViewPermissionTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@test.com', 'password')
 
-        self.basic_form = BasicForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html'
-        )
+        self.basic_form = BasicForm.objects.get(pk=1)
         self.basic_form_submission = FormSubmission.objects.create(
             form=self.basic_form,
             form_data='{}'
         )
-        self.email_form = EmailForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html'
-        )
+        self.email_form = EmailForm.objects.get(pk=2)
         self.email_form_submission = FormSubmission.objects.create(
             form=self.email_form,
             form_data='{}'

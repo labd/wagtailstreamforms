@@ -10,23 +10,15 @@ from ..test_case import AppTestCase
 
 
 class TestHook(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         self.page = Page.objects.get(url_path='/home/')
         self.mock_messages_success = patch('django.contrib.messages.success')
         self.mock_success_message = self.mock_messages_success.start()
 
-    def test_form(self, store_submission=False):
-        form = BasicForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html',
-            store_submission=store_submission
-        )
-        FormField.objects.create(
-            form=form,
-            label='name',
-            field_type='singleline'
-        )
+    def test_form(self):
+        form = BasicForm.objects.get(pk=1)
         return form
 
     def test_get_returns_nothing(self):
@@ -83,7 +75,7 @@ class TestHook(AppTestCase):
         self.assertRedirects(response, self.page.get_url(fake_request))
 
     def test_valid_post_saves_submission(self):
-        form = self.test_form(True)
+        form = self.test_form()
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
             'form_id': form.pk,
@@ -113,6 +105,8 @@ class TestHook(AppTestCase):
 
     def test_success_message__not_sent_when_form_has_no_message(self):
         form = self.test_form()
+        form.success_message = ''
+        form.save()
         fake_request = self.rf.post('/fake/', {
             'name': 'Bill',
             'form_id': form.pk,

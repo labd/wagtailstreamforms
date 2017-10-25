@@ -41,22 +41,10 @@ class ModelFieldTests(AppTestCase):
 
 
 class ModelPropertyTests(AppTestCase):
+    fixtures = ['test.json']
 
-    def test_form(self, store_submission=False):
-        form = EmailForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html',
-            store_submission=store_submission,
-            subject='Form Submission',
-            from_address='foo@example.com',
-            to_addresses=['foo@example.com', 'bar@example.com'],
-            message='See data below:'
-        )
-        FormField.objects.create(
-            form=form,
-            label='name',
-            field_type='singleline'
-        )
+    def test_form(self):
+        form = EmailForm.objects.get(pk=2)
         return form
 
     def test_copy_is_right_class(self):
@@ -80,7 +68,7 @@ class ModelPropertyTests(AppTestCase):
         self.assertEqual(mail.outbox[0].subject, form.subject)
 
     def test_process_form_submission__still_saves_submission(self):
-        form = self.test_form(True)
+        form = self.test_form()
         form_class = form.get_form({
             'name': 'foo',
             'form_id': form.pk,

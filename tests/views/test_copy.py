@@ -8,12 +8,13 @@ from ..test_case import AppTestCase
 
 
 class CopyViewTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         User.objects.create_superuser('user', 'user@test.com', 'password')
-        form = BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html')
+        self.form = BasicForm.objects.get(pk=1)
 
-        self.copy_url = reverse('streamforms_copy', kwargs={'pk': form.pk})
+        self.copy_url = reverse('streamforms_copy', kwargs={'pk': self.form.pk})
         self.invalid_copy_url = reverse('streamforms_copy', kwargs={'pk': 100})
 
         self.client.login(username='user', password='password')
@@ -27,26 +28,32 @@ class CopyViewTestCase(AppTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertInHTML('This field is required.', str(response.content))
 
+    def test_invalid_form_slug_in_use_error(self):
+        response = self.client.post(self.copy_url, data={'name': 'new copy', 'slug': self.form.slug})
+        self.assertEquals(response.status_code, 200)
+        self.assertInHTML("This slug is already in use", str(response.content))
+
     def test_invalid_pk_raises_404(self):
         response = self.client.get(self.invalid_copy_url)
         self.assertEquals(response.status_code, 404)
 
     def test_post_copies(self):
-        self.client.post(self.copy_url, data={'name': 'new copy'})
+        self.client.post(self.copy_url, data={'name': 'new copy', 'slug': 'new-slug'})
         self.assertEquals(BasicForm.objects.count(), 2)
 
     def test_post_redirects(self):
-        response = self.client.post(self.copy_url, data={'name': 'new copy'})
+        response = self.client.post(self.copy_url, data={'name': 'new copy', 'slug': 'new-slug'})
         url_helper = FormURLHelper(model=BasicForm)
         self.assertRedirects(response, url_helper.index_url)
 
 
 class CopyViewPermissionTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@test.com', 'password')
-        basic_form = BasicForm.objects.create(name='Form', template_name='streamforms/form_block.html')
-        email_form = EmailForm.objects.create(name='Form', template_name='streamforms/form_block.html')
+        basic_form = BasicForm.objects.get(pk=1)
+        email_form = EmailForm.objects.get(pk=2)
         self.basic_copy_url = reverse('streamforms_copy', kwargs={'pk': basic_form.pk})
         self.email_copy_url = reverse('streamforms_copy', kwargs={'pk': email_form.pk})
 

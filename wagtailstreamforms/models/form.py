@@ -1,7 +1,10 @@
 import json
+import uuid
+
 import six
 from collections import defaultdict
 
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -24,6 +27,12 @@ class BaseForm(ClusterableModel):
 
     name = models.CharField(
         max_length=255
+    )
+    slug = models.SlugField(
+        allow_unicode=True,
+        max_length=255,
+        unique=True,
+        help_text=_('Used to identify the form in template tags')
     )
     template_name = models.CharField(
         verbose_name='template',
@@ -57,6 +66,7 @@ class BaseForm(ClusterableModel):
 
     settings_panels = [
         FieldPanel('name', classname='full'),
+        FieldPanel('slug'),
         FieldPanel('template_name'),
         FieldPanel('submit_button_text'),
         FieldPanel('success_message', classname='full'),
@@ -85,7 +95,7 @@ class BaseForm(ClusterableModel):
     def copy(self):
         """ Copy this form and its fields. """
 
-        exclude_fields = ['id', ]
+        exclude_fields = ['id', 'slug']
         specific_self = self.specific
         specific_dict = {}
 
@@ -116,6 +126,9 @@ class BaseForm(ClusterableModel):
         # a dict that maps child objects to their new ids
         # used to remap child object ids in revisions
         child_object_id_map = defaultdict(dict)
+
+        # create the slug - temp as will be changed from the copy form
+        form_copy.slug = uuid.uuid4()
 
         form_copy.save()
 

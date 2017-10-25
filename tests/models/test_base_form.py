@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -37,6 +38,13 @@ class ModelFieldTests(AppTestCase):
         self.assertModelField(field, models.CharField)
         self.assertEquals(field.max_length, 255)
 
+    def test_slug(self):
+        field = self.get_field(BaseForm, 'slug')
+        self.assertModelField(field, models.SlugField)
+        self.assertEquals(field.max_length, 255)
+        self.assertTrue(field.allow_unicode)
+        self.assertTrue(field.unique)
+
     def test_template_name(self):
         field = self.get_field(BaseForm, 'template_name')
         self.assertModelField(field, models.CharField)
@@ -72,7 +80,8 @@ class ModelPropertyTests(AppTestCase):
         form = BaseForm.objects.create(
             name='Form', 
             template_name='streamforms/form_block.html', 
-            store_submission=store_submission
+            store_submission=store_submission,
+            slug='form'
         )
         FormField.objects.bulk_create([
             FormField(form=form, label='singleline', field_type='singleline'),
@@ -90,6 +99,19 @@ class ModelPropertyTests(AppTestCase):
             FormField(form=form, label='regexfield', field_type='regexfield')
         ])
         return form
+
+    def test_clean_raises_error_when_duplicate_slug(self):
+        form = self.test_form()
+
+        new_form = BaseForm(name=form.name, slug=form.slug, template_name=form.template_name)
+
+        with self.assertRaises(ValidationError) as cm:
+            new_form.full_clean()
+
+        self.assertEquals(
+            cm.exception.message_dict,
+            {'slug': ['Form with this Slug already exists.']}
+        )
 
     def test_copy(self):
         form = self.test_form()
