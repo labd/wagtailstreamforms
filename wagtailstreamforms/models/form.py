@@ -4,7 +4,6 @@ import uuid
 import six
 from collections import defaultdict
 
-from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -14,7 +13,14 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel, get_all_child_relations
 from multi_email_field.fields import MultiEmailField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, TabbedInterface, ObjectList, PageChooserPanel
+from wagtail.wagtailadmin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    TabbedInterface,
+    ObjectList,
+    PageChooserPanel,
+    MultiFieldPanel
+)
 from wagtailstreamforms.conf import settings
 from wagtailstreamforms.forms import FormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
@@ -55,6 +61,11 @@ class BaseForm(ClusterableModel):
         max_length=255,
         help_text=_('An optional success message to show when the form has been successfully submitted')
     )
+    error_message = models.CharField(
+        blank=True,
+        max_length=255,
+        help_text=_('An optional error message to show when the form has validation errors')
+    )
     post_redirect_page = models.ForeignKey(
         'wagtailcore.Page',
         models.SET_NULL,
@@ -69,7 +80,10 @@ class BaseForm(ClusterableModel):
         FieldPanel('slug'),
         FieldPanel('template_name'),
         FieldPanel('submit_button_text'),
-        FieldPanel('success_message', classname='full'),
+        MultiFieldPanel([
+            FieldPanel('success_message'),
+            FieldPanel('error_message'),
+        ], 'Messages'),
         FieldPanel('store_submission'),
         PageChooserPanel('post_redirect_page')
     ]

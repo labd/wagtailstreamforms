@@ -72,6 +72,10 @@ An example of a hook:
                         'invalid_stream_form': form
                     })
 
+                    # create error message
+                    if form_def.error_message:
+                        messages.error(request, form_def.error_message, fail_silently=True)
+
                     return TemplateResponse(
                         request,
                         page.get_template(request, *args, **kwargs),

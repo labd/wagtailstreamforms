@@ -1442,6 +1442,10 @@ footer{
     border:1px solid #43b1b0;
     background:#e5f5f5;
     color:#43b1b0; }
+  .messages li.error{
+    border:1px solid #ff4136;
+    background:#ffeae9;
+    color:#ff4136; }
 .b-white{
   background-color:white; }
 

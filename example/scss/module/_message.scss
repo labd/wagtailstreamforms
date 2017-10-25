@@ -16,4 +16,10 @@
         color: color(primary);
     }
 
+    li.error {
+        border: 1px solid color(red);
+        background: lighten(color(red), 35%);
+        color: color(red);
+    }
+
 }
