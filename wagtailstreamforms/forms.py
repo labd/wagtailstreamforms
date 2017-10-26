@@ -23,9 +23,8 @@ class FormBuilder(OrigFormBuilder):
             options.update({'regex': '(.*?)'})
         return forms.RegexField(**options)
 
-    OrigFormBuilder.FIELD_TYPES.update(
-        {'regexfield': create_regex_field}
-    )
+    # doing this here rather than init as although works test are failing all over the place
+    OrigFormBuilder.FIELD_TYPES.update({'regexfield': create_regex_field})
 
     @property
     def formfields(self):
@@ -37,6 +36,6 @@ class FormBuilder(OrigFormBuilder):
 
         # if enabled add recaptcha field
         if self.add_recaptcha and recaptcha_enabled():
-            fields['recaptcha'] = ReCaptchaField()
+            fields['recaptcha'] = ReCaptchaField(label='')
 
         return fields
