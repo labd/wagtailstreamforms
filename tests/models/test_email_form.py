@@ -1,8 +1,8 @@
 from django.core import mail
 from django.db import models
 
-from multi_email_field.fields import MultiEmailField
-from wagtailstreamforms.models import BaseForm, EmailForm, FormField, FormSubmission
+from wagtailstreamforms.fields import MultiEmailField
+from wagtailstreamforms.models import BaseForm, EmailForm
 
 from ..test_case import AppTestCase
 
