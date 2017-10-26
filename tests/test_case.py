@@ -47,10 +47,10 @@ class AppTestCase(TestCase):
 
     def assertModelPKField(self, field, rel_to, on_delete, null=False, blank=False, related_name=None):
         self.assertEqual(field.__class__, models.ForeignKey)
-        self.assertEqual(field.rel.to, rel_to)
-        self.assertEqual(field.rel.on_delete, on_delete)
+        self.assertEqual(field.remote_field.model, rel_to)
+        self.assertEqual(field.remote_field.on_delete, on_delete)
         self.assertEqual(field.null, null)
         self.assertEqual(field.blank, blank)
 
         if related_name:
-            self.assertEqual(field.rel.related_name, related_name)
+            self.assertEqual(field.remote_field.related_name, related_name)
