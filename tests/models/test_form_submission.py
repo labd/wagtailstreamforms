@@ -12,7 +12,7 @@ class ModelGenericTests(AppTestCase):
 
     def test_str(self):
         model = FormSubmission(form_data='{"foo": 1}')
-        self.assertEquals(model.__str__(), model.form_data)
+        self.assertEqual(model.__str__(), model.form_data)
 
     def test_ordering(self):
         self.assertEqual(FormSubmission._meta.ordering, ['-submit_time', ])
@@ -41,10 +41,10 @@ class ModelPropertyTests(AppTestCase):
         form = BaseForm.objects.get(pk=1)
         model = FormSubmission.objects.create(form_data='{"foo": 1}', form=form)
         expected_data = {"foo": 1, "submit_time": model.submit_time}
-        self.assertEquals(model.get_data(), expected_data)
+        self.assertEqual(model.get_data(), expected_data)
 
     def test_get_data_blank(self):
         form = BaseForm.objects.get(pk=1)
         model = FormSubmission.objects.create(form_data='{}', form=form)
         expected_data = {"submit_time": model.submit_time}
-        self.assertEquals(model.get_data(), expected_data)
+        self.assertEqual(model.get_data(), expected_data)

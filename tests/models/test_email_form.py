@@ -13,7 +13,7 @@ class ModelGenericTests(AppTestCase):
         self.assertTrue(issubclass(EmailForm, BaseForm))
 
     def test_ignored_fields(self):
-        self.assertEquals(EmailForm.ignored_fields, ['recaptcha', 'form_id', 'form_reference'])
+        self.assertEqual(EmailForm.ignored_fields, ['recaptcha', 'form_id', 'form_reference'])
 
 
 class ModelFieldTests(AppTestCase):
@@ -21,7 +21,7 @@ class ModelFieldTests(AppTestCase):
     def test_subject(self):
         field = self.get_field(EmailForm, 'subject')
         self.assertModelField(field, models.CharField)
-        self.assertEquals(field.max_length, 255)
+        self.assertEqual(field.max_length, 255)
 
     def test_from_address(self):
         field = self.get_field(EmailForm, 'from_address')
@@ -52,8 +52,8 @@ class ModelPropertyTests(AppTestCase):
 
         copied = BaseForm.objects.get(pk=form.pk).copy()
 
-        self.assertNotEquals(copied.pk, form.pk)
-        self.assertEquals(copied.specific_class, form.specific_class)
+        self.assertNotEqual(copied.pk, form.pk)
+        self.assertEqual(copied.specific_class, form.specific_class)
 
     def test_process_form_submission__sends_an_email(self):
         form = self.test_form()
@@ -76,14 +76,14 @@ class ModelPropertyTests(AppTestCase):
         })
         assert form_class.is_valid()
         form.process_form_submission(form_class)
-        self.assertEquals(form.get_submission_class().objects.count(), 1)
+        self.assertEqual(form.get_submission_class().objects.count(), 1)
 
     def test_specific(self):
         form = self.test_form()
-        self.assertEquals(form.specific, form)
-        self.assertEquals(BaseForm.objects.get(pk=form.pk).specific, form)
+        self.assertEqual(form.specific, form)
+        self.assertEqual(BaseForm.objects.get(pk=form.pk).specific, form)
 
     def test_specific_class(self):
         form = self.test_form()
-        self.assertEquals(form.specific_class, form.__class__)
-        self.assertEquals(BaseForm.objects.get(pk=form.pk).specific_class, form.__class__)
+        self.assertEqual(form.specific_class, form.__class__)
+        self.assertEqual(BaseForm.objects.get(pk=form.pk).specific_class, form.__class__)

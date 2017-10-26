@@ -87,7 +87,7 @@ class TestHook(AppTestCase):
 
         process_form(self.page, fake_request)
 
-        self.assertEquals(form.get_submission_class().objects.count(), 1)
+        self.assertEqual(form.get_submission_class().objects.count(), 1)
 
     def test_success_message__sent_when_form_has_message(self):
         form = self.test_form()
@@ -180,11 +180,11 @@ class TestHook(AppTestCase):
 
         response = process_form(self.page, fake_request)
 
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.context_data['invalid_stream_form_reference'], 'some-ref')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['invalid_stream_form_reference'], 'some-ref')
 
         invalid_form = response.context_data['invalid_stream_form']
-        self.assertEquals(invalid_form.errors, {'name': ['This field is required.']})
+        self.assertEqual(invalid_form.errors, {'name': ['This field is required.']})
 
     def tearDown(self):
         self.mock_messages_error.stop()

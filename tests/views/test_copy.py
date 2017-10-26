@@ -21,25 +21,25 @@ class CopyViewTestCase(AppTestCase):
 
     def test_get_responds(self):
         response = self.client.get(self.copy_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_invalid_form_responds(self):
         response = self.client.post(self.copy_url, data={})
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertInHTML('This field is required.', str(response.content))
 
     def test_invalid_form_slug_in_use_error(self):
         response = self.client.post(self.copy_url, data={'name': 'new copy', 'slug': self.form.slug})
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertInHTML("This slug is already in use", str(response.content))
 
     def test_invalid_pk_raises_404(self):
         response = self.client.get(self.invalid_copy_url)
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_post_copies(self):
         self.client.post(self.copy_url, data={'name': 'new copy', 'slug': 'new-slug'})
-        self.assertEquals(BasicForm.objects.count(), 2)
+        self.assertEqual(BasicForm.objects.count(), 2)
 
     def test_post_redirects(self):
         response = self.client.post(self.copy_url, data={'name': 'new copy', 'slug': 'new-slug'})
@@ -59,19 +59,19 @@ class CopyViewPermissionTestCase(AppTestCase):
 
     def test_no_user_no_access(self):
         response = self.client.get(self.basic_copy_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
         response = self.client.get(self.email_copy_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_user_with_no_perm_no_access(self):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_copy_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
         response = self.client.get(self.email_copy_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_user_with_add_perm_has_access(self):
         basic_form_perm = Permission.objects.get(codename='add_basicform')
@@ -81,7 +81,7 @@ class CopyViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_copy_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.email_copy_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)

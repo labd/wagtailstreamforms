@@ -21,15 +21,15 @@ class ModelPropertyTests(AppTestCase):
 
         copied = BaseForm.objects.get(pk=form.pk).copy()
 
-        self.assertNotEquals(copied.pk, form.pk)
-        self.assertEquals(copied.specific_class, form.specific_class)
+        self.assertNotEqual(copied.pk, form.pk)
+        self.assertEqual(copied.specific_class, form.specific_class)
 
     def test_specific(self):
         form = self.test_form()
-        self.assertEquals(form.specific, form)
-        self.assertEquals(BaseForm.objects.get(pk=form.pk).specific, form)
+        self.assertEqual(form.specific, form)
+        self.assertEqual(BaseForm.objects.get(pk=form.pk).specific, form)
 
     def test_specific_class(self):
         form = self.test_form()
-        self.assertEquals(form.specific_class, form.__class__)
-        self.assertEquals(BaseForm.objects.get(pk=form.pk).specific_class, form.__class__)
+        self.assertEqual(form.specific_class, form.__class__)
+        self.assertEqual(BaseForm.objects.get(pk=form.pk).specific_class, form.__class__)

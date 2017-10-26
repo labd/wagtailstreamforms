@@ -12,7 +12,7 @@ class ModelGenericTests(AppTestCase):
 
     def test_str(self):
         model = RegexFieldValidator(name="foo")
-        self.assertEquals(model.__str__(), model.name)
+        self.assertEqual(model.__str__(), model.name)
 
     def test_ordering(self):
         self.assertEqual(RegexFieldValidator._meta.ordering, ['name', ])
@@ -23,7 +23,7 @@ class ModelFieldTests(AppTestCase):
     def test_name(self):
         field = self.get_field(RegexFieldValidator, 'name')
         self.assertModelField(field, models.CharField)
-        self.assertEquals(field.max_length, 255)
+        self.assertEqual(field.max_length, 255)
 
     def test_description(self):
         field = self.get_field(RegexFieldValidator, 'description')
@@ -36,4 +36,4 @@ class ModelFieldTests(AppTestCase):
     def test_error_message(self):
         field = self.get_field(RegexFieldValidator, 'error_message')
         self.assertModelField(field, models.CharField)
-        self.assertEquals(field.max_length, 255)
+        self.assertEqual(field.max_length, 255)
