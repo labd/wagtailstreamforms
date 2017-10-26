@@ -1,7 +1,7 @@
 from os import environ
 from os.path import dirname, abspath, join
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 SITE_DIR = dirname(abspath(__file__))
 
