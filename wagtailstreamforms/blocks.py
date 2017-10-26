@@ -33,7 +33,7 @@ class FormChooserBlock(blocks.ChooserBlock):
             return value
         else:
             try:
-                return self.target_model.objects.get_subclass(pk=value)
+                return self.target_model.objects.get(pk=value).specific
             except self.target_model.DoesNotExist:
                 return None
 

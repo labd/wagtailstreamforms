@@ -33,7 +33,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
         try:
-            return BaseForm.objects.get_subclass(pk=pk)
+            return self.model.objects.get(pk=pk).specific
         except self.model.DoesNotExist:
             raise Http404(_("No BaseForm found matching the query"))
 
