@@ -35,7 +35,7 @@ What else is included?
    submission
    permissions
    recaptcha
-   additional
+   settings
    screenshots
 
 

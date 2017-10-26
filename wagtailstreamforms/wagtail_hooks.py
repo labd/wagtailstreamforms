@@ -93,6 +93,7 @@ class RegexFieldValidatorModelAdmin(ModelAdmin):
 @modeladmin_register
 class FormGroup(ModelAdminGroup):
     menu_label = _(settings.WAGTAILSTREAMFORMS_ADMIN_MENU_LABEL)
+    menu_order = settings.WAGTAILSTREAMFORMS_ADMIN_MENU_ORDER
     menu_icon = 'icon icon-form'
     items = form_admins + [
         RegexFieldValidatorModelAdmin
