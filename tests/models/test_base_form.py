@@ -1,6 +1,5 @@
 import json
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -10,6 +9,7 @@ from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel
 from wagtail.wagtailcore.models import Page
 
+from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import BaseForm, FormField, FormSubmission
 
 from ..test_case import AppTestCase
@@ -49,7 +49,7 @@ class ModelFieldTests(AppTestCase):
         field = self.get_field(BaseForm, 'template_name')
         self.assertModelField(field, models.CharField)
         self.assertEquals(field.max_length, 255)
-        self.assertEquals(field.choices, settings.WAGTAILSTREAMFORMS_FORM_TEMPLATES)
+        self.assertEquals(field.choices, get_setting('FORM_TEMPLATES'))
 
     def test_submit_button_text(self):
         field = self.get_field(BaseForm, 'submit_button_text')
