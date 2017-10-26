@@ -10,6 +10,7 @@ class AppTestCase(TestCase):
     def rf(self):
         return RequestFactory()
 
+    @staticmethod
     def setupModels(*models):
         """ Create test models """
         with connection.schema_editor(atomic=True) as schema_editor:
