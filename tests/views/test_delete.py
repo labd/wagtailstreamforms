@@ -27,15 +27,15 @@ class DeleteViewTestCase(AppTestCase):
 
     def test_get_responds(self):
         response = self.client.get(self.multiple_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_invalid_pk_raises_404(self):
         response = self.client.get(self.invalid_delete_url)
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_get_context_has_submissions(self):
         response = self.client.get(self.multiple_url)
-        self.assertEquals(response.context['submissions'].count(), 2)
+        self.assertEqual(response.context['submissions'].count(), 2)
 
     def test_get_response_confirm_text__plural(self):
         response = self.client.get(self.multiple_url)
@@ -47,7 +47,7 @@ class DeleteViewTestCase(AppTestCase):
 
     def test_post_deletes(self):
         self.client.post(self.multiple_url)
-        self.assertEquals(FormSubmission.objects.count(), 1)
+        self.assertEqual(FormSubmission.objects.count(), 1)
 
     def test_post_redirects(self):
         response = self.client.post(self.multiple_url)
@@ -97,10 +97,10 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_delete_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
         response = self.client.get(self.email_delete_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_user_with_delete_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
@@ -111,10 +111,10 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_delete_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.email_delete_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_permissions_are_on_an_class_type_basis(self):
         access_admin = Permission.objects.get(codename='access_admin')
@@ -124,9 +124,9 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_delete_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         # user should not be able to access this as they have no got
         # any delete_emailform perm
         response = self.client.get(self.email_delete_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)

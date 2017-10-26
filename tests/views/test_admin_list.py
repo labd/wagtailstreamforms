@@ -12,4 +12,4 @@ class AdminListViewTestCase(AppTestCase):
 
     def test_get_responds(self):
         response = self.client.get('/cms/wagtailstreamforms/basicform/')
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)

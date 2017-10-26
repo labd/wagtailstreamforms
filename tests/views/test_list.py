@@ -32,30 +32,30 @@ class ListViewTestCase(AppTestCase):
 
     def test_get_responds(self):
         response = self.client.get(self.list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_invalid_pk_raises_404(self):
         response = self.client.get(self.invalid_list_url)
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_get_context(self):
         response = self.client.get(self.list_url)
         self.assertIn('filter_form', response.context)
         self.assertIn('data_rows', response.context)
         self.assertIn('data_headings', response.context)
-        self.assertEquals(len(response.context['data_rows']), 3)
+        self.assertEqual(len(response.context['data_rows']), 3)
 
     def test_get_filtering(self):
         response = self.client.get(self.filter_url)
-        self.assertEquals(len(response.context['data_rows']), 2)
+        self.assertEqual(len(response.context['data_rows']), 2)
 
     def test_get_filtering_doesnt_happen_with_invalid_form(self):
         response = self.client.get(self.invalid_filter_url)
-        self.assertEquals(len(response.context['data_rows']), 3)
+        self.assertEqual(len(response.context['data_rows']), 3)
 
     def test_get_csv(self):
         response = self.client.get(self.csv_url)
-        self.assertEquals(response.get('Content-Disposition'), "attachment;filename=export.csv")
+        self.assertEqual(response.get('Content-Disposition'), "attachment;filename=export.csv")
 
 
 class ListViewPermissionTestCase(AppTestCase):
@@ -86,10 +86,10 @@ class ListViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_list_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
         response = self.client.get(self.email_list_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_user_with_add_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
@@ -102,10 +102,10 @@ class ListViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.email_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_user_with_change_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
@@ -118,10 +118,10 @@ class ListViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.email_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_user_with_delete_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
@@ -134,10 +134,10 @@ class ListViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(self.email_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_permissions_are_on_an_class_type_basis(self):
         access_admin = Permission.objects.get(codename='access_admin')
@@ -149,9 +149,9 @@ class ListViewPermissionTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_list_url)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
         # user should not be able to access this as they have no got
         # any *_emailform perm
         response = self.client.get(self.email_list_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
