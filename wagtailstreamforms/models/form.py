@@ -256,6 +256,8 @@ if recaptcha_enabled():  # pragma: no cover
 class BasicForm(BaseForm):
     """ A basic form. """
 
+    objects = models.Manager()
+
 
 class EmailForm(BaseForm):
     """ A form that sends and email. """
@@ -274,6 +276,8 @@ class EmailForm(BaseForm):
     fail_silently = models.BooleanField(
         default=True
     )
+
+    objects = models.Manager()
 
     email_panels = [
         FieldPanel('subject', classname="full"),

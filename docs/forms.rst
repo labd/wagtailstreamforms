@@ -49,6 +49,8 @@ Example:
    class CustomForm(BaseForm):
        """ A form that saves the current user and page. """
 
+       objects = models.Manager()
+
        def get_data_fields(self):
            data_fields = super(ExampleForm, self).get_data_fields()
            data_fields += [
