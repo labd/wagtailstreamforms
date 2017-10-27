@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
@@ -10,6 +11,7 @@ from wagtail.wagtailcore.models import Page
 
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import BaseForm, FormField, FormSubmission
+from wagtailstreamforms.models.form import get_default_form_content_type
 
 from ..test_case import AppTestCase
 
@@ -26,6 +28,9 @@ class ModelGenericTests(AppTestCase):
     def test_ordering(self):
         self.assertEqual(BaseForm._meta.ordering, ['name', ])
 
+    def test_get_default_form_content_type(self):
+        self.assertEqual(get_default_form_content_type(), ContentType.objects.get_for_model(BaseForm))
+
 
 class ModelFieldTests(AppTestCase):
 
@@ -40,6 +45,13 @@ class ModelFieldTests(AppTestCase):
         self.assertEqual(field.max_length, 255)
         self.assertTrue(field.allow_unicode)
         self.assertTrue(field.unique)
+
+    def test_content_type(self):
+        field = self.get_field(BaseForm, 'content_type')
+        self.assertEqual(field.__class__, models.ForeignKey)
+        self.assertEqual(field.remote_field.model, ContentType)
+        self.assertFalse(field.null)
+        self.assertFalse(field.blank)
 
     def test_template_name(self):
         field = self.get_field(BaseForm, 'template_name')

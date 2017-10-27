@@ -32,6 +32,7 @@ def get_default_form_content_type():
     Returns the content type to use as a default for forms whose content type
     has been deleted.
     """
+
     return ContentType.objects.get_for_model(BaseForm)
 
 
@@ -253,6 +254,7 @@ class BaseForm(ClusterableModel):
         """
         Return this form in its most specific subclassed form.
         """
+
         # the ContentType.objects manager keeps a cache, so this should potentially
         # avoid a database lookup over doing self.content_type. I think.
         content_type = ContentType.objects.get_for_id(self.content_type_id)
@@ -263,7 +265,7 @@ class BaseForm(ClusterableModel):
             # on a different git branch and we haven't rolled back migrations before
             # switching branches); if so, the best we can do is return the form
             # unchanged.
-            return self
+            return self  # pragma: no cover
         elif isinstance(self, model_class):
             # self is already the an instance of the most specific class
             return self
@@ -276,6 +278,7 @@ class BaseForm(ClusterableModel):
         Return the class that this page would be if instantiated in its
         most specific form
         """
+
         content_type = ContentType.objects.get_for_id(self.content_type_id)
         return content_type.model_class()
 
