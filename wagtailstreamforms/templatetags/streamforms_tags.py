@@ -35,10 +35,12 @@ def streamforms_form(context, slug, reference, action='.', **kwargs):
     block = WagtailFormBlock()
 
     # take what context we need for the form
+    # we are adding messages here incase its needed
     block_context = {
         'invalid_stream_form_reference': context.get('invalid_stream_form_reference'),
         'invalid_stream_form': context.get('invalid_stream_form'),
-        'csrf_token': context.get('csrf_token')
+        'csrf_token': context.get('csrf_token'),
+        'messages': context.get('messages')
     }
 
     return block.render(block.to_python({
