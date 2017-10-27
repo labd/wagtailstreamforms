@@ -18,18 +18,6 @@ Once thats done you should add both ``wagtail.contrib.modeladmin`` and ``wagtail
         ...
     ]
 
-Add the required urls:
-
-.. code-block:: python
-
-    from wagtailstreamforms import urls as streamforms_urls
-
-    urlpatterns = [
-        ...
-        url(r'^streamforms/', include(streamforms_urls)),
-        ...
-    ]
-
 Run migrations:
 
 .. code-block:: bash

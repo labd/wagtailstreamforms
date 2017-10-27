@@ -16,12 +16,12 @@ class DeleteViewTestCase(AppTestCase):
         s2 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         FormSubmission.objects.create(form=form, form_data='{"foo":1}')
 
-        delete_url = reverse('streamforms_delete_submissions', kwargs={'pk': form.pk})
+        delete_url = reverse('wagtailstreamforms:streamforms_delete_submissions', kwargs={'pk': form.pk})
 
-        self.invalid_delete_url = reverse('streamforms_delete_submissions', kwargs={'pk': 100})
+        self.invalid_delete_url = reverse('wagtailstreamforms:streamforms_delete_submissions', kwargs={'pk': 100})
         self.single_url = '{}?selected-submissions={}'.format(delete_url, s1.pk)
         self.multiple_url = '{}?selected-submissions={}&selected-submissions={}'.format(delete_url, s1.pk, s2.pk)
-        self.redirect_url = reverse('streamforms_submissions', kwargs={'pk': form.pk})
+        self.redirect_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': form.pk})
 
         self.client.login(username='user', password='password')
 
@@ -72,23 +72,28 @@ class DeleteViewPermissionTestCase(AppTestCase):
         )
 
         self.basic_delete_url = '{}?selected-submissions={}'.format(
-            reverse('streamforms_delete_submissions', kwargs={'pk': self.basic_form.pk}),
+            reverse('wagtailstreamforms:streamforms_delete_submissions', kwargs={'pk': self.basic_form.pk}),
             self.basic_form_submission.pk
         )
 
         self.email_delete_url = '{}?selected-submissions={}'.format(
-            reverse('streamforms_delete_submissions', kwargs={'pk': self.email_form.pk}),
+            reverse('wagtailstreamforms:streamforms_delete_submissions', kwargs={'pk': self.email_form.pk}),
             self.email_form_submission.pk
         )
 
     def test_no_user_no_access(self):
         response = self.client.get(self.basic_delete_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
         response = self.client.get(self.email_delete_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
     def test_user_with_no_perm_no_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
+        self.user.user_permissions.add(access_admin)
+
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_delete_url)
@@ -98,9 +103,10 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_user_with_delete_perm_has_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='delete_basicform')
         email_form_perm = Permission.objects.get(codename='delete_emailform')
-        self.user.user_permissions.add(basic_form_perm, email_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
 
         self.client.login(username='user', password='password')
 
@@ -111,8 +117,9 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_permissions_are_on_an_class_type_basis(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='delete_basicform')
-        self.user.user_permissions.add(basic_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm)
 
         self.client.login(username='user', password='password')
 

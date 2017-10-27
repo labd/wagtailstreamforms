@@ -1,3 +1,4 @@
+from django.conf.urls import include, url
 from django.contrib import messages
 from django.contrib.admin.utils import quote
 from django.shortcuts import redirect
@@ -17,9 +18,9 @@ from wagtailstreamforms.utils import get_form_instance_from_request, get_valid_s
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
         if action == 'copy':
-            return reverse('streamforms_copy', args=args, kwargs=kwargs)
+            return reverse('wagtailstreamforms:streamforms_copy', args=args, kwargs=kwargs)
         elif action == 'submissions':
-            return reverse('streamforms_submissions', args=args, kwargs=kwargs)
+            return reverse('wagtailstreamforms:streamforms_submissions', args=args, kwargs=kwargs)
         return super(FormURLHelper, self).get_action_url(action, *args, **kwargs)
 
 
@@ -88,6 +89,14 @@ class RegexFieldValidatorModelAdmin(ModelAdmin):
     list_display = ('name', )
     menu_icon = 'icon icon-tick'
     search_fields = ('name', )
+
+
+@hooks.register('register_admin_urls')
+def register_admin_urls():
+    from wagtailstreamforms import urls
+    return [
+        url(r'^wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
+    ]
 
 
 @modeladmin_register

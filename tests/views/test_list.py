@@ -22,8 +22,8 @@ class ListViewTestCase(AppTestCase):
         s2.save()
         FormSubmission.objects.create(form=form, form_data='{"foo":1}')
 
-        self.list_url = reverse('streamforms_submissions', kwargs={'pk': form.pk})
-        self.invalid_list_url = reverse('streamforms_submissions', kwargs={'pk': 100})
+        self.list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': form.pk})
+        self.invalid_list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': 100})
         self.filter_url = '{}?date_from=2017-01-01&date_to=2017-01-02&action=filter'.format(self.list_url)
         self.invalid_filter_url = '{}?date_from=xx&date_to=xx&action=filter'.format(self.list_url)
         self.csv_url = '{}?date_from=2017-01-01&date_to=2017-01-02&action=CSV'.format(self.list_url)
@@ -67,17 +67,22 @@ class ListViewPermissionTestCase(AppTestCase):
         self.basic_form = BasicForm.objects.get(pk=1)
         self.email_form = EmailForm.objects.get(pk=2)
 
-        self.basic_list_url = reverse('streamforms_submissions', kwargs={'pk': self.basic_form.pk})
-        self.email_list_url = reverse('streamforms_submissions', kwargs={'pk': self.email_form.pk})
+        self.basic_list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.basic_form.pk})
+        self.email_list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.email_form.pk})
 
     def test_no_user_no_access(self):
         response = self.client.get(self.basic_list_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
         response = self.client.get(self.email_list_url)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
     def test_user_with_no_perm_no_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
+        self.user.user_permissions.add(access_admin)
+
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_list_url)
@@ -87,9 +92,12 @@ class ListViewPermissionTestCase(AppTestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_user_with_add_perm_has_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='add_basicform')
         email_form_perm = Permission.objects.get(codename='add_emailform')
-        self.user.user_permissions.add(basic_form_perm, email_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        self.user.is_staff = True
+        self.user.save()
 
         self.client.login(username='user', password='password')
 
@@ -100,9 +108,12 @@ class ListViewPermissionTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_with_change_perm_has_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='change_basicform')
         email_form_perm = Permission.objects.get(codename='change_emailform')
-        self.user.user_permissions.add(basic_form_perm, email_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        self.user.is_staff = True
+        self.user.save()
 
         self.client.login(username='user', password='password')
 
@@ -113,9 +124,12 @@ class ListViewPermissionTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_user_with_delete_perm_has_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='delete_basicform')
         email_form_perm = Permission.objects.get(codename='delete_emailform')
-        self.user.user_permissions.add(basic_form_perm, email_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        self.user.is_staff = True
+        self.user.save()
 
         self.client.login(username='user', password='password')
 
@@ -126,8 +140,11 @@ class ListViewPermissionTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_permissions_are_on_an_class_type_basis(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='add_basicform')
-        self.user.user_permissions.add(basic_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm)
+        self.user.is_staff = True
+        self.user.save()
 
         self.client.login(username='user', password='password')
 

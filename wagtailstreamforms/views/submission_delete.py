@@ -58,4 +58,4 @@ class SubmissionDeleteView(DeleteView):
         )
 
     def get_success_url(self):
-        return reverse('streamforms_submissions', kwargs={'pk': self.object.pk})
+        return reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.object.pk})
