@@ -5,7 +5,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel
 from wagtail.wagtailcore.models import Page
 
@@ -19,9 +18,6 @@ class ModelGenericTests(AppTestCase):
 
     def test_inheritance(self):
         self.assertTrue(issubclass(BaseForm, ClusterableModel))
-
-    def test_manager(self):
-        self.assertTrue(isinstance(BaseForm._default_manager, InheritanceManager))
 
     def test_str(self):
         model = BaseForm(name='form')

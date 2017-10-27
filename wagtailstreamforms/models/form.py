@@ -3,13 +3,13 @@ import json
 import six
 import uuid
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel, get_all_child_relations
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel,
@@ -27,6 +27,14 @@ from wagtailstreamforms.utils import recaptcha_enabled
 from .submission import FormSubmission
 
 
+def get_default_form_content_type():
+    """
+    Returns the content type to use as a default for forms whose content type
+    has been deleted.
+    """
+    return ContentType.objects.get_for_model(BaseForm)
+
+
 class BaseForm(ClusterableModel):
     """ A form base class, any form should inherit from this. """
 
@@ -38,6 +46,12 @@ class BaseForm(ClusterableModel):
         max_length=255,
         unique=True,
         help_text=_('Used to identify the form in template tags')
+    )
+    content_type = models.ForeignKey(
+        'contenttypes.ContentType',
+        verbose_name=_('content type'),
+        related_name='streamforms',
+        on_delete=models.SET(get_default_form_content_type)
     )
     template_name = models.CharField(
         verbose_name='template',
@@ -96,7 +110,10 @@ class BaseForm(ClusterableModel):
         ObjectList(field_panels, heading='Fields'),
     ])
 
-    objects = InheritanceManager()
+    def __init__(self, *args, **kwargs):
+        super(BaseForm, self).__init__(*args, **kwargs)
+        if not self.id:
+            self.content_type = ContentType.objects.get_for_model(self)
 
     def __str__(self):
         return self.name
@@ -233,20 +250,34 @@ class BaseForm(ClusterableModel):
 
     @cached_property
     def specific(self):
-        """ Returns the specific form instance. """
-
-        # TODO: dig to see if another query is executed and if we can avoid it
-        # We already know the PK is good as self is an instance
-        return BaseForm.objects.get_subclass(pk=self.pk)
+        """
+        Return this form in its most specific subclassed form.
+        """
+        # the ContentType.objects manager keeps a cache, so this should potentially
+        # avoid a database lookup over doing self.content_type. I think.
+        content_type = ContentType.objects.get_for_id(self.content_type_id)
+        model_class = content_type.model_class()
+        if model_class is None:
+            # Cannot locate a model class for this content type. This might happen
+            # if the codebase and database are out of sync (e.g. the model exists
+            # on a different git branch and we haven't rolled back migrations before
+            # switching branches); if so, the best we can do is return the form
+            # unchanged.
+            return self
+        elif isinstance(self, model_class):
+            # self is already the an instance of the most specific class
+            return self
+        else:
+            return content_type.get_object_for_this_type(id=self.id)
 
     @cached_property
     def specific_class(self):
         """
-        Return the class that this form would be if instantiated in its
+        Return the class that this page would be if instantiated in its
         most specific form
         """
-
-        return self.specific.__class__
+        content_type = ContentType.objects.get_for_id(self.content_type_id)
+        return content_type.model_class()
 
 
 if recaptcha_enabled():  # pragma: no cover
@@ -255,8 +286,6 @@ if recaptcha_enabled():  # pragma: no cover
 
 class BasicForm(BaseForm):
     """ A basic form. """
-
-    objects = models.Manager()
 
 
 class EmailForm(BaseForm):
@@ -276,8 +305,6 @@ class EmailForm(BaseForm):
     fail_silently = models.BooleanField(
         default=True
     )
-
-    objects = models.Manager()
 
     email_panels = [
         FieldPanel('subject', classname="full"),
