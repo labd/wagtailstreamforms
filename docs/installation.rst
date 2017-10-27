@@ -7,12 +7,13 @@ Wagtail Streamform is available on PyPI - to install it, just run:
   
     pip install wagtailstreamforms
 
-Once thats done you should add ``wagtailstreamforms`` to your ``INSTALLED_APPS`` settings:
+Once thats done you should add both ``wagtail.contrib.modeladmin`` and ``wagtailstreamforms`` to your ``INSTALLED_APPS`` settings:
 
 .. code-block:: python
 
     INSTALLED_APPS = [
         ...
+        'wagtail.contrib.modeladmin',
         'wagtailstreamforms'
         ...
     ]
