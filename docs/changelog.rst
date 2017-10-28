@@ -4,7 +4,7 @@ Changelog
 Whats next
 ----------
 
-* The templace tag now has the full page context incase u need a reference to the user or page
+* The template tag now has the full page context incase u need a reference to the user or page
 
 1.4.3
 -----
