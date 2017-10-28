@@ -27,17 +27,18 @@ def streamforms_form(context, slug, reference, action='.', **kwargs):
     {% streamforms_form "the-form-slug" "some-unique-reference" "." %}
     """
 
-    form = BaseForm.objects.filter(slug=slug).first()
+    try:
+        form = BaseForm.objects.get(slug=slug)
 
-    if not form:
+        block = WagtailFormBlock()
+
+        # the context is a RequestContext, we need to turn it into a dict or
+        # the blocks in wagtail will start to fail with dict(context)
+        return block.render(block.to_python({
+            'form': form.pk,
+            'form_action': action,
+            'form_reference': reference
+        }), context.flatten())
+
+    except BaseForm.DoesNotExist:
         return mark_safe('')
-
-    block = WagtailFormBlock()
-
-    # the context is a RequestContext, we need to turn it into a dict or
-    # the blocks in wagtail will start to fail with dict(context)
-    return block.render(block.to_python({
-        'form': form.pk,
-        'form_action': action,
-        'form_reference': reference
-    }), context.flatten())
