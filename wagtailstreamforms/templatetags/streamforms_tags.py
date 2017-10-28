@@ -34,17 +34,10 @@ def streamforms_form(context, slug, reference, action='.', **kwargs):
 
     block = WagtailFormBlock()
 
-    # take what context we need for the form
-    # we are adding messages here incase its needed
-    block_context = {
-        'invalid_stream_form_reference': context.get('invalid_stream_form_reference'),
-        'invalid_stream_form': context.get('invalid_stream_form'),
-        'csrf_token': context.get('csrf_token'),
-        'messages': context.get('messages')
-    }
-
+    # the context is a RequestContext, we need to turn it into a dict or
+    # the blocks in wagtail will start to fail with dict(context)
     return block.render(block.to_python({
         'form': form.pk,
         'form_action': action,
         'form_reference': reference
-    }), block_context)
+    }), context.flatten())
