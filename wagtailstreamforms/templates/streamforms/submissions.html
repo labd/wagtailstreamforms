@@ -30,7 +30,7 @@
     </header>
     <div>
         {% if object_list %}
-            <form action="{% url 'streamforms_delete_submissions' object.id %}" method="get">
+            <form action="{% url 'wagtailstreamforms:streamforms_delete_submissions' object.id %}" method="get">
                 {% include "streamforms/list_submissions.html" %}
                 {% include "streamforms/partials/pagination_nav.html" with items=page_obj %}
             </form>

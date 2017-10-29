@@ -14,8 +14,8 @@ class CopyViewTestCase(AppTestCase):
         User.objects.create_superuser('user', 'user@test.com', 'password')
         self.form = BasicForm.objects.get(pk=1)
 
-        self.copy_url = reverse('streamforms_copy', kwargs={'pk': self.form.pk})
-        self.invalid_copy_url = reverse('streamforms_copy', kwargs={'pk': 100})
+        self.copy_url = reverse('wagtailstreamforms:streamforms_copy', kwargs={'pk': self.form.pk})
+        self.invalid_copy_url = reverse('wagtailstreamforms:streamforms_copy', kwargs={'pk': 100})
 
         self.client.login(username='user', password='password')
 
@@ -54,17 +54,22 @@ class CopyViewPermissionTestCase(AppTestCase):
         self.user = User.objects.create_user('user', 'user@test.com', 'password')
         basic_form = BasicForm.objects.get(pk=1)
         email_form = EmailForm.objects.get(pk=2)
-        self.basic_copy_url = reverse('streamforms_copy', kwargs={'pk': basic_form.pk})
-        self.email_copy_url = reverse('streamforms_copy', kwargs={'pk': email_form.pk})
+        self.basic_copy_url = reverse('wagtailstreamforms:streamforms_copy', kwargs={'pk': basic_form.pk})
+        self.email_copy_url = reverse('wagtailstreamforms:streamforms_copy', kwargs={'pk': email_form.pk})
 
     def test_no_user_no_access(self):
         response = self.client.get(self.basic_copy_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
         response = self.client.get(self.email_copy_url)
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
     def test_user_with_no_perm_no_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
+        self.user.user_permissions.add(access_admin)
+
         self.client.login(username='user', password='password')
 
         response = self.client.get(self.basic_copy_url)
@@ -74,9 +79,12 @@ class CopyViewPermissionTestCase(AppTestCase):
         self.assertEquals(response.status_code, 403)
 
     def test_user_with_add_perm_has_access(self):
+        access_admin = Permission.objects.get(codename='access_admin')
         basic_form_perm = Permission.objects.get(codename='add_basicform')
         email_form_perm = Permission.objects.get(codename='add_emailform')
-        self.user.user_permissions.add(basic_form_perm, email_form_perm)
+        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        self.user.is_staff = True
+        self.user.save()
 
         self.client.login(username='user', password='password')
 

@@ -15,7 +15,7 @@
                 Are you sure you want to delete these form submissions?
             {% endblocktrans %}
         </p>
-        <form action="{% url 'streamforms_delete_submissions' object.id %}?{{ request.GET.urlencode }}" method="POST">
+        <form action="{% url 'wagtailstreamforms:streamforms_delete_submissions' object.id %}?{{ request.GET.urlencode }}" method="POST">
             {% csrf_token %}
             <input type="submit" value="{% trans 'Delete' %}" class="button serious">
         </form>
