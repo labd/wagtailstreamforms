@@ -21,7 +21,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     PageChooserPanel,
     MultiFieldPanel
 )
-from wagtailstreamforms.conf import settings
+from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.forms import FormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
 
@@ -43,7 +43,7 @@ class BaseForm(ClusterableModel):
     template_name = models.CharField(
         verbose_name='template',
         max_length=255,
-        choices=settings.WAGTAILSTREAMFORMS_FORM_TEMPLATES
+        choices=get_setting('FORM_TEMPLATES')
     )
     submit_button_text = models.CharField(
         max_length=100,

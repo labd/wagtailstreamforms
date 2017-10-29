@@ -9,7 +9,7 @@ from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
 from wagtail.wagtailcore import hooks
 
-from wagtailstreamforms.conf import settings
+from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import BaseForm, RegexFieldValidator
 from wagtailstreamforms.utils import get_form_instance_from_request, get_valid_subclasses
 
@@ -92,8 +92,8 @@ class RegexFieldValidatorModelAdmin(ModelAdmin):
 
 @modeladmin_register
 class FormGroup(ModelAdminGroup):
-    menu_label = _(settings.WAGTAILSTREAMFORMS_ADMIN_MENU_LABEL)
-    menu_order = settings.WAGTAILSTREAMFORMS_ADMIN_MENU_ORDER
+    menu_label = _(get_setting('ADMIN_MENU_LABEL'))
+    menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
     items = form_admins + [
         RegexFieldValidatorModelAdmin
@@ -105,7 +105,7 @@ def process_form(page, request, *args, **kwargs):
     """ Process the form if there is one, if not just continue. """
 
     # only process if settings.WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING is True
-    if not settings.WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING:
+    if not get_setting('ENABLE_FORM_PROCESSING'):
         return
 
     if request.method == 'POST':
