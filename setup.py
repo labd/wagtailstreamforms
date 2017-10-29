@@ -10,7 +10,6 @@ from wagtailstreamforms import __version__
 install_requires = [
     'Django>=1.11,<1.12',
     'django-model-utils>=3.0.0',
-    'django-multi-email-field>=0.5.1',
     'django-recaptcha>=1.3.1',
     'wagtail>=1.12,<2'
 ]

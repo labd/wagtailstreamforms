@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
-import multi_email_field.fields
+import wagtailstreamforms.fields
 
 
 class Migration(migrations.Migration):
@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
                 ('baseform_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailstreamforms.BaseForm')),
                 ('subject', models.CharField(max_length=255)),
                 ('from_address', models.EmailField(max_length=254)),
-                ('to_addresses', multi_email_field.fields.MultiEmailField()),
+                ('to_addresses', wagtailstreamforms.fields.MultiEmailField()),
                 ('message', models.TextField()),
                 ('fail_silently', models.BooleanField(default=True)),
             ],

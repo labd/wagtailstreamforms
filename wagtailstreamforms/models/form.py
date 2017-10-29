@@ -1,8 +1,7 @@
-import json
-import uuid
-
-import six
 from collections import defaultdict
+import json
+import six
+import uuid
 
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
@@ -12,7 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from model_utils.managers import InheritanceManager
 from modelcluster.models import ClusterableModel, get_all_child_relations
-from multi_email_field.fields import MultiEmailField
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -22,6 +20,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     MultiFieldPanel
 )
 from wagtailstreamforms.conf import get_setting
+from wagtailstreamforms.fields import MultiEmailField
 from wagtailstreamforms.forms import FormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
 
@@ -268,7 +267,9 @@ class EmailForm(BaseForm):
         max_length=255
     )
     from_address = models.EmailField()
-    to_addresses = MultiEmailField()
+    to_addresses = MultiEmailField(
+        help_text=_("Add one email per line")
+    )
     message = models.TextField()
     fail_silently = models.BooleanField(
         default=True
