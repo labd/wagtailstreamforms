@@ -4,6 +4,11 @@ Changelog
 Whats next
 ----------
 
+*
+
+1.4.4
+-----
+
 * The template tag now has the full page context incase u need a reference to the user or page
 
 1.4.3
