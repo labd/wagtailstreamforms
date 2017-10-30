@@ -9,7 +9,7 @@ Whats next
 1.5.1
 -----
 
-* Fix migrations being regenerated then template choices change
+* Fix migrations being regenerated when template choices change
 
 1.5.0
 -----
