@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 from django.conf import settings
 
+
 SETTINGS_PREFIX = 'WAGTAILSTREAMFORMS'
 SETTINGS_DEFAULTS = {
     'ADMIN_MENU_LABEL': 'Streamforms',
