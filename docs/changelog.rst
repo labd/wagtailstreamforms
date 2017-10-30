@@ -4,6 +4,11 @@ Changelog
 Whats next
 ----------
 
+*
+
+1.5.0
+-----
+
 * Removed all project dependencies except wagtail and recapcha
 * The urls no longer need to be specified in your ``urls.py`` and can be removed.
 
