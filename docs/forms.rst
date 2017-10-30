@@ -24,6 +24,26 @@ Example:
             super(CustomForm, self).process_form_submission(form) # handles the submission saving
             # do your own stuff here
 
+Custom email form model
+-----------------------
+
+If you want to inherit the additional email sending functionality then inherit from
+``wagtailstreamforms.models.AbstractEmailForm``. The saving of the submission and sending of the email
+is handled in the ``process_form_submission`` so be sure to call ``super`` if overriding that method.
+
+Example:
+
+.. code-block:: python
+
+    from wagtailstreamforms.models import AbstractEmailForm
+
+    class CustomEmailForm(AbstractEmailForm):
+         """ As above with email sending. """
+
+         def process_form_submission(self, form):
+             super(CustomEmailForm, self).process_form_submission(form) # handles the submission saving and emailing
+             # do your own stuff here
+
 Custom form submission model
 ----------------------------
 
@@ -96,14 +116,10 @@ Reference
 .. autoclass:: wagtailstreamforms.models.BaseForm
    :members:
 
-.. autoclass:: wagtailstreamforms.models.BasicForm
+
+.. autoclass:: wagtailstreamforms.models.AbstractEmailForm
    :members:
 
-.. autoclass:: wagtailstreamforms.models.EmailForm
-   :members:
 
 .. autoclass:: wagtailstreamforms.models.AbstractFormSubmission
-   :members:
-
-.. autoclass:: wagtailstreamforms.models.FormSubmission
    :members:
