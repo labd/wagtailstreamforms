@@ -6,6 +6,11 @@ Whats next
 
 *
 
+1.5.1
+-----
+
+* Fix migrations being regenerated then template choices change
+
 1.5.0
 -----
 
