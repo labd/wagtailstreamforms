@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
 
-from wagtailstreamforms.models import BasicForm
-
 from ..test_case import AppTestCase
 
 

@@ -291,8 +291,13 @@ class BasicForm(BaseForm):
     """ A basic form. """
 
 
-class EmailForm(BaseForm):
-    """ A form that sends and email. """
+class AbstractEmailForm(BaseForm):
+    """
+    A form that sends and email.
+
+    You can create custom form model based on this abstract model.
+    For example, if you need a form that will send an email.
+    """
 
     # do not add these fields to the email
     ignored_fields = ['recaptcha', 'form_id', 'form_reference']
@@ -323,11 +328,18 @@ class EmailForm(BaseForm):
         ObjectList(email_panels, heading='Email Submission'),
     ])
 
+    class Meta(BaseForm.Meta):
+        abstract = True
+
     def process_form_submission(self, form):
-        super(EmailForm, self).process_form_submission(form)
+        """ Process the form submission and send an email. """
+
+        super(AbstractEmailForm, self).process_form_submission(form)
         self.send_form_mail(form)
 
     def send_form_mail(self, form):
+        """ Send an email. """
+
         content = [self.message + '\n\nSubmission\n', ]
 
         for name, field in form.fields.items():
@@ -347,3 +359,7 @@ class EmailForm(BaseForm):
             self.to_addresses,
             self.fail_silently
         )
+
+
+class EmailForm(AbstractEmailForm):
+    """ A form that sends and email. """

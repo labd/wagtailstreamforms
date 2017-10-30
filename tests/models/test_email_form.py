@@ -2,7 +2,7 @@ from django.core import mail
 from django.db import models
 
 from wagtailstreamforms.fields import MultiEmailField
-from wagtailstreamforms.models import BaseForm, EmailForm
+from wagtailstreamforms.models import BaseForm, EmailForm, AbstractEmailForm
 
 from ..test_case import AppTestCase
 
@@ -10,42 +10,50 @@ from ..test_case import AppTestCase
 class ModelGenericTests(AppTestCase):
 
     def test_inheritance(self):
-        self.assertTrue(issubclass(EmailForm, BaseForm))
+        self.assertTrue(issubclass(AbstractEmailForm, BaseForm))
 
     def test_ignored_fields(self):
-        self.assertEquals(EmailForm.ignored_fields, ['recaptcha', 'form_id', 'form_reference'])
+        self.assertEquals(AbstractEmailForm.ignored_fields, ['recaptcha', 'form_id', 'form_reference'])
+
+    def test_abstract(self):
+        self.assertTrue(AbstractEmailForm._meta.abstract)
 
 
 class ModelFieldTests(AppTestCase):
 
     def test_subject(self):
-        field = self.get_field(EmailForm, 'subject')
+        field = self.get_field(AbstractEmailForm, 'subject')
         self.assertModelField(field, models.CharField)
         self.assertEquals(field.max_length, 255)
 
     def test_from_address(self):
-        field = self.get_field(EmailForm, 'from_address')
+        field = self.get_field(AbstractEmailForm, 'from_address')
         self.assertModelField(field, models.EmailField)
 
     def test_to_addresses(self):
-        field = self.get_field(EmailForm, 'to_addresses')
+        field = self.get_field(AbstractEmailForm, 'to_addresses')
         self.assertModelField(field, MultiEmailField)
 
     def test_message(self):
-        field = self.get_field(EmailForm, 'message')
+        field = self.get_field(AbstractEmailForm, 'message')
         self.assertModelField(field, models.TextField)
 
     def test_fail_silently(self):
-        field = self.get_field(EmailForm, 'fail_silently')
+        field = self.get_field(AbstractEmailForm, 'fail_silently')
         self.assertModelField(field, models.BooleanField, False, False, False)
 
 
 class ModelPropertyTests(AppTestCase):
     fixtures = ['test.json']
 
+    # testing the usage via EmailForm as it inherits this class
+
     def test_form(self):
         form = EmailForm.objects.get(pk=2)
         return form
+
+    def test_inheritance(self):
+        self.assertTrue(issubclass(EmailForm, AbstractEmailForm))
 
     def test_copy_is_right_class(self):
         form = self.test_form()
@@ -53,7 +61,7 @@ class ModelPropertyTests(AppTestCase):
         copied = BaseForm.objects.get(pk=form.pk).copy()
 
         self.assertNotEquals(copied.pk, form.pk)
-        self.assertEquals(copied.specific_class, form.specific_class)
+        self.assertEquals(copied.specific_class, EmailForm)
 
     def test_process_form_submission__sends_an_email(self):
         form = self.test_form()
@@ -78,12 +86,12 @@ class ModelPropertyTests(AppTestCase):
         form.process_form_submission(form_class)
         self.assertEquals(form.get_submission_class().objects.count(), 1)
 
-    def test_specific(self):
+    def test_specific_from_baseform_is_correct_object(self):
         form = self.test_form()
         self.assertEquals(form.specific, form)
         self.assertEquals(BaseForm.objects.get(pk=form.pk).specific, form)
 
-    def test_specific_class(self):
+    def test_specific_class_from_baseform_is_correct_class(self):
         form = self.test_form()
         self.assertEquals(form.specific_class, form.__class__)
         self.assertEquals(BaseForm.objects.get(pk=form.pk).specific_class, form.__class__)
