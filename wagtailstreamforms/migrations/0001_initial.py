@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
+import wagtailstreamforms.conf
 import wagtailstreamforms.fields
 
 
@@ -21,7 +22,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
-                ('template_name', models.CharField(choices=[('streamforms/form_block.html', 'Default Form Template')], max_length=255, verbose_name='template')),
+                ('template_name', models.CharField(choices=wagtailstreamforms.conf.get_setting('FORM_TEMPLATES'), max_length=255, verbose_name='template')),
                 ('submit_button_text', models.CharField(default='Submit', max_length=100)),
                 ('store_submission', models.BooleanField(default=False)),
                 ('add_recaptcha', models.BooleanField(default=False, help_text='Add a reCapcha field to the form.')),
