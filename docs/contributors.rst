@@ -14,3 +14,4 @@ In the community
 ----------------
 
 * `NathanQ <https://github.com/NathanQ>`_
+* `Tom Dyson <https://github.com/tomdyson>`_
