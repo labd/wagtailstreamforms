@@ -6,6 +6,11 @@ Whats next
 
 *
 
+1.5.2
+-----
+
+* Added ``AbstractEmailForm`` to more easily allow creating additional form types.
+
 1.5.1
 -----
 
