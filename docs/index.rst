@@ -36,6 +36,7 @@ What else is included?
    permissions
    recaptcha
    settings
+   contributors
    changelog
    screenshots
 
