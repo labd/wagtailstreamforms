@@ -1,5 +1,5 @@
-Form Submission
-===============
+Form Submission Methods
+=======================
 
 Form submissions are handled by the means of a wagtail ``before_serve_page`` hook. The built in hook at
 ``wagtailstreamforms.wagtail_hooks.process_form`` looks for a form in the post request,

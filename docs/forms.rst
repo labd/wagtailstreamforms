@@ -5,7 +5,7 @@ Currently we have defined two different types of forms, one which just
 enables saving the submission and one to additionally email the results of
 the submission.
 
-Custom form model
+Custom basic form
 -----------------
 
 You can easily add your own all you have to do is create a model that
@@ -24,8 +24,8 @@ Example:
             super(CustomForm, self).process_form_submission(form) # handles the submission saving
             # do your own stuff here
 
-Custom email form model
------------------------
+Custom email form
+-----------------
 
 If you want to inherit the additional email sending functionality then inherit from
 ``wagtailstreamforms.models.AbstractEmailForm``. The saving of the submission and sending of the email
@@ -43,6 +43,55 @@ Example:
          def process_form_submission(self, form):
              super(CustomEmailForm, self).process_form_submission(form) # handles the submission saving and emailing
              # do your own stuff here
+
+Custom email form with content
+------------------------------
+
+Here is an example of an email form that has an additional ``RichTextField`` rendered with the form.
+This is especially useful if your form is being rendered from the template tag and you dont want to slot it in a streamfield.
+
+Model:
+
+.. code-block:: python
+
+   from wagtail.wagtailadmin.edit_handlers import TabbedInterface, ObjectList, FieldPanel
+   from wagtail.wagtailcore.fields import RichTextField
+   from wagtailstreamforms.models import AbstractEmailForm, BaseForm
+
+
+   class EmailFormWithContent(AbstractEmailForm):
+       """ A form with content that sends and email. """
+
+       content = RichTextField(blank=True)
+
+       content_panels = [
+           FieldPanel('content', classname='full'),
+       ]
+
+       edit_handler = TabbedInterface([
+           ObjectList(AbstractEmailForm.settings_panels, heading='General'),
+           ObjectList(AbstractEmailForm.field_panels, heading='Fields'),
+           ObjectList(AbstractEmailForm.email_panels, heading='Email Submission'),
+           ObjectList(content_panels, heading='Content'),
+       ])
+
+Template:
+
+.. code-block:: html
+
+   {% load wagtailcore_tags %}
+   <h2>{{ value.form.name }}</h2>
+   {% if value.form.content %}
+      <div class="form-content">{{ value.form.content|richtext }}</div>
+   {% endif %}
+   <form action="{{ value.form_action }}" method="post" novalidate>
+       {% csrf_token %}
+       {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+       {% for field in form.visible_fields %}
+           {% include 'streamforms/partials/form_field.html' %}
+       {% endfor %}
+       <input type="submit" value="{{ value.form.submit_button_text }}">
+   </form>
 
 Custom form submission model
 ----------------------------
