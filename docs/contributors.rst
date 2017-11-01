@@ -6,12 +6,12 @@ People that have helped in any way shape or form to get to where we are, many th
 In our team
 -----------
 
-* `stuartaccent <https://github.com/stuartaccent>`_
-* `daveaccent <https://github.com/daveaccent>`_
-* `timaccent <https://github.com/timaccent>`_
+* `Dave Fuller <https://github.com/daveaccent>`_
+* `Stuart George <https://github.com/stuartaccent>`_
+* `Tim Donhou <https://github.com/timaccent>`_
 
 In the community
 ----------------
 
-* `NathanQ <https://github.com/NathanQ>`_
+* `Nathan Victor <https://github.com/NathanQ>`_
 * `Tom Dyson <https://github.com/tomdyson>`_
