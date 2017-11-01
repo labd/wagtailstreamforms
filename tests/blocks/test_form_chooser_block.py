@@ -14,8 +14,8 @@ class TestFormChooserBlockTestCase(AppTestCase):
     def test_value_for_form(self):
         block = FormChooserBlock()
 
-        self.assertEquals(block.value_for_form(self.basic_form.pk), self.basic_form.pk)
-        self.assertEquals(block.value_for_form(self.basic_form), self.basic_form.pk)
+        self.assertEqual(block.value_for_form(self.basic_form.pk), self.basic_form.pk)
+        self.assertEqual(block.value_for_form(self.basic_form), self.basic_form.pk)
 
     def test_value_from_form(self):
         block = FormChooserBlock()

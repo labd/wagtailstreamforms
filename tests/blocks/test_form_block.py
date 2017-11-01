@@ -70,7 +70,7 @@ class TestFormBlockTestCase(AppTestCase):
             'form_reference': 'some-ref'
         })
 
-        self.assertEquals(value.get('form_reference'), 'some-ref')
+        self.assertEqual(value.get('form_reference'), 'some-ref')
 
     def test_context_has_form(self):
         block = WagtailFormBlock()
@@ -87,7 +87,7 @@ class TestFormBlockTestCase(AppTestCase):
         invalid_form = self.form.get_form({'form_id': self.form.id, 'form_reference': 'some-ref'})
         assert not invalid_form.is_valid()
 
-        self.assertEquals(invalid_form.errors, {'name': ['This field is required.']})
+        self.assertEqual(invalid_form.errors, {'name': ['This field is required.']})
 
         # this is the context a page will set for an invalid form
         parent_context = {
@@ -105,4 +105,4 @@ class TestFormBlockTestCase(AppTestCase):
         }), parent_context)
 
         # finally make sure the form in the block is the one with errors
-        self.assertEquals(context['form'], invalid_form)
+        self.assertEqual(context['form'], invalid_form)

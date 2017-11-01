@@ -24,6 +24,7 @@ class FormField(AbstractFormField):
     )
     form = ParentalKey(
         'BaseForm',
+        on_delete=models.CASCADE,
         related_name='form_fields'
     )
 

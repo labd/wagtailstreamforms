@@ -19,7 +19,7 @@ class MultiEmailModelFieldTests(AppTestCase):
 
     def test_email_field(self):
         obj = MultiEmailModel(emails=['foo@foo.com', 'bar@bar.com'])
-        self.assertEquals(obj.emails, ['foo@foo.com', 'bar@bar.com'])
+        self.assertEqual(obj.emails, ['foo@foo.com', 'bar@bar.com'])
 
     def test_email_field_empty(self):
         obj = MultiEmailModel(emails='')
@@ -74,10 +74,10 @@ class MultiEmailModelFieldTests(AppTestCase):
 
     def test_to_python(self):
         field = MultiEmailField()
-        self.assertEquals(field.to_python(None), [])
-        self.assertEquals(field.to_python(''), [])
-        self.assertEquals(field.to_python(['foo@foo.com', 'bar@bar.com']), ['foo@foo.com', 'bar@bar.com'])
-        self.assertEquals(field.to_python('foo@foo.com\nbar@bar.com'), ['foo@foo.com', 'bar@bar.com'])
+        self.assertEqual(field.to_python(None), [])
+        self.assertEqual(field.to_python(''), [])
+        self.assertEqual(field.to_python(['foo@foo.com', 'bar@bar.com']), ['foo@foo.com', 'bar@bar.com'])
+        self.assertEqual(field.to_python('foo@foo.com\nbar@bar.com'), ['foo@foo.com', 'bar@bar.com'])
 
 
 class MultiEmailFormFieldTest(AppTestCase):
@@ -91,15 +91,15 @@ class MultiEmailFormFieldTest(AppTestCase):
 
         # Empty values
         for val in ['', None]:
-            self.assertEquals([], f.to_python(val))
+            self.assertEqual([], f.to_python(val))
 
         # One line correct value
         val = '  foo@bar.com    '
-        self.assertEquals(['foo@bar.com'], f.to_python(val))
+        self.assertEqual(['foo@bar.com'], f.to_python(val))
 
         # Multi lines correct values (test of #0010614)
         val = 'foo@bar.com\nfoo2@bar2.com\r\nfoo3@bar3.com'
-        self.assertEquals(['foo@bar.com', 'foo2@bar2.com', 'foo3@bar3.com'], f.to_python(val))
+        self.assertEqual(['foo@bar.com', 'foo2@bar2.com', 'foo3@bar3.com'], f.to_python(val))
 
     def test__validate(self):
         f = MultiEmailFormField(required=True)
