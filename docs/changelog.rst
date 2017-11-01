@@ -6,6 +6,11 @@ Whats next
 
 *
 
+1.6.0
+-----
+
+* Stable Release
+
 1.5.2
 -----
 
