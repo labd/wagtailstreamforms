@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
+from wagtail.wagtailcore import blocks
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.models import Page
 from wagtailstreamforms.blocks import WagtailFormBlock
@@ -51,6 +52,7 @@ class ExampleFormSubmission(AbstractFormSubmission):
 class BasicPage(Page):
 
     body = StreamField([
+        ('rich_text', blocks.RichTextBlock()),
         ('form', WagtailFormBlock())
     ])
 
