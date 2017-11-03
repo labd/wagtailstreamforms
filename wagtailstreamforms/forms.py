@@ -12,10 +12,20 @@ from wagtailstreamforms.widgets import MultiEmailWidget
 class FormBuilder(OrigFormBuilder):
 
     def __init__(self, fields, **kwargs):
-        self.add_recaptcha = kwargs.pop('add_recaptcha')
         super(FormBuilder, self).__init__(fields)
 
+        self.add_recaptcha = kwargs.pop('add_recaptcha')
+        self.add_extra_field_types()
+
+    @classmethod
+    def add_extra_field_types(cls):
+        """ Adds extra field types to OrigFormBuilder.FIELD_TYPES """
+
+        cls.FIELD_TYPES.update({'regexfield': cls.create_regex_field})
+
     def create_regex_field(self, field, options):
+        """ The regex field """
+
         if field.regex_validator:
             # there is a selected validator so use it
             options.update({
@@ -25,20 +35,20 @@ class FormBuilder(OrigFormBuilder):
         else:
             # otherwise allow anything
             options.update({'regex': '(.*?)'})
-        return forms.RegexField(**options)
 
-    # doing this here rather than init as although works test are failing all over the place
-    OrigFormBuilder.FIELD_TYPES.update({'regexfield': create_regex_field})
+        return forms.RegexField(**options)
 
     @property
     def formfields(self):
+        """ Add additional fields to the already defined ones """
+
         fields = super(FormBuilder, self).formfields
 
-        # add form id to identify the form type
+        # add fields to uniquely identify the form
         fields['form_id'] = forms.CharField(widget=forms.HiddenInput)
         fields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
 
-        # if enabled add recaptcha field
+        # add recaptcha field if enabled
         if self.add_recaptcha and recaptcha_enabled():
             fields['recaptcha'] = ReCaptchaField(label='')
 
