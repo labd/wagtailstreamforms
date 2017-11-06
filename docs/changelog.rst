@@ -6,6 +6,11 @@ Whats next
 
 *
 
+1.6.1
+-----
+
+* Small tidy up in form code
+
 1.6.0
 -----
 
