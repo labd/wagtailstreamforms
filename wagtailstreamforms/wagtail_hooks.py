@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import messages
 from django.contrib.admin.utils import quote
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
@@ -64,6 +65,9 @@ class FormModelAdmin(ModelAdmin):
     search_fields = ('name', 'slug')
     button_helper_class = FormButtonHelper
     url_helper_class = FormURLHelper
+    form_view_extra_js = [
+        static('streamforms/js/form-editor.js')
+    ]
 
     def latest_submission_date(self, obj):
         submission_class = obj.get_submission_class()
