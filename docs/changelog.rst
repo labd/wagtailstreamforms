@@ -1,10 +1,10 @@
 Changelog
 =========
 
-Whats next
-----------
+1.6.2
+-----
 
-*
+* Added javascript to auto populate the form slug from the name
 
 1.6.1
 -----
