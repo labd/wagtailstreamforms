@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.6.3
+-----
+
+* Fix issue where js was not in final package
+
 1.6.2
 -----
 
