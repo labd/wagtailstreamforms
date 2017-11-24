@@ -32,6 +32,23 @@ This is as simple as adding it to the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` in s
         ('streamforms/form_block.html', 'Default Form Template'),
     )
 
+Rendering your StreamField
+--------------------------
+
+It is important to ensure the request is in the context of your page to do this iterate over your StreamField block using
+wagtails ``include_block`` template tag.
+
+.. code-block:: python
+
+    {% load wagtailcore_tags %}
+
+    {% for block in page.body %}
+        {% include_block block %}
+    {% endfor %}
+
+DO NOT use the short form method of ``{{ block }}`` as described `here <http://docs.wagtail.io/en/latest/topics/streamfield.html#template-rendering>`_
+as you will get CSRF verification failures.
+
 Deleted forms
 -------------
 
