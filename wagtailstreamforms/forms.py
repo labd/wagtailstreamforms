@@ -12,7 +12,7 @@ from wagtailstreamforms.widgets import MultiEmailWidget
 class FormBuilder(OrigFormBuilder):
 
     def __init__(self, fields, **kwargs):
-        super(FormBuilder, self).__init__(fields)
+        super().__init__(fields)
 
         self.add_recaptcha = kwargs.pop('add_recaptcha')
         self.add_extra_field_types()
@@ -42,7 +42,7 @@ class FormBuilder(OrigFormBuilder):
     def formfields(self):
         """ Add additional fields to the already defined ones """
 
-        fields = super(FormBuilder, self).formfields
+        fields = super().formfields
 
         # add fields to uniquely identify the form
         fields['form_id'] = forms.CharField(widget=forms.HiddenInput)
@@ -70,7 +70,7 @@ class MultiEmailField(forms.Field):
     def validate(self, value):
         """ Check if value consists only of valid emails. """
 
-        super(MultiEmailField, self).validate(value)
+        super().validate(value)
         try:
             for email in value:
                 validate_email(email)

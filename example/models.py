@@ -16,7 +16,7 @@ from wagtailstreamforms.models import AbstractFormSubmission, BaseForm
 class ExampleForm(BaseForm):
 
     def get_data_fields(self):
-        data_fields = super(ExampleForm, self).get_data_fields()
+        data_fields = super().get_data_fields()
         data_fields += [
             ('user', _('User')),
             ('page', _('Page'))
@@ -41,7 +41,7 @@ class ExampleFormSubmission(AbstractFormSubmission):
     page = models.ForeignKey(Page)
 
     def get_data(self):
-        form_data = super(ExampleFormSubmission, self).get_data()
+        form_data = super().get_data()
         form_data.update({
             'page': self.page,
             'user': self.user

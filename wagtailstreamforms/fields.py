@@ -11,7 +11,7 @@ class MultiEmailField(models.Field):
     def formfield(self, **kwargs):
         defaults = {'form_class': MultiEmailFormField}
         defaults.update(kwargs)
-        return super(MultiEmailField, self).formfield(**defaults)
+        return super().formfield(**defaults)
 
     def from_db_value(self, value, expression, connection, context):
         if value is None:
