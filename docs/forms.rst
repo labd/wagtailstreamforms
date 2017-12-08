@@ -21,7 +21,7 @@ Example:
     class CustomForm(BaseForm):
 
         def process_form_submission(self, form):
-            super(CustomForm, self).process_form_submission(form) # handles the submission saving
+            super().process_form_submission(form) # handles the submission saving
             # do your own stuff here
 
 Custom email form
@@ -41,7 +41,7 @@ Example:
          """ As above with email sending. """
 
          def process_form_submission(self, form):
-             super(CustomEmailForm, self).process_form_submission(form) # handles the submission saving and emailing
+             super().process_form_submission(form) # handles the submission saving and emailing
              # do your own stuff here
 
 Custom email form with content
@@ -119,7 +119,7 @@ Example:
        """ A form that saves the current user and page. """
 
        def get_data_fields(self):
-           data_fields = super(ExampleForm, self).get_data_fields()
+           data_fields = super().get_data_fields()
            data_fields += [
                ('user', _('User')),
                ('page', _('Page'))
@@ -144,7 +144,7 @@ Example:
        page = models.ForeignKey(Page)
 
        def get_data(self):
-           form_data = super(CustomFormSubmission, self).get_data()
+           form_data = super().get_data()
            form_data.update({
                'page': self.page,
                'user': self.user

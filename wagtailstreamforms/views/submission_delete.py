@@ -21,10 +21,10 @@ class SubmissionDeleteView(DeleteView):
         self.object = self.get_object()
         if not self.permission_helper.user_can_delete_obj(self.request.user, self.object):
             raise PermissionDenied
-        return super(SubmissionDeleteView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        obj = super(SubmissionDeleteView, self).get_object(queryset)
+        obj = super().get_object(queryset)
         return obj.specific
 
     def get_submissions(self):
@@ -33,7 +33,7 @@ class SubmissionDeleteView(DeleteView):
         return submission_class._default_manager.filter(id__in=submission_ids)
 
     def get_context_data(self, **kwargs):
-        context = super(SubmissionDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['submissions'] = self.get_submissions()
         return context
 

@@ -22,7 +22,7 @@ class FormURLHelper(AdminURLHelper):
             return reverse('wagtailstreamforms:streamforms_copy', args=args, kwargs=kwargs)
         elif action == 'submissions':
             return reverse('wagtailstreamforms:streamforms_submissions', args=args, kwargs=kwargs)
-        return super(FormURLHelper, self).get_action_url(action, *args, **kwargs)
+        return super().get_action_url(action, *args, **kwargs)
 
 
 class FormButtonHelper(ButtonHelper):
@@ -48,7 +48,7 @@ class FormButtonHelper(ButtonHelper):
         return button
 
     def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
-        btns = super(FormButtonHelper, self).get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
+        btns = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
         pk = getattr(obj, self.opts.pk.attname)
         ph = self.permission_helper
         usr = self.request.user

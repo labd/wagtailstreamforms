@@ -112,7 +112,7 @@ class BaseForm(ClusterableModel):
     ])
 
     def __init__(self, *args, **kwargs):
-        super(BaseForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if not self.id:
             self.content_type = ContentType.objects.get_for_model(self)
 
@@ -334,7 +334,7 @@ class AbstractEmailForm(BaseForm):
     def process_form_submission(self, form):
         """ Process the form submission and send an email. """
 
-        super(AbstractEmailForm, self).process_form_submission(form)
+        super().process_form_submission(form)
         self.send_form_mail(form)
 
     def send_form_mail(self, form):

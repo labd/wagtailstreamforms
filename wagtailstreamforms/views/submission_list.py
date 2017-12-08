@@ -28,7 +28,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
         self.object = self.get_object()
         if not self.permission_helper.user_can_list(self.request.user):
             raise PermissionDenied
-        return super(SubmissionListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
@@ -43,7 +43,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
         if request.GET.get('action') == 'CSV':
             return self.csv()
 
-        return super(SubmissionListView, self).get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def csv(self):
         queryset = self.get_queryset()
@@ -81,7 +81,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
         return self.queryset
 
     def get_context_data(self, **kwargs):
-        context = super(SubmissionListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         data_fields = self.object.get_data_fields()
         data_headings = [label for name, label in data_fields]

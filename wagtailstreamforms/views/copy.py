@@ -36,10 +36,10 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
         self.object = self.get_object()
         if not self.permission_helper.user_can_create(self.request.user):
             raise PermissionDenied
-        return super(CopyFormView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        obj = super(CopyFormView, self).get_object(queryset)
+        obj = super().get_object(queryset)
         return obj.specific
 
     def copy(self, request, *args, **kwargs):

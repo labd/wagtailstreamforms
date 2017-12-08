@@ -26,7 +26,7 @@ class FormChooserBlock(blocks.ChooserBlock):
     def value_from_form(self, value):
         if value == '':
             return None
-        return super(FormChooserBlock, self).value_from_form(value)
+        return super().value_from_form(value)
 
     def to_python(self, value):
         if value is None:
@@ -63,10 +63,10 @@ class WagtailFormBlock(blocks.StructBlock):
         else:
             self.meta.template = 'streamforms/non_existent_form.html'
 
-        return super(WagtailFormBlock, self).render(value, context)
+        return super().render(value, context)
 
     def get_context(self, value, parent_context=None):
-        context = super(WagtailFormBlock, self).get_context(value, parent_context)
+        context = super().get_context(value, parent_context)
 
         form = value.get('form')
         form_reference = value.get('form_reference')
@@ -86,7 +86,7 @@ class WagtailFormBlock(blocks.StructBlock):
         return context
 
     def clean(self, value):
-        result = super(WagtailFormBlock, self).clean(value)
+        result = super().clean(value)
 
         # set to a new uuid so we can ensure we can identify this form
         # against other forms of the same type in the page
