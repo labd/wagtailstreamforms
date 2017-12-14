@@ -6,18 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% firstof page.seo_title page.title %}</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'css/karma.min.css' %}">
 </head>
 <body>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <header>
+        <div class="container">
+            <h1>Wagtail Streamforms</h1>
+        </div>
+    </header>
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% for block in page.body %}
+            {% include_block block %}
         {% endfor %}
-    </ul>
-    {% endif %}
-    {% for block in page.body %}
-        {% include_block block %}
-    {% endfor %}
+        <footer>
+            <ul class="links muted">
+                <li>Wagtail Streamforms on <a href="https://github.com/AccentDesign/wagtailstreamforms">Github</a></li>
+                <li>Styled with <a href="http://karmacss.com">KarmaCSS</a></li>
+            </ul>
+        </footer>
+    </div>
     {% wagtailuserbar %}
 </body>
 </html>

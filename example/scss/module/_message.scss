@@ -1,0 +1,25 @@
+// layout
+// -------------------------------------------------
+
+.messages {
+    list-style-type: none;
+    margin-bottom: 4rem;
+
+    li {
+        padding: 1.5rem 2rem;
+        border-radius: $global-radius; 
+    }
+
+    li.success {
+        border: 1px solid color(primary);
+        background: lighten(color(primary), 45%);
+        color: color(primary);
+    }
+
+    li.error {
+        border: 1px solid color(red);
+        background: lighten(color(red), 35%);
+        color: color(red);
+    }
+
+}

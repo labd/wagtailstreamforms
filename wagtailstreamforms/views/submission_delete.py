@@ -1,9 +1,11 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect, Http404
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.translation import ungettext, ugettext as _
+from django.utils.translation import ungettext
 from django.views.generic import DeleteView
 
+from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtailstreamforms.models import BaseForm
 
 
@@ -11,12 +13,19 @@ class SubmissionDeleteView(DeleteView):
     model = BaseForm
     template_name = 'streamforms/confirm_delete.html'
 
+    @property
+    def permission_helper(self):
+        return PermissionHelper(model=self.object.specific_class)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.permission_helper.user_can_delete_obj(self.request.user, self.object):
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        try:
-            return BaseForm.objects.get_subclass(pk=pk)
-        except self.model.DoesNotExist:
-            raise Http404(_("No BaseForm found matching the query"))
+        obj = super().get_object(queryset)
+        return obj.specific
 
     def get_submissions(self):
         submission_ids = self.request.GET.getlist('selected-submissions')
@@ -24,12 +33,11 @@ class SubmissionDeleteView(DeleteView):
         return submission_class._default_manager.filter(id__in=submission_ids)
 
     def get_context_data(self, **kwargs):
-        context = super(SubmissionDeleteView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['submissions'] = self.get_submissions()
         return context
 
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
         success_url = self.get_success_url()
         submissions = self.get_submissions()
         count = submissions.count()
@@ -50,4 +58,4 @@ class SubmissionDeleteView(DeleteView):
         )
 
     def get_success_url(self):
-        return reverse('streamforms_submissions', kwargs={'pk': self.object.pk})
+        return reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.object.pk})

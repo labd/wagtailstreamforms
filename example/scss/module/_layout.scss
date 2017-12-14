@@ -1,0 +1,26 @@
+// layout
+// -------------------------------------------------
+
+header {
+    @include box-shadow(0, 0, 10px, color(grey));
+    background: color(primary);
+    color: color(white);
+    margin-bottom: 5rem;
+    padding: 5rem 0;
+}
+
+footer {
+    padding-top: 10rem;
+
+    .links {
+        list-style-type: none;
+
+        li {
+            display: inline;
+        }
+
+        li + li {
+            margin-left: 2rem;
+        }
+    }
+}

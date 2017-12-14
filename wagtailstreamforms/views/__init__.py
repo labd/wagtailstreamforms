@@ -1,2 +1,3 @@
-from .delete import SubmissionDeleteView
-from .list import SubmissionListView
+from .copy import CopyFormView
+from .submission_delete import SubmissionDeleteView
+from .submission_list import SubmissionListView

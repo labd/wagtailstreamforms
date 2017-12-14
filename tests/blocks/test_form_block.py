@@ -5,18 +5,11 @@ from ..test_case import AppTestCase
 
 
 class TestFormBlockTestCase(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
-        self.form = BasicForm.objects.create(
-            pk=999,
-            name='Form',
-            template_name='streamforms/form_block.html'
-        )
-        self.field = FormField.objects.create(
-            form=self.form,
-            label='name',
-            field_type='singleline'
-        )
+        self.form = BasicForm.objects.get(pk=1)
+        self.field = FormField.objects.get(pk=1)
 
     def test_render(self):
         block = WagtailFormBlock()
@@ -28,16 +21,32 @@ class TestFormBlockTestCase(AppTestCase):
         }))
 
         expected_html = '\n'.join([
-            '<h2>Form</h2>',
+            '<h2>Basic Form</h2>',
             '<form action="/foo/" method="post" novalidate>',
             '<input id="id_form_id" name="form_id" type="hidden" value="%s">' % self.form.pk,
             '<input id="id_form_reference" name="form_reference" type="hidden" value="some-ref">',
             '<div class="field-row">',
-            '<label for="id_name">name</label>',
+            '<label for="id_name">Name</label>',
             '<input type="text" name="name" maxlength="255" required id="id_name" />',
+            '<p class="help-text">Please enter your name</p>',
             '</div>',
             '<input type="submit" value="Submit">',
             '</form>',
+        ])
+
+        self.assertHTMLEqual(html, expected_html)
+
+    def test_render_when_form_deleted(self):
+        block = WagtailFormBlock()
+
+        html = block.render(block.to_python({
+            'form': 100,
+            'form_action': '/foo/',
+            'form_reference': 'some-ref'
+        }))
+
+        expected_html = '\n'.join([
+            '<p>Sorry, this form has been deleted.</p>',
         ])
 
         self.assertHTMLEqual(html, expected_html)
@@ -61,7 +70,7 @@ class TestFormBlockTestCase(AppTestCase):
             'form_reference': 'some-ref'
         })
 
-        self.assertEquals(value.get('form_reference'), 'some-ref')
+        self.assertEqual(value.get('form_reference'), 'some-ref')
 
     def test_context_has_form(self):
         block = WagtailFormBlock()
@@ -78,7 +87,7 @@ class TestFormBlockTestCase(AppTestCase):
         invalid_form = self.form.get_form({'form_id': self.form.id, 'form_reference': 'some-ref'})
         assert not invalid_form.is_valid()
 
-        self.assertEquals(invalid_form.errors, {'name': ['This field is required.']})
+        self.assertEqual(invalid_form.errors, {'name': ['This field is required.']})
 
         # this is the context a page will set for an invalid form
         parent_context = {
@@ -96,4 +105,4 @@ class TestFormBlockTestCase(AppTestCase):
         }), parent_context)
 
         # finally make sure the form in the block is the one with errors
-        self.assertEquals(context['form'], invalid_form)
+        self.assertEqual(context['form'], invalid_form)

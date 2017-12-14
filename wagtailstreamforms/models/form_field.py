@@ -6,15 +6,20 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailforms.models import AbstractFormField, FORM_FIELD_CHOICES
 
 
-FORM_FIELD_CHOICES += (
-    ('regexfield', _('Regex validated field')),
-)
+def get_form_field_choices():
+    return FORM_FIELD_CHOICES + (
+        ('regexfield', _('Regex validated field')),
+    )
 
 
 class FormField(AbstractFormField):
     """ Database Fields required for building a Django Form field. """
 
-    field_type = models.CharField(verbose_name=_('field type'), max_length=16, choices=FORM_FIELD_CHOICES)
+    field_type = models.CharField(
+        verbose_name=_('field type'),
+        max_length=16,
+        choices=get_form_field_choices()
+    )
     regex_validator = models.ForeignKey(
         'RegexFieldValidator',
         null=True,
@@ -24,6 +29,7 @@ class FormField(AbstractFormField):
     )
     form = ParentalKey(
         'BaseForm',
+        on_delete=models.CASCADE,
         related_name='form_fields'
     )
 

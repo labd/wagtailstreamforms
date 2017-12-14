@@ -10,12 +10,10 @@ from ..test_case import AppTestCase
 
 
 class FormBuilderTests(AppTestCase):
+    fixtures = ['test.json']
 
     def setUp(self):
-        self.form = BaseForm.objects.create(
-            name='Form',
-            template_name='streamforms/form_block.html'
-        )
+        self.form = BaseForm.objects.get(pk=2)
         self.field = FormField.objects.create(
             form=self.form,
             label='My regex',
@@ -34,7 +32,7 @@ class FormBuilderTests(AppTestCase):
     def test_regex_field_default_options(self):
         fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
         form_class = fb.get_form_class()
-        self.assertEquals(form_class.base_fields['my-regex'].regex.pattern, '(.*?)')
+        self.assertEqual(form_class.base_fields['my-regex'].regex.pattern, '(.*?)')
 
     def test_regex_field_with_validator_has_correct_options_set(self):
         validator = RegexFieldValidator.objects.create(
@@ -46,8 +44,8 @@ class FormBuilderTests(AppTestCase):
         self.field.save()
         fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
         form_class = fb.get_form_class()
-        self.assertEquals(form_class.base_fields['my-regex'].regex.pattern, validator.regex)
-        self.assertEquals(form_class.base_fields['my-regex'].error_messages['invalid'], validator.error_message)
+        self.assertEqual(form_class.base_fields['my-regex'].regex.pattern, validator.regex)
+        self.assertEqual(form_class.base_fields['my-regex'].error_messages['invalid'], validator.error_message)
 
     # recaptcha field
 

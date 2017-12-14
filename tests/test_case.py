@@ -1,9 +1,16 @@
 from django.db import models, connection
+from django.template import Context, Template
 from django.test import TestCase
+from django.test.client import RequestFactory
 
 
 class AppTestCase(TestCase):
 
+    @property
+    def rf(self):
+        return RequestFactory()
+
+    @staticmethod
     def setupModels(*models):
         """ Create test models """
         with connection.schema_editor(atomic=True) as schema_editor:
@@ -12,6 +19,11 @@ class AppTestCase(TestCase):
 
     def get_field(self, modelClass, name):
         return modelClass._meta.get_field(name)
+
+    def render_template(self, string, context=None):
+        context = context or {}
+        context = Context(context)
+        return Template(string).render(context)
 
     _non_blankable_fields = [
         models.BooleanField
@@ -35,10 +47,10 @@ class AppTestCase(TestCase):
 
     def assertModelPKField(self, field, rel_to, on_delete, null=False, blank=False, related_name=None):
         self.assertEqual(field.__class__, models.ForeignKey)
-        self.assertEqual(field.rel.to, rel_to)
-        self.assertEqual(field.rel.on_delete, on_delete)
+        self.assertEqual(field.remote_field.model, rel_to)
+        self.assertEqual(field.remote_field.on_delete, on_delete)
         self.assertEqual(field.null, null)
         self.assertEqual(field.blank, blank)
 
         if related_name:
-            self.assertEqual(field.rel.related_name, related_name)
+            self.assertEqual(field.remote_field.related_name, related_name)

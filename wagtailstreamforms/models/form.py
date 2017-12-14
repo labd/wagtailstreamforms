@@ -1,20 +1,39 @@
+from collections import defaultdict
 import json
 import six
+import uuid
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.mail import send_mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from model_utils.managers import InheritanceManager
-from modelcluster.models import ClusterableModel
-from multi_email_field.fields import MultiEmailField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, TabbedInterface, ObjectList
-from wagtailstreamforms.conf import settings
+from modelcluster.models import ClusterableModel, get_all_child_relations
+from wagtail.wagtailadmin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    TabbedInterface,
+    ObjectList,
+    PageChooserPanel,
+    MultiFieldPanel
+)
+from wagtailstreamforms.conf import get_setting
+from wagtailstreamforms.fields import MultiEmailField
 from wagtailstreamforms.forms import FormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
 
 from .submission import FormSubmission
+
+
+def get_default_form_content_type():
+    """
+    Returns the content type to use as a default for forms whose content type
+    has been deleted.
+    """
+
+    return ContentType.objects.get_for_model(BaseForm)
 
 
 class BaseForm(ClusterableModel):
@@ -23,10 +42,22 @@ class BaseForm(ClusterableModel):
     name = models.CharField(
         max_length=255
     )
+    slug = models.SlugField(
+        allow_unicode=True,
+        max_length=255,
+        unique=True,
+        help_text=_('Used to identify the form in template tags')
+    )
+    content_type = models.ForeignKey(
+        'contenttypes.ContentType',
+        verbose_name=_('content type'),
+        related_name='streamforms',
+        on_delete=models.SET(get_default_form_content_type)
+    )
     template_name = models.CharField(
         verbose_name='template',
         max_length=255,
-        choices=settings.WAGTAILSTREAMFORMS_FORM_TEMPLATES
+        choices=get_setting('FORM_TEMPLATES')
     )
     submit_button_text = models.CharField(
         max_length=100,
@@ -44,13 +75,31 @@ class BaseForm(ClusterableModel):
         max_length=255,
         help_text=_('An optional success message to show when the form has been successfully submitted')
     )
+    error_message = models.CharField(
+        blank=True,
+        max_length=255,
+        help_text=_('An optional error message to show when the form has validation errors')
+    )
+    post_redirect_page = models.ForeignKey(
+        'wagtailcore.Page',
+        models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='+',
+        help_text=_('The page to redirect to after a successful submission')
+    )
 
     settings_panels = [
         FieldPanel('name', classname='full'),
+        FieldPanel('slug'),
         FieldPanel('template_name'),
         FieldPanel('submit_button_text'),
-        FieldPanel('success_message', classname='full'),
+        MultiFieldPanel([
+            FieldPanel('success_message'),
+            FieldPanel('error_message'),
+        ], 'Messages'),
         FieldPanel('store_submission'),
+        PageChooserPanel('post_redirect_page')
     ]
 
     field_panels = [
@@ -62,7 +111,10 @@ class BaseForm(ClusterableModel):
         ObjectList(field_panels, heading='Fields'),
     ])
 
-    objects = InheritanceManager()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.id:
+            self.content_type = ContentType.objects.get_for_model(self)
 
     def __str__(self):
         return self.name
@@ -71,14 +123,68 @@ class BaseForm(ClusterableModel):
         ordering = ['name', ]
         verbose_name = _('form')
 
-    def get_form_fields(self):
-        """
-        Form expects `form_fields` to be declared.
-        If you want to change backwards relation name,
-        you need to override this method.
-        """
+    def copy(self):
+        """ Copy this form and its fields. """
 
-        return self.form_fields.all()
+        exclude_fields = ['id', 'slug']
+        specific_self = self.specific
+        specific_dict = {}
+
+        for field in specific_self._meta.get_fields():
+
+            # ignore explicitly excluded fields
+            if field.name in exclude_fields:
+                continue  # pragma: no cover
+
+            # ignore reverse relations
+            if field.auto_created:
+                continue  # pragma: no cover
+
+            # ignore m2m relations - they will be copied as child objects
+            # if modelcluster supports them at all (as it does for tags)
+            if field.many_to_many:
+                continue  # pragma: no cover
+
+            # ignore parent links (baseform_ptr)
+            if isinstance(field, models.OneToOneField) and field.rel.parent_link:
+                continue  # pragma: no cover
+
+            specific_dict[field.name] = getattr(specific_self, field.name)
+
+        # new instance from prepared dict values, in case the instance class implements multiple levels inheritance
+        form_copy = self.specific_class(**specific_dict)
+
+        # a dict that maps child objects to their new ids
+        # used to remap child object ids in revisions
+        child_object_id_map = defaultdict(dict)
+
+        # create the slug - temp as will be changed from the copy form
+        form_copy.slug = uuid.uuid4()
+
+        form_copy.save()
+
+        # copy child objects
+        for child_relation in get_all_child_relations(specific_self):
+            accessor_name = child_relation.get_accessor_name()
+            parental_key_name = child_relation.field.attname
+            child_objects = getattr(specific_self, accessor_name, None)
+
+            if child_objects:
+                for child_object in child_objects.all():
+                    old_pk = child_object.pk
+                    child_object.pk = None
+                    setattr(child_object, parental_key_name, form_copy.id)
+                    child_object.save()
+
+                    # add mapping to new primary key (so we can apply this change to revisions)
+                    child_object_id_map[accessor_name][old_pk] = child_object.pk
+
+            else:  # we should never get here as there is always a FormField child class
+                pass  # pragma: no cover
+
+        return form_copy
+
+    copy.alters_data = True
 
     def get_data_fields(self):
         """
@@ -95,19 +201,28 @@ class BaseForm(ClusterableModel):
 
         return data_fields
 
-    def get_form_class(self):
-        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
-        return fb.get_form_class()
-
-    def get_form_parameters(self):
-        return {}
-
     def get_form(self, *args, **kwargs):
         form_class = self.get_form_class()
         form_params = self.get_form_parameters()
         form_params.update(kwargs)
 
         return form_class(*args, **form_params)
+
+    def get_form_class(self):
+        fb = FormBuilder(self.get_form_fields(), add_recaptcha=self.add_recaptcha)
+        return fb.get_form_class()
+
+    def get_form_fields(self):
+        """
+        Form expects `form_fields` to be declared.
+        If you want to change backwards relation name,
+        you need to override this method.
+        """
+
+        return self.form_fields.all()
+
+    def get_form_parameters(self):
+        return {}
 
     def get_submission_class(self):
         """
@@ -134,6 +249,39 @@ class BaseForm(ClusterableModel):
                 form=self
             )
 
+    @cached_property
+    def specific(self):
+        """
+        Return this form in its most specific subclassed form.
+        """
+
+        # the ContentType.objects manager keeps a cache, so this should potentially
+        # avoid a database lookup over doing self.content_type. I think.
+        content_type = ContentType.objects.get_for_id(self.content_type_id)
+        model_class = content_type.model_class()
+        if model_class is None:
+            # Cannot locate a model class for this content type. This might happen
+            # if the codebase and database are out of sync (e.g. the model exists
+            # on a different git branch and we haven't rolled back migrations before
+            # switching branches); if so, the best we can do is return the form
+            # unchanged.
+            return self  # pragma: no cover
+        elif isinstance(self, model_class):
+            # self is already the an instance of the most specific class
+            return self
+        else:
+            return content_type.get_object_for_this_type(id=self.id)
+
+    @cached_property
+    def specific_class(self):
+        """
+        Return the class that this page would be if instantiated in its
+        most specific form
+        """
+
+        content_type = ContentType.objects.get_for_id(self.content_type_id)
+        return content_type.model_class()
+
 
 if recaptcha_enabled():  # pragma: no cover
     BaseForm.field_panels.insert(0, FieldPanel('add_recaptcha'))
@@ -143,8 +291,13 @@ class BasicForm(BaseForm):
     """ A basic form. """
 
 
-class EmailForm(BaseForm):
-    """ A form that sends and email. """
+class AbstractEmailForm(BaseForm):
+    """
+    A form that sends and email.
+
+    You can create custom form model based on this abstract model.
+    For example, if you need a form that will send an email.
+    """
 
     # do not add these fields to the email
     ignored_fields = ['recaptcha', 'form_id', 'form_reference']
@@ -153,7 +306,9 @@ class EmailForm(BaseForm):
         max_length=255
     )
     from_address = models.EmailField()
-    to_addresses = MultiEmailField()
+    to_addresses = MultiEmailField(
+        help_text=_("Add one email per line")
+    )
     message = models.TextField()
     fail_silently = models.BooleanField(
         default=True
@@ -173,11 +328,18 @@ class EmailForm(BaseForm):
         ObjectList(email_panels, heading='Email Submission'),
     ])
 
+    class Meta(BaseForm.Meta):
+        abstract = True
+
     def process_form_submission(self, form):
-        super(EmailForm, self).process_form_submission(form)
+        """ Process the form submission and send an email. """
+
+        super().process_form_submission(form)
         self.send_form_mail(form)
 
     def send_form_mail(self, form):
+        """ Send an email. """
+
         content = [self.message + '\n\nSubmission\n', ]
 
         for name, field in form.fields.items():
@@ -197,3 +359,7 @@ class EmailForm(BaseForm):
             self.to_addresses,
             self.fail_silently
         )
+
+
+class EmailForm(AbstractEmailForm):
+    """ A form that sends and email. """

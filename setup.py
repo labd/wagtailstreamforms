@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from setuptools import setup
 
 from codecs import open
@@ -7,9 +9,6 @@ from wagtailstreamforms import __version__
 
 install_requires = [
     'Django>=1.11,<1.12',
-    'django-appconf>=1.0.2',
-    'django-model-utils>=3.0.0',
-    'django-multi-email-field>=0.5.1',
     'django-recaptcha>=1.3.1',
     'wagtail>=1.12,<2'
 ]
@@ -46,13 +45,16 @@ setup(
     include_package_data=True,
     keywords=['wagtail', 'streamfield', 'forms', 'accent', 'design'],
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Natural Language :: English',
+        'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Framework :: Django',
+        'Framework :: Django :: 1.11',
+        'Topic :: Internet :: WWW/HTTP :: Site Management',
     ],
 )

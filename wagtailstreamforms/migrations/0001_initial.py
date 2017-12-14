@@ -5,7 +5,9 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
-import multi_email_field.fields
+import wagtailstreamforms.conf
+import wagtailstreamforms.fields
+import wagtailstreamforms.models.form_field
 
 
 class Migration(migrations.Migration):
@@ -21,7 +23,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
-                ('template_name', models.CharField(choices=[('streamforms/form_block.html', 'Default Form Template')], max_length=255, verbose_name='template')),
+                ('template_name', models.CharField(choices=wagtailstreamforms.conf.get_setting('FORM_TEMPLATES'), max_length=255, verbose_name='template')),
                 ('submit_button_text', models.CharField(default='Submit', max_length=100)),
                 ('store_submission', models.BooleanField(default=False)),
                 ('add_recaptcha', models.BooleanField(default=False, help_text='Add a reCapcha field to the form.')),
@@ -42,7 +44,7 @@ class Migration(migrations.Migration):
                 ('choices', models.TextField(blank=True, help_text='Comma separated list of choices. Only applicable in checkboxes, radio and dropdown.', verbose_name='choices')),
                 ('default_value', models.CharField(blank=True, help_text='Default value. Comma separated values supported for checkboxes.', max_length=255, verbose_name='default value')),
                 ('help_text', models.CharField(blank=True, max_length=255, verbose_name='help text')),
-                ('field_type', models.CharField(choices=[('singleline', 'Single line text'), ('multiline', 'Multi-line text'), ('email', 'Email'), ('number', 'Number'), ('url', 'URL'), ('checkbox', 'Checkbox'), ('checkboxes', 'Checkboxes'), ('dropdown', 'Drop down'), ('multiselect', 'Multiple select'), ('radio', 'Radio buttons'), ('date', 'Date'), ('datetime', 'Date/time'), ('regexfield', 'Regex validated field')], max_length=16, verbose_name='field type')),
+                ('field_type', models.CharField(choices=wagtailstreamforms.models.form_field.get_form_field_choices(), max_length=16, verbose_name='field type')),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -91,7 +93,7 @@ class Migration(migrations.Migration):
                 ('baseform_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailstreamforms.BaseForm')),
                 ('subject', models.CharField(max_length=255)),
                 ('from_address', models.EmailField(max_length=254)),
-                ('to_addresses', multi_email_field.fields.MultiEmailField()),
+                ('to_addresses', wagtailstreamforms.fields.MultiEmailField()),
                 ('message', models.TextField()),
                 ('fail_silently', models.BooleanField(default=True)),
             ],

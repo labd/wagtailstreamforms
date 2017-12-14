@@ -10,4 +10,5 @@
 /dist/
 /docs/_build/
 /htmlcov/
+/node_modules/
 /wagtailstreamforms.egg-info/
