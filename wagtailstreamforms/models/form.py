@@ -340,18 +340,28 @@ class AbstractEmailForm(BaseForm):
     def send_form_mail(self, form):
         """ Send an email. """
 
-        content = [self.message + '\n\nSubmission\n', ]
+        # content = [self.message + '\n\nSubmission\n', ]
+        #
+        # for name, field in form.fields.items():
+        #     data = form.cleaned_data.get(name)
+        #
+        #     if name in self.ignored_fields or not data:
+        #         continue  # pragma: no cover
+        #
+        #     label = field.label or name
+        #
+        #     content.append(label + ': ' + six.text_type(data))
+        # keeping submissions out of email. just send a link to the forms.
 
-        for name, field in form.fields.items():
-            data = form.cleaned_data.get(name)
+        from django.urls import reverse
+        from django.contrib.sites.models import Site
+        current_site = Site.objects.get_current().domain
 
-            if name in self.ignored_fields or not data:
-                continue  # pragma: no cover
+        url =  reverse('wagtailstreamforms:streamforms_submissions', args=[str(self.pk)])
 
-            label = field.label or name
+        content = [self.message + '\n\nYour form has a new submission.\n', ]
 
-            content.append(label + ': ' + six.text_type(data))
-
+        content.append('To view the submission, go to: ' + current_site + url)
         send_mail(
             self.subject,
             '\n'.join(content),
