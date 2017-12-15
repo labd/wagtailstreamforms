@@ -349,7 +349,7 @@ class AbstractEmailForm(BaseForm):
             from django.contrib.sites.models import Site
 
             current_site = Site.objects.get_current().domain
-            url =  reverse('wagtailstreamforms:streamforms_submissions', args=[str(self.pk)])
+            url = reverse('wagtailstreamforms:streamforms_submissions', args=[str(self.pk)])
             content = [self.message + '\n\nYour form has a new submission.\n', ]
             content.append('To view the submission, go to: ' + current_site + url)
 
