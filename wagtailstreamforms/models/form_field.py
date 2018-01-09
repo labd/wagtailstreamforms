@@ -27,6 +27,11 @@ class FormField(AbstractFormField):
         on_delete=models.PROTECT,
         help_text=_("Applicable only for the field type 'regex validated field'.")
     )
+    custom_css_class = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text=_("A custom css class you can use in the template to target each form field.")
+    )
     form = ParentalKey(
         'BaseForm',
         on_delete=models.CASCADE,
@@ -35,4 +40,5 @@ class FormField(AbstractFormField):
 
     panels = AbstractFormField.panels + [
         FieldPanel('regex_validator'),
+        FieldPanel('custom_css_class'),
     ]

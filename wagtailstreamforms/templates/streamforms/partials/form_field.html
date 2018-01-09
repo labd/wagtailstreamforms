@@ -1,4 +1,4 @@
-<div class="field-row">
+<div class="field-row{% if field.field.custom_css_class %} {{ field.field.custom_css_class }}{% endif %}">
     {{ field.label_tag }}
     {{ field }}
     {% if field.help_text %}<p class="help-text">{{ field.help_text }}</p>{% endif %}

@@ -4,9 +4,7 @@
     {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
     <div class="row">
     {% for field in form.visible_fields %}
-        <div class="col-12 col-md-6">
-            {% include 'streamforms/partials/form_field.html' %}
-        </div>
+        {% include 'streamforms/partials/form_field.html' %}
     {% endfor %}
     </div>
     <div class="form-actions">

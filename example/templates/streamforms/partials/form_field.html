@@ -1,4 +1,4 @@
-<div class="field-row {% if field.errors %}has-error{% endif %}">
+<div class="field-row{% if field.errors %} has-error{% endif %}{% if field.field.custom_css_class %} {{ field.field.custom_css_class }}{% endif %}">
     {{ field.errors }}
     {{ field.label_tag }}
     {{ field }}

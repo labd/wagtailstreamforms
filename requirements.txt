@@ -1,7 +1,7 @@
 # The app itself
 -e .
 
-django
+django<2
 mock
-wagtail
+wagtail<2
 psycopg2
