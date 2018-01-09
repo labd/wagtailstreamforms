@@ -44,6 +44,10 @@ class FormBuilder(OrigFormBuilder):
 
         fields = super().formfields
 
+        # TODO: find a nicer way to set these
+        for field in self.fields:
+            fields[field.clean_name].custom_css_class = field.custom_css_class
+
         # add fields to uniquely identify the form
         fields['form_id'] = forms.CharField(widget=forms.HiddenInput)
         fields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
