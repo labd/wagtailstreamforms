@@ -311,7 +311,7 @@ class AbstractEmailForm(BaseForm):
     )
     message = models.TextField()
     exclude_form_data = models.BooleanField(
-        default=True,
+        default=False,
         help_text=_("Exclude form submission data from email")
     )
     fail_silently = models.BooleanField(
