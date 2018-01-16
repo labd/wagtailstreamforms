@@ -310,6 +310,10 @@ class AbstractEmailForm(BaseForm):
         help_text=_("Add one email per line")
     )
     message = models.TextField()
+    exclude_form_data = models.BooleanField(
+        default=False,
+        help_text=_("Exclude form submission data from email")
+    )
     fail_silently = models.BooleanField(
         default=True
     )
@@ -319,6 +323,7 @@ class AbstractEmailForm(BaseForm):
         FieldPanel('from_address', classname="full"),
         FieldPanel('to_addresses', classname="full"),
         FieldPanel('message', classname="full"),
+        FieldPanel('exclude_form_data'),
         FieldPanel('fail_silently'),
     ]
 
@@ -339,18 +344,25 @@ class AbstractEmailForm(BaseForm):
 
     def send_form_mail(self, form):
         """ Send an email. """
+        if self.exclude_form_data:
+            from django.urls import reverse
+            from django.contrib.sites.models import Site
 
-        content = [self.message + '\n\nSubmission\n', ]
+            current_site = Site.objects.get_current().domain
+            url = reverse('wagtailstreamforms:streamforms_submissions', args=[str(self.pk)])
+            content = [self.message + '\n\nYour form has a new submission.\n', ]
+            content.append('To view the submission, go to: ' + current_site + url)
 
-        for name, field in form.fields.items():
-            data = form.cleaned_data.get(name)
+        else:
+            content = [self.message + '\n\nSubmission\n', ]
+            for name, field in form.fields.items():
+                data = form.cleaned_data.get(name)
 
-            if name in self.ignored_fields or not data:
-                continue  # pragma: no cover
+                if name in self.ignored_fields or not data:
+                    continue  # pragma: no cover
 
-            label = field.label or name
-
-            content.append(label + ': ' + six.text_type(data))
+                label = field.label or name
+                content.append(label + ': ' + six.text_type(data))
 
         send_mail(
             self.subject,

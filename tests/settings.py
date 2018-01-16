@@ -10,7 +10,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'django.contrib.sites',
+
     # wagtail
     'wagtail.wagtailcore',
     'wagtail.wagtailadmin',
@@ -74,3 +75,5 @@ ROOT_URLCONF = 'tests.urls'
 STATIC_URL = '/static/'
 
 LOGIN_URL = reverse_lazy('admin:login')
+
+SITE_ID = 1
