@@ -100,7 +100,7 @@ or run for a single environment
 
 .. code:: bash
 
-    $ tox -e py36-dj111-wt112
+    $ tox -e py36-dj200-wt200
 
 .. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master.svg?style=svg
    :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master
