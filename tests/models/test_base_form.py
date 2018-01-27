@@ -7,7 +7,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from modelcluster.models import ClusterableModel
-from wagtail.wagtailcore.models import Page
+from wagtail.core.models import Page
 
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import BaseForm, FormField, FormSubmission

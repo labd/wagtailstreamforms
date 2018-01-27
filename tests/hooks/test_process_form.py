@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import override_settings
 from django.test.client import Client
 from mock import patch
-from wagtail.wagtailcore.models import Page
+from wagtail.core.models import Page
 
 from wagtailstreamforms.models import BasicForm, FormField
 from wagtailstreamforms.wagtail_hooks import process_form

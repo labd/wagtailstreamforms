@@ -4,7 +4,7 @@ from django.core.validators import validate_email
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
-from wagtail.wagtailforms.forms import FormBuilder as OrigFormBuilder
+from wagtail.contrib.forms.forms import FormBuilder as OrigFormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
 from wagtailstreamforms.widgets import MultiEmailWidget
 
@@ -15,15 +15,8 @@ class FormBuilder(OrigFormBuilder):
         super().__init__(fields)
 
         self.add_recaptcha = kwargs.pop('add_recaptcha')
-        self.add_extra_field_types()
 
-    @classmethod
-    def add_extra_field_types(cls):
-        """ Adds extra field types to OrigFormBuilder.FIELD_TYPES """
-
-        cls.FIELD_TYPES.update({'regexfield': cls.create_regex_field})
-
-    def create_regex_field(self, field, options):
+    def create_regexfield_field(self, field, options):
         """ The regex field """
 
         if field.regex_validator:

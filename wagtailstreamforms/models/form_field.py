@@ -2,8 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from modelcluster.fields import ParentalKey
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
-from wagtail.wagtailforms.models import AbstractFormField, FORM_FIELD_CHOICES
+from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.contrib.forms.models import AbstractFormField, FORM_FIELD_CHOICES
 
 
 def get_form_field_choices():
