@@ -12,42 +12,8 @@
 
 // colors
 $colors: (
-    // required base colours
     white:                  rgb(255, 255, 255),
-    black:                  rgb(17, 17, 17),
     primary:                  rgb(67, 177, 176),
-    secondary:                rgb(240, 240, 240),
-
-    // A nicer colour palette for the web via http://clrs.cc/
-
-    // Cool
-    aqua:                   rgb(127, 219, 255),
-    blue:                   rgb(0, 116, 217),
-    navy:                   rgb(0, 31, 63),
-    teal:                   rgb(57, 204, 204),
-    green:                  rgb(46, 204, 64),
-    olive:                  rgb(61, 153, 112),
-    lime:                   rgb(1, 255, 112),
-    // Warm
-    yellow:                 rgb(255, 220, 0),
-    orange:                 rgb(255, 133, 27),
-    red:                    rgb(255, 65, 54),
-    fuchsia:                rgb(240, 18, 190),
-    purple:                 rgb(177, 13, 201),
-    maroon:                 rgb(133, 20, 75),
-    // Other Greyscale
-    silver:                 rgb(221, 221, 221),
-    gray:                   rgb(170, 170, 170),
-
-    // Social media, more can be found at https://www.materialui.co/socialcolors
-    facebook:               rgb(59, 89, 153),
-    twitter:                rgb(85, 172, 238),
-    linkedin:               rgb(0, 119, 181),
-    googleplus:             rgb(221, 75, 57),
-    instagram:              rgb(228, 64, 95),
-    pinterest:              rgb(189, 8, 28),
-
-    // custom
     mineshaft:              rgb(51, 51, 51)
     
 ) !default;
@@ -63,7 +29,5 @@ $input-use-full-width:          true; // false = max-width:100%, true = width:10
 // buttons
 $buttons: (
     // name         color                          font-color
-    primary:        map-get($colors, primary)      map-get($colors, white),
-    secondary:      map-get($colors, secondary)    map-get($colors, black),
     mineshaft:      map-get($colors, mineshaft)    map-get($colors, white),
 ) !default;

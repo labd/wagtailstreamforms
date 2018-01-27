@@ -1,4 +1,5 @@
 /*! Karma-CSS v1.5.0 MIT License | http://karmacss.com | https://github.com/accentdesign/karma-css */
+/*! Karma-CSS v1.7.1 MIT License | http://karmacss.com | https://github.com/accentdesign/karma-css */
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html{
   line-height:1.15;
@@ -40,7 +41,9 @@ abbr[title]{
   text-decoration:underline dotted; }
 b,
 strong{
-  font-weight:inherit;
+  font-weight:inherit; }
+b,
+strong{
   font-weight:bolder; }
 code,
 kbd,
@@ -146,7 +149,9 @@ summary{
   display:list-item; }
 canvas{
   display:inline-block; }
-template,[hidden]{
+template{
+  display:none; }
+[hidden]{
   display:none; }
 .container{
   margin-right:auto;
@@ -1105,6 +1110,8 @@ template,[hidden]{
 *, *::before, *::after{
   -webkit-box-sizing:border-box;
   box-sizing:border-box; }
+*{
+  margin:0; }
 html{
   font-size:62.5%; }
 
@@ -1118,17 +1125,18 @@ body{
 
 a{
   color:#43b1b0;
-  -webkit-transition:all ease-in-out 250ms;
-  -o-transition:all ease-in-out 250ms;
-  transition:all ease-in-out 250ms; }
-  a,a:hover{
-  text-decoration:none; }
+  text-decoration:none;
+  -webkit-transition:color linear 250ms;
+  -o-transition:color linear 250ms;
+  transition:color linear 250ms; }
   a:hover{
-    color:#358c8b; }
+    color:#358c8b;
+    text-decoration:none; }
 
 .button{
   display:inline-block;
   padding:1rem 1rem;
+  color:#3e3e3e;
   text-align:center;
   font-family:"Open Sans", sans-serif;
   font-size:1.5rem;
@@ -1136,6 +1144,7 @@ a{
   line-height:1.25;
   text-decoration:none;
   white-space:nowrap;
+  background-color:white;
   border-radius:0.25rem;
   border:1px solid #e6e6e6;
   cursor:pointer;
@@ -1145,13 +1154,12 @@ a{
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none;
-  -webkit-transition:all ease-in-out 250ms;
-  -o-transition:all ease-in-out 250ms;
-  transition:all ease-in-out 250ms; }
-  .button,.button:hover, .button:focus{
-  color:#3e3e3e;
-  background-color:white; }
+  -webkit-transition:background-color linear 250ms, border-color linear 250ms;
+  -o-transition:background-color linear 250ms, border-color linear 250ms;
+  transition:background-color linear 250ms, border-color linear 250ms; }
   .button:hover, .button:focus{
+    color:#3e3e3e;
+    background-color:white;
     border-color:#cdcdcd;
     outline:0; }
 
@@ -1185,17 +1193,18 @@ a{
     border-color:#0d0d0d;
     outline:0; }
 
+code, kbd, pre, samp{
+  font-family:monospace, monospace; }
+
 code{
-  font-family:monospace, monospace;
   padding:.2rem .5rem;
-  font-size:90%;
   white-space:nowrap;
   background:#f0f0f0;
   border:1px solid #e6e6e6;
   border-radius:0.25rem; }
 
 pre{
-  margin-top:0; }
+  margin-bottom:1.5rem; }
 
 pre > code{
   padding:1rem 1.5rem;
@@ -1205,6 +1214,9 @@ pre > code{
 
 *[disabled]{
   cursor:not-allowed; }
+
+form{
+  margin-bottom:1.5rem; }
 
 input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="email"], input[type="month"], input[type="number"], input[type="password"], input[type="search"], input[type="tel"], input[type="text"], input[type="url"], input[type="week"]{
   -webkit-appearance:none;
@@ -1222,9 +1234,9 @@ input[type="date"], input[type="datetime"], input[type="datetime-local"], input[
   margin-bottom:1.5rem;
   border:1px solid #e6e6e6;
   border-radius:0.25rem;
-  -webkit-transition:all ease-in-out 250ms;
-  -o-transition:all ease-in-out 250ms;
-  transition:all ease-in-out 250ms;
+  -webkit-transition:background linear 250ms, border-color linear 250ms;
+  -o-transition:background linear 250ms, border-color linear 250ms;
+  transition:background linear 250ms, border-color linear 250ms;
   font-size:1.5rem;
   padding:1rem 1rem;
   height:4rem;
@@ -1250,9 +1262,9 @@ textarea{
   margin-bottom:1.5rem;
   border:1px solid #e6e6e6;
   border-radius:0.25rem;
-  -webkit-transition:all ease-in-out 250ms;
-  -o-transition:all ease-in-out 250ms;
-  transition:all ease-in-out 250ms;
+  -webkit-transition:background linear 250ms, border-color linear 250ms;
+  -o-transition:background linear 250ms, border-color linear 250ms;
+  transition:background linear 250ms, border-color linear 250ms;
   width:100%; }
   textarea:focus{
     background:white;
@@ -1272,9 +1284,9 @@ select{
   margin-bottom:1.5rem;
   border:1px solid #e6e6e6;
   border-radius:0.25rem;
-  -webkit-transition:all ease-in-out 250ms;
-  -o-transition:all ease-in-out 250ms;
-  transition:all ease-in-out 250ms;
+  -webkit-transition:background linear 250ms, border-color linear 250ms;
+  -o-transition:background linear 250ms, border-color linear 250ms;
+  transition:background linear 250ms, border-color linear 250ms;
   font-size:1.5rem;
   padding:1rem 1rem;
   height:4rem;
@@ -1285,6 +1297,31 @@ select{
     outline:0; }
   select[multiple]{
     height:auto; }
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder{
+  color:#b9b9b9;
+  opacity:1; }
+
+input::-moz-placeholder,
+textarea::-moz-placeholder{
+  color:#b9b9b9;
+  opacity:1; }
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder{
+  color:#b9b9b9;
+  opacity:1; }
+
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder{
+  color:#b9b9b9;
+  opacity:1; }
+
+input::placeholder,
+textarea::placeholder{
+  color:#b9b9b9;
+  opacity:1; }
 
 label,
 legend{
@@ -1298,55 +1335,59 @@ fieldset{
   margin-bottom:1.5rem; }
 
 input[type="checkbox"], input[type="radio"]{
-  margin-right:1.5rem;
-  display:inline; }
-
-label.checkbox, label.radio,.radio label,
-.checkbox label{
-  font-weight:normal; }
+  margin-right:1rem; }
 
 hr{
   margin:1.5rem 0;
   border-width:0;
   border-top:1px solid #e6e6e6; }
 
+figure{
+  margin:0 0 1.5rem; }
+
 ul{
   padding-left:0;
-  margin-top:0;
-  list-style:circle inside; }
+  list-style:circle inside;
+  margin-bottom:1.5rem; }
   ul ul, ul ol{
     margin:0 0 0 2rem; }
 
 ol{
   padding-left:0;
-  margin-top:0;
-  list-style:decimal inside; }
+  list-style:decimal inside;
+  margin-bottom:1.5rem; }
   ol ol, ol ul{
     margin:0 0 0 2rem; }
 
-pre,
-dl,
-figure,
-table,
-p,
-ul,
-ol,
-form{
+dl{
   margin-bottom:1.5rem; }
 
-table{
-  width:100%;
-  max-width:100%;
-  border-collapse:collapse;
-  border-spacing:0; }
+dt{
+  font-weight:bold; }
 
-th,
-td{
+dd{
+  margin-bottom:.5rem; }
+
+table{
+  background-color:transparent;
+  border-collapse:collapse;
+  border-spacing:0;
+  font-size:90%;
+  margin-bottom:1.5rem;
+  max-width:100%;
+  width:100%; }
+
+caption{
+  padding:0.85rem 0.85rem; }
+
+th{
   padding:0.85rem 0.85rem;
   text-align:left; }
 
 td{
-  border-top:1px solid #e6e6e6; }
+  border-top:1px solid #e6e6e6;
+  padding:0.85rem 0.85rem;
+  text-align:left; }
 
 .table-bordered{
   border:solid 1px #e6e6e6; }
@@ -1361,8 +1402,8 @@ td{
   background-color:whitesmoke; }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6{
-  margin:0 0 1rem;
-  font-weight:400; }
+  font-weight:400;
+  margin:0 0 1.5rem; }
   h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small, h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small{
     font-size:65%;
     line-height:1; }
@@ -1392,12 +1433,14 @@ h6, .h6{
   line-height:1.6; }
 
 p{
-  margin-top:0; }
+  margin-bottom:1.5rem; }
 
 blockquote{
-  margin:0 0 1.5rem;
+  margin-bottom:1.5rem;
   padding:1rem 1.5rem;
   border-left:3px solid #e6e6e6; }
+  blockquote :last-child{
+    margin-bottom:0; }
 form h2{
   margin-bottom:3rem; }
 
@@ -1727,7 +1770,10 @@ footer{
 .d-table-cell{
   display:table-cell; }
 .img-fluid{
+  min-height:1px;
   max-width:100%;
+  width:100%;
+  display:block;
   height:auto; }
 .scroll-x{
   overflow-x:auto; }
@@ -1739,6 +1785,20 @@ footer{
 
 .pointer{
   cursor:pointer; }
+.flip-x{
+  -webkit-transform:scale(-1, 1);
+  -o-transform:scale(-1, 1);
+  transform:scale(-1, 1); }
+
+.flip-y{
+  -webkit-transform:scale(1, -1);
+  -o-transform:scale(1, -1);
+  transform:scale(1, -1); }
+
+.flip-both{
+  -webkit-transform:scale(-1, -1);
+  -o-transform:scale(-1, -1);
+  transform:scale(-1, -1); }
 .flex-row{
   -webkit-box-orient:horizontal;
   -webkit-box-direction:normal;
@@ -1865,6 +1925,11 @@ footer{
   -webkit-align-self:stretch;
   -ms-flex-item-align:stretch;
   align-self:stretch; }
+
+@media print{
+  .no-print,
+  .no-print *{
+    display:none !important; } }
 
 .hidden-xs-up{
   display:none !important; }

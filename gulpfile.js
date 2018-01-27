@@ -6,7 +6,6 @@ var runSequence = require('run-sequence');
 var autoprefixer = require('autoprefixer');
 var discardempty = require('postcss-discard-empty');
 var discardcomments = require('postcss-discard-comments');
-var mergerules = require('postcss-merge-rules');
 
 var config = {
     publicDir: 'example/static',
@@ -44,7 +43,6 @@ gulp.task('scss', function () {
         .pipe($.postcss([
             discardcomments(),
             discardempty(),
-            mergerules(),
             autoprefixer(config.autoprefixer)
         ]))
         .pipe($.sourcemaps.write('.'))
