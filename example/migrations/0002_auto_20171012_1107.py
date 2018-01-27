@@ -3,8 +3,8 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import wagtail.wagtailcore.blocks
-import wagtail.wagtailcore.fields
+import wagtail.core.blocks
+import wagtail.core.fields
 import wagtailstreamforms.blocks
 
 
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='basicpage',
             name='body',
-            field=wagtail.wagtailcore.fields.StreamField((('form', wagtail.wagtailcore.blocks.StructBlock((('form', wagtailstreamforms.blocks.FormChooserBlock()), ('form_action', wagtail.wagtailcore.blocks.CharBlock(default='.', help_text='The action to use in the form. "." means it will post to the current page.'))))),)),
+            field=wagtail.core.fields.StreamField((('form', wagtail.core.blocks.StructBlock((('form', wagtailstreamforms.blocks.FormChooserBlock()), ('form_action', wagtail.core.blocks.CharBlock(default='.', help_text='The action to use in the form. "." means it will post to the current page.'))))),)),
         ),
     ]

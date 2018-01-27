@@ -5,10 +5,10 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
-from wagtail.wagtailcore import blocks
-from wagtail.wagtailcore.fields import StreamField
-from wagtail.wagtailcore.models import Page
+from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
+from wagtail.core.models import Page
 from wagtailstreamforms.blocks import WagtailFormBlock
 from wagtailstreamforms.models import AbstractFormSubmission, BaseForm
 
@@ -37,8 +37,8 @@ class ExampleForm(BaseForm):
 
 
 class ExampleFormSubmission(AbstractFormSubmission):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
-    page = models.ForeignKey(Page)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, null=True, blank=True)
 
     def get_data(self):
         form_data = super().get_data()

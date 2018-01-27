@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.wagtailcore.blocks
-import wagtail.wagtailcore.fields
+import wagtail.core.blocks
+import wagtail.core.fields
 import wagtailstreamforms.blocks
 
 
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='BasicPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('body', wagtail.wagtailcore.fields.StreamField((('form', wagtail.wagtailcore.blocks.StructBlock((('form', wagtailstreamforms.blocks.FormChooserBlock()),))),))),
+                ('body', wagtail.core.fields.StreamField((('form', wagtail.core.blocks.StructBlock((('form', wagtailstreamforms.blocks.FormChooserBlock()),))),))),
             ],
             options={
                 'abstract': False,
