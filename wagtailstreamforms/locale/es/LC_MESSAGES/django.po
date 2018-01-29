@@ -1,0 +1,200 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-29 23:30+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:59
+msgid "Enter valid email addresses."
+msgstr "Ingresar direcciones de correo electrónuco válidas."
+
+#: models/form.py:49
+msgid "Used to identify the form in template tags"
+msgstr "Usado para identificar el formulatio en las etiquetas de plantilla"
+
+#: models/form.py:53
+msgid "content type"
+msgstr "typo de contenido"
+
+#: models/form.py:71
+msgid "Add a reCapcha field to the form."
+msgstr "Añadir un campo reCapcha al formulario."
+
+#: models/form.py:76
+msgid ""
+"An optional success message to show when the form has been successfully "
+"submitted"
+msgstr ""
+"Un mensaje de éxito opcional a mostrar cuando el formulario ha sido entregado "
+"exitosamente"
+
+#: models/form.py:81
+msgid "An optional error message to show when the form has validation errors"
+msgstr "Un mensaje de error opcional a mostrar cuando el fomulario tiene errores de validación"
+
+#: models/form.py:89
+msgid "The page to redirect to after a successful submission"
+msgstr "La página a redirigiar después de una entrega exitosa"
+
+#: models/form.py:124
+msgid "form"
+msgstr "formulario"
+
+#: models/form.py:195
+msgid "Submission date"
+msgstr "Fecha de entrega"
+
+#: models/form.py:310
+msgid "Add one email per line"
+msgstr "Añadir un correo electrónico por línea"
+
+#: models/form_field.py:11
+msgid "Regex validated field"
+msgstr "Campo validado por regex"
+
+#: models/form_field.py:19
+msgid "field type"
+msgstr "typo de campo"
+
+#: models/form_field.py:28
+msgid "Applicable only for the field type 'regex validated field'."
+msgstr "Aplicable sólo al campo de tipo 'campo validado por regex'."
+
+#: models/submission.py:21
+msgid "submit time"
+msgstr "tiempo de entrega"
+
+#: models/submission.py:45
+msgid "form submission"
+msgstr "envio de formulario"
+
+#: models/validators.py:32
+msgid "regex validator"
+msgstr "validador regex"
+
+#: templates/streamforms/confirm_copy.html:3
+#, python-format
+msgid "Copy of %(form_title)s"
+msgstr "Copia de %(form_title)s"
+
+#: templates/streamforms/confirm_copy.html:7
+#: templates/streamforms/confirm_copy.html:21 wagtail_hooks.py:34
+msgid "Copy"
+msgstr "Copiar"
+
+#: templates/streamforms/confirm_copy.html:11
+msgid "Are you sure you want to copy this form?"
+msgstr "¿Está seguro que quiere copiar este formulario?"
+
+#: templates/streamforms/confirm_delete.html:3
+#: templates/streamforms/submissions.html:3
+#, python-format
+msgid "Submissions of %(form_title)s"
+msgstr "Envios de %(form_title)s"
+
+#: templates/streamforms/confirm_delete.html:7
+msgid "Delete form data"
+msgstr "Eliminar datos del formulario"
+
+#: templates/streamforms/confirm_delete.html:12
+msgid ""
+"\n"
+"                Are you sure you want to delete this form submission?\n"
+"            "
+msgid_plural ""
+"\n"
+"                Are you sure you want to delete these form submissions?\n"
+"            "
+msgstr[0] ""
+"\n"
+"                ¿Está seguro que quiere eliminar esta entrega de formulario?\n"
+"            "
+msgstr[1] ""
+"\n"
+"                ¿Está seguro que quiere eliminar esta entrega de formulario?\n"
+"            "
+
+#: templates/streamforms/confirm_delete.html:20
+msgid "Delete"
+msgstr "Eliminar"
+
+#: templates/streamforms/list_submissions.html:11
+msgid "Delete selected submissions"
+msgstr "Eliminar presentaciones seleccionadas"
+
+#: templates/streamforms/partials/pagination_nav.html:4
+#, python-format
+msgid "Page %(page_num)s of %(total_pages)s."
+msgstr "Página %(page_num)s de %(total_pages)s."
+
+#: templates/streamforms/partials/pagination_nav.html:8
+msgid "Previous"
+msgstr "Anterior"
+
+#: templates/streamforms/partials/pagination_nav.html:13
+msgid "Next"
+msgstr "Siguiente"
+
+#: templates/streamforms/submissions.html:11
+#, python-format
+msgid "Form data <span>%(form_title)s</span>"
+msgstr "Datos del formilario <span>%(form_title)s</span>"
+
+#: templates/streamforms/submissions.html:20
+msgid "Filter"
+msgstr "Filtrar"
+
+#: templates/streamforms/submissions.html:26
+msgid "Download CSV"
+msgstr "Descargar CSV"
+
+#: templates/streamforms/submissions.html:38
+#, python-format
+msgid "There have been no submissions of the '%(title)s' form."
+msgstr "No hay presentaciones enviadas para el formulario '%(title)s'."
+
+#: views/copy.py:13
+msgid "New name"
+msgstr "Nuevo nombre"
+
+#: views/copy.py:14
+msgid "New slug"
+msgstr "Nueva marquilla"
+
+#: views/submission_delete.py:52
+#, python-format
+msgid "One submission has been deleted."
+msgid_plural "%(count)d submissions have been deleted."
+msgstr[0] "Una presentación ha sido eliminada."
+msgstr[1] "%(count)d presentaciones han sido eliminadas."
+
+#: views/submission_list.py:38
+msgid "No BaseForm found matching the query"
+msgstr "No se encontró un BaseForm acorde a la consulta"
+
+#: wagtail_hooks.py:36
+#, python-format
+msgid "Copy this %s"
+msgstr "Copiar este %s"
+
+#: wagtail_hooks.py:44
+msgid "Submissions"
+msgstr "Presentaciones"
+
+#: wagtail_hooks.py:46
+#, python-format
+msgid "Submissions of this %s"
+msgstr "Presentaciones de este %s"
