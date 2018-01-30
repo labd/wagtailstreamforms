@@ -16,12 +16,13 @@ class FormField(AbstractFormField):
     """ Database Fields required for building a Django Form field. """
 
     field_type = models.CharField(
-        verbose_name=_('field type'),
+        _('field type'),
         max_length=16,
         choices=get_form_field_choices()
     )
     regex_validator = models.ForeignKey(
         'RegexFieldValidator',
+        verbose_name=_('regex validator'),
         null=True,
         blank=True,
         on_delete=models.PROTECT,
@@ -29,6 +30,7 @@ class FormField(AbstractFormField):
     )
     form = ParentalKey(
         'BaseForm',
+        verbose_name=_('form'),
         on_delete=models.CASCADE,
         related_name='form_fields'
     )

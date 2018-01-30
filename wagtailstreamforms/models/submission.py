@@ -12,13 +12,16 @@ class AbstractFormSubmission(models.Model):
     For example, if you need to save additional data or a reference to a user.
     """
 
-    form_data = models.TextField()
+    form_data = models.TextField(
+        _('form data'),
+    )
     form = models.ForeignKey(
         'wagtailstreamforms.BaseForm',
+        verbose_name=_('form'),
         on_delete=models.CASCADE
     )
     submit_time = models.DateTimeField(
-        verbose_name=_('submit time'),
+        _('submit time'),
         auto_now_add=True
     )
 
