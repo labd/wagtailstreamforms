@@ -40,11 +40,11 @@ class BaseForm(ClusterableModel):
     """ A form base class, any form should inherit from this. """
 
     name = models.CharField(
-        _('name'),
+        _('Name'),
         max_length=255
     )
     slug = models.SlugField(
-        _('slug'),
+        _('Slug'),
         allow_unicode=True,
         max_length=255,
         unique=True,
@@ -52,44 +52,44 @@ class BaseForm(ClusterableModel):
     )
     content_type = models.ForeignKey(
         'contenttypes.ContentType',
-        verbose_name=_('content type'),
+        verbose_name=_('Content type'),
         related_name='streamforms',
         on_delete=models.SET(get_default_form_content_type)
     )
     template_name = models.CharField(
-        _('template'),
+        _('Template'),
         max_length=255,
         choices=get_setting('FORM_TEMPLATES')
     )
     submit_button_text = models.CharField(
-        _('submit button text'),
+        _('Submit button text'),
         max_length=100,
         default='Submit'
     )
     store_submission = models.BooleanField(
-        _('store submission'),
+        _('Store submission'),
         default=False
     )
     add_recaptcha = models.BooleanField(
-        _('add recaptcha'),
+        _('Add recaptcha'),
         default=False,
         help_text=_('Add a reCapcha field to the form.')
     )
     success_message = models.CharField(
-        _('success message'),
+        _('Success message'),
         blank=True,
         max_length=255,
         help_text=_('An optional success message to show when the form has been successfully submitted')
     )
     error_message = models.CharField(
-        _('error message'),
+        _('Error message'),
         blank=True,
         max_length=255,
         help_text=_('An optional error message to show when the form has validation errors')
     )
     post_redirect_page = models.ForeignKey(
         'wagtailcore.Page',
-        verbose_name=_('post redirect page'),
+        verbose_name=_('Post redirect page'),
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -129,7 +129,8 @@ class BaseForm(ClusterableModel):
 
     class Meta:
         ordering = ['name', ]
-        verbose_name = _('form')
+        verbose_name = _('Form')
+        verbose_name_plural = _('Forms')
 
     def copy(self):
         """ Copy this form and its fields. """
@@ -297,6 +298,9 @@ if recaptcha_enabled():  # pragma: no cover
 
 class BasicForm(BaseForm):
     """ A basic form. """
+    class Meta:
+        verbose_name = _('Basic form')
+        verbose_name_plural = _('Basic Forms')
 
 
 class AbstractEmailForm(BaseForm):
@@ -311,21 +315,21 @@ class AbstractEmailForm(BaseForm):
     ignored_fields = ['recaptcha', 'form_id', 'form_reference']
 
     subject = models.CharField(
-        _('subject'),
+        _('Subject'),
         max_length=255
     )
     from_address = models.EmailField(
-        _('from address')
+        _('From address')
     )
     to_addresses = MultiEmailField(
-        _('to addresses'),
+        _('To addresses'),
         help_text=_("Add one email per line")
     )
     message = models.TextField(
-        _('message'),
+        _('Message'),
     )
     fail_silently = models.BooleanField(
-        _('fail silently'),
+        _('Fail silently'),
         default=True
     )
 
@@ -378,3 +382,6 @@ class AbstractEmailForm(BaseForm):
 
 class EmailForm(AbstractEmailForm):
     """ A form that sends and email. """
+    class Meta:
+        verbose_name = _('Email form')
+        verbose_name_plural = _('Email forms')
