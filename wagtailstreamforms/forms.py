@@ -4,7 +4,7 @@ from django.core.validators import validate_email
 from django.utils.translation import ugettext_lazy as _
 
 from captcha.fields import ReCaptchaField
-from wagtail.wagtailforms.forms import FormBuilder as OrigFormBuilder
+from wagtail.contrib.forms.forms import FormBuilder as OrigFormBuilder
 from wagtailstreamforms.utils import recaptcha_enabled
 from wagtailstreamforms.widgets import MultiEmailWidget
 

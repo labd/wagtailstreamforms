@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
-from wagtail.wagtailcore import hooks
+from wagtail.core import hooks
 
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import BaseForm, RegexFieldValidator
