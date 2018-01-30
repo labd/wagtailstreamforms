@@ -165,7 +165,7 @@ msgstr "Campo validado por regex"
 
 #: models/form_field.py:19
 msgid "Field type"
-msgstr "Tipo de campo"
+msgstr "T de campo"
 
 #: models/form_field.py:25 models/validators.py:39
 msgid "Regex validator"
@@ -253,7 +253,7 @@ msgstr "Eliminar presentaciones seleccionadas"
 
 #: templates/streamforms/non_existent_form.html:2
 msgid "Sorry, this form has been deleted."
-msgstr "Una presentación ha sido eliminada."
+msgstr "Lo sentimos, esta presentación ha sido eliminada."
 
 #: templates/streamforms/partials/pagination_nav.html:4
 #, python-format
