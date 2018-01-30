@@ -8,19 +8,19 @@ class RegexFieldValidator(models.Model):
     """ Regex validation data for a regex validated form field. """
 
     name = models.CharField(
-        _('name'),
+        _('Name'),
         max_length=255
     )
     description = models.TextField(
-        _('description'),
+        _('Description'),
         null=True,
         blank=True
     )
     regex = models.TextField(
-        _('regex')
+        _('Regex')
     )
     error_message = models.CharField(
-        _('error message'),
+        _('Error message'),
         max_length=255
     )
 
@@ -36,4 +36,5 @@ class RegexFieldValidator(models.Model):
 
     class Meta:
         ordering = ['name', ]
-        verbose_name = _('regex validator')
+        verbose_name = _('Regex validator')
+        verbose_name_plural = _('Regex validators')

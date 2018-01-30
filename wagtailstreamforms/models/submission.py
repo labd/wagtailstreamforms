@@ -13,15 +13,15 @@ class AbstractFormSubmission(models.Model):
     """
 
     form_data = models.TextField(
-        _('form data'),
+        _('Form data'),
     )
     form = models.ForeignKey(
         'wagtailstreamforms.BaseForm',
-        verbose_name=_('form'),
+        verbose_name=_('Form'),
         on_delete=models.CASCADE
     )
     submit_time = models.DateTimeField(
-        _('submit time'),
+        _('Submit time'),
         auto_now_add=True
     )
 
@@ -45,7 +45,7 @@ class AbstractFormSubmission(models.Model):
     class Meta:
         abstract = True
         ordering = ['-submit_time', ]
-        verbose_name = _('form submission')
+        verbose_name = _('Form submission')
 
 
 class FormSubmission(AbstractFormSubmission):
