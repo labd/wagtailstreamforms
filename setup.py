@@ -8,9 +8,9 @@ from wagtailstreamforms import __version__
 
 
 install_requires = [
-    'Django>=1.11,<1.12',
+    'Django>=2,<2.1',
     'django-recaptcha>=1.3.1',
-    'wagtail>=1.12,<2'
+    'wagtail>=2.0b1,<2.1'
 ]
 
 documentation_extras = [
@@ -54,7 +54,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
         'Topic :: Internet :: WWW/HTTP :: Site Management',
     ],
 )
