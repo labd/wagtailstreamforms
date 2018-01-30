@@ -40,9 +40,11 @@ class BaseForm(ClusterableModel):
     """ A form base class, any form should inherit from this. """
 
     name = models.CharField(
+        _('name'),
         max_length=255
     )
     slug = models.SlugField(
+        _('slug'),
         allow_unicode=True,
         max_length=255,
         unique=True,
@@ -55,34 +57,40 @@ class BaseForm(ClusterableModel):
         on_delete=models.SET(get_default_form_content_type)
     )
     template_name = models.CharField(
-        verbose_name='template',
+        _('template'),
         max_length=255,
         choices=get_setting('FORM_TEMPLATES')
     )
     submit_button_text = models.CharField(
+        _('submit button text'),
         max_length=100,
         default='Submit'
     )
     store_submission = models.BooleanField(
+        _('store submission'),
         default=False
     )
     add_recaptcha = models.BooleanField(
+        _('add recaptcha'),
         default=False,
         help_text=_('Add a reCapcha field to the form.')
     )
     success_message = models.CharField(
+        _('success message'),
         blank=True,
         max_length=255,
         help_text=_('An optional success message to show when the form has been successfully submitted')
     )
     error_message = models.CharField(
+        _('error message'),
         blank=True,
         max_length=255,
         help_text=_('An optional error message to show when the form has validation errors')
     )
     post_redirect_page = models.ForeignKey(
         'wagtailcore.Page',
-        models.SET_NULL,
+        verbose_name=_('post redirect page'),
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='+',
@@ -97,18 +105,18 @@ class BaseForm(ClusterableModel):
         MultiFieldPanel([
             FieldPanel('success_message'),
             FieldPanel('error_message'),
-        ], 'Messages'),
+        ], _('Messages')),
         FieldPanel('store_submission'),
         PageChooserPanel('post_redirect_page')
     ]
 
     field_panels = [
-        InlinePanel('form_fields', label='Fields'),
+        InlinePanel('form_fields', label=_('Fields')),
     ]
 
     edit_handler = TabbedInterface([
-        ObjectList(settings_panels, heading='General'),
-        ObjectList(field_panels, heading='Fields'),
+        ObjectList(settings_panels, heading=_('General')),
+        ObjectList(field_panels, heading=_('Fields')),
     ])
 
     def __init__(self, *args, **kwargs):
@@ -303,14 +311,21 @@ class AbstractEmailForm(BaseForm):
     ignored_fields = ['recaptcha', 'form_id', 'form_reference']
 
     subject = models.CharField(
+        _('subject'),
         max_length=255
     )
-    from_address = models.EmailField()
+    from_address = models.EmailField(
+        _('from address')
+    )
     to_addresses = MultiEmailField(
+        _('to addresses'),
         help_text=_("Add one email per line")
     )
-    message = models.TextField()
+    message = models.TextField(
+        _('message'),
+    )
     fail_silently = models.BooleanField(
+        _('fail silently'),
         default=True
     )
 
@@ -323,9 +338,9 @@ class AbstractEmailForm(BaseForm):
     ]
 
     edit_handler = TabbedInterface([
-        ObjectList(BaseForm.settings_panels, heading='General'),
-        ObjectList(BaseForm.field_panels, heading='Fields'),
-        ObjectList(email_panels, heading='Email Submission'),
+        ObjectList(BaseForm.settings_panels, heading=_('General')),
+        ObjectList(BaseForm.field_panels, heading=_('Fields')),
+        ObjectList(email_panels, heading=_('Email Submission')),
     ])
 
     class Meta(BaseForm.Meta):

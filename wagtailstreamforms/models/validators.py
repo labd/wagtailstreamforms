@@ -8,14 +8,21 @@ class RegexFieldValidator(models.Model):
     """ Regex validation data for a regex validated form field. """
 
     name = models.CharField(
+        _('name'),
         max_length=255
     )
     description = models.TextField(
+        _('description'),
         null=True,
         blank=True
     )
-    regex = models.TextField()
-    error_message = models.CharField(max_length=255)
+    regex = models.TextField(
+        _('regex')
+    )
+    error_message = models.CharField(
+        _('error message'),
+        max_length=255
+    )
 
     panels = [
         FieldPanel('name', classname='full'),
