@@ -25,8 +25,8 @@ What else is included?
 
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Contents
 
    installation
    usage
@@ -39,11 +39,3 @@ What else is included?
    contributors
    changelog
    screenshots
-
-
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
