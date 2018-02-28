@@ -54,8 +54,8 @@ Model:
 
 .. code-block:: python
 
-   from wagtail.wagtailadmin.edit_handlers import TabbedInterface, ObjectList, FieldPanel
-   from wagtail.wagtailcore.fields import RichTextField
+   from wagtail.admin.edit_handlers import TabbedInterface, ObjectList, FieldPanel
+   from wagtail.core.fields import RichTextField
    from wagtailstreamforms.models import AbstractEmailForm, BaseForm
 
 
@@ -111,7 +111,7 @@ Example:
    from django.db import models
    from django.utils.translation import ugettext_lazy as _
 
-   from wagtail.wagtailcore.models import Page
+   from wagtail.core.models import Page
    from wagtailstreamforms.models import AbstractFormSubmission, BaseForm
 
 
