@@ -17,13 +17,13 @@ If you are using a version of wagtail 1.x, then the latest compatible version of
 
 .. code:: bash
 
-    $ pip install wagtailstreanforms<2
+    $ pip install wagtailstreamforms<2
 
 Other wise you must install a version of this package from 2 onwards:
 
 .. code:: bash
 
-    $ pip install wagtailstreanforms>=2
+    $ pip install wagtailstreamforms>=2
 
 What else is included?
 ----------------------
