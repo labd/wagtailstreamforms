@@ -17,7 +17,7 @@ documentation_extras = [
     'sphinxcontrib-spelling>=2.3.0',
     'Sphinx>=1.5.2',
     'sphinx-autobuild>=0.6.0',
-    'sphinx_rtd_theme>=0.1.9',
+    'karma_sphinx_theme>=0.0.6',
 ]
 
 here = path.abspath(path.dirname(__file__))

@@ -38,10 +38,9 @@ What else is included?
 *  There is a template tag that can be used to render a form, in case you want it to appear outside a StreamField.
 *  Recaptcha can be added to a form.
 
-
 .. toctree::
-   :maxdepth: 3
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Content
 
    installation
    usage
@@ -54,11 +53,3 @@ What else is included?
    contributors
    changelog
    screenshots
-
-
-Indices and tables
-------------------
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
