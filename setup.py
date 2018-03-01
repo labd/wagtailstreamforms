@@ -10,14 +10,14 @@ from wagtailstreamforms import __version__
 install_requires = [
     'Django>=2,<2.1',
     'django-recaptcha>=1.3.1',
-    'wagtail>=2.0b1,<2.1'
+    'wagtail>=2,<2.1'
 ]
 
 documentation_extras = [
     'sphinxcontrib-spelling>=2.3.0',
     'Sphinx>=1.5.2',
     'sphinx-autobuild>=0.6.0',
-    'sphinx_rtd_theme>=0.1.9',
+    'karma_sphinx_theme>=0.0.6',
 ]
 
 here = path.abspath(path.dirname(__file__))

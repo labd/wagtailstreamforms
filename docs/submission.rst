@@ -35,7 +35,7 @@ A basic hook example
     from django.shortcuts import redirect
     from django.template.response import TemplateResponse
 
-    from wagtail.wagtailcore import hooks
+    from wagtail.core import hooks
     from wagtailstreamforms.utils import get_form_instance_from_request
 
 
@@ -97,7 +97,7 @@ We are just making it respond with this if the request was ajax.
     from django.shortcuts import redirect
     from django.template.response import TemplateResponse
 
-    from wagtail.wagtailcore import hooks
+    from wagtail.core import hooks
     from wagtailstreamforms.utils import get_form_instance_from_request
 
 
