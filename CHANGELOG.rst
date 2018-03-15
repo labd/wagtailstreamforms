@@ -7,6 +7,11 @@ master
 
 * in development
 
+2.0.1
+-----
+
+* Fixed migration issue #70
+
 2.0.0
 -----
 
