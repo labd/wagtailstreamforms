@@ -1,10 +1,10 @@
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.contrib import messages
 from django.contrib.admin.utils import quote
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
-from django.urls import reverse
+from django.urls import reverse, path
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
@@ -100,7 +100,7 @@ class FormGroup(ModelAdminGroup):
 def register_admin_urls():
     from wagtailstreamforms import urls
     return [
-        url(r'^wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
+        path('wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
     ]
 
 

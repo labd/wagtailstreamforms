@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path
 
 from wagtailstreamforms.views import (
     CopyFormView,
@@ -8,7 +8,7 @@ from wagtailstreamforms.views import (
 
 
 urlpatterns = [
-    url(r'^(?P<pk>\d+)/copy/$', CopyFormView.as_view(), name='streamforms_copy'),
-    url(r'^(?P<pk>\d+)/submissions/$', SubmissionListView.as_view(), name='streamforms_submissions'),
-    url(r'^(?P<pk>\d+)/submissions/delete/$', SubmissionDeleteView.as_view(), name='streamforms_delete_submissions'),
+    path('<int:pk>/copy/', CopyFormView.as_view(), name='streamforms_copy'),
+    path('<int:pk>/submissions/', SubmissionListView.as_view(), name='streamforms_submissions'),
+    path('<int:pk>/submissions/delete/', SubmissionDeleteView.as_view(), name='streamforms_delete_submissions'),
 ]
