@@ -1,4 +1,4 @@
-from wagtailstreamforms.models import BasicForm, FormField
+from wagtailstreamforms.models import Form
 
 from ..test_case import AppTestCase
 
@@ -7,7 +7,7 @@ class TemplateTagTests(AppTestCase):
     fixtures = ['test.json']
 
     def setUp(self):
-        self.form = BasicForm.objects.get(pk=1)
+        self.form = Form.objects.get(pk=1)
 
     def test_render(self):
         fake_request = self.rf.get('/')

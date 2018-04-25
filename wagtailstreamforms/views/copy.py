@@ -6,7 +6,7 @@ from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseD
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtailstreamforms.wagtail_hooks import FormURLHelper
-from wagtailstreamforms.models import BaseForm
+from wagtailstreamforms.models import Form
 
 
 class CopyForm(forms.Form):
@@ -15,22 +15,22 @@ class CopyForm(forms.Form):
 
     def clean_slug(self):
         slug = self.cleaned_data['slug']
-        if BaseForm.objects.filter(slug=slug).exists():
+        if Form.objects.filter(slug=slug).exists():
             raise forms.ValidationError("This slug is already in use")
         return slug
 
 
 class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
-    model = BaseForm
+    model = Form
     template_name = 'streamforms/confirm_copy.html'
 
     @property
     def permission_helper(self):
-        return PermissionHelper(model=self.object.specific_class)
+        return PermissionHelper(model=self.model)
 
     @property
     def url_helper(self):
-        return FormURLHelper(model=self.object.specific_class)
+        return FormURLHelper(model=self.model)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -40,7 +40,7 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        return obj.specific
+        return obj
 
     def copy(self, request, *args, **kwargs):
         form = CopyForm(request.POST)

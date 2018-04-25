@@ -10,7 +10,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.forms.forms import SelectDateForm
-from wagtailstreamforms.models import BaseForm
+from wagtailstreamforms.models import Form
 
 
 class SubmissionListView(SingleObjectMixin, ListView):
@@ -18,11 +18,11 @@ class SubmissionListView(SingleObjectMixin, ListView):
     page_kwarg = 'p'
     template_name = 'streamforms/submissions.html'
     filter_form = None
-    model = BaseForm
+    model = Form
 
     @property
     def permission_helper(self):
-        return PermissionHelper(model=self.object.specific_class)
+        return PermissionHelper(model=self.model)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -33,9 +33,9 @@ class SubmissionListView(SingleObjectMixin, ListView):
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
         try:
-            return self.model.objects.get(pk=pk).specific
+            return self.model.objects.get(pk=pk)
         except self.model.DoesNotExist:
-            raise Http404(_("No BaseForm found matching the query"))
+            raise Http404(_("No Form found matching the query"))
 
     def get(self, request, *args, **kwargs):
         self.filter_form = SelectDateForm(request.GET)

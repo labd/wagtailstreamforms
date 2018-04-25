@@ -11,5 +11,5 @@ class AdminListViewTestCase(AppTestCase):
         self.client.login(username='user', password='password')
 
     def test_get_responds(self):
-        response = self.client.get('/cms/wagtailstreamforms/basicform/')
+        response = self.client.get('/cms/wagtailstreamforms/form/')
         self.assertEqual(response.status_code, 200)

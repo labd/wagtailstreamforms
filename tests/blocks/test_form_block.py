@@ -1,5 +1,5 @@
 from wagtailstreamforms.blocks import WagtailFormBlock
-from wagtailstreamforms.models import BasicForm, FormField
+from wagtailstreamforms.models import Form, FormField
 
 from ..test_case import AppTestCase
 
@@ -8,7 +8,7 @@ class TestFormBlockTestCase(AppTestCase):
     fixtures = ['test.json']
 
     def setUp(self):
-        self.form = BasicForm.objects.get(pk=1)
+        self.form = Form.objects.get(pk=1)
         self.field = FormField.objects.get(pk=1)
 
     def test_render(self):

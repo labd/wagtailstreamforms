@@ -4,7 +4,7 @@ from django.test.client import Client
 from mock import patch
 from wagtail.core.models import Page
 
-from wagtailstreamforms.models import BasicForm, FormField
+from wagtailstreamforms.models import Form
 from wagtailstreamforms.wagtail_hooks import process_form
 from ..test_case import AppTestCase
 
@@ -20,7 +20,7 @@ class TestHook(AppTestCase):
         self.mock_success_message = self.mock_messages_success.start()
 
     def test_form(self):
-        form = BasicForm.objects.get(pk=1)
+        form = Form.objects.get(pk=1)
         return form
 
     def test_get_returns_nothing(self):
@@ -75,19 +75,6 @@ class TestHook(AppTestCase):
         response.client = Client()
 
         self.assertRedirects(response, self.page.get_url(fake_request))
-
-    def test_valid_post_saves_submission(self):
-        form = self.test_form()
-        fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
-            'form_id': form.pk,
-            'form_reference': 'some-ref'
-        })
-        fake_request.user = AnonymousUser()
-
-        process_form(self.page, fake_request)
-
-        self.assertEqual(form.get_submission_class().objects.count(), 1)
 
     def test_success_message__sent_when_form_has_message(self):
         form = self.test_form()
