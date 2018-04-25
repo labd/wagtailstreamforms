@@ -8,7 +8,7 @@ from wagtailstreamforms.models import Form, FormSubmission
 from ..test_case import AppTestCase
 
 
-class ListViewTestCase(AppTestCase):
+class SubmissionListViewTestCase(AppTestCase):
     fixtures = ['test.json']
 
     def setUp(self):
