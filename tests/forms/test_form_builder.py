@@ -2,9 +2,8 @@ import mock
 
 from django import forms
 
-from captcha.fields import ReCaptchaField
 from wagtailstreamforms.forms import FormBuilder
-from wagtailstreamforms.models import BaseForm, FormField, RegexFieldValidator
+from wagtailstreamforms.models import Form, FormField, RegexFieldValidator
 
 from ..test_case import AppTestCase
 
@@ -13,24 +12,24 @@ class FormBuilderTests(AppTestCase):
     fixtures = ['test.json']
 
     def setUp(self):
-        self.form = BaseForm.objects.get(pk=2)
+        self.form = Form.objects.get(pk=1)
         self.field = FormField.objects.create(
             form=self.form,
             label='My regex',
-            field_type='regexfield'
+            field_type='regex'
         )
 
     # regex field
 
     def test_regex_field_exists(self):
-        fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
+        fb = FormBuilder(self.form.get_form_fields())
         form_class = fb.get_form_class()
         field_names = form_class.base_fields.keys()
         self.assertIn('my-regex', field_names)
         self.assertIsInstance(form_class.base_fields['my-regex'], forms.RegexField)
 
     def test_regex_field_default_options(self):
-        fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
+        fb = FormBuilder(self.form.get_form_fields())
         form_class = fb.get_form_class()
         self.assertEqual(form_class.base_fields['my-regex'].regex.pattern, '(.*?)')
 
@@ -42,26 +41,7 @@ class FormBuilderTests(AppTestCase):
         )
         self.field.regex_validator = validator
         self.field.save()
-        fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
+        fb = FormBuilder(self.form.get_form_fields())
         form_class = fb.get_form_class()
         self.assertEqual(form_class.base_fields['my-regex'].regex.pattern, validator.regex)
         self.assertEqual(form_class.base_fields['my-regex'].error_messages['invalid'], validator.error_message)
-
-    # recaptcha field
-
-    @mock.patch('wagtailstreamforms.forms.recaptcha_enabled')
-    def test_recaptcha_field_not_added_when_not_enabled(self, mock_stub):
-        mock_stub.return_value = False
-        fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=False)
-        form_class = fb.get_form_class()
-        field_names = form_class.base_fields.keys()
-        self.assertNotIn('recaptcha', field_names)
-
-    @mock.patch('wagtailstreamforms.forms.recaptcha_enabled')
-    def test_recaptcha_field_added(self, mock_stub):
-        mock_stub.return_value = True
-        fb = FormBuilder(self.form.get_form_fields(), add_recaptcha=True)
-        form_class = fb.get_form_class()
-        field_names = form_class.base_fields.keys()
-        self.assertIn('recaptcha', field_names)
-        self.assertIsInstance(form_class.base_fields['recaptcha'], ReCaptchaField)

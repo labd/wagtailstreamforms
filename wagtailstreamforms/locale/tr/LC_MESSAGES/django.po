@@ -291,7 +291,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: views/submission_list.py:38
-msgid "No BaseForm found matching the query"
+msgid "No Form found matching the query"
 msgstr ""
 
 #: wagtail_hooks.py:36

@@ -302,8 +302,8 @@ msgstr[0] "Una presentación ha sido eliminada."
 msgstr[1] "%(count)d presentaciones han sido eliminadas."
 
 #: views/submission_list.py:38
-msgid "No BaseForm found matching the query"
-msgstr "No se encontró un BaseForm acorde a la consulta"
+msgid "No Form found matching the query"
+msgstr "No se encontró un Form acorde a la consulta"
 
 #: wagtail_hooks.py:36
 #, python-format

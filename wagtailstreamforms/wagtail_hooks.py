@@ -1,10 +1,10 @@
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.contrib import messages
 from django.contrib.admin.utils import quote
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
-from django.urls import reverse
+from django.urls import reverse, path
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
@@ -12,8 +12,8 @@ from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, 
 from wagtail.core import hooks
 
 from wagtailstreamforms.conf import get_setting
-from wagtailstreamforms.models import BaseForm, RegexFieldValidator
-from wagtailstreamforms.utils import get_form_instance_from_request, get_valid_subclasses
+from wagtailstreamforms.models import Form, RegexFieldValidator
+from wagtailstreamforms.utils import get_form_instance_from_request
 
 
 class FormURLHelper(AdminURLHelper):
@@ -59,7 +59,7 @@ class FormButtonHelper(ButtonHelper):
 
 
 class FormModelAdmin(ModelAdmin):
-    model = BaseForm
+    model = Form
     list_display = ('name', 'slug', 'latest_submission_date', 'number_of_submissions')
     menu_icon = 'icon icon-form'
     search_fields = ('name', 'slug')
@@ -78,16 +78,6 @@ class FormModelAdmin(ModelAdmin):
         return submission_class._default_manager.filter(form=obj).count()
 
 
-# loop all subclasses of BaseForm and create model admin classes for them
-form_admins = []
-for cls in get_valid_subclasses(BaseForm):
-    object_name = cls._meta.object_name
-    admin_name = "{}Admin".format(object_name)
-    admin_defs = {'model': cls}
-    admin_class = type(admin_name, (FormModelAdmin, ), admin_defs)
-    form_admins.append(admin_class)
-
-
 class RegexFieldValidatorModelAdmin(ModelAdmin):
     model = RegexFieldValidator
     list_display = ('name', )
@@ -95,21 +85,22 @@ class RegexFieldValidatorModelAdmin(ModelAdmin):
     search_fields = ('name', )
 
 
-@hooks.register('register_admin_urls')
-def register_admin_urls():
-    from wagtailstreamforms import urls
-    return [
-        url(r'^wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
-    ]
-
-
 @modeladmin_register
 class FormGroup(ModelAdminGroup):
     menu_label = _(get_setting('ADMIN_MENU_LABEL'))
     menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
-    items = form_admins + [
+    items = [
+        FormModelAdmin,
         RegexFieldValidatorModelAdmin
+    ]
+
+
+@hooks.register('register_admin_urls')
+def register_admin_urls():
+    from wagtailstreamforms import urls
+    return [
+        path('wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
     ]
 
 

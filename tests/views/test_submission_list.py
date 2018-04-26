@@ -3,17 +3,17 @@ from datetime import datetime
 from django.contrib.auth.models import User, Permission
 from django.urls import reverse
 
-from wagtailstreamforms.models import BasicForm, FormSubmission, EmailForm
+from wagtailstreamforms.models import Form, FormSubmission
 
 from ..test_case import AppTestCase
 
 
-class ListViewTestCase(AppTestCase):
+class SubmissionListViewTestCase(AppTestCase):
     fixtures = ['test.json']
 
     def setUp(self):
         User.objects.create_superuser('user', 'user@test.com', 'password')
-        form = BasicForm.objects.get(pk=1)
+        form = Form.objects.get(pk=1)
         s1 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
         s1.submit_time = datetime(2017, 1, 1, 0, 0, 0, 0)
         s1.save()
@@ -63,19 +63,11 @@ class ListViewPermissionTestCase(AppTestCase):
 
     def setUp(self):
         self.user = User.objects.create_user('user', 'user@test.com', 'password')
-
-        self.basic_form = BasicForm.objects.get(pk=1)
-        self.email_form = EmailForm.objects.get(pk=2)
-
-        self.basic_list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.basic_form.pk})
-        self.email_list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.email_form.pk})
+        self.form = Form.objects.get(pk=1)
+        self.list_url = reverse('wagtailstreamforms:streamforms_submissions', kwargs={'pk': self.form.pk})
 
     def test_no_user_no_access(self):
-        response = self.client.get(self.basic_list_url)
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
-
-        response = self.client.get(self.email_list_url)
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith('/cms/login/?next=/cms/wagtailstreamforms'))
 
@@ -85,73 +77,41 @@ class ListViewPermissionTestCase(AppTestCase):
 
         self.client.login(username='user', password='password')
 
-        response = self.client.get(self.basic_list_url)
-        self.assertEqual(response.status_code, 403)
-
-        response = self.client.get(self.email_list_url)
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 403)
 
     def test_user_with_add_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
-        basic_form_perm = Permission.objects.get(codename='add_basicform')
-        email_form_perm = Permission.objects.get(codename='add_emailform')
-        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        form_perm = Permission.objects.get(codename='add_form')
+        self.user.user_permissions.add(access_admin, form_perm)
         self.user.is_staff = True
         self.user.save()
 
         self.client.login(username='user', password='password')
 
-        response = self.client.get(self.basic_list_url)
-        self.assertEqual(response.status_code, 200)
-
-        response = self.client.get(self.email_list_url)
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 200)
 
     def test_user_with_change_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
-        basic_form_perm = Permission.objects.get(codename='change_basicform')
-        email_form_perm = Permission.objects.get(codename='change_emailform')
-        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        form_perm = Permission.objects.get(codename='change_form')
+        self.user.user_permissions.add(access_admin, form_perm)
         self.user.is_staff = True
         self.user.save()
 
         self.client.login(username='user', password='password')
 
-        response = self.client.get(self.basic_list_url)
-        self.assertEqual(response.status_code, 200)
-
-        response = self.client.get(self.email_list_url)
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 200)
 
     def test_user_with_delete_perm_has_access(self):
         access_admin = Permission.objects.get(codename='access_admin')
-        basic_form_perm = Permission.objects.get(codename='delete_basicform')
-        email_form_perm = Permission.objects.get(codename='delete_emailform')
-        self.user.user_permissions.add(access_admin, basic_form_perm, email_form_perm)
+        form_perm = Permission.objects.get(codename='delete_form')
+        self.user.user_permissions.add(access_admin, form_perm)
         self.user.is_staff = True
         self.user.save()
 
         self.client.login(username='user', password='password')
 
-        response = self.client.get(self.basic_list_url)
+        response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 200)
-
-        response = self.client.get(self.email_list_url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_permissions_are_on_an_class_type_basis(self):
-        access_admin = Permission.objects.get(codename='access_admin')
-        basic_form_perm = Permission.objects.get(codename='add_basicform')
-        self.user.user_permissions.add(access_admin, basic_form_perm)
-        self.user.is_staff = True
-        self.user.save()
-
-        self.client.login(username='user', password='password')
-
-        response = self.client.get(self.basic_list_url)
-        self.assertEqual(response.status_code, 200)
-
-        # user should not be able to access this as they have no got
-        # any *_emailform perm
-        response = self.client.get(self.email_list_url)
-        self.assertEqual(response.status_code, 403)

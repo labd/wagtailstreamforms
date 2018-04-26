@@ -4,19 +4,14 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class AbstractFormSubmission(models.Model):
-    """
-    Data for a form submission.
-
-    You can create custom submission model based on this abstract model.
-    For example, if you need to save additional data or a reference to a user.
-    """
+class FormSubmission(models.Model):
+    """ Data for a form submission. """
 
     form_data = models.TextField(
         _('Form data'),
     )
     form = models.ForeignKey(
-        'wagtailstreamforms.BaseForm',
+        'Form',
         verbose_name=_('Form'),
         on_delete=models.CASCADE
     )
@@ -26,11 +21,7 @@ class AbstractFormSubmission(models.Model):
     )
 
     def get_data(self):
-        """
-        Returns dict with form data.
-
-        You can override this method to add additional data.
-        """
+        """ Returns dict with form data. """
         form_data = json.loads(self.form_data)
 
         form_data.update(
@@ -43,10 +34,5 @@ class AbstractFormSubmission(models.Model):
         return self.form_data
 
     class Meta:
-        abstract = True
         ordering = ['-submit_time', ]
         verbose_name = _('Form submission')
-
-
-class FormSubmission(AbstractFormSubmission):
-    """ Data for a Form submission. """
