@@ -1,6 +1,7 @@
 import uuid
 from copy import deepcopy
 
+from django import forms
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from modelcluster.models import ClusterableModel
@@ -13,7 +14,10 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     MultiFieldPanel
 )
+
+from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
+from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.forms import FormBuilder
 
 from .submission import FormSubmission
@@ -64,6 +68,9 @@ class Form(ClusterableModel):
         related_name='+',
         help_text=_('The page to redirect to after a successful submission')
     )
+    process_form_submission_hooks = HookSelectField(
+        blank=True
+    )
 
     settings_panels = [
         FieldPanel('name', classname='full'),
@@ -74,6 +81,7 @@ class Form(ClusterableModel):
             FieldPanel('success_message'),
             FieldPanel('error_message'),
         ], _('Messages')),
+        FieldPanel('process_form_submission_hooks', classname='choice_field'),
         PageChooserPanel('post_redirect_page')
     ]
 
@@ -113,9 +121,7 @@ class Form(ClusterableModel):
     copy.alters_data = True
 
     def get_data_fields(self):
-        """
-        Returns a list of tuples with (field_name, field_label).
-        """
+        """ Returns a list of tuples with (field_name, field_label). """
 
         data_fields = [
             ('submit_time', _('Submission date')),
@@ -138,11 +144,7 @@ class Form(ClusterableModel):
         return FormBuilder(self.get_form_fields()).get_form_class()
 
     def get_form_fields(self):
-        """
-        Form expects `form_fields` to be declared.
-        If you want to change backwards relation name,
-        you need to override this method.
-        """
+        """ Returns the list of form fields. """
 
         return self.form_fields.all()
 
@@ -150,18 +152,13 @@ class Form(ClusterableModel):
         return {}
 
     def get_submission_class(self):
-        """
-        Returns submission class.
-
-        You can override this method to provide custom submission class.
-        Your class must be inherited from AbstractFormSubmission.
-        """
+        """ Returns submission class. """
 
         return FormSubmission
 
     def process_form_submission(self, form):
-        """
-        Accepts form instance with submitted data.
-        """
+        """ Runs each hook if selected in the form. """
 
-        pass
+        for fn in hooks.get_hooks('process_form_submission'):
+            if fn.__name__ in self.process_form_submission_hooks:
+                fn(self, form)

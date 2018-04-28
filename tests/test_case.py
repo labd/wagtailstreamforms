@@ -1,3 +1,5 @@
+from contextlib import contextmanager
+
 from django.db import models, connection
 from django.template import Context, Template
 from django.test import TestCase
@@ -19,6 +21,16 @@ class AppTestCase(TestCase):
 
     def get_field(self, modelClass, name):
         return modelClass._meta.get_field(name)
+
+    @contextmanager
+    def register_hook(self, hook_name, fn, order=0):
+        from wagtailstreamforms import hooks
+
+        hooks.register(hook_name, fn, order)
+        try:
+            yield
+        finally:
+            hooks._hooks[hook_name].remove((fn, order))
 
     def render_template(self, string, context=None):
         context = context or {}
