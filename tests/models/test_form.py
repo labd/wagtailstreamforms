@@ -6,6 +6,7 @@ from modelcluster.models import ClusterableModel
 from wagtail.core.models import Page
 
 from wagtailstreamforms.conf import get_setting
+from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.models import Form, FormField, FormSubmission
 
 from ..test_case import AppTestCase
@@ -62,6 +63,10 @@ class ModelFieldTests(AppTestCase):
     def test_post_redirect_page(self):
         field = self.get_field(Form, 'post_redirect_page')
         self.assertModelPKField(field, Page, models.SET_NULL, True, True)
+
+    def test_process_form_submission_hooks(self):
+        field = self.get_field(Form, 'process_form_submission_hooks')
+        self.assertModelField(field, HookSelectField, False, True)
 
 
 class ModelPropertyTests(AppTestCase):
@@ -181,3 +186,22 @@ class ModelPropertyTests(AppTestCase):
     def test_get_submission_class(self):
         form = self.test_form()
         self.assertEqual(form.get_submission_class(), FormSubmission)
+
+    def test_process_form_submission(self):
+        def complete_hook(instance, form):
+            instance._completed = True
+
+        with self.register_hook('process_form_submission', complete_hook, order=-1):
+            instance = self.test_form()
+            form_class = instance.get_form_class()
+
+            # wont call registered hooks that are not saved
+            instance.process_form_submission(form_class)
+            self.assertFalse(hasattr(instance, '_completed'))
+
+            # selected hooks
+            instance.process_form_submission_hooks = ['complete_hook']
+            instance.save()
+
+            instance.process_form_submission(form_class)
+            self.assertTrue(instance._completed)
