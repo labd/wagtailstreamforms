@@ -1,7 +1,8 @@
 from django import forms
 
+from wagtailstreamforms.fields import get_fields
 from wagtailstreamforms.forms import FormBuilder
-from wagtailstreamforms.models import Form, FormField
+from wagtailstreamforms.models import Form
 
 from ..test_case import AppTestCase
 
@@ -11,17 +12,39 @@ class FormBuilderTests(AppTestCase):
 
     def setUp(self):
         self.form = Form.objects.get(pk=1)
-        self.field = FormField.objects.create(
-            form=self.form,
-            label='My field',
-            field_type='singleline'
+
+    def test_formfields(self):
+        fields = self.form.get_form_fields()
+        formfields = FormBuilder(fields).formfields
+        for field in fields:
+            self.assertIn(field['type'], formfields)
+
+    def test_formfields__invalid_type(self):
+        fields = [{'type': 'foo', 'value': {}}]
+        with self.assertRaises(AttributeError) as ex:
+            FormBuilder(fields).formfields
+        self.assertEqual(ex.exception.args[0], 'Could not find a registered field of type foo')
+
+    def test_formfields__missing_label_in_value(self):
+        fields = [{'type': 'singleline', 'value': {}}]
+        with self.assertRaises(AttributeError) as ex:
+            FormBuilder(fields).formfields
+        self.assertEqual(
+            ex.exception.args[0],
+            'The block for singleline must contain a label of type blocks.CharBlock(required=True)'
         )
 
-    def test_field_exists(self):
-        fb = FormBuilder(self.form.get_form_fields())
-        form_class = fb.get_form_class()
-        field_names = form_class.base_fields.keys()
-        self.assertIn('my-field', field_names)
-        self.assertIsInstance(form_class.base_fields['my-field'], forms.CharField)
+    def test_get_form_class(self):
+        fields = self.form.get_form_fields()
+        form_class = FormBuilder(fields).get_form_class()
 
-    # TODO: more tests once we refactor the FormField model
+        self.assertEqual(len(form_class().fields), 15)
+
+        formfields = form_class().fields
+
+        for name, field in get_fields().items():
+            self.assertIn(name, formfields)
+            self.assertIsInstance(formfields[name], field().field_class)
+
+        self.assertIsInstance(formfields['form_id'], forms.CharField)
+        self.assertIsInstance(formfields['form_reference'], forms.CharField)

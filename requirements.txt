@@ -2,4 +2,4 @@
 -e .
 
 mock
-psycopg2
+psycopg2-binary

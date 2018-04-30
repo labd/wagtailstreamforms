@@ -3,7 +3,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 
 from wagtailstreamforms.wagtailstreamforms_hooks import save_form_submission_data
-from wagtailstreamforms.models import FormField, Form
+from wagtailstreamforms.models import Form
 from ..test_case import AppTestCase
 
 
@@ -15,7 +15,6 @@ class TestHook(AppTestCase):
             template_name='streamforms/form_block.html',
             slug='form'
         )
-        FormField.objects.create(form=form, label='singleline', field_type='singleline')
         return form
 
     def test_saves_record(self):
