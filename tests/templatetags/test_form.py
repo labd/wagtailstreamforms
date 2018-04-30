@@ -23,7 +23,7 @@ class TemplateTagTests(AppTestCase):
             '<input id="id_form_reference" name="form_reference" type="hidden" value="some-ref">',
             '<div class="field-row">',
             '<label for="id_name">Name</label>',
-            '<input type="text" name="name" maxlength="255" required id="id_name" />',
+            '<input type="text" name="name" required id="id_name" />',
             '<p class="help-text">Please enter your name</p>',
             '</div>',
             '<input type="submit" value="Submit">',

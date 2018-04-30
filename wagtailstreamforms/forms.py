@@ -1,33 +1,43 @@
+from collections import OrderedDict
+
 from django import forms
 
-from wagtail.contrib.forms.forms import FormBuilder as OrigFormBuilder
+from wagtailstreamforms.fields import get_fields
 
 
-class FormBuilder(OrigFormBuilder):
+class BaseForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
 
-    def create_regex_field(self, field, options):
-        """ The regex field """
+        self.user = kwargs.pop('user', None)
+        self.page = kwargs.pop('page', None)
 
-        if field.regex_validator:
-            # there is a selected validator so use it
-            options.update({
-                'regex': field.regex_validator.regex,
-                'error_messages': {'invalid': field.regex_validator.error_message}
-            })
-        else:
-            # otherwise allow anything
-            options.update({'regex': '(.*?)'})
+        super().__init__(*args, **kwargs)
 
-        return forms.RegexField(**options)
+
+class FormBuilder:
+
+    def __init__(self, fields):
+        self.fields = fields
 
     @property
     def formfields(self):
-        """ Add additional fields to the already defined ones """
+        """ Return a list of form fields from the registered fields. """
 
-        fields = super().formfields
+        formfields = OrderedDict()
+
+        registered_fields = get_fields()
+
+        for field in self.fields:
+            registered_cls = registered_fields[field.field_type]()
+            field_cls = registered_cls.get_formfield(field)
+            formfields[field.clean_name] = field_cls
 
         # add fields to uniquely identify the form
-        fields['form_id'] = forms.CharField(widget=forms.HiddenInput)
-        fields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
+        formfields['form_id'] = forms.CharField(widget=forms.HiddenInput)
+        formfields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
 
-        return fields
+        return formfields
+
+    def get_form_class(self):
+        return type(str('StreamformsForm'), (BaseForm,), self.formfields)

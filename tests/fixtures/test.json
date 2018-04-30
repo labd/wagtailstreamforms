@@ -23,7 +23,6 @@
       "default_value": "",
       "help_text": "Please enter your name",
       "field_type": "singleline",
-      "regex_validator": null,
       "form": 1
     }
   }

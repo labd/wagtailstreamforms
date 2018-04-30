@@ -8,11 +8,11 @@ from django.urls import reverse, path
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
 
 from wagtailstreamforms.conf import get_setting
-from wagtailstreamforms.models import Form, RegexFieldValidator
+from wagtailstreamforms.models import Form
 from wagtailstreamforms.utils import get_form_instance_from_request
 
 
@@ -58,9 +58,12 @@ class FormButtonHelper(ButtonHelper):
         return btns
 
 
+@modeladmin_register
 class FormModelAdmin(ModelAdmin):
     model = Form
     list_display = ('name', 'slug', 'latest_submission_date', 'number_of_submissions')
+    menu_label = _(get_setting('ADMIN_MENU_LABEL'))
+    menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
     search_fields = ('name', 'slug')
     button_helper_class = FormButtonHelper
@@ -76,24 +79,6 @@ class FormModelAdmin(ModelAdmin):
     def number_of_submissions(self, obj):
         submission_class = obj.get_submission_class()
         return submission_class._default_manager.filter(form=obj).count()
-
-
-class RegexFieldValidatorModelAdmin(ModelAdmin):
-    model = RegexFieldValidator
-    list_display = ('name', )
-    menu_icon = 'icon icon-tick'
-    search_fields = ('name', )
-
-
-@modeladmin_register
-class FormGroup(ModelAdminGroup):
-    menu_label = _(get_setting('ADMIN_MENU_LABEL'))
-    menu_order = get_setting('ADMIN_MENU_ORDER')
-    menu_icon = 'icon icon-form'
-    items = [
-        FormModelAdmin,
-        RegexFieldValidatorModelAdmin
-    ]
 
 
 @hooks.register('register_admin_urls')

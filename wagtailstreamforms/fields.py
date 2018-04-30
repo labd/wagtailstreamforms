@@ -4,6 +4,76 @@ from django.db import models
 from django.utils.text import capfirst
 
 from wagtailstreamforms import hooks
+from wagtailstreamforms.utils import get_app_submodules
+
+
+_fields = {}
+_searched_for_fields = False
+
+
+def register(field_name, cls=None):
+    """
+    Register field for ``field_name``. Can be used as a decorator::
+        @register('singleline')
+        class SingleLineTextField(BaseField):
+            field_class = django.forms.CharField
+    or as a function call::
+        class SingleLineTextField(BaseField):
+            field_class = django.forms.CharField
+        register('singleline', SingleLineTextField)
+    """
+
+    if cls is None:
+        def decorator(cls):
+            register(field_name, cls)
+            return cls
+        return decorator
+
+    _fields[field_name] = cls
+
+
+def search_for_fields():
+    global _searched_for_fields
+    if not _searched_for_fields:
+        list(get_app_submodules('wagtailstreamforms_fields'))
+        _searched_for_fields = True
+
+
+def get_fields():
+    """ Return the registered field classes. """
+
+    search_for_fields()
+    return _fields
+
+
+class BaseField:
+    """ A base form field class """
+
+    field_class = None
+    widget = None
+
+    def get_formfield(self, field):
+        """ must return an instance of a form field class. """
+
+        if not self.field_class:
+            raise NotImplementedError('must provide a cls.field_class')
+
+        options = self.get_options(field)
+
+        if self.widget:
+            return self.field_class(widget=self.widget, **options)
+
+        return self.field_class(**options)
+
+    def get_options(self, field):
+        """ returns the default field options. """
+
+        return {
+            'label': field.label,
+            'help_text': field.help_text,
+            'required': field.required,
+            'initial': field.default_value
+        }
 
 
 class HookMultiSelectFormField(forms.MultipleChoiceField):
