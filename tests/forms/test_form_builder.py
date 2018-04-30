@@ -1,9 +1,7 @@
-import mock
-
 from django import forms
 
 from wagtailstreamforms.forms import FormBuilder
-from wagtailstreamforms.models import Form, FormField, RegexFieldValidator
+from wagtailstreamforms.models import Form, FormField
 
 from ..test_case import AppTestCase
 
@@ -15,33 +13,15 @@ class FormBuilderTests(AppTestCase):
         self.form = Form.objects.get(pk=1)
         self.field = FormField.objects.create(
             form=self.form,
-            label='My regex',
-            field_type='regex'
+            label='My field',
+            field_type='singleline'
         )
 
-    # regex field
-
-    def test_regex_field_exists(self):
+    def test_field_exists(self):
         fb = FormBuilder(self.form.get_form_fields())
         form_class = fb.get_form_class()
         field_names = form_class.base_fields.keys()
-        self.assertIn('my-regex', field_names)
-        self.assertIsInstance(form_class.base_fields['my-regex'], forms.RegexField)
+        self.assertIn('my-field', field_names)
+        self.assertIsInstance(form_class.base_fields['my-field'], forms.CharField)
 
-    def test_regex_field_default_options(self):
-        fb = FormBuilder(self.form.get_form_fields())
-        form_class = fb.get_form_class()
-        self.assertEqual(form_class.base_fields['my-regex'].regex.pattern, '(.*?)')
-
-    def test_regex_field_with_validator_has_correct_options_set(self):
-        validator = RegexFieldValidator.objects.create(
-            name='Positive Number',
-            regex='/^\d+$/',
-            error_message='Please enter a positive number.'
-        )
-        self.field.regex_validator = validator
-        self.field.save()
-        fb = FormBuilder(self.form.get_form_fields())
-        form_class = fb.get_form_class()
-        self.assertEqual(form_class.base_fields['my-regex'].regex.pattern, validator.regex)
-        self.assertEqual(form_class.base_fields['my-regex'].error_messages['invalid'], validator.error_message)
+    # TODO: more tests once we refactor the FormField model

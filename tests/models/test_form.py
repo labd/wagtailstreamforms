@@ -89,8 +89,7 @@ class ModelPropertyTests(AppTestCase):
             FormField(form=form, label='multiselect', field_type='multiselect', choices='A,B,C'),
             FormField(form=form, label='radio', field_type='radio', choices='A,B,C'),
             FormField(form=form, label='date', field_type='date'),
-            FormField(form=form, label='datetime', field_type='datetime'),
-            FormField(form=form, label='regex', field_type='regex')
+            FormField(form=form, label='datetime', field_type='datetime')
         ])
         return form
 
@@ -120,7 +119,7 @@ class ModelPropertyTests(AppTestCase):
 
         copied = form.copy()
 
-        self.assertEqual(copied.get_form_fields().count(), 13)
+        self.assertEqual(copied.get_form_fields().count(), 12)
 
     def test_copy_does_not_copy_form_submissions(self):
         # it should never do any way as its a reverse fk but incase modelcluster
@@ -148,8 +147,7 @@ class ModelPropertyTests(AppTestCase):
             ('multiselect', _('multiselect')),
             ('radio', _('radio')),
             ('date', _('date')),
-            ('datetime', _('datetime')),
-            ('regex', _('regex'))
+            ('datetime', _('datetime'))
         ]
         self.assertEqual(form.get_data_fields(), expected_fields)
 
@@ -169,7 +167,6 @@ class ModelPropertyTests(AppTestCase):
             'radio',
             'date',
             'datetime',
-            'regex',
             'form_id',
             'form_reference'
         ]
@@ -177,7 +174,7 @@ class ModelPropertyTests(AppTestCase):
 
     def test_get_form_fields(self):
         form = self.test_form()
-        self.assertEqual(form.get_form_fields().count(), 13)
+        self.assertEqual(form.get_form_fields().count(), 12)
 
     def test_get_form_parameters(self):
         form = Form()

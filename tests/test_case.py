@@ -23,6 +23,16 @@ class AppTestCase(TestCase):
         return modelClass._meta.get_field(name)
 
     @contextmanager
+    def register_field(self, field_type, cls):
+        from wagtailstreamforms import fields
+
+        fields.register(field_type, cls)
+        try:
+            yield
+        finally:
+            fields._fields[field_type].remove(cls)
+
+    @contextmanager
     def register_hook(self, hook_name, fn, order=0):
         from wagtailstreamforms import hooks
 

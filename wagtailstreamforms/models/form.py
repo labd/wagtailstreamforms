@@ -1,7 +1,6 @@
 import uuid
 from copy import deepcopy
 
-from django import forms
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from modelcluster.models import ClusterableModel

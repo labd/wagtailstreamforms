@@ -1,14 +1,10 @@
 from django.urls import path
 
-from wagtailstreamforms.views import (
-    CopyFormView,
-    SubmissionDeleteView,
-    SubmissionListView
-)
+from wagtailstreamforms import views
 
 
 urlpatterns = [
-    path('<int:pk>/copy/', CopyFormView.as_view(), name='streamforms_copy'),
-    path('<int:pk>/submissions/', SubmissionListView.as_view(), name='streamforms_submissions'),
-    path('<int:pk>/submissions/delete/', SubmissionDeleteView.as_view(), name='streamforms_delete_submissions'),
+    path('<int:pk>/copy/', views.CopyFormView.as_view(), name='streamforms_copy'),
+    path('<int:pk>/submissions/', views.SubmissionListView.as_view(), name='streamforms_submissions'),
+    path('<int:pk>/submissions/delete/', views.SubmissionDeleteView.as_view(), name='streamforms_delete_submissions'),
 ]
