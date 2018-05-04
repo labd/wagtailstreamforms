@@ -1,4 +1,5 @@
 from django import forms
+from wagtail.core import blocks
 
 from wagtailstreamforms.fields import BaseField, register
 
@@ -17,21 +18,25 @@ class MultiLineTextField(BaseField):
 @register('date')
 class DateField(BaseField):
     field_class = forms.DateField
+    icon = 'date'
 
 
 @register('datetime')
 class DateTimeField(BaseField):
     field_class = forms.DateTimeField
+    icon = 'time'
 
 
 @register('email')
 class EmailField(BaseField):
     field_class = forms.EmailField
+    icon = 'mail'
 
 
 @register('url')
 class URLField(BaseField):
     field_class = forms.URLField
+    icon = 'link'
 
 
 @register('number')
@@ -42,61 +47,100 @@ class NumberField(BaseField):
 @register('dropdown')
 class DropdownField(BaseField):
     field_class = forms.ChoiceField
+    icon = 'list-ul'
 
-    def get_options(self, field):
-        options = super().get_options(field)
-        options.update({
-            'choices': map(lambda x: (x.strip(), x.strip()), field.choices.split(','))
-        })
+    def get_options(self, block_value):
+        options = super().get_options(block_value)
+        choices = [(c.strip(), c.strip()) for c in block_value.get('choices')]
+        options.update({'choices': choices})
         return options
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+            ('choices', blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ], icon=self.icon)
 
 
 @register('multiselect')
 class MultiSelectField(BaseField):
     field_class = forms.MultipleChoiceField
+    icon = 'list-ul'
 
-    def get_options(self, field):
-        options = super().get_options(field)
-        options.update({
-            'choices': map(lambda x: (x.strip(), x.strip()), field.choices.split(',')),
-            'initial': [x.strip() for x in field.default_value.split(',')]
-        })
+    def get_options(self, block_value):
+        options = super().get_options(block_value)
+        choices = [(c.strip(), c.strip()) for c in block_value.get('choices')]
+        options.update({'choices': choices})
         return options
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+            ('choices', blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ], icon=self.icon)
 
 
 @register('radio')
 class RadioField(BaseField):
     field_class = forms.ChoiceField
     widget = forms.widgets.RadioSelect
+    icon = 'radio-empty'
 
-    def get_options(self, field):
-        options = super().get_options(field)
-        options.update({
-            'choices': map(lambda x: (x.strip(), x.strip()), field.choices.split(','))
-        })
+    def get_options(self, block_value):
+        options = super().get_options(block_value)
+        choices = [(c.strip(), c.strip()) for c in block_value.get('choices')]
+        options.update({'choices': choices})
         return options
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+            ('choices', blocks.ListBlock(blocks.CharBlock(label="Option")))
+        ], icon=self.icon)
 
 
 @register('checkboxes')
 class CheckboxesField(BaseField):
     field_class = forms.MultipleChoiceField
     widget = forms.widgets.CheckboxSelectMultiple
+    icon = 'tick-inverse'
 
-    def get_options(self, field):
-        options = super().get_options(field)
-        options.update({
-            'choices': [(x.strip(), x.strip()) for x in field.choices.split(',')],
-            'initial': [x.strip() for x in field.default_value.split(',')]
-        })
+    def get_options(self, block_value):
+        options = super().get_options(block_value)
+        choices = [(c.strip(), c.strip()) for c in block_value.get('choices')]
+        options.update({'choices': choices})
         return options
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+            ('choices', blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ], icon=self.icon)
 
 
 @register('checkbox')
 class CheckboxField(BaseField):
     field_class = forms.BooleanField
+    icon = 'tick-inverse'
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+        ], icon=self.icon)
 
 
 @register('hidden')
 class HiddenField(BaseField):
     field_class = forms.CharField
     widget = forms.widgets.HiddenInput
+    icon = 'no-view'

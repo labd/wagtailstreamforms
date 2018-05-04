@@ -51,7 +51,19 @@ class TestHook(AppTestCase):
         form.post_redirect_page = redirect_to
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -65,7 +77,19 @@ class TestHook(AppTestCase):
     def test_valid_post_redirects__falls_back_to_current_page(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -81,7 +105,19 @@ class TestHook(AppTestCase):
         form.success_message = 'well done'
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -97,7 +133,19 @@ class TestHook(AppTestCase):
         form.success_message = ''
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -112,7 +160,7 @@ class TestHook(AppTestCase):
         form.error_message = 'oops'
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': '',
+            'singleline': '',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -128,7 +176,7 @@ class TestHook(AppTestCase):
         form.error_message = ''
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': '',
+            'singleline': '',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -159,7 +207,6 @@ class TestHook(AppTestCase):
     def test_invalid_form_returns_response_with_form(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
-            'name': '',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -171,7 +218,24 @@ class TestHook(AppTestCase):
         self.assertEqual(response.context_data['invalid_stream_form_reference'], 'some-ref')
 
         invalid_form = response.context_data['invalid_stream_form']
-        self.assertEqual(invalid_form.errors, {'name': ['This field is required.']})
+        self.assertDictEqual(
+            invalid_form.errors,
+            {
+                'singleline': ['This field is required.'],
+                'multiline': ['This field is required.'],
+                'date': ['This field is required.'],
+                'datetime': ['This field is required.'],
+                'email': ['This field is required.'],
+                'url': ['This field is required.'],
+                'number': ['This field is required.'],
+                'dropdown': ['This field is required.'],
+                'multiselect': ['This field is required.'],
+                'radio': ['This field is required.'],
+                'checkboxes': ['This field is required.'],
+                'checkbox': ['This field is required.'],
+                'hidden': ['This field is required.']
+            }
+        )
 
     def tearDown(self):
         self.mock_messages_error.stop()

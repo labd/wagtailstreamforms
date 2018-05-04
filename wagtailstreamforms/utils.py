@@ -1,7 +1,9 @@
 from importlib import import_module
+from unidecode import unidecode
 
 from django.apps import apps
 from django.utils.module_loading import module_has_submodule
+from django.utils.text import slugify
 
 
 def get_app_modules():
@@ -36,3 +38,7 @@ def get_form_instance_from_request(request):
         except Form.DoesNotExist:
             pass
     return None
+
+
+def get_slug_from_string(label):
+    return str(slugify(str(unidecode(label))))

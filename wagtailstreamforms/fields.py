@@ -3,6 +3,8 @@ from django.core import exceptions
 from django.db import models
 from django.utils.text import capfirst
 
+from wagtail.core import blocks
+
 from wagtailstreamforms import hooks
 from wagtailstreamforms.utils import get_app_submodules
 
@@ -51,29 +53,38 @@ class BaseField:
 
     field_class = None
     widget = None
+    icon = 'placeholder'
 
-    def get_formfield(self, field):
+    def get_formfield(self, block_value):
         """ must return an instance of a form field class. """
 
         if not self.field_class:
             raise NotImplementedError('must provide a cls.field_class')
 
-        options = self.get_options(field)
+        options = self.get_options(block_value)
 
         if self.widget:
             return self.field_class(widget=self.widget, **options)
 
         return self.field_class(**options)
 
-    def get_options(self, field):
+    def get_options(self, block_value):
         """ returns the default field options. """
 
         return {
-            'label': field.label,
-            'help_text': field.help_text,
-            'required': field.required,
-            'initial': field.default_value
+            'label': block_value.get('label'),
+            'help_text': block_value.get('help_text'),
+            'required': block_value.get('required'),
+            'initial': block_value.get('default_value')
         }
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+            ('default_value', blocks.CharBlock(required=False)),
+        ], icon=self.icon)
 
 
 class HookMultiSelectFormField(forms.MultipleChoiceField):

@@ -7,7 +7,7 @@ from wagtail.core.models import Page
 
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
-from wagtailstreamforms.models import Form, FormField, FormSubmission
+from wagtailstreamforms.models import Form, FormSubmission
 
 from ..test_case import AppTestCase
 
@@ -70,33 +70,13 @@ class ModelFieldTests(AppTestCase):
 
 
 class ModelPropertyTests(AppTestCase):
+    fixtures = ['test']
 
-    def test_form(self):
-        form = Form.objects.create(
-            name='Form', 
-            template_name='streamforms/form_block.html',
-            slug='form'
-        )
-        FormField.objects.bulk_create([
-            FormField(form=form, label='singleline', field_type='singleline'),
-            FormField(form=form, label='multiline', field_type='multiline'),
-            FormField(form=form, label='email', field_type='email'),
-            FormField(form=form, label='number', field_type='number'),
-            FormField(form=form, label='url', field_type='url'),
-            FormField(form=form, label='checkbox', field_type='checkbox'),
-            FormField(form=form, label='checkboxes', field_type='checkboxes', choices='A,B,C'),
-            FormField(form=form, label='dropdown', field_type='dropdown', choices='A,B,C'),
-            FormField(form=form, label='multiselect', field_type='multiselect', choices='A,B,C'),
-            FormField(form=form, label='radio', field_type='radio', choices='A,B,C'),
-            FormField(form=form, label='date', field_type='date'),
-            FormField(form=form, label='datetime', field_type='datetime')
-        ])
-        return form
+    def setUp(self):
+        self.test_form = Form.objects.get(pk=1)
 
     def test_clean_raises_error_when_duplicate_slug(self):
-        form = self.test_form()
-
-        new_form = Form(name=form.name, slug=form.slug, template_name=form.template_name)
+        new_form = Form(name=self.test_form.name, slug=self.test_form.slug, template_name=self.test_form.template_name)
 
         with self.assertRaises(ValidationError) as cm:
             new_form.full_clean()
@@ -107,98 +87,124 @@ class ModelPropertyTests(AppTestCase):
         )
 
     def test_copy(self):
-        form = self.test_form()
+        copied = self.test_form.copy()
 
-        copied = form.copy()
-
-        self.assertNotEqual(copied.pk, form.pk)
-        self.assertEqual(copied.__class__, form.__class__)
+        self.assertNotEqual(copied.pk, self.test_form.pk)
+        self.assertEqual(copied.__class__, self.test_form.__class__)
 
     def test_copy_has_form_fields(self):
-        form = self.test_form()
+        copied = self.test_form.copy()
 
-        copied = form.copy()
-
-        self.assertEqual(copied.get_form_fields().count(), 12)
+        self.assertListEqual(
+            [field['type'] for field in copied.get_form_fields()],
+            [
+                'singleline',
+                'multiline',
+                'date',
+                'datetime',
+                'email',
+                'url',
+                'number',
+                'dropdown',
+                'multiselect',
+                'radio',
+                'checkboxes',
+                'checkbox',
+                'hidden'
+            ]
+        )
 
     def test_copy_does_not_copy_form_submissions(self):
         # it should never do any way as its a reverse fk but incase modelcluster
         # ever changes we are testing for it
 
-        form = self.test_form()
-        FormSubmission.objects.create(form_data='{}', form=form)
+        FormSubmission.objects.create(form_data='{}', form=self.test_form)
 
-        copied = form.copy()
+        copied = self.test_form.copy()
 
         self.assertEqual(FormSubmission.objects.filter(form=copied).count(), 0)
 
     def test_get_data_fields(self):
-        form = self.test_form()
         expected_fields = [
             ('submit_time', _('Submission date')),
             ('singleline', _('singleline')),
             ('multiline', _('multiline')),
+            ('date', _('date')),
+            ('datetime', _('datetime')),
             ('email', _('email')),
-            ('number', _('number')),
             ('url', _('url')),
-            ('checkbox', _('checkbox')),
-            ('checkboxes', _('checkboxes')),
+            ('number', _('number')),
             ('dropdown', _('dropdown')),
             ('multiselect', _('multiselect')),
             ('radio', _('radio')),
-            ('date', _('date')),
-            ('datetime', _('datetime'))
+            ('checkboxes', _('checkboxes')),
+            ('checkbox', _('checkbox')),
+            ('hidden', _('hidden'))
         ]
-        self.assertEqual(form.get_data_fields(), expected_fields)
+        self.assertEqual(self.test_form.get_data_fields(), expected_fields)
 
     def test_get_form(self):
-        form = self.test_form()
-        actual_fields = [f for f in form.get_form().fields]
+        actual_fields = [f for f in self.test_form.get_form().fields]
         expected_fields = [
             'singleline',
             'multiline',
+            'date',
+            'datetime',
             'email',
-            'number',
             'url',
-            'checkbox',
-            'checkboxes',
+            'number',
             'dropdown',
             'multiselect',
             'radio',
-            'date',
-            'datetime',
+            'checkboxes',
+            'checkbox',
+            'hidden',
             'form_id',
             'form_reference'
         ]
         self.assertEqual(actual_fields, expected_fields)
 
     def test_get_form_fields(self):
-        form = self.test_form()
-        self.assertEqual(form.get_form_fields().count(), 12)
+        self.assertListEqual(
+            [field['type'] for field in self.test_form.get_form_fields()],
+            [
+                'singleline',
+                'multiline',
+                'date',
+                'datetime',
+                'email',
+                'url',
+                'number',
+                'dropdown',
+                'multiselect',
+                'radio',
+                'checkboxes',
+                'checkbox',
+                'hidden'
+            ]
+        )
 
     def test_get_form_parameters(self):
         form = Form()
         self.assertEqual(form.get_form_parameters(), {})
 
     def test_get_submission_class(self):
-        form = self.test_form()
-        self.assertEqual(form.get_submission_class(), FormSubmission)
+        self.assertEqual(self.test_form.get_submission_class(), FormSubmission)
 
     def test_process_form_submission(self):
         def complete_hook(instance, form):
             instance._completed = True
 
         with self.register_hook('process_form_submission', complete_hook, order=-1):
-            instance = self.test_form()
-            form_class = instance.get_form_class()
+            form_class = self.test_form.get_form_class()
 
             # wont call registered hooks that are not saved
-            instance.process_form_submission(form_class)
-            self.assertFalse(hasattr(instance, '_completed'))
+            self.test_form.process_form_submission(form_class)
+            self.assertFalse(hasattr(self.test_form, '_completed'))
 
             # selected hooks
-            instance.process_form_submission_hooks = ['complete_hook']
-            instance.save()
+            self.test_form.process_form_submission_hooks = ['complete_hook']
+            self.test_form.save()
 
-            instance.process_form_submission(form_class)
-            self.assertTrue(instance._completed)
+            self.test_form.process_form_submission(form_class)
+            self.assertTrue(self.test_form._completed)

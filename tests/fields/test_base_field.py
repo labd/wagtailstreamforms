@@ -1,6 +1,5 @@
 from django import forms
 from wagtailstreamforms import fields
-from wagtailstreamforms.models import FormField
 from ..test_case import AppTestCase
 
 
@@ -10,19 +9,19 @@ class TestBaseField(AppTestCase):
         class MyField(fields.BaseField):
             field_class = forms.CharField
 
-        instance = FormField(
-            label='My Field',
-            required=True,
-            default_value='Value',
-            help_text='Help'
-        )
+        data = {
+            'label': 'field',
+            'required': True,
+            'default_value': 'default',
+            'help_text': 'help'
+        }
 
-        options = MyField().get_options(instance)
+        options = MyField().get_options(data)
 
-        self.assertEqual(options['label'], instance.label)
-        self.assertEqual(options['required'], instance.required)
-        self.assertEqual(options['initial'], instance.default_value)
-        self.assertEqual(options['help_text'], instance.help_text)
+        self.assertEqual(options['label'], data['label'])
+        self.assertEqual(options['required'], data['required'])
+        self.assertEqual(options['initial'], data['default_value'])
+        self.assertEqual(options['help_text'], data['help_text'])
 
     def test_no_form_class_raises_exception(self):
         class MyField(fields.BaseField):
@@ -38,18 +37,18 @@ class TestBaseField(AppTestCase):
         class MyField(fields.BaseField):
             field_class = forms.CharField
 
-        instance = FormField(
-            label='My Field',
-            required=True,
-            default_value='Value',
-            help_text='Help'
-        )
+        data = {
+            'label': 'field',
+            'required': True,
+            'default_value': 'default',
+            'help_text': 'help'
+        }
 
-        field = MyField().get_formfield(instance)
+        field = MyField().get_formfield(data)
 
         self.assertIsInstance(field, forms.CharField)
 
-        self.assertEqual(field.label, instance.label)
-        self.assertEqual(field.required, instance.required)
-        self.assertEqual(field.initial, instance.default_value)
-        self.assertEqual(field.help_text, instance.help_text)
+        self.assertEqual(field.label, data['label'])
+        self.assertEqual(field.required, data['required'])
+        self.assertEqual(field.initial, data['default_value'])
+        self.assertEqual(field.help_text, data['help_text'])

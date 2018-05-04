@@ -1,5 +1,4 @@
 import uuid
-from copy import deepcopy
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -7,17 +6,19 @@ from modelcluster.models import ClusterableModel
 
 from wagtail.admin.edit_handlers import (
     FieldPanel,
-    InlinePanel,
     TabbedInterface,
     ObjectList,
     PageChooserPanel,
-    MultiFieldPanel
+    MultiFieldPanel,
+    StreamFieldPanel
 )
 
 from wagtailstreamforms import hooks
+from wagtailstreamforms.streamfield import FormFieldsStreamField
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.forms import FormBuilder
+from wagtailstreamforms.utils import get_slug_from_string
 
 from .submission import FormSubmission
 
@@ -40,6 +41,9 @@ class Form(ClusterableModel):
         _('Template'),
         max_length=255,
         choices=get_setting('FORM_TEMPLATES')
+    )
+    fields = FormFieldsStreamField(
+        []
     )
     submit_button_text = models.CharField(
         _('Submit button text'),
@@ -85,7 +89,7 @@ class Form(ClusterableModel):
     ]
 
     field_panels = [
-        InlinePanel('form_fields', label=_('Fields')),
+        StreamFieldPanel('fields'),
     ]
 
     edit_handler = TabbedInterface([
@@ -104,16 +108,18 @@ class Form(ClusterableModel):
     def copy(self):
         """ Copy this form and its fields. """
 
-        form_copy = deepcopy(self)
-        form_copy.pk = None
-        form_copy.slug = uuid.uuid4()
+        form_copy = Form(
+            name=self.name,
+            slug=uuid.uuid4(),
+            template_name=self.template_name,
+            fields=self.fields,
+            submit_button_text=self.submit_button_text,
+            success_message=self.success_message,
+            error_message=self.error_message,
+            post_redirect_page=self.post_redirect_page,
+            process_form_submission_hooks=self.process_form_submission_hooks
+        )
         form_copy.save()
-
-        for field in self.form_fields.all():
-            form_field_copy = deepcopy(field)
-            form_field_copy.pk = None
-            form_field_copy.form = form_copy
-            form_field_copy.save()
 
         return form_copy
 
@@ -126,7 +132,7 @@ class Form(ClusterableModel):
             ('submit_time', _('Submission date')),
         ]
         data_fields += [
-            (field.clean_name, field.label)
+            (get_slug_from_string(field['value']['label']), field['value']['label'])
             for field in self.get_form_fields()
         ]
 
@@ -143,9 +149,9 @@ class Form(ClusterableModel):
         return FormBuilder(self.get_form_fields()).get_form_class()
 
     def get_form_fields(self):
-        """ Returns the list of form fields. """
+        """ Returns the form fields stream_data. """
 
-        return self.form_fields.all()
+        return self.fields.stream_data
 
     def get_form_parameters(self):
         return {}
