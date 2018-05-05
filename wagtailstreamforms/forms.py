@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
 from wagtailstreamforms.fields import get_fields
 from wagtailstreamforms.utils import get_slug_from_string
@@ -61,3 +62,14 @@ class FormBuilder:
 
     def get_form_class(self):
         return type(str('StreamformsForm'), (BaseForm,), self.formfields)
+
+
+class SelectDateForm(forms.Form):
+    date_from = forms.DateTimeField(
+        required=False,
+        widget=forms.DateInput(attrs={'placeholder': _('Date from')})
+    )
+    date_to = forms.DateTimeField(
+        required=False,
+        widget=forms.DateInput(attrs={'placeholder': _('Date to')})
+    )

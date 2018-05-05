@@ -9,7 +9,8 @@ from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
-from wagtail.contrib.forms.forms import SelectDateForm
+
+from wagtailstreamforms.forms import SelectDateForm
 from wagtailstreamforms.models import Form
 
 
