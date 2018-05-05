@@ -29,7 +29,7 @@ class CopyViewTestCase(AppTestCase):
         self.assertInHTML('This field is required.', str(response.content))
 
     def test_invalid_form_slug_in_use_error(self):
-        response = self.client.post(self.copy_url, data={'name': 'new copy', 'slug': self.form.slug})
+        response = self.client.post(self.copy_url, data={'title': 'new copy', 'slug': self.form.slug})
         self.assertEqual(response.status_code, 200)
         self.assertInHTML("This slug is already in use", str(response.content))
 
@@ -38,11 +38,11 @@ class CopyViewTestCase(AppTestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_post_copies(self):
-        self.client.post(self.copy_url, data={'name': 'new copy', 'slug': 'new-slug'})
+        self.client.post(self.copy_url, data={'title': 'new copy', 'slug': 'new-slug'})
         self.assertEqual(Form.objects.count(), 2)
 
     def test_post_redirects(self):
-        response = self.client.post(self.copy_url, data={'name': 'new copy', 'slug': 'new-slug'})
+        response = self.client.post(self.copy_url, data={'title': 'new copy', 'slug': 'new-slug'})
         url_helper = FormURLHelper(model=Form)
         self.assertRedirects(response, url_helper.index_url)
 

@@ -26,8 +26,8 @@ from .submission import FormSubmission
 class Form(ClusterableModel):
     """ A form base class, any form should inherit from this. """
 
-    name = models.CharField(
-        _('Name'),
+    title = models.CharField(
+        _('Title'),
         max_length=255
     )
     slug = models.SlugField(
@@ -76,7 +76,7 @@ class Form(ClusterableModel):
     )
 
     settings_panels = [
-        FieldPanel('name', classname='full'),
+        FieldPanel('title', classname='full'),
         FieldPanel('slug'),
         FieldPanel('template_name'),
         FieldPanel('submit_button_text'),
@@ -98,10 +98,10 @@ class Form(ClusterableModel):
     ])
 
     def __str__(self):
-        return self.name
+        return self.title
 
     class Meta:
-        ordering = ['name', ]
+        ordering = ['title', ]
         verbose_name = _('Form')
         verbose_name_plural = _('Forms')
 
@@ -109,7 +109,7 @@ class Form(ClusterableModel):
         """ Copy this form and its fields. """
 
         form_copy = Form(
-            name=self.name,
+            title=self.title,
             slug=uuid.uuid4(),
             template_name=self.template_name,
             fields=self.fields,
