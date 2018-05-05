@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
 
-    'captcha',
     'wagtailstreamforms',
     'tests',
 ]

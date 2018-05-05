@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'taggit',
 
     # app specific
-    'captcha',
     'example',
     'wagtailstreamforms'
 ]
