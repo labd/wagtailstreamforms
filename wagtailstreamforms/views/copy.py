@@ -10,7 +10,7 @@ from wagtailstreamforms.models import Form
 
 
 class CopyForm(forms.Form):
-    name = forms.CharField(label=_('New name'))
+    title = forms.CharField(label=_('New title'))
     slug = forms.SlugField(label=_('New slug'))
 
     def clean_slug(self):
@@ -48,7 +48,7 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
         if form.is_valid():
 
             copied = self.object.copy()
-            copied.name = form.cleaned_data['name']
+            copied.title = form.cleaned_data['title']
             copied.slug = form.cleaned_data['slug']
 
             copied.save()
@@ -62,7 +62,7 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(object=self.object)
-        context['form'] = CopyForm(initial={'name': self.object.name, 'slug': self.object.slug})
+        context['form'] = CopyForm(initial={'title': self.object.title, 'slug': self.object.slug})
 
         return self.render_to_response(context)
 

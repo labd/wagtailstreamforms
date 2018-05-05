@@ -18,17 +18,17 @@ class ModelGenericTests(AppTestCase):
         self.assertTrue(issubclass(Form, ClusterableModel))
 
     def test_str(self):
-        model = Form(name='form')
-        self.assertEqual(model.__str__(), model.name)
+        model = Form(title='form')
+        self.assertEqual(model.__str__(), model.title)
 
     def test_ordering(self):
-        self.assertEqual(Form._meta.ordering, ['name', ])
+        self.assertEqual(Form._meta.ordering, ['title', ])
 
 
 class ModelFieldTests(AppTestCase):
 
-    def test_name(self):
-        field = self.get_field(Form, 'name')
+    def test_title(self):
+        field = self.get_field(Form, 'title')
         self.assertModelField(field, models.CharField)
         self.assertEqual(field.max_length, 255)
 
@@ -76,7 +76,11 @@ class ModelPropertyTests(AppTestCase):
         self.test_form = Form.objects.get(pk=1)
 
     def test_clean_raises_error_when_duplicate_slug(self):
-        new_form = Form(name=self.test_form.name, slug=self.test_form.slug, template_name=self.test_form.template_name)
+        new_form = Form(
+            title=self.test_form.title,
+            slug=self.test_form.slug,
+            template_name=self.test_form.template_name
+        )
 
         with self.assertRaises(ValidationError) as cm:
             new_form.full_clean()

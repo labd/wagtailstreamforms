@@ -1,5 +1,5 @@
 <form action="{{ value.form_action }}" method="post" novalidate>
-    <h2>{{ value.form.name }}</h2>
+    <h2>{{ value.form.title }}</h2>
     {% csrf_token %}
     {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
     <div class="row">

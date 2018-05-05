@@ -61,16 +61,13 @@ class FormButtonHelper(ButtonHelper):
 @modeladmin_register
 class FormModelAdmin(ModelAdmin):
     model = Form
-    list_display = ('name', 'slug', 'latest_submission_date', 'number_of_submissions')
+    list_display = ('title', 'slug', 'latest_submission_date', 'number_of_submissions')
     menu_label = _(get_setting('ADMIN_MENU_LABEL'))
     menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
-    search_fields = ('name', 'slug')
+    search_fields = ('title', 'slug')
     button_helper_class = FormButtonHelper
     url_helper_class = FormURLHelper
-    form_view_extra_js = [
-        static('streamforms/js/form-editor.js')
-    ]
 
     def latest_submission_date(self, obj):
         submission_class = obj.get_submission_class()

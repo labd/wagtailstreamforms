@@ -11,7 +11,7 @@ class TestHook(AppTestCase):
 
     def test_form(self):
         form = Form.objects.create(
-            name='Form',
+            title='Form',
             template_name='streamforms/form_block.html',
             slug='form'
         )
