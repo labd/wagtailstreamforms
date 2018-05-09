@@ -52,6 +52,8 @@ class DropdownField(BaseField):
     def get_options(self, block_value):
         options = super().get_options(block_value)
         choices = [(c.strip(), c.strip()) for c in block_value.get('choices')]
+        if block_value.get('empty_label'):
+            choices.insert(0, ('', block_value.get('empty_label')))
         options.update({'choices': choices})
         return options
 
@@ -60,6 +62,7 @@ class DropdownField(BaseField):
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
+            ('empty_label', blocks.CharBlock(required=False)),
             ('choices', blocks.ListBlock(blocks.CharBlock(label="Option"))),
         ], icon=self.icon)
 
