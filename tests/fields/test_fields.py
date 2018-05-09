@@ -110,6 +110,10 @@ class TestFields(AppTestCase):
         self.assertEqual(field.help_text, data['help_text'])
         self.assertEqual(field.choices, [(c, c) for c in data['choices']])
 
+        data['empty_label'] = 'Please Select'
+        field = cls.get_formfield(data)
+        self.assertEqual(field.choices[0], ('', 'Please Select'))
+
     def test_multiselect_field(self):
         data = self.get_form_field_data('multiselect')
         cls = wsf_fields.MultiSelectField()
