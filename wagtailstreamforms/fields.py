@@ -49,14 +49,29 @@ def get_fields():
 
 
 class BaseField:
-    """ A base form field class """
+    """A base form field class, all form fields must inherit this class.
+
+    Usage::
+
+        @register('multiline')
+        class MultiLineTextField(BaseField):
+            field_class = forms.CharField
+            widget = forms.widgets.Textarea
+            icon = 'placeholder'
+
+    """
 
     field_class = None
     widget = None
     icon = 'placeholder'
 
     def get_formfield(self, block_value):
-        """ must return an instance of a form field class. """
+        """
+        Get the form field. Its unlikely you will need to override this.
+
+        :param block_value: The StreamValue for this field from the StreamField
+        :return: An instance of a form field class, ie ``django.forms.CharField(**options)``
+        """
 
         if not self.field_class:
             raise NotImplementedError('must provide a cls.field_class')
@@ -69,7 +84,13 @@ class BaseField:
         return self.field_class(**options)
 
     def get_options(self, block_value):
-        """ returns the default field options. """
+        """The field options.
+
+        Override this to provide additional options such as ``choices`` for a dropdown.
+
+        :param block_value: The StreamValue for this field from the StreamField
+        :return: The options to be passed into the field, ie ``django.forms.CharField(**options)``
+        """
 
         return {
             'label': block_value.get('label'),
@@ -79,6 +100,12 @@ class BaseField:
         }
 
     def get_form_block(self):
+        """The StreamField StructBlock.
+
+        Override this to provide additional fields in the StreamField.
+
+        :return: The ``wagtail.core.blocks.StructBlock`` to be used in the StreamField
+        """
         return blocks.StructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),

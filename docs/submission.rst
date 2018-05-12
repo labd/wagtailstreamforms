@@ -160,7 +160,7 @@ The template for the form might look like:
 
 ::
 
-    <h2>{{ value.form.name }}</h2>
+    <h2>{{ value.form.title }}</h2>
     <form action="{{ value.form_action }}" method="post" id="id_streamforms_{{ form.initial.form_id }}" novalidate>
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}

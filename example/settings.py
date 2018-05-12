@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'taggit',
 
     # app specific
+    'wagtailstreamforms',
     'example',
-    'wagtailstreamforms'
 ]
 
 MIDDLEWARE = [

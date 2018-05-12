@@ -45,10 +45,10 @@ What else is included?
    installation
    usage
    templates
-   forms
+   fields
    submission
+   hooks
    permissions
-   recaptcha
    settings
    contributors
    changelog
