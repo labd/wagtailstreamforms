@@ -53,8 +53,45 @@ The ``BaseField`` class also has some additional properties you can set as follo
         # the icon in the streamfield
         icon = 'placeholder'
 
-ReCAPTCHA
----------
+Setting widget attributes
+-------------------------
+
+Setting widget attributes can be done on the ``BaseField`` class as follows:
+
+.. code-block:: python
+
+   from django import forms
+   from wagtailstreamforms.fields import BaseField, register
+
+   @register('mytextarea')
+   class CustomTextAreaField(BaseField):
+      field_class = forms.CharField
+      widget = forms.widgets.Textarea(attrs={'rows': 10})
+
+Overriding an existing field
+----------------------------
+
+.. important::
+   When overriding an existing field make sure the app that has the ``wagtailstreamforms_fields.py``
+   file appears after ``wagtailstreamforms`` in your ``INSTALLED_APPS`` or the field will not be overridden.
+
+You can replace one of the form fields by simply using an existing name in the ``@register`` decorator.
+Suppose you want to add a rows attribute to the textarea widget of the ``multiline`` field.
+
+In your ``wagtailstreamforms_fields.py`` file:
+
+.. code-block:: python
+
+   from django import forms
+   from wagtailstreamforms.fields import BaseField, register
+
+   @register('multiline')
+   class MultiLineTextField(BaseField):
+      field_class = forms.CharField
+      widget = forms.widgets.Textarea(attrs={'rows': 10})
+
+ReCAPTCHA example
+-----------------
 
 Adding a ReCAPTCHA field is as simple as follows.
 
@@ -97,28 +134,6 @@ Django ``settings.py`` file:
                ('label', blocks.CharBlock()),
                ('help_text', blocks.CharBlock(required=False)),
            ], icon=self.icon)
-
-Overriding an existing field
-----------------------------
-
-.. important::
-   When overriding an existing field make sure the app that has the ``wagtailstreamforms_fields.py``
-   file appears after ``wagtailstreamforms`` in your ``INSTALLED_APPS`` or the field will not be overridden.
-
-You can replace one of the form fields by simply using an existing name in the ``@register`` decorator.
-Suppose you want to add a rows attribute to the textarea widget of the ``multiline`` field.
-
-In your ``wagtailstreamforms_fields.py`` file:
-
-.. code-block:: python
-
-   from django import forms
-   from wagtailstreamforms.fields import BaseField, register
-
-   @register('multiline')
-   class MultiLineTextField(BaseField):
-      field_class = forms.CharField
-      widget = forms.widgets.Textarea(attrs={'rows': 10})
 
 Reference
 ---------
