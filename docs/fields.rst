@@ -22,8 +22,8 @@ The various default options for the fields are set when choosing that type of fi
 For example a dropdown includes options to set the ``choices`` and an additional ``empty_label`` as the
 first choice.
 
-Adding fields
--------------
+Adding new fields
+-----------------
 
 You can also register your own fields which will be added to the form builders StreamField.
 First you need to create the file ``wagtailstreamforms_fields.py`` in the root of an app in your project
@@ -60,13 +60,90 @@ Setting widget attributes can be done on the ``BaseField`` class as follows:
 
 .. code-block:: python
 
-   from django import forms
-   from wagtailstreamforms.fields import BaseField, register
+    @register('mytextarea')
+    class CustomTextAreaField(BaseField):
+        field_class = forms.CharField
+        widget = forms.widgets.Textarea(attrs={'rows': 10})
 
-   @register('mytextarea')
-   class CustomTextAreaField(BaseField):
-      field_class = forms.CharField
-      widget = forms.widgets.Textarea(attrs={'rows': 10})
+Setting field options
+---------------------
+
+The ``BaseField`` class has a default dict of options set from the StreamField's StructValue:
+
+.. code-block:: python
+
+    class BaseField:
+        def get_options(self, block_value):
+            return {
+                'label': block_value.get('label'),
+                'help_text': block_value.get('help_text'),
+                'required': block_value.get('required'),
+                'initial': block_value.get('default_value')
+            }
+
+You can use this to provide additional options set either by passing them from the StreamField
+or manually setting them. The below adds django's slug validator to create a slug field:
+
+.. code-block:: python
+
+    from django.core import validators
+
+    @register('slug')
+    class SlugField(BaseField):
+        field_class = forms.CharField
+
+        def get_options(self, block_value):
+            options = super().get_options(block_value)
+            options.update({'validators': [validators.validate_slug]})
+            return options
+
+Editable field options
+----------------------
+
+To be able to make the field options editable from within the StreamField you must override
+the ``BaseField.get_form_block()`` method with the additonal options you will require.
+
+Consider that you need a max length on a ``CharField`` but want the length to be configurable
+on every instance of that field. Firstly you need to setup the field's StructBlock so that the
+additional options are available within the StreamField:
+
+.. code-block:: python
+
+    @register('maxlength')
+    class MaxLengthField(BaseField):
+        field_class = forms.CharField
+
+        def get_form_block(self):
+            return blocks.StructBlock([
+                ('label', blocks.CharBlock()),
+                ('help_text', blocks.CharBlock(required=False)),
+                ('required', blocks.BooleanBlock(required=False)),
+                ('max_length', blocks.IntegerBlock(required=True)),
+                ('default_value', blocks.CharBlock(required=False)),
+            ], icon=self.icon)
+
+and then pull that value into the fields options:
+
+
+.. code-block:: python
+
+    @register('maxlength')
+    class MaxLengthField(BaseField):
+        field_class = forms.CharField
+
+        def get_options(self, block_value):
+            options = super().get_options(block_value)
+            options.update({'max_length': block_value.get('max_length')})
+            return options
+
+        def get_form_block(self):
+            return blocks.StructBlock([
+                ('label', blocks.CharBlock()),
+                ('help_text', blocks.CharBlock(required=False)),
+                ('required', blocks.BooleanBlock(required=False)),
+                ('max_length', blocks.IntegerBlock(required=True)),
+                ('default_value', blocks.CharBlock(required=False)),
+            ], icon=self.icon)
 
 Overriding an existing field
 ----------------------------
@@ -82,13 +159,10 @@ In your ``wagtailstreamforms_fields.py`` file:
 
 .. code-block:: python
 
-   from django import forms
-   from wagtailstreamforms.fields import BaseField, register
-
-   @register('multiline')
-   class MultiLineTextField(BaseField):
-      field_class = forms.CharField
-      widget = forms.widgets.Textarea(attrs={'rows': 10})
+    @register('multiline')
+    class MultiLineTextField(BaseField):
+        field_class = forms.CharField
+        widget = forms.widgets.Textarea(attrs={'rows': 10})
 
 ReCAPTCHA example
 -----------------
@@ -99,41 +173,40 @@ Installing ``django-recaptcha``:
 
 .. code-block:: python
 
-   pip install django-recaptcha
+    pip install django-recaptcha
 
 Django ``settings.py`` file:
 
 .. code-block:: python
 
-   INSTALLED_APPS = [
-       ...
-       'captcha'
-       ...
-   ]
+    INSTALLED_APPS = [
+        ...
+        'captcha'
+        ...
+    ]
 
-   # developer keys
-   RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
-   RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
-   NOCAPTCHA = True
+    # developer keys
+    RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+    RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+    NOCAPTCHA = True
 
 
 ``wagtailstreamforms_fields.py`` file:
 
 .. code-block:: python
 
-   from captcha.fields import ReCaptchaField
-   from wagtailstreamforms.fields import BaseField, register
+    from captcha.fields import ReCaptchaField
 
-   @register('recaptcha')
-   class ReCaptchaField(BaseField):
-       field_class = ReCaptchaField
-       icon = 'success'
+    @register('recaptcha')
+    class ReCaptchaField(BaseField):
+        field_class = ReCaptchaField
+        icon = 'success'
 
-       def get_form_block(self):
-           return blocks.StructBlock([
-               ('label', blocks.CharBlock()),
-               ('help_text', blocks.CharBlock(required=False)),
-           ], icon=self.icon)
+        def get_form_block(self):
+            return blocks.StructBlock([
+                ('label', blocks.CharBlock()),
+                ('help_text', blocks.CharBlock(required=False)),
+            ], icon=self.icon)
 
 Reference
 ---------
