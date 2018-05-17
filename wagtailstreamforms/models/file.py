@@ -27,5 +27,6 @@ class FormSubmissionFile(models.Model):
         ordering = ['field', 'file']
         verbose_name = _('Form submission file')
 
+    @property
     def url(self):
         return self.file.url
