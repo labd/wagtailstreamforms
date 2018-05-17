@@ -114,7 +114,9 @@ class ModelPropertyTests(AppTestCase):
                 'radio',
                 'checkboxes',
                 'checkbox',
-                'hidden'
+                'hidden',
+                'singlefile',
+                'multifile'
             ]
         )
 
@@ -143,7 +145,9 @@ class ModelPropertyTests(AppTestCase):
             ('radio', _('radio')),
             ('checkboxes', _('checkboxes')),
             ('checkbox', _('checkbox')),
-            ('hidden', _('hidden'))
+            ('hidden', _('hidden')),
+            ('singlefile', _('singlefile')),
+            ('multifile', _('multifile'))
         ]
         self.assertEqual(self.test_form.get_data_fields(), expected_fields)
 
@@ -163,6 +167,8 @@ class ModelPropertyTests(AppTestCase):
             'checkboxes',
             'checkbox',
             'hidden',
+            'singlefile',
+            'multifile',
             'form_id',
             'form_reference'
         ]
@@ -184,7 +190,9 @@ class ModelPropertyTests(AppTestCase):
                 'radio',
                 'checkboxes',
                 'checkbox',
-                'hidden'
+                'hidden',
+                'singlefile',
+                'multifile'
             ]
         )
 

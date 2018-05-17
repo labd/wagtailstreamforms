@@ -18,7 +18,7 @@ class TemplateTagTests(AppTestCase):
 
         expected_html = '\n'.join([
             '<h2>Basic Form</h2>',
-            '<form action="." method="post" novalidate>',
+            '<form action="." enctype="multipart/form-data" method="post" novalidate>',
             '<input type="hidden" name="hidden" id="id_hidden" />',
             '<input id="id_form_id" name="form_id" type="hidden" value="%s">' % self.form.pk,
             '<input id="id_form_reference" name="form_reference" type="hidden" value="some-ref">',
@@ -105,6 +105,16 @@ class TemplateTagTests(AppTestCase):
             '<div class="field-row">'
             '<label for="id_checkbox">checkbox</label>'
             '<input type="checkbox" name="checkbox" required id="id_checkbox" />'
+            '<p class="help-text">Help</p>'
+            '</div>'
+            '<div class="field-row">'
+            '<label for="id_singlefile">singlefile</label>'
+            '<input type="file" name="singlefile" required id="id_singlefile" />'
+            '<p class="help-text">Help</p>'
+            '</div>'
+            '<div class="field-row">'
+            '<label for="id_multifile">multifile</label>'
+            '<input type="file" name="multifile" multiple required id="id_multifile" />'
             '<p class="help-text">Help</p>'
             '</div>'
             '<input type="submit" value="Submit">'

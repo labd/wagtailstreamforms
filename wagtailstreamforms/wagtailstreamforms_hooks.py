@@ -2,6 +2,7 @@ import json
 from copy import deepcopy
 
 from django.core.serializers.json import DjangoJSONEncoder
+from django.template.defaultfilters import pluralize
 
 from wagtailstreamforms.hooks import register
 from wagtailstreamforms.models import FormSubmissionFile
@@ -14,9 +15,10 @@ def save_form_submission_data(instance, form):
     # copy the cleaned_data so we dont mess with the original
     submission_data = deepcopy(form.cleaned_data)
 
-    # remove file fields from submission data
+    # change the submission data to a count of the files
     for field in form.files.keys():
-        submission_data[field] = '-'
+        count = len(form.files.getlist(field))
+        submission_data[field] = '{} file{}'.format(count, pluralize(count))
 
     # save the submission data
     submission = instance.get_submission_class().objects.create(

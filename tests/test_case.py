@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models, connection
 from django.template import Context, Template
 from django.test import TestCase
@@ -21,6 +22,9 @@ class AppTestCase(TestCase):
 
     def get_field(self, modelClass, name):
         return modelClass._meta.get_field(name)
+
+    def get_file(self):
+        return SimpleUploadedFile("file.mp4", b"file_content", content_type="video/mp4")
 
     @contextmanager
     def register_field(self, field_type, cls):
