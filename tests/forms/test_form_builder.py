@@ -38,7 +38,7 @@ class FormBuilderTests(AppTestCase):
         fields = self.form.get_form_fields()
         form_class = FormBuilder(fields).get_form_class()
 
-        self.assertEqual(len(form_class().fields), 15)
+        self.assertEqual(len(form_class().fields), 17)
 
         formfields = form_class().fields
 

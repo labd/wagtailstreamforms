@@ -64,6 +64,8 @@ class TestHook(AppTestCase):
             'checkboxes': 'Option 1',
             'checkbox': 'on',
             'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -90,6 +92,8 @@ class TestHook(AppTestCase):
             'checkboxes': 'Option 1',
             'checkbox': 'on',
             'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -118,6 +122,8 @@ class TestHook(AppTestCase):
             'checkboxes': 'Option 1',
             'checkbox': 'on',
             'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -146,6 +152,8 @@ class TestHook(AppTestCase):
             'checkboxes': 'Option 1',
             'checkbox': 'on',
             'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -233,7 +241,9 @@ class TestHook(AppTestCase):
                 'radio': ['This field is required.'],
                 'checkboxes': ['This field is required.'],
                 'checkbox': ['This field is required.'],
-                'hidden': ['This field is required.']
+                'hidden': ['This field is required.'],
+                'singlefile': ['This field is required.'],
+                'multifile': ['This field is required.']
             }
         )
 
