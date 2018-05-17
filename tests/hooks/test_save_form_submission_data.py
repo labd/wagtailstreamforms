@@ -54,12 +54,12 @@ class TestHook(AppTestCase):
 
         save_form_submission_data(instance, form_class)
 
-        expected_data = json.dumps({
+        expected_data = {
             'singleline': 'text',
             'multifile': '2 files',
             'form_id': str(instance.pk),
             'form_reference': 'some-ref'
-        })
+        }
         self.assertEqual(instance.get_submission_class().objects.count(), 1)
-        self.assertEqual(instance.get_submission_class().objects.all()[0].form_data, expected_data)
+        self.assertDictEqual(json.loads(instance.get_submission_class().objects.all()[0].form_data), expected_data)
         self.assertEqual(instance.get_submission_class().objects.all()[0].files.count(), 2)
