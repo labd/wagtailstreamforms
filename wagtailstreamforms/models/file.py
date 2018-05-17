@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models, transaction
+from django.db.models.signals import post_delete
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -30,3 +31,11 @@ class FormSubmissionFile(models.Model):
     @property
     def url(self):
         return self.file.url
+
+
+def delete_file_from_storage(instance, **kwargs):
+    """ Cleanup deleted files from disk """
+    transaction.on_commit(lambda: instance.file.delete(False))
+
+
+post_delete.connect(delete_file_from_storage, sender=FormSubmissionFile)

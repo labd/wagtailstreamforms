@@ -142,6 +142,8 @@ STATICFILES_DIRS = [
     join(SITE_DIR, "static"),
 ]
 STATIC_URL = "/static/"
+
+MEDIA_ROOT = join(SITE_DIR, "media")
 MEDIA_URL = "/media/"
 
 

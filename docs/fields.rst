@@ -177,7 +177,7 @@ you can automatically add this with a simple if statement to detect if the form 
    <form{% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="...
 
 Files will be uploaded using your default storage class to the path ``streamforms/`` and are listed
-along with the form submissions.
+along with the form submissions. When a submission is deleted all files are also deleted from the storage.
 
 ReCAPTCHA example
 -----------------

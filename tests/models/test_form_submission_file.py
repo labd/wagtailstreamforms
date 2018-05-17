@@ -1,6 +1,7 @@
-from django.db import models
+from django.db import models, transaction
+from django.test import TransactionTestCase
 
-from wagtailstreamforms.models import FormSubmission, FormSubmissionFile
+from wagtailstreamforms.models import Form, FormSubmission, FormSubmissionFile
 
 from ..test_case import AppTestCase
 
@@ -35,3 +36,18 @@ class ModelPropertyTests(AppTestCase):
     def test_url(self):
         model = FormSubmissionFile(file=self.get_file())
         self.assertEqual(model.url, model.file.url)
+
+
+class DeleteTests(TransactionTestCase):
+    fixtures = ['test']
+
+    def test_files_are_deleted_on_commit(self):
+        test_file = AppTestCase().get_file()
+        with transaction.atomic():
+            form = Form.objects.get(pk=1)
+            submission = FormSubmission.objects.create(form=form, form_data={})
+            file = FormSubmissionFile.objects.create(submission=submission, field='field', file=test_file)
+            self.assertTrue(file.file.storage.exists(file.file.name))
+            file.delete()
+            self.assertTrue(file.file.storage.exists(file.file.name))
+        self.assertFalse(file.file.storage.exists(file.file.name))
