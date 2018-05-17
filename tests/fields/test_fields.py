@@ -183,7 +183,6 @@ class TestFields(AppTestCase):
         self.assertEqual(field.label, data['label'])
         self.assertEqual(field.required, data['required'])
         self.assertEqual(field.help_text, data['help_text'])
-        self.assertEqual(field.initial, data['default_value'])
 
     def test_multifile_field(self):
         data = self.get_form_field_data('multifile')
@@ -195,4 +194,3 @@ class TestFields(AppTestCase):
         self.assertEqual(field.label, data['label'])
         self.assertEqual(field.required, data['required'])
         self.assertEqual(field.help_text, data['help_text'])
-        self.assertEqual(field.initial, data['default_value'])

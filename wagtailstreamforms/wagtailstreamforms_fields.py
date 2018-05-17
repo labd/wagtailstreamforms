@@ -155,9 +155,23 @@ class SingleFileField(BaseField):
     widget = forms.widgets.FileInput
     icon = 'doc-full-inverse'
 
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+        ], icon=self.icon)
+
 
 @register('multifile')
 class MultiFileField(BaseField):
     field_class = forms.FileField
     widget = forms.widgets.FileInput(attrs={'multiple': True})
     icon = 'doc-full-inverse'
+
+    def get_form_block(self):
+        return blocks.StructBlock([
+            ('label', blocks.CharBlock()),
+            ('help_text', blocks.CharBlock(required=False)),
+            ('required', blocks.BooleanBlock(required=False)),
+        ], icon=self.icon)
