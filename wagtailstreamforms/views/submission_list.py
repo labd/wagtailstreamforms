@@ -79,7 +79,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
                 date_to += datetime.timedelta(days=1)
                 self.queryset = self.queryset.filter(submit_time__lte=date_to)
 
-        return self.queryset
+        return self.queryset.prefetch_related('files')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,8 +91,9 @@ class SubmissionListView(SingleObjectMixin, ListView):
         data_rows = []
         for s in context['page_obj']:
             form_data = s.get_data()
+            form_files = s.files.all()
             data_row = [form_data.get(name) for name, label in data_fields]
-            data_rows.append({'model_id': s.id, 'fields': data_row})
+            data_rows.append({'model_id': s.id, 'fields': data_row, 'files': form_files})
 
         context.update({
             'filter_form': self.filter_form,

@@ -36,6 +36,20 @@
                 {% endfor %}
                 <td>
             </tr>
+            {% if row.files %}
+            <tr>
+                <td>Files:</td>
+                <td colspan="{{ row.fields|length }}">
+                    <ul>
+                        {% for f in row.files %}
+                        <li style="display: inline; margin-right: 20px;">
+                            <a href="{{ f.url }}" target="_blank">{{ f }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endif %}
         {% endfor %}
     </tbody>
 </table>

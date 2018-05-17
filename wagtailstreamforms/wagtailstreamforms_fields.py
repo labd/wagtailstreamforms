@@ -147,3 +147,16 @@ class HiddenField(BaseField):
     field_class = forms.CharField
     widget = forms.widgets.HiddenInput
     icon = 'no-view'
+
+
+@register('file')
+class FileField(BaseField):
+    field_class = forms.FileField
+    icon = 'doc-full-inverse'
+
+
+@register('files')
+class FilesField(BaseField):
+    field_class = forms.FileField
+    widget = forms.widgets.ClearableFileInput(attrs={'multiple': True})
+    icon = 'doc-full-inverse'
