@@ -152,6 +152,8 @@ class TestHook(AppTestCase):
             'checkboxes': 'Option 1',
             'checkbox': 'on',
             'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
