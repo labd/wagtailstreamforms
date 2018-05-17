@@ -17,6 +17,8 @@ There are various default fields already defined as listed below:
 - checkboxes
 - checkbox
 - hidden
+- singlefile
+- multifile
 
 The various default options for the fields are set when choosing that type of field within the StreamField.
 For example a dropdown includes options to set the ``choices`` and an additional ``empty_label`` as the
@@ -163,6 +165,19 @@ In your ``wagtailstreamforms_fields.py`` file:
     class MultiLineTextField(BaseField):
         field_class = forms.CharField
         widget = forms.widgets.Textarea(attrs={'rows': 10})
+
+Using file fields
+-----------------
+
+To handle file fields correctly you must ensure the your form template has the correct enctype.
+you can automatically add this with a simple if statement to detect if the form is a multipart type form.
+
+.. code-block:: html
+
+   <form{% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="...
+
+Files will be uploaded using your default storage class to the path ``streamforms/`` and are listed
+along with the form submissions.
 
 ReCAPTCHA example
 -----------------

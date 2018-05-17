@@ -9,7 +9,7 @@ The default template located at ``streamforms/form_block.html`` can be seen belo
 .. code-block:: html
 
     <h2>{{ value.form.title }}</h2>
-    <form action="{{ value.form_action }}" method="post" novalidate>
+    <form{% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ value.form_action }}" method="post" novalidate>
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
         {% for field in form.visible_fields %}
