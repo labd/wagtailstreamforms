@@ -15,6 +15,14 @@ allowing you to display and submit a form however you want.
 Backwards Compatibility
 -----------------------
 
+.. important::
+   Please note that due to this package being virtually re-written for version 3, you cannot upgrade any existing
+   older version of this package to version 3 and onwards.
+   If you have an existing version installed less than 3 then you will need to completely remove it including
+   tables and any migrations that were applied in the databases ``django_migrations`` table.
+
+Older versions:
+
 If you are using a version of wagtail 1.x, then the latest compatible version of this package is 1.6.3:
 
 .. code:: bash
