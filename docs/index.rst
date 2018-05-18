@@ -53,6 +53,7 @@ What else is included?
    submission
    hooks
    permissions
+   housekeeping
    settings
    contributors
    changelog
