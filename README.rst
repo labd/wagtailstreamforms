@@ -47,15 +47,15 @@ Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 Screenshots
 -----------
 
-.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen7.png
+.. figure:: screen_1.png
    :width: 728 px
 
    Example Front End
 
-.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen1.png
+.. figure:: screen_2.png
    :width: 728 px
 
-   Menu
+   Form Fields Selection
 
 Example site with docker
 ------------------------
