@@ -2,10 +2,22 @@
 Changelog
 *********
 
-master
-======
+3.0.0-dev
+---------
 
-* in development
+Version 3 is a major re-write and direction change and therefor any version prior
+to this needs to be removed in its entirety first.
+
+Whats New:
+
+* The concept of creating a custom form class to add functionality has been removed.
+* Along with the concept of custom form submission classes.
+* Fields are now added via a StreamField and you can define your own like ReCAPTCHA or RegexFields.
+* You can easily overwrite fields to add things like widget attributes.
+* The form submission is processed via hooks instead of baked into the models.
+* You can create as many form submission hooks as you like to process, email etc the data as you wish. These will be available to all forms that you can enable/disable at will.
+* Files can now be uploaded and are stored along with the submission using the default storage.
+* There is a management command to easily remove old submission data.
 
 2.0.1
 -----
