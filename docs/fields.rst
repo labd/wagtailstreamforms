@@ -179,6 +179,41 @@ you can automatically add this with a simple if statement to detect if the form 
 Files will be uploaded using your default storage class to the path ``streamforms/`` and are listed
 along with the form submissions. When a submission is deleted all files are also deleted from the storage.
 
+ModelChoice example
+-------------------
+
+Below is an example model choice field.
+
+.. code-block:: python
+
+   from django import forms
+   from django.contrib.auth.models import User
+   from wagtail.admin import blocks
+
+   from wagtailstreamforms.fields import BaseField, register
+
+
+   @register('user')
+   class UserChoiceField(BaseField):
+       field_class = forms.ModelChoiceField
+       icon = 'list-ul'
+
+       @staticmethod
+       def get_queryset():
+           return User.objects.all()
+
+       def get_options(self, block_value):
+           options = super().get_options(block_value)
+           options.update({'queryset': self.get_queryset()})
+           return options
+
+       def get_form_block(self):
+           return blocks.StructBlock([
+               ('label', blocks.CharBlock()),
+               ('help_text', blocks.CharBlock(required=False)),
+               ('required', blocks.BooleanBlock(required=False)),
+           ], icon=self.icon)
+
 ReCAPTCHA example
 -----------------
 
