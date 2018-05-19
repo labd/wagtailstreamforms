@@ -12,6 +12,7 @@ class TestSerializer(AppTestCase):
     def test_serialized(self):
         data_to_serialize = {
             "model": User(username="fred"),
+            "model_multiple": [User(username="fred"), User(username="joe")],
             "date": date(2018, 1, 1),
             "datetime": datetime(2018, 1, 1),
             "list": [1, 2],
@@ -20,6 +21,7 @@ class TestSerializer(AppTestCase):
         }
         expected_data = {
             "model": "fred",
+            "model_multiple": ["fred", "joe"],
             "date": "2018-01-01",
             "datetime": "2018-01-01T00:00:00",
             "list": [1, 2],
