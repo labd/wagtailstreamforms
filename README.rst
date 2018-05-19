@@ -84,7 +84,7 @@ Create yourself a superuser
 
 .. code:: bash
 
-    $ docker exec -it <container_name> bash
+    $ docker-compose exec app bash
     $ python manage.py createsuperuser
 
 Go to http://127.0.0.1:8000
