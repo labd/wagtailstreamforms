@@ -258,6 +258,11 @@ Django ``settings.py`` file:
                 ('help_text', blocks.CharBlock(required=False)),
             ], icon=self.icon)
 
+Useful Resources
+----------------
+
+* `Django Documentation - Form fields <https://docs.djangoproject.com/en/2.1/ref/forms/fields/>`_
+
 Reference
 ---------
 
