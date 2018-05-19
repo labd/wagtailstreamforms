@@ -1,7 +1,6 @@
 from django.conf.urls import include
 from django.contrib import messages
 from django.contrib.admin.utils import quote
-from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse, path
