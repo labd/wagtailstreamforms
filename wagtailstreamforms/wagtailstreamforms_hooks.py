@@ -1,11 +1,11 @@
 import json
 from copy import deepcopy
 
-from django.core.serializers.json import DjangoJSONEncoder
 from django.template.defaultfilters import pluralize
 
 from wagtailstreamforms.hooks import register
 from wagtailstreamforms.models import FormSubmissionFile
+from wagtailstreamforms.serializers import FormSubmissionSerializer
 
 
 @register('process_form_submission')
@@ -22,7 +22,7 @@ def save_form_submission_data(instance, form):
 
     # save the submission data
     submission = instance.get_submission_class().objects.create(
-        form_data=json.dumps(submission_data, cls=DjangoJSONEncoder),
+        form_data=json.dumps(submission_data, cls=FormSubmissionSerializer),
         form=instance
     )
 
