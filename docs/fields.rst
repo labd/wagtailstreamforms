@@ -214,6 +214,49 @@ Below is an example model choice field.
                ('required', blocks.BooleanBlock(required=False)),
            ], icon=self.icon)
 
+Regex validated example
+-----------------------
+
+An example field that allows a selection of regex patterns with a option to set the invalid error message.
+
+Taking this further you could provide the invalid error messages from code if they were always
+the same for any given regex pattern.
+
+.. code-block:: python
+
+   from django import forms
+   from wagtail.core import blocks
+
+   from wagtailstreamforms.fields import BaseField, register
+
+   @register('regex_validated')
+   class RegexValidatedField(BaseField):
+       field_class = forms.RegexField
+
+       def get_options(self, block_value):
+           options = super().get_options(block_value)
+           options.update({
+               'regex': block_value.get('regex'),
+               'error_messages': {'invalid': block_value.get('error_message')}
+           })
+           return options
+
+       def get_regex_choices(self):
+           return (
+               ('(.*?)', 'Any'),
+               ('^[a-zA-Z0-9]+$', 'Letters and numbers only'),
+           )
+
+       def get_form_block(self):
+           return blocks.StructBlock([
+               ('label', blocks.CharBlock()),
+               ('help_text', blocks.CharBlock(required=False)),
+               ('required', blocks.BooleanBlock(required=False)),
+               ('regex', blocks.ChoiceBlock(choices=self.get_regex_choices())),
+               ('error_message', blocks.CharBlock()),
+               ('default_value', blocks.CharBlock(required=False)),
+           ], icon=self.icon)
+
 ReCAPTCHA example
 -----------------
 
