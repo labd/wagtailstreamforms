@@ -7,6 +7,11 @@ master
 
 * in development
 
+2.1.0
+-----
+
+* Update to Wagtail 2.1
+
 2.0.1
 -----
 
