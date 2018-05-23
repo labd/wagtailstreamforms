@@ -24,7 +24,7 @@ from .submission import FormSubmission
 
 
 class Form(ClusterableModel):
-    """ A form base class, any form should inherit from this. """
+    """ The form class. """
 
     title = models.CharField(
         _('Title'),
@@ -139,22 +139,20 @@ class Form(ClusterableModel):
         return data_fields
 
     def get_form(self, *args, **kwargs):
-        form_class = self.get_form_class()
-        form_params = self.get_form_parameters()
-        form_params.update(kwargs)
+        """ Returns the form. """
 
-        return form_class(*args, **form_params)
+        form_class = self.get_form_class()
+        return form_class(*args, **kwargs)
 
     def get_form_class(self):
+        """ Returns the form class. """
+
         return FormBuilder(self.get_form_fields()).get_form_class()
 
     def get_form_fields(self):
         """ Returns the form fields stream_data. """
 
         return self.fields.stream_data
-
-    def get_form_parameters(self):
-        return {}
 
     def get_submission_class(self):
         """ Returns submission class. """

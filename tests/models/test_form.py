@@ -196,10 +196,6 @@ class ModelPropertyTests(AppTestCase):
             ]
         )
 
-    def test_get_form_parameters(self):
-        form = Form()
-        self.assertEqual(form.get_form_parameters(), {})
-
     def test_get_submission_class(self):
         self.assertEqual(self.test_form.get_submission_class(), FormSubmission)
 
