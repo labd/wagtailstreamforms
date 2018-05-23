@@ -10,7 +10,7 @@ from wagtailstreamforms import __version__
 install_requires = [
     'Django>=2,<2.1',
     'django-recaptcha>=1.3.1',
-    'wagtail>=2,<2.1'
+    'wagtail>=2,<2.2'
 ]
 
 documentation_extras = [
