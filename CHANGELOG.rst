@@ -2,8 +2,13 @@
 Changelog
 *********
 
-3.0.0-dev
----------
+3.1.0
+-----
+
+* Update to Wagtail 2.1
+
+3.0.0
+-----
 
 Version 3 is a major re-write and direction change and therefor any version prior
 to this needs to be removed in its entirety first.
