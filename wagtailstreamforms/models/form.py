@@ -43,7 +43,8 @@ class Form(ClusterableModel):
         choices=get_setting('FORM_TEMPLATES')
     )
     fields = FormFieldsStreamField(
-        []
+        [],
+        verbose_name=_('Fields')
     )
     submit_button_text = models.CharField(
         _('Submit button text'),
@@ -72,6 +73,7 @@ class Form(ClusterableModel):
         help_text=_('The page to redirect to after a successful submission')
     )
     process_form_submission_hooks = HookSelectField(
+        verbose_name=_('Process form submission hooks'),
         blank=True
     )
 
