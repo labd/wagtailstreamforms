@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtail.contrib.search_promotions',
 
-    'modelcluster',
     'taggit',
 
     # app specific

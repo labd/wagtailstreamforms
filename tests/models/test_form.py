@@ -1,7 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from modelcluster.models import ClusterableModel
 
 from wagtail.core.models import Page
 
@@ -13,9 +12,6 @@ from ..test_case import AppTestCase
 
 
 class ModelGenericTests(AppTestCase):
-
-    def test_inheritance(self):
-        self.assertTrue(issubclass(Form, ClusterableModel))
 
     def test_str(self):
         model = Form(title='form')
@@ -121,9 +117,6 @@ class ModelPropertyTests(AppTestCase):
         )
 
     def test_copy_does_not_copy_form_submissions(self):
-        # it should never do any way as its a reverse fk but incase modelcluster
-        # ever changes we are testing for it
-
         FormSubmission.objects.create(form_data='{}', form=self.test_form)
 
         copied = self.test_form.copy()

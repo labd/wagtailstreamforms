@@ -2,7 +2,6 @@ import uuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from modelcluster.models import ClusterableModel
 
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -23,7 +22,7 @@ from wagtailstreamforms.utils import get_slug_from_string
 from .submission import FormSubmission
 
 
-class Form(ClusterableModel):
+class Form(models.Model):
     """ The form class. """
 
     title = models.CharField(

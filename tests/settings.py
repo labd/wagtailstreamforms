@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
 
-    'modelcluster',
     'taggit',
 
     'wagtailstreamforms',
