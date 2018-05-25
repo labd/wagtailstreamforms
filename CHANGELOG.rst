@@ -5,21 +5,12 @@ Changelog
 3-dev
 -----
 
-* Updated docs
-
-3.1.0
------
-
-* Update to Wagtail 2.1
-
-3.0.0
------
-
 Version 3 is a major re-write and direction change and therefor any version prior
 to this needs to be removed in its entirety first.
 
 Whats New:
 
+* Update to Wagtail 2.1
 * The concept of creating a custom form class to add functionality has been removed.
 * Along with the concept of custom form submission classes.
 * Fields are now added via a StreamField and you can define your own like ReCAPTCHA or RegexFields.
