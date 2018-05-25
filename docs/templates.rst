@@ -1,22 +1,12 @@
-Form Templates
-==============
+Templates
+=========
 
 You can create your own form templates to use against any form in the system, providing a vast array of ways to
 create, style and submit your forms.
 
 The default template located at ``streamforms/form_block.html`` can be seen below:
 
-.. code-block:: html
-
-    <h2>{{ value.form.title }}</h2>
-    <form{% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ value.form_action }}" method="post" novalidate>
-        {% csrf_token %}
-        {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
-        {% for field in form.visible_fields %}
-            {% include 'streamforms/partials/form_field.html' %}
-        {% endfor %}
-        <input type="submit" value="{{ value.form.submit_button_text }}">
-    </form>
+.. literalinclude:: ../wagtailstreamforms/templates/streamforms/form_block.html
 
 .. note:: It is important here to keep the hidden fields as the form will have some in order to process correctly.
 
@@ -57,9 +47,7 @@ in its place:
 
 ``streamforms/non_existent_form.html``
 
-.. code-block:: html
-
-    <p>Sorry, this form has been deleted.</p>
+.. literalinclude:: ../wagtailstreamforms/templates/streamforms/non_existent_form.html
 
 You can override this by putting a copy of the template in you own project using the same 
 path under a templates directory ie ``app/templates/streamforms/non_existent_form.html``. As long as the app is before

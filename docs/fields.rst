@@ -1,5 +1,5 @@
-Form Fields
-===========
+Fields
+======
 
 Form fields are added to the form by the means of a StreamField.
 There are various default fields already defined as listed below:

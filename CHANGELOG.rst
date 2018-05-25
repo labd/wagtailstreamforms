@@ -2,6 +2,11 @@
 Changelog
 *********
 
+3-dev
+-----
+
+* Updated docs
+
 3.1.0
 -----
 
