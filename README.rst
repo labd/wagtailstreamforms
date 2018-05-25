@@ -9,6 +9,15 @@ of file fields. Form submissions are controlled by hooks that you can add that p
 Templates can be created which will then appear as choices when you build your form,
 allowing you to display and submit a form however you want.
 
+Version 3
+---------
+
+Version 3 is NOT currently on PyPI, if you wish to install it please use:
+
+.. code:: bash
+
+   pip install -e git+https://github.com/AccentDesign/wagtailstreamforms.git@3-dev#egg=wagtailstreamforms
+
 Backwards Compatibility
 -----------------------
 
@@ -49,7 +58,7 @@ What else is included?
 Documentation
 -------------
 
-Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
+Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/en/v3.1.0/>`_.
 
 Screenshots
 -----------
@@ -128,7 +137,7 @@ or run for a single environment
 
     $ tox -e py36-dj200-wt200
 
-.. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master.svg?style=svg
-   :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/master
-.. |Codecov| image:: https://codecov.io/gh/AccentDesign/wagtailstreamforms/branch/master/graph/badge.svg
+.. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/3-dev.svg?style=svg
+   :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/3-dev
+.. |Codecov| image:: https://codecov.io/gh/AccentDesign/wagtailstreamforms/branch/3-dev/graph/badge.svg
    :target: https://codecov.io/gh/AccentDesign/wagtailstreamforms
