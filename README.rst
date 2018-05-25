@@ -58,7 +58,7 @@ What else is included?
 Documentation
 -------------
 
-Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/en/v3.1.0/>`_.
+Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/en/v3-dev/>`_.
 
 Screenshots
 -----------
