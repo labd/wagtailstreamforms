@@ -1,37 +1,38 @@
 {
-    "name": "karmacss.com",
-    "version": "0.0.0",
-    "directories": {},
-    "repository": {
-      "type": "git",
-      "url": "http://karmacss.com"
-    },
-    "author": "Accent Design",
-    "license": "MIT",
-    "bugs": {},
-    "homepage": "http://karmacss.com",
-    "scripts": {
-      "watch": "gulp watch"
-    },
-    "dependencies": {
-    },
-    "devDependencies": {
-      "autoprefixer": "^7.1.1",
-      "gulp": "^3.9.1",
-      "gulp-cssmin": "^0.2.0",
-      "gulp-ignore": "^2.0.2",
-      "gulp-livereload": "^3.8.1",
-      "gulp-load-plugins": "^1.2.4",
-      "gulp-postcss": "^7.0.0",
-      "gulp-rename": "^1.2.2",
-      "gulp-ruby-sass": "^2.0.6",
-      "gulp-sass": "^3.1.0",
-      "gulp-sourcemaps": "^2.6.0",
-      "gulp-watch": "^4.3.6",
-      "karma-css": "1.7.1",
-      "node-sass": "^4.5.3",
-      "postcss-discard-comments": "^2.0.4",
-      "postcss-discard-empty": "^2.1.0",
-      "run-sequence": "^1.2.1"
-    }
-  }
+  "name": "",
+  "version": "",
+  "description": "",
+  "homepage": "http://karmacss.com",
+  "author": "Accent Design <npm@accentdesign.co.uk>",
+  "keywords": [],
+  "license": "MIT",
+  "scripts": {
+    "css": "npm-run-all css-compile* --sequential css-prefix* css-minify*",
+    "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 example/scss/karma.scss example/static/css/karma.css",
+    "css-prefix": "postcss --config postcss.config.js --replace \"example/static/css/*.css\" \"!example/static/css/*.min.css\"",
+    "css-minify": "cleancss --level 1 --source-map --source-map-inline-sources --output example/static/css/karma.min.css example/static/css/karma.css",
+    "watch-css": "nodemon -e scss -x \"npm run css\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^7.2.5",
+    "clean-css-cli": "^4.1.10",
+    "karma-css": "^1.9.5",
+    "node-sass": "^4.7.2",
+    "nodemon": "^1.14.11",
+    "npm-run-all": "^4.1.2",
+    "postcss-cli": "^5.0.0"
+  },
+  "browserslist": [
+    "last 1 major version",
+    ">= 1%",
+    "Chrome >= 45",
+    "Firefox >= 38",
+    "Edge >= 12",
+    "Explorer >= 10",
+    "iOS >= 9",
+    "Safari >= 9",
+    "Android >= 4.4",
+    "Opera >= 30"
+  ]
+}

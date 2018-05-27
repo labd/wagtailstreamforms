@@ -5,21 +5,29 @@ form h2 {
     margin-bottom: 3rem;
 }
 
-form .field-row.has-error {
+form .field-row {
 
-    input,
-    select,
-    textarea {
-        border-color: color(red);
-    }
-
-    .errorlist {
-        margin-bottom: 0;
-        float: right;
+    ul {
         list-style-type: none;
-        color: color(red);
     }
-    
+
+    &.has-error {
+
+        input,
+        select,
+        textarea {
+            border-color: color("red");
+        }
+
+        .errorlist {
+            margin-bottom: 0;
+            float: right;
+            list-style-type: none;
+            color: color("red");
+        }
+
+    }
+
 }
 
 form .form-actions {
