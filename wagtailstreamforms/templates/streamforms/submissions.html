@@ -1,6 +1,6 @@
 {% extends "wagtailforms/index_submissions.html" %}
 {% load i18n %}
-{% block titletag %}{% blocktrans with form_title=object.name|capfirst %}Submissions of {{ form_title }}{% endblocktrans %}{% endblock %}
+{% block titletag %}{% blocktrans with form_title=object.title|capfirst %}Submissions of {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block content %}
     <header class="nice-padding hasform">
         <form action="" method="get" novalidate>
@@ -8,7 +8,7 @@
                 <div class="left">
                     <div class="col">
                         <h1 class="icon icon-form">
-                            {% blocktrans with form_title=object.name|capfirst %}Form data <span>{{ form_title }}</span>{% endblocktrans %}
+                            {% blocktrans with form_title=object.title|capfirst %}Form data <span>{{ form_title }}</span>{% endblocktrans %}
                         </h1>
                     </div>
                     <div class="col search-bar">
@@ -35,7 +35,7 @@
                 {% include "streamforms/partials/pagination_nav.html" with items=page_obj %}
             </form>
         {% else %}
-            <p class="no-results-message nice-padding">{% blocktrans with title=object.name %}There have been no submissions of the '{{ title }}' form.{% endblocktrans %}</p>
+            <p class="no-results-message nice-padding">{% blocktrans with title=object.title %}There have been no submissions of the '{{ title }}' form.{% endblocktrans %}</p>
         {% endif %}
     </div>
 {% endblock %}
