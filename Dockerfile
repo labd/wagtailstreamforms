@@ -10,6 +10,7 @@ RUN set -ex \
     && apt-get update \
     && apt-get install -y \
         gcc \
+        gettext \
         libjpeg62 \
         libjpeg62-turbo-dev \
         libpq-dev \

@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('submit_button_text', models.CharField(default='Submit', max_length=100, verbose_name='Submit button text')),
                 ('success_message', models.CharField(blank=True, help_text='An optional success message to show when the form has been successfully submitted', max_length=255, verbose_name='Success message')),
                 ('error_message', models.CharField(blank=True, help_text='An optional error message to show when the form has validation errors', max_length=255, verbose_name='Error message')),
-                ('process_form_submission_hooks', wagtailstreamforms.fields.HookSelectField(blank=True, verbose_name='Process form submission hooks')),
+                ('process_form_submission_hooks', wagtailstreamforms.fields.HookSelectField(blank=True, verbose_name='Submission hooks')),
                 ('post_redirect_page', models.ForeignKey(blank=True, help_text='The page to redirect to after a successful submission', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailcore.Page', verbose_name='Post redirect page')),
             ],
             options={

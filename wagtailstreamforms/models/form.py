@@ -72,7 +72,7 @@ class Form(models.Model):
         help_text=_('The page to redirect to after a successful submission')
     )
     process_form_submission_hooks = HookSelectField(
-        verbose_name=_('Process form submission hooks'),
+        verbose_name=_('Submission hooks'),
         blank=True
     )
 

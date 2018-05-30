@@ -60,7 +60,7 @@ class FormButtonHelper(ButtonHelper):
 @modeladmin_register
 class FormModelAdmin(ModelAdmin):
     model = Form
-    list_display = ('title', 'slug', 'latest_submission_date', 'number_of_submissions')
+    list_display = ('title', 'slug', 'latest_submission', 'saved_submissions')
     menu_label = _(get_setting('ADMIN_MENU_LABEL'))
     menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
@@ -68,13 +68,17 @@ class FormModelAdmin(ModelAdmin):
     button_helper_class = FormButtonHelper
     url_helper_class = FormURLHelper
 
-    def latest_submission_date(self, obj):
+    def latest_submission(self, obj):
         submission_class = obj.get_submission_class()
         return submission_class._default_manager.filter(form=obj).latest('submit_time').submit_time
 
-    def number_of_submissions(self, obj):
+    latest_submission.short_description = _('Latest submission')
+
+    def saved_submissions(self, obj):
         submission_class = obj.get_submission_class()
         return submission_class._default_manager.filter(form=obj).count()
+
+    saved_submissions.short_description = _('Saved submissions')
 
 
 @hooks.register('register_admin_urls')
