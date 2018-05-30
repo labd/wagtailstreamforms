@@ -54,6 +54,8 @@ The ``BaseField`` class also has some additional properties you can set as follo
         widget = forms.widgets.Textarea
         # the icon in the streamfield
         icon = 'placeholder'
+        # the label to show in the streamfield
+        label = 'My text area'
 
 Setting widget attributes
 -------------------------
@@ -114,6 +116,7 @@ additional options are available within the StreamField:
     @register('maxlength')
     class MaxLengthField(BaseField):
         field_class = forms.CharField
+        label = 'Text field (max length)'
 
         def get_form_block(self):
             return blocks.StructBlock([
@@ -122,7 +125,7 @@ additional options are available within the StreamField:
                 ('required', blocks.BooleanBlock(required=False)),
                 ('max_length', blocks.IntegerBlock(required=True)),
                 ('default_value', blocks.CharBlock(required=False)),
-            ], icon=self.icon)
+            ], icon=self.icon, label=self.label)
 
 and then pull that value into the fields options:
 
@@ -132,6 +135,7 @@ and then pull that value into the fields options:
     @register('maxlength')
     class MaxLengthField(BaseField):
         field_class = forms.CharField
+        label = 'Text field (max length)'
 
         def get_options(self, block_value):
             options = super().get_options(block_value)
@@ -145,7 +149,7 @@ and then pull that value into the fields options:
                 ('required', blocks.BooleanBlock(required=False)),
                 ('max_length', blocks.IntegerBlock(required=True)),
                 ('default_value', blocks.CharBlock(required=False)),
-            ], icon=self.icon)
+            ], icon=self.icon, label=self.label)
 
 Overriding an existing field
 ----------------------------
@@ -196,7 +200,8 @@ Below is an example model choice field.
    @register('user')
    class UserChoiceField(BaseField):
        field_class = forms.ModelChoiceField
-       icon = 'list-ul'
+       icon = 'arrow-down-big'
+       label = 'User dropdown field'
 
        @staticmethod
        def get_queryset():
@@ -212,7 +217,7 @@ Below is an example model choice field.
                ('label', blocks.CharBlock()),
                ('help_text', blocks.CharBlock(required=False)),
                ('required', blocks.BooleanBlock(required=False)),
-           ], icon=self.icon)
+           ], icon=self.icon, label=self.label)
 
 Regex validated example
 -----------------------
@@ -232,6 +237,7 @@ the same for any given regex pattern.
    @register('regex_validated')
    class RegexValidatedField(BaseField):
        field_class = forms.RegexField
+       label = 'Regex field'
 
        def get_options(self, block_value):
            options = super().get_options(block_value)
@@ -255,7 +261,7 @@ the same for any given regex pattern.
                ('regex', blocks.ChoiceBlock(choices=self.get_regex_choices())),
                ('error_message', blocks.CharBlock()),
                ('default_value', blocks.CharBlock(required=False)),
-           ], icon=self.icon)
+           ], icon=self.icon, label=self.label)
 
 ReCAPTCHA example
 -----------------
@@ -294,12 +300,13 @@ Django ``settings.py`` file:
     class ReCaptchaField(BaseField):
         field_class = ReCaptchaField
         icon = 'success'
+        label = 'ReCAPTCHA field'
 
         def get_form_block(self):
             return blocks.StructBlock([
                 ('label', blocks.CharBlock()),
                 ('help_text', blocks.CharBlock(required=False)),
-            ], icon=self.icon)
+            ], icon=self.icon, label=self.label)
 
 Useful Resources
 ----------------
