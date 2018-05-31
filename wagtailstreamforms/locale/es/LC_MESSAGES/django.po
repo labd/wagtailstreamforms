@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-30 21:46+0000\n"
+"POT-Creation-Date: 2018-05-30 22:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,3 +266,63 @@ msgstr "Última presentación"
 #: wagtail_hooks.py:81
 msgid "Saved submissions"
 msgstr "Presentaciones guardadas"
+
+#: wagtailstreamforms_fields.py:11
+msgid "Text field (single line)"
+msgstr "Campo de texto (una sola línea)"
+
+#: wagtailstreamforms_fields.py:17
+msgid "Text field (multi line)"
+msgstr "Campo de texto (multi línea)"
+
+#: wagtailstreamforms_fields.py:24
+msgid "Date field"
+msgstr "Campo de fecha"
+
+#: wagtailstreamforms_fields.py:31
+msgid "Time field"
+msgstr "Campo de tiempo"
+
+#: wagtailstreamforms_fields.py:38
+msgid "Email field"
+msgstr "Campo de correo electrónico"
+
+#: wagtailstreamforms_fields.py:45
+msgid "URL field"
+msgstr "Campo URL"
+
+#: wagtailstreamforms_fields.py:51
+msgid "Number field"
+msgstr "Campo de número"
+
+#: wagtailstreamforms_fields.py:58
+msgid "Dropdown field"
+msgstr "Campo desplegable"
+
+#: wagtailstreamforms_fields.py:82
+msgid "Multiselect field"
+msgstr "Campo de selección múltiple"
+
+#: wagtailstreamforms_fields.py:104
+msgid "Radio buttons"
+msgstr "Botones de radio"
+
+#: wagtailstreamforms_fields.py:126
+msgid "Checkboxes"
+msgstr "Casillas de verificación"
+
+#: wagtailstreamforms_fields.py:147
+msgid "Checkbox field"
+msgstr "Casilla de verificación campo"
+
+#: wagtailstreamforms_fields.py:162
+msgid "Hidden field"
+msgstr "Campo escondido"
+
+#: wagtailstreamforms_fields.py:170
+msgid "File field"
+msgstr "Campo de archivo"
+
+#: wagtailstreamforms_fields.py:185
+msgid "Files field"
+msgstr "Campo de archivos"

@@ -58,12 +58,14 @@ class BaseField:
             field_class = forms.CharField
             widget = forms.widgets.Textarea
             icon = 'placeholder'
+            label = 'Text (multi line)'
 
     """
 
     field_class = None
     widget = None
     icon = 'placeholder'
+    label = None
 
     def get_formfield(self, block_value):
         """
@@ -111,7 +113,7 @@ class BaseField:
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
             ('default_value', blocks.CharBlock(required=False)),
-        ], icon=self.icon)
+        ], icon=self.icon, label=self.label)
 
 
 class HookMultiSelectFormField(forms.MultipleChoiceField):
