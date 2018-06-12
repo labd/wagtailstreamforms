@@ -23,10 +23,10 @@ class AdminListViewTestCase(AppTestCase):
 
         response = self.client.get('/cms/wagtailstreamforms/form/')
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn('title="Copy this Form">Copy</a>', str(response.content))
+        self.assertNotIn('title="Copy this form">Copy</a>', str(response.content))
 
         self.user.user_permissions.add(self.access_admin, self.add_perm)
 
         response = self.client.get('/cms/wagtailstreamforms/form/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('title="Copy this Form">Copy</a>', str(response.content))
+        self.assertIn('title="Copy this form">Copy</a>', str(response.content))
