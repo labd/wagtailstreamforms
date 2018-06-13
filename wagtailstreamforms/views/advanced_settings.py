@@ -1,4 +1,5 @@
 from django import forms
+from django.shortcuts import get_object_or_404
 from django.views.generic import UpdateView
 
 from wagtailstreamforms.utils import get_advanced_settings_model
@@ -25,7 +26,8 @@ class AdvancedSettingsView(UpdateView):
         return FormURLHelper(model=Form)
 
     def get_object(self, queryset=None):
-        form = Form.objects.get(pk=self.kwargs.get('pk'))
+        pk = self.kwargs.get('pk')
+        form = get_object_or_404(Form, pk=pk)
         obj, created = self.model.objects.get_or_create(form=form)
         return obj
 

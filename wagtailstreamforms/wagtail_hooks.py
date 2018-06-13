@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.admin.utils import quote
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
-from django.urls import reverse, path
+from django.urls import path, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
@@ -21,63 +21,74 @@ SettingsModel = get_advanced_settings_model()
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
         if action == 'advanced':
-            return reverse('wagtailstreamforms:streamforms_advanced', args=args, kwargs=kwargs)
+            return reverse_lazy('wagtailstreamforms:streamforms_advanced', args=args, kwargs=kwargs)
         elif action == 'copy':
-            return reverse('wagtailstreamforms:streamforms_copy', args=args, kwargs=kwargs)
+            return reverse_lazy('wagtailstreamforms:streamforms_copy', args=args, kwargs=kwargs)
         elif action == 'submissions':
-            return reverse('wagtailstreamforms:streamforms_submissions', args=args, kwargs=kwargs)
+            return reverse_lazy('wagtailstreamforms:streamforms_submissions', args=args, kwargs=kwargs)
 
         return super().get_action_url(action, *args, **kwargs)
 
 
 class FormButtonHelper(ButtonHelper):
 
-    def advanced_button(self, pk, classnames_add=[], classnames_exclude=[]):
+    def button(self, pk, action, label, title, classnames_add, classnames_exclude):
         cn = self.finalise_classname(classnames_add, classnames_exclude)
         button = {
-            'url': self.url_helper.get_action_url('advanced', quote(pk)),
-            'label': _('Advanced'),
+            'url': self.url_helper.get_action_url(action, quote(pk)),
+            'label': label,
             'classname': cn,
-            'title': _('Advanced settings'),
+            'title': title,
         }
-        return button
 
-    def copy_button(self, pk, classnames_add=[], classnames_exclude=[]):
-        cn = self.finalise_classname(classnames_add, classnames_exclude)
-        button = {
-            'url': self.url_helper.get_action_url('copy', quote(pk)),
-            'label': _('Copy'),
-            'classname': cn,
-            'title': _('Copy this form'),
-        }
-        return button
-
-    def submissions_button(self, pk, classnames_add=[], classnames_exclude=[]):
-        cn = self.finalise_classname(classnames_add, classnames_exclude)
-        button = {
-            'url': self.url_helper.get_action_url('submissions', quote(pk)),
-            'label': _('Submissions'),
-            'classname': cn,
-            'title': _('Submissions of this form'),
-        }
         return button
 
     def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
-        btns = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
+        buttons = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
         pk = getattr(obj, self.opts.pk.attname)
         ph = self.permission_helper
         usr = self.request.user
 
+        # if there is a form settings model defined
         # users that either create or edit forms should be able edit advanced settings
         if SettingsModel and (ph.user_can_create(usr) or ph.user_can_edit_obj(usr, obj)):
-            btns.append(self.advanced_button(pk, classnames_add, classnames_exclude))
+            buttons.append(
+                self.button(
+                    pk,
+                    'advanced',
+                    _('Advanced'),
+                    _('Advanced settings'),
+                    classnames_add,
+                    classnames_exclude
+                )
+            )
+
         # users that can create forms can copy them
         if ph.user_can_create(usr):
-            btns.append(self.copy_button(pk, classnames_add, classnames_exclude))
-        # users that can do any form actions can vies submissions
-        btns.append(self.submissions_button(pk, classnames_add, classnames_exclude))
+            buttons.append(
+                self.button(
+                    pk,
+                    'copy',
+                    _('Copy'),
+                    _('Copy this form'),
+                    classnames_add,
+                    classnames_exclude
+                )
+            )
 
-        return btns
+        # users that can do any form actions can vies submissions
+        buttons.append(
+            self.button(
+                pk,
+                'submissions',
+                _('Submissions'),
+                _('Submissions of this form'),
+                classnames_add,
+                classnames_exclude
+            )
+        )
+
+        return buttons
 
 
 @modeladmin_register
