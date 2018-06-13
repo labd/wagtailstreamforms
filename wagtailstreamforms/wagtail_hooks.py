@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.admin.utils import quote
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
-from django.urls import path, reverse_lazy
+from django.urls import path, reverse
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
@@ -20,18 +20,13 @@ SettingsModel = get_advanced_settings_model()
 
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
-        if action == 'advanced':
-            return reverse_lazy('wagtailstreamforms:streamforms_advanced', args=args, kwargs=kwargs)
-        elif action == 'copy':
-            return reverse_lazy('wagtailstreamforms:streamforms_copy', args=args, kwargs=kwargs)
-        elif action == 'submissions':
-            return reverse_lazy('wagtailstreamforms:streamforms_submissions', args=args, kwargs=kwargs)
+        if action in ['advanced', 'copy', 'submissions']:
+            return reverse('wagtailstreamforms:streamforms_%s' % action, args=args, kwargs=kwargs)
 
         return super().get_action_url(action, *args, **kwargs)
 
 
 class FormButtonHelper(ButtonHelper):
-
     def button(self, pk, action, label, title, classnames_add, classnames_exclude):
         cn = self.finalise_classname(classnames_add, classnames_exclude)
         button = {
