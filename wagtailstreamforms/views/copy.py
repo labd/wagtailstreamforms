@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
@@ -23,6 +24,7 @@ class CopyForm(forms.Form):
 class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
     model = Form
     template_name = 'streamforms/confirm_copy.html'
+    success_message = _("Form '%s' copied to '%s'.")
 
     @property
     def permission_helper(self):
@@ -53,6 +55,8 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
             copied.save()
 
+            self.create_success_message(copied)
+
             return HttpResponseRedirect(self.get_success_url())
 
         context = self.get_context_data(object=self.object)
@@ -68,6 +72,10 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
     def post(self, request, *args, **kwargs):
         return self.copy(request, *args, **kwargs)
+
+    def create_success_message(self, copied):
+        success_message = self.success_message % (self.object, copied)
+        messages.success(self.request, success_message)
 
     def get_success_url(self):
         return self.url_helper.index_url
