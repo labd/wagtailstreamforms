@@ -15,6 +15,7 @@ Whats New:
 * Along with the concept of custom form submission classes.
 * Fields are now added via a StreamField and you can define your own like ReCAPTCHA or RegexFields.
 * You can easily overwrite fields to add things like widget attributes.
+* You can define a model that will allow you to save additional settings for each form.
 * The form submission is processed via hooks instead of baked into the models.
 * You can create as many form submission hooks as you like to process, email etc the data as you wish. These will be available to all forms that you can enable/disable at will.
 * Files can now be uploaded and are stored along with the submission using the default storage.

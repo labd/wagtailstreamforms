@@ -50,6 +50,7 @@ What else is included?
 *  Form submissions are controlled via hooks meaning you can easily create things like emailing the submission which you can turn on and off on each form.
 *  Fields can easily be added to the form from your own code such as Recaptcha or a Regex Field.
 *  The default set of fields can easily be replaced to add things like widget attributes.
+*  You can define a model that will allow you to save additional settings for each form.
 *  Form submissions are also listed by their form which you can filter by date and are ordered by newest first.
 *  Files can also be submitted to the forms that are shown with the form submissions.
 *  A form and its fields can easily be copied to a new form.
