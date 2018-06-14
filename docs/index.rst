@@ -58,6 +58,7 @@ What else is included?
    usage
    templates
    fields
+   advanced
    submission
    hooks
    permissions
