@@ -7,6 +7,11 @@ master
 
 * in development
 
+2.1.2
+-----
+
+* Added wagtail framework classifier
+
 2.1.1
 -----
 
