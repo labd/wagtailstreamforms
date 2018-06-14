@@ -1,4 +1,6 @@
+import sys
 from contextlib import contextmanager
+from importlib import reload, import_module
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models, connection
@@ -45,6 +47,11 @@ class AppTestCase(TestCase):
             yield
         finally:
             hooks._hooks[hook_name].remove((fn, order))
+
+    def reload_module(self, path):
+        if path in sys.modules:
+            reload(sys.modules[path])
+        return import_module(path)
 
     def render_template(self, string, context=None):
         context = context or {}
