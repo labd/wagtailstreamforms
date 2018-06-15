@@ -1,6 +1,6 @@
 from operator import itemgetter
 
-from wagtailstreamforms.utils import get_app_submodules
+from wagtailstreamforms.utils.apps import get_app_submodules
 
 
 _hooks = {}

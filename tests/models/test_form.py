@@ -127,7 +127,7 @@ class ModelPropertyTests(AppTestCase):
 
     @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL='tests.ValidFormSettingsModel')
     def test_copy_copies_advanced_settings(self):
-        from wagtailstreamforms.utils import get_advanced_settings_model
+        from wagtailstreamforms.utils.loading import get_advanced_settings_model
         SettingsModel = get_advanced_settings_model()
 
         SettingsModel.objects.create(form=self.test_form, name='foo', number=1)

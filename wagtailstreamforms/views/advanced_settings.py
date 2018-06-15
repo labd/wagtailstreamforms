@@ -4,9 +4,9 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.generic import UpdateView
 
-from wagtailstreamforms.utils import get_advanced_settings_model
-from wagtailstreamforms.wagtail_hooks import FormURLHelper
 from wagtailstreamforms.models import Form
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
+from wagtailstreamforms.wagtail_hooks import FormURLHelper
 
 
 SettingsModel = get_advanced_settings_model()

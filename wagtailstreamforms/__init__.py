@@ -1,4 +1,4 @@
-from wagtailstreamforms.versioning import get_version
+from wagtailstreamforms.utils.version import get_version
 
 # major.minor.patch.release.number
 # release must be one of alpha, beta, rc, or final
