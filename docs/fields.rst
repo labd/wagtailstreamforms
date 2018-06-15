@@ -183,10 +183,15 @@ you can automatically add this with a simple if statement to detect if the form 
 Files will be uploaded using your default storage class to the path ``streamforms/`` and are listed
 along with the form submissions. When a submission is deleted all files are also deleted from the storage.
 
-ModelChoice example
--------------------
+Examples
+--------
 
-Below is an example model choice field.
+Below are some examples of useful fields.
+
+Model choice
+^^^^^^^^^^^^
+
+An example model choice field of users.
 
 .. code-block:: python
 
@@ -219,8 +224,8 @@ Below is an example model choice field.
                ('required', blocks.BooleanBlock(required=False)),
            ], icon=self.icon, label=self.label)
 
-Regex validated example
------------------------
+Regex validated
+^^^^^^^^^^^^^^^
 
 An example field that allows a selection of regex patterns with a option to set the invalid error message.
 
@@ -263,8 +268,8 @@ the same for any given regex pattern.
                ('default_value', blocks.CharBlock(required=False)),
            ], icon=self.icon, label=self.label)
 
-ReCAPTCHA example
------------------
+ReCAPTCHA
+^^^^^^^^^
 
 Adding a ReCAPTCHA field is as simple as follows.
 
@@ -287,6 +292,7 @@ Django ``settings.py`` file:
     # developer keys
     RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
     RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+    # enable no captcha
     NOCAPTCHA = True
 
 
@@ -301,6 +307,13 @@ Django ``settings.py`` file:
         field_class = ReCaptchaField
         icon = 'success'
         label = 'ReCAPTCHA field'
+
+        def get_options(self, block_value):
+             options = super().get_options(block_value)
+             options.update({
+                 'required': True
+             })
+             return options
 
         def get_form_block(self):
             return blocks.StructBlock([
