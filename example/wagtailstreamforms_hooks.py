@@ -8,7 +8,7 @@ from wagtailstreamforms.hooks import register
 def email_submission(instance, form):
     """ Send an email with the submission. """
 
-    if not instance.advanced_settings:
+    if not hasattr(instance, 'advanced_settings'):
         return
 
     addresses = [instance.advanced_settings.to_address]
