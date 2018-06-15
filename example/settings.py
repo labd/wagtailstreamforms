@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtail.contrib.search_promotions',
 
+    'captcha',
     'taggit',
 
     # app specific
@@ -149,3 +150,16 @@ MEDIA_URL = "/media/"
 # Wagtail
 
 WAGTAIL_SITE_NAME = 'example.com'
+
+
+# Forms
+
+WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'example.AdvancedFormSetting'
+
+
+# ReCAPTCHA
+
+# developer keys
+RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+NOCAPTCHA = True

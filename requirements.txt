@@ -3,3 +3,6 @@
 
 mock
 psycopg2-binary
+
+# example site
+django-recaptcha
