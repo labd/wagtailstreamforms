@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User
 from django.test import override_settings
 from django.urls import reverse
 from wagtailstreamforms.wagtail_hooks import FormURLHelper
@@ -28,11 +28,11 @@ class AdvancedSettingsViewTestCase(AppTestCase):
         self.assertInHTML('This field is required.', str(response.content))
 
     def test_valid_post(self):
-        response = self.client.post(self.advanced_url, data={'name': 'foo'}, follow=True)
+        response = self.client.post(self.advanced_url, data={'name': 'foo', 'number': 1}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.form.advanced_settings.name, 'foo')
 
     def test_post_redirects(self):
-        response = self.client.post(self.advanced_url, data={'name': 'foo'})
+        response = self.client.post(self.advanced_url, data={'name': 'foo', 'number': 1})
         url_helper = FormURLHelper(model=Form)
         self.assertRedirects(response, url_helper.index_url)

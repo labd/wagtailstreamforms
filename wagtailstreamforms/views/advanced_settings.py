@@ -29,9 +29,14 @@ class AdvancedSettingsView(UpdateView):
         return FormURLHelper(model=Form)
 
     def get_object(self, queryset=None):
-        pk = self.kwargs.get('pk')
-        form = get_object_or_404(Form, pk=pk)
-        obj, created = self.model.objects.get_or_create(form=form)
+        form_pk = self.kwargs.get('pk')
+        form = get_object_or_404(Form, pk=form_pk)
+
+        try:
+            obj = self.model.objects.get(form=form)
+        except self.model.DoesNotExist:
+            obj = self.model(form=form)
+
         return obj
 
     def form_valid(self, form):
