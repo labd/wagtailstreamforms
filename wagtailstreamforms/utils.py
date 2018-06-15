@@ -1,9 +1,9 @@
 from importlib import import_module
 
-from django.core.exceptions import ImproperlyConfigured
 from unidecode import unidecode
 
 from django.apps import apps
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.module_loading import module_has_submodule
 from django.utils.text import slugify
 
