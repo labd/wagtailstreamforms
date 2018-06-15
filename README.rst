@@ -55,12 +55,12 @@ Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 Screenshots
 -----------
 
-.. figure:: screen_1.png
+.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen_1.png
    :width: 728 px
 
    Example Front End
 
-.. figure:: screen_2.png
+.. figure:: http://wagtailstreamforms.readthedocs.io/en/latest/_images/screen_3.png
    :width: 728 px
 
    Form Fields Selection
