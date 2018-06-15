@@ -71,3 +71,5 @@ ROOT_URLCONF = 'tests.urls'
 STATIC_URL = '/static/'
 
 LOGIN_URL = reverse_lazy('admin:login')
+
+WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'tests.ValidFormSettingsModel'

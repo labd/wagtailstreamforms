@@ -17,7 +17,7 @@ from wagtailstreamforms.streamfield import FormFieldsStreamField
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.forms import FormBuilder
-from wagtailstreamforms.utils import get_slug_from_string
+from wagtailstreamforms.utils import get_slug_from_string, get_advanced_settings_model
 
 from .submission import FormSubmission
 
@@ -121,6 +121,18 @@ class Form(models.Model):
             process_form_submission_hooks=self.process_form_submission_hooks
         )
         form_copy.save()
+
+        # additionally copy the advanced settings if they exist
+        SettingsModel = get_advanced_settings_model()
+
+        if SettingsModel:
+            try:
+                advanced = SettingsModel.objects.get(form=self)
+                advanced.pk = None
+                advanced.form = form_copy
+                advanced.save()
+            except SettingsModel.DoesNotExist:
+                pass
 
         return form_copy
 

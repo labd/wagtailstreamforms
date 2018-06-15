@@ -1,14 +1,13 @@
 {% extends "wagtailadmin/base.html" %}
 {% load i18n %}
-{% block titletag %}{% blocktrans with form_title=object.title|capfirst %}Copy of {{ form_title }}{% endblocktrans %}{% endblock %}
+{% block titletag %}{% blocktrans with form_title=object %}Advanced form settings for {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block bodyclass %}menu-explorer{% endblock %}
 
 {% block content %}
-    {% trans "Copy" as copy_str %}
-    {% include "wagtailadmin/shared/header.html" with title=copy_str subtitle=object.title icon="doc-empty-inverse" %}
+    {% trans "Advanced form settings" as title_str %}
+    {% include "wagtailadmin/shared/header.html" with title=title_str subtitle=object icon="doc-empty-inverse" %}
 
     <div class="nice-padding">
-        <p>{% trans 'Are you sure you want to copy this form?' %}</p>
         <form action="." method="POST" novalidate>
             {% csrf_token %}
             <ul class="fields">
@@ -18,7 +17,7 @@
                     {% endfor %}
                 {% endblock %}
                 <li>
-                    <input type="submit" value="{% trans 'Copy' %}" class="button" />
+                    <input type="submit" value="{% trans 'Save' %}" class="button" />
                 </li>
             </ul>
         </form>
