@@ -2,7 +2,7 @@
 Changelog
 *********
 
-3-dev
+3.0.0
 -----
 
 Version 3 is a major re-write and direction change and therefor any version prior
