@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.test import override_settings
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.core.models import Page
@@ -86,6 +87,7 @@ class ModelPropertyTests(AppTestCase):
             {'slug': ['Form with this Slug already exists.']}
         )
 
+    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL=None)
     def test_copy(self):
         copied = self.test_form.copy()
 
@@ -122,6 +124,17 @@ class ModelPropertyTests(AppTestCase):
         copied = self.test_form.copy()
 
         self.assertEqual(FormSubmission.objects.filter(form=copied).count(), 0)
+
+    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL='tests.ValidFormSettingsModel')
+    def test_copy_copies_advanced_settings(self):
+        from wagtailstreamforms.utils import get_advanced_settings_model
+        SettingsModel = get_advanced_settings_model()
+
+        SettingsModel.objects.create(form=self.test_form, name='foo', number=1)
+
+        copied = self.test_form.copy()
+
+        SettingsModel.objects.get(form=copied, name='foo', number=1)
 
     def test_get_data_fields(self):
         expected_fields = [

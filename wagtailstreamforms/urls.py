@@ -14,7 +14,7 @@ urlpatterns = [
 ]
 
 
-if SettingsModel:
+if SettingsModel:  # pragma: no cover
     urlpatterns += [
         path('<int:pk>/advanced/', views.AdvancedSettingsView.as_view(), name='streamforms_advanced'),
     ]
