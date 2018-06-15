@@ -9,15 +9,6 @@ of file fields. Form submissions are controlled by hooks that you can add that p
 Templates can be created which will then appear as choices when you build your form,
 allowing you to display and submit a form however you want.
 
-Version 3
----------
-
-Version 3 is NOT currently on PyPI, if you wish to install it please use:
-
-.. code:: bash
-
-   pip install -e git+https://github.com/AccentDesign/wagtailstreamforms.git@3-dev#egg=wagtailstreamforms
-
 Backwards Compatibility
 -----------------------
 
@@ -59,7 +50,7 @@ What else is included?
 Documentation
 -------------
 
-Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/en/v3-dev/>`_.
+Can be found on `readthedocs <http://wagtailstreamforms.readthedocs.io/>`_.
 
 Screenshots
 -----------
