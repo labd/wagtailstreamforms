@@ -1,7 +1,7 @@
 from django.urls import path
 
 from wagtailstreamforms import views
-from wagtailstreamforms.utils import get_advanced_settings_model
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
 
 
 SettingsModel = get_advanced_settings_model()

@@ -12,7 +12,8 @@ from wagtail.core import hooks
 
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import Form
-from wagtailstreamforms.utils import get_form_instance_from_request, get_advanced_settings_model
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
+from wagtailstreamforms.utils.requests import get_form_instance_from_request
 
 
 SettingsModel = get_advanced_settings_model()

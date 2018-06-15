@@ -6,7 +6,7 @@ from django.utils.text import capfirst
 from wagtail.core import blocks
 
 from wagtailstreamforms import hooks
-from wagtailstreamforms.utils import get_app_submodules
+from wagtailstreamforms.utils.apps import get_app_submodules
 
 
 _fields = {}

@@ -13,11 +13,12 @@ from wagtail.admin.edit_handlers import (
 )
 
 from wagtailstreamforms import hooks
-from wagtailstreamforms.streamfield import FormFieldsStreamField
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.forms import FormBuilder
-from wagtailstreamforms.utils import get_slug_from_string, get_advanced_settings_model
+from wagtailstreamforms.streamfield import FormFieldsStreamField
+from wagtailstreamforms.utils.general import get_slug_from_string
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
 
 from .submission import FormSubmission
 
