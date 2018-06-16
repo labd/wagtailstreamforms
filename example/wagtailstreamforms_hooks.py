@@ -1,5 +1,7 @@
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.mail import EmailMessage
+from django.template.defaultfilters import pluralize
 
 from wagtailstreamforms.hooks import register
 
@@ -16,11 +18,28 @@ def email_submission(instance, form):
     from_address = settings.DEFAULT_FROM_EMAIL
     subject = 'New Form Submission : %s' % instance.title
 
-    for field in form:
-        value = field.value()
-        if isinstance(value, list):
+    # build up the email content
+    for field, value in form.cleaned_data.items():
+        if isinstance(value, InMemoryUploadedFile):
+            count = len(form.files.getlist(field))
+            value = '{} file{}'.format(count, pluralize(count))
+        elif isinstance(value, list):
             value = ', '.join(value)
-        content.append('{}: {}'.format(field.label, value))
+        content.append('{}: {}'.format(field, value))
     content = '\n'.join(content)
 
-    send_mail(subject, content, from_address, addresses, True)
+    # create the email message
+    email = EmailMessage(
+        subject=subject,
+        body=content,
+        from_email=from_address,
+        to=addresses
+    )
+
+    # attach any files submitted
+    for field in form.files:
+        for file in form.files.getlist(field):
+            email.attach(file.name, file.file.getvalue(), file.content_type)
+
+    # finally send the email
+    email.send(fail_silently=True)
