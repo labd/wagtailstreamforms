@@ -93,41 +93,30 @@ Go to http://127.0.0.1:8000
 Testing
 -------
 
-Install dependencies
+You can test using the tox.ini file in on your own system if you are used to pyenv and tox
+or you can use the dockerfile that has everything installed ready. Just follow the below commands.
 
-You will need pyenv installed see https://github.com/pyenv/pyenv
-
-Also tox needs to be installed
-
-.. code:: bash
-
-    $ pip install tox
-
-Install python versions in pyenv
+Build the tox test docker image:
 
 .. code:: bash
 
-    $ pyenv install 3.4.4
-    $ pyenv install 3.5.3
-    $ pyenv install 3.6.2
+   docker-compose -f docker-compose-tox.yml build
 
-Set local project versions
+Bash into the container:
 
 .. code:: bash
 
-    $ pyenv local 3.4.4 3.5.3 3.6.2
+   docker-compose -f docker-compose-tox.yml run tox bash
 
-Run the tests
-
-.. code:: bash
-
-    $ tox
-
-or run for a single environment
+From here you can just execute tox commands:
 
 .. code:: bash
 
-    $ tox -e py36-dj200-wt200
+   # Execute all environments
+   $ tox
+
+   # Or a single environment
+   $ tox -e py36-dj200-wt200
 
 .. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/3-dev.svg?style=svg
    :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/3-dev
