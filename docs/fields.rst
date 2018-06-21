@@ -48,7 +48,7 @@ The ``BaseField`` class also has some additional properties you can set as follo
 
     @register('mytextarea')
     class CustomTextAreaField(BaseField):
-        # the form field field class
+        # the form field class
         field_class = forms.CharField
         # the widget for the form field
         widget = forms.widgets.Textarea
@@ -227,7 +227,7 @@ An example model choice field of users.
 Regex validated
 ^^^^^^^^^^^^^^^
 
-An example field that allows a selection of regex patterns with a option to set the invalid error message.
+An example field that allows a selection of regex patterns with an option to set the invalid error message.
 
 Taking this further you could provide the invalid error messages from code if they were always
 the same for any given regex pattern.

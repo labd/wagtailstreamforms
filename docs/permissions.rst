@@ -14,7 +14,7 @@ Here you can assign the usual add, change and delete permissions.
 Form submission permissions
 ---------------------------
 
-Because the form submission models are not listed in the admin area the following statement applies.
+Because the form submission model is not listed in the admin area the following statement applies.
 
 .. important::
    If you can either add, change or delete a form then you can view all of its submissions.
