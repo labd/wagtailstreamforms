@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  tox:
+    build:
+      context: .
+      dockerfile: Dockerfile-tox
+    tty: true
+    volumes:
+    - .:/code
