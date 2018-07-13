@@ -10,17 +10,20 @@ The default template located at ``streamforms/form_block.html`` can be seen belo
 
 .. note:: It is important here to keep the hidden fields as the form will have some in order to process correctly.
 
-Once you have created you own you will need to add it to the list of available templates. 
-
-This is as simple as adding it to the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` in settings:
+Once you have created you own you will need to add it to the list of available templates within the form builder. 
+This is as simple as adding it to the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` in settings as below.
 
 .. code-block:: python
 
-    # this is the defaults 
+    # this includes the default template in the package and an additional custom template. 
 
     WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
-        ('streamforms/form_block.html', 'Default Form Template'),
+        ('streamforms/form_block.html', 'Default Form Template'),  # default
+        ('app/custom_form_template.html', 'Custom Form Template'),
     )
+
+You are not required to use the default template, its only there as a guideline to what is required and provide a fully working 
+package out of the box. If you dont want it just remove it from the ``WAGTAILSTREAMFORMS_FORM_TEMPLATES`` setting.
 
 Rendering your StreamField
 --------------------------
