@@ -2,6 +2,11 @@
 Changelog
 *********
 
+3.1.0
+-----
+
+Support for Wagtail 2.2
+
 3.0.0
 -----
 
