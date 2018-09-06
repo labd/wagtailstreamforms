@@ -2,6 +2,11 @@
 Changelog
 *********
 
+3.2.0
+-----
+
+* fix template that inherited from wagtailforms to wagtailadmin
+
 3.1.0
 -----
 
