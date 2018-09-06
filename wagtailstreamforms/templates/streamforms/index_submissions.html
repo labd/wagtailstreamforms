@@ -60,7 +60,7 @@
             // initial call to updateActions to bring delete button state in sync with checkboxes
             // in the case that some checkboxes are pre-checked (which will be the case in some
             // browsers when using the back button)
-            updateActions();
+            $(document).ready(function() { updateActions() });
         });
     </script>
 {% endblock %}
