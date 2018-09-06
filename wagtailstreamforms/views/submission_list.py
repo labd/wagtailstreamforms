@@ -17,7 +17,7 @@ from wagtailstreamforms.models import Form
 class SubmissionListView(SingleObjectMixin, ListView):
     paginate_by = 25
     page_kwarg = 'p'
-    template_name = 'streamforms/submissions.html'
+    template_name = 'streamforms/index_submissions.html'
     filter_form = None
     model = Form
 
