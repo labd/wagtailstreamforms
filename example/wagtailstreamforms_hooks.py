@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.mail import EmailMessage
 from django.template.defaultfilters import pluralize
 
@@ -20,7 +19,7 @@ def email_submission(instance, form):
 
     # build up the email content
     for field, value in form.cleaned_data.items():
-        if isinstance(value, InMemoryUploadedFile):
+        if field in form.files:
             count = len(form.files.getlist(field))
             value = '{} file{}'.format(count, pluralize(count))
         elif isinstance(value, list):
@@ -39,7 +38,8 @@ def email_submission(instance, form):
     # attach any files submitted
     for field in form.files:
         for file in form.files.getlist(field):
-            email.attach(file.name, file.file.getvalue(), file.content_type)
+            file.seek(0)
+            email.attach(file.name, file.read(), file.content_type)
 
     # finally send the email
     email.send(fail_silently=True)
