@@ -102,13 +102,8 @@ DATABASES = {
 
 # Email
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Django <no_reply@example.com>'
-EMAIL_HOST = environ.get('EMAIL_HOST')
-EMAIL_PORT = environ.get('EMAIL_PORT')
-EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = False
 
 
 # Authentication
