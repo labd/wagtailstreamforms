@@ -18,11 +18,8 @@ services:
     - RDS_DB_NAME=postgres
     - RDS_USERNAME=postgres
     - RDS_PASSWORD=password
-    - EMAIL_HOST=mail
-    - EMAIL_PORT=1025
     depends_on:
     - db
-    - mail
     ports:
     - 8000:8000
   db:
@@ -36,7 +33,3 @@ services:
     - ./.postgres:/var/lib/postgresql/data/pgdata
     ports:
     - 5432:5432
-  mail:
-    image: mailhog/mailhog
-    ports:
-    - 8025:8025

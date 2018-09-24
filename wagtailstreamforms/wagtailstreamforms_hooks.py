@@ -1,5 +1,4 @@
 import json
-from copy import deepcopy
 
 from django.template.defaultfilters import pluralize
 
@@ -13,7 +12,7 @@ def save_form_submission_data(instance, form):
     """ saves the form submission data """
 
     # copy the cleaned_data so we dont mess with the original
-    submission_data = deepcopy(form.cleaned_data)
+    submission_data = form.cleaned_data.copy()
 
     # change the submission data to a count of the files
     for field in form.files.keys():
