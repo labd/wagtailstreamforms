@@ -2,6 +2,12 @@
 Changelog
 *********
 
+3.3.0
+-----
+
+* fix issue with saving a submission with a file attached on disk.
+* added new setting ``WAGTAILSTREAMFORM_ENABLE_BUILTIN_HOOKS`` default ``True`` to allow the inbuilt form processing hooks to be disabled.
+
 3.2.0
 -----
 
