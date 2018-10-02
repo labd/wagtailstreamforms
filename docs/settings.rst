@@ -19,6 +19,10 @@ Any settings with their defaults are listed below for quick reference.
     # enable the built in hook to process form submissions
     WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = True
 
+    # enable the built in hooks defined in wagtailstreamforms
+    # currently (save_form_submission_data)
+    WAGTAILSTREAMFORMS_ENABLE_BUILTIN_HOOKS = True
+
     # the default form template choices
     WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
         ('streamforms/form_block.html', 'Default Form Template'),

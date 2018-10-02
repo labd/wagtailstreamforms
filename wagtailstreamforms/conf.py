@@ -8,6 +8,7 @@ SETTINGS_DEFAULTS = {
     'ADMIN_MENU_ORDER': None,
     'ADVANCED_SETTINGS_MODEL': None,
     'ENABLE_FORM_PROCESSING': True,
+    'ENABLE_BUILTIN_HOOKS': True,
     'FORM_TEMPLATES': (
         ('streamforms/form_block.html', 'Default Form Template'),
     ),

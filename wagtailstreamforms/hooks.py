@@ -1,5 +1,6 @@
 from operator import itemgetter
 
+from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.utils.apps import get_app_submodules
 
 
@@ -46,4 +47,15 @@ def get_hooks(hook_name):
     search_for_hooks()
     hooks = _hooks.get(hook_name, [])
     hooks = sorted(hooks, key=itemgetter(1))
-    return [hook[0] for hook in hooks]
+    fncs = []
+    builtin_hook_modules = ['wagtailstreamforms.wagtailstreamforms_hooks']
+    builtin_enabled = get_setting('ENABLE_BUILTIN_HOOKS')
+
+    for fn, _ in hooks:
+        # dont add the hooks if they have been disabled via the setting
+        # this is so that they can be overridden
+        if fn.__module__ in builtin_hook_modules and not builtin_enabled:
+            continue
+        fncs.append(fn)
+
+    return fncs
