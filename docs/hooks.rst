@@ -9,7 +9,7 @@ The only defined one is that to save the form submission data.
 .. literalinclude:: ../wagtailstreamforms/wagtailstreamforms_hooks.py
    :pyobject: save_form_submission_data
 
-You can disable this by setting `WAGTAILSTREAMFORMS_ENABLE_BUILTIN_HOOKS=False` in your `settings.py`
+You can disable this by setting ``WAGTAILSTREAMFORMS_ENABLE_BUILTIN_HOOKS=False`` in your ``settings.py``
 
 Create your own hook
 --------------------
