@@ -5,54 +5,46 @@ from wagtail.core import blocks
 from wagtailstreamforms.fields import BaseField, register
 
 
-@register('singleline')
 class SingleLineTextField(BaseField):
     field_class = forms.CharField
     label = _("Text field (single line)")
 
 
-@register('multiline')
 class MultiLineTextField(BaseField):
     field_class = forms.CharField
     widget = forms.widgets.Textarea
     label = _("Text field (multi line)")
 
 
-@register('date')
 class DateField(BaseField):
     field_class = forms.DateField
     icon = 'date'
     label = _("Date field")
 
 
-@register('datetime')
 class DateTimeField(BaseField):
     field_class = forms.DateTimeField
     icon = 'time'
     label = _("Time field")
 
 
-@register('email')
 class EmailField(BaseField):
     field_class = forms.EmailField
     icon = 'mail'
     label = _("Email field")
 
 
-@register('url')
 class URLField(BaseField):
     field_class = forms.URLField
     icon = 'link'
     label = _("URL field")
 
 
-@register('number')
 class NumberField(BaseField):
     field_class = forms.DecimalField
     label = _("Number field")
 
 
-@register('dropdown')
 class DropdownField(BaseField):
     field_class = forms.ChoiceField
     icon = 'arrow-down-big'
@@ -76,7 +68,6 @@ class DropdownField(BaseField):
         ], icon=self.icon, label=self.label)
 
 
-@register('multiselect')
 class MultiSelectField(BaseField):
     field_class = forms.MultipleChoiceField
     icon = 'list-ul'
@@ -97,7 +88,6 @@ class MultiSelectField(BaseField):
         ], icon=self.icon, label=self.label)
 
 
-@register('radio')
 class RadioField(BaseField):
     field_class = forms.ChoiceField
     widget = forms.widgets.RadioSelect
@@ -119,7 +109,6 @@ class RadioField(BaseField):
         ], icon=self.icon, label=self.label)
 
 
-@register('checkboxes')
 class CheckboxesField(BaseField):
     field_class = forms.MultipleChoiceField
     widget = forms.widgets.CheckboxSelectMultiple
@@ -141,7 +130,6 @@ class CheckboxesField(BaseField):
         ], icon=self.icon, label=self.label)
 
 
-@register('checkbox')
 class CheckboxField(BaseField):
     field_class = forms.BooleanField
     icon = 'tick-inverse'
@@ -155,7 +143,6 @@ class CheckboxField(BaseField):
         ], icon=self.icon, label=self.label)
 
 
-@register('hidden')
 class HiddenField(BaseField):
     field_class = forms.CharField
     widget = forms.widgets.HiddenInput
@@ -163,7 +150,6 @@ class HiddenField(BaseField):
     label = _("Hidden field")
 
 
-@register('singlefile')
 class SingleFileField(BaseField):
     field_class = forms.FileField
     widget = forms.widgets.FileInput
@@ -178,7 +164,6 @@ class SingleFileField(BaseField):
         ], icon=self.icon, label=self.label)
 
 
-@register('multifile')
 class MultiFileField(BaseField):
     field_class = forms.FileField
     widget = forms.widgets.FileInput(attrs={'multiple': True})

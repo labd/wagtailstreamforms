@@ -6,7 +6,8 @@ from django.utils.text import capfirst
 from wagtail.core import blocks
 
 from wagtailstreamforms import hooks
-from wagtailstreamforms.utils.apps import get_app_submodules
+from wagtailstreamforms.conf import get_setting
+from wagtailstreamforms.utils.apps import get_app_submodules, get_class
 
 
 _fields = {}
@@ -34,6 +35,13 @@ def register(field_name, cls=None):
     _fields[field_name] = cls
 
 
+def load_internal_fields():
+    field_classes = get_setting('DEFAULT_FIELDS')
+    for name, field_class in field_classes.items():
+        klass = get_class(field_class)
+        register(name, klass)
+
+
 def search_for_fields():
     global _searched_for_fields
     if not _searched_for_fields:
@@ -43,7 +51,7 @@ def search_for_fields():
 
 def get_fields():
     """ Return the registered field classes. """
-
+    load_internal_fields()
     search_for_fields()
     return _fields
 
