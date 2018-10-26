@@ -19,7 +19,7 @@ class TestCorrectTypeRegistering(AppTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        del fields._fields['good']
+        del fields.base._fields['good']
 
     def test_child_blocks(self):
         field = FormFieldsStreamField([])
@@ -45,7 +45,7 @@ class TestIncorrectTypeRegistering(AppTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        del fields._fields['bad']
+        del fields.base._fields['bad']
 
     def test_is_invalid_class(self):
         expected_error = "'%s' must be a subclass of '%s'" % (BadField, fields.BaseField)

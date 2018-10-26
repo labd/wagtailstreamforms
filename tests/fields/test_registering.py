@@ -15,7 +15,7 @@ class TestFieldRegistering(AppTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        del fields._fields['myfield']
+        del fields.base._fields['myfield']
 
     def test_field(self):
         self.assertIn('myfield', fields.get_fields())

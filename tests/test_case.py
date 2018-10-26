@@ -36,7 +36,7 @@ class AppTestCase(TestCase):
         try:
             yield
         finally:
-            fields._fields[field_type].remove(cls)
+            fields.base._fields[field_type].remove(cls)
 
     @contextmanager
     def register_hook(self, hook_name, fn, order=0):

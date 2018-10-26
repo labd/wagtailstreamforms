@@ -1,7 +1,7 @@
 from django import forms
 
 from wagtailstreamforms.models import Form
-from wagtailstreamforms import wagtailstreamforms_fields as wsf_fields
+from wagtailstreamforms.fields import fields as wsf_fields
 from ..test_case import AppTestCase
 
 
