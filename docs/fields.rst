@@ -24,6 +24,12 @@ The various default options for the fields are set when choosing that type of fi
 For example a dropdown includes options to set the ``choices`` and an additional ``empty_label`` as the
 first choice.
 
+Removing the package's default fields
+-------------------------------------
+
+If for some reason you dont want to use some of the default fields you can override the setting
+``WAGTAILSTREAMFORMS_DEFAULT_FIELDS``. Please see :ref:`settings` for the defaults.
+
 Adding new fields
 -----------------
 

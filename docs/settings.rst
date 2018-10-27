@@ -1,3 +1,5 @@
+.. _settings:
+
 Settings
 ========
 
@@ -27,3 +29,23 @@ Any settings with their defaults are listed below for quick reference.
     WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
         ('streamforms/form_block.html', 'Default Form Template'),
     )
+
+    # the default set of fields loaded from the package
+    # override this to remove unrequired fields
+    WAGTAILSTREAMFORMS_DEFAULT_FIELDS = {
+        'singleline': 'wagtailstreamforms.fields.SingleLineTextField',
+        'multiline': 'wagtailstreamforms.fields.MultiLineTextField',
+        'date': 'wagtailstreamforms.fields.DateField',
+        'datetime': 'wagtailstreamforms.fields.DateTimeField',
+        'email': 'wagtailstreamforms.fields.EmailField',
+        'url': 'wagtailstreamforms.fields.URLField',
+        'number': 'wagtailstreamforms.fields.NumberField',
+        'dropdown': 'wagtailstreamforms.fields.DropdownField',
+        'multiselect': 'wagtailstreamforms.fields.MultiSelectField',
+        'radio': 'wagtailstreamforms.fields.RadioField',
+        'checkboxes': 'wagtailstreamforms.fields.CheckboxesField',
+        'checkbox': 'wagtailstreamforms.fields.CheckboxField',
+        'hidden': 'wagtailstreamforms.fields.HiddenField',
+        'singlefile': 'wagtailstreamforms.fields.SingleFileField',
+        'multifile': 'wagtailstreamforms.fields.MultiFileField'
+    }
