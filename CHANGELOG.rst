@@ -2,6 +2,11 @@
 Changelog
 *********
 
+Next Release
+------------
+
+* Tweak docs to ensure files work in js example (Thanks Aimee Hendrycks)
+
 3.4.0
 -----
 

@@ -76,22 +76,26 @@ Add some javascript somewhere to process the form via ajax:
 
 ::
 
-    <form>...</form>
+    <form id="id_streamforms_{{ form.initial.form_reference }}">...</form>
+
     <script>
-        $("#id_streamforms_{{ form.initial.form_id }}").submit(function(e) {
-            $.ajax({
-                type: "POST",
-                url: ".",
-                data: $(this).serialize(),
-                success: function(data) {
-                    // do something with data
-                    console.log(data);
-                },
-                error: function(data) {
-                    // do something with data
-                    console.log(data);
-                }
-            });
-            e.preventDefault();
+        $("#id_streamforms_{{ form.initial.form_reference }}").submit(function(e) {
+          e.preventDefault();
+          var data = new FormData($(this).get(0));
+          $.ajax({
+              type: "POST",
+              url: ".",
+              data: data,
+              processData: false,
+              contentType: false,
+              success: function(data) {
+                  // do something with data
+                  console.log(data);
+              },
+              error: function(data) {
+                  // do something with data
+                  console.log(data);
+              }
+          });
         });
     </script>
