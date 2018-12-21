@@ -3,16 +3,10 @@ jobs:
   build:
     working_directory: ~/wagtailstreamforms
     docker:
-      - image: accent/pyenv
-        environment:
-          TOX_PY27: "2.7.15"
-          TOX_PY34: "3.4.8"
-          TOX_PY35: "3.5.5"
-          TOX_PY36: "3.6.5"
+      - image: themattrix/tox
     steps:
       - checkout
-      - run: pyenv local "$TOX_PY27" "$TOX_PY34" "$TOX_PY35" "$TOX_PY36"
-      - run: pip install --upgrade tox codecov
+      - run: pip install --upgrade codecov
       - run: tox -v
       - run: codecov
       - store_test_results:

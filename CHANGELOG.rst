@@ -5,6 +5,7 @@ Changelog
 Next Release
 ------------
 
+* Wagtail 2.4 Support
 * Tweak docs to ensure files work in js example (Thanks Aimee Hendrycks)
 
 3.4.0
