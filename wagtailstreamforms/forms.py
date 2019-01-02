@@ -19,8 +19,8 @@ class BaseForm(forms.Form):
 
 class FormBuilder:
 
-    def __init__(self, fields):
-        self.fields = fields
+    def __init__(self, sections):
+        self.sections = sections
 
     @property
     def formfields(self):
@@ -30,29 +30,35 @@ class FormBuilder:
 
         registered_fields = get_fields()
 
-        for field in self.fields:
-            field_type = field.get('type')
-            field_value = field.get('value')
+        for section in self.sections:
+            for field in section['value']['fields']:
+                field_type = field.get('type')
+                field_value = field.get('value')
 
-            # check we have the field
-            if field_type not in registered_fields:
-                raise AttributeError(
-                    'Could not find a registered field of type %s' % field_type
-                )
+                # check we have the field
+                if field_type not in registered_fields:
+                    raise AttributeError(
+                        'Could not find a registered field of type %s' % field_type
+                    )
 
-            # check there is a label
-            if 'label' not in field_value:
-                raise AttributeError(
-                    'The block for %s must contain a label of type blocks.CharBlock(required=True)' % field_type
-                )
+                # check there is a label
+                if 'label' not in field_value:
+                    raise AttributeError(
+                        'The block for %s must contain a label of type blocks.CharBlock(required=True)' % field_type
+                    )
 
-            # slugify the label for the field name
-            field_name = get_slug_from_string(field_value.get('label'))
+                # slugify the label for the field name
+                field_name = get_slug_from_string(field_value.get('label'))
 
-            # get the field
-            registered_cls = registered_fields[field_type]()
-            field_cls = registered_cls.get_formfield(field_value)
-            formfields[field_name] = field_cls
+                # get the field
+                registered_cls = registered_fields[field_type]()
+                field_cls = registered_cls.get_formfield(field_value)
+                field_cls.section = {
+                    'legend': section['value']['legend'],
+                    'help_text': section['value']['help_text']
+                }
+
+                formfields[field_name] = field_cls
 
         # add fields to uniquely identify the form
         formfields['form_id'] = forms.CharField(widget=forms.HiddenInput)

@@ -5,6 +5,18 @@ form h2 {
     margin-bottom: 3rem;
 }
 
+form fieldset {
+    margin-bottom: $generic-margin-bottom;
+
+    legend {
+        border-bottom: solid 2px color("primary");
+        line-height: 3.5rem;
+        margin-bottom: $generic-margin-bottom;
+        width: 100%;
+    }
+
+}
+
 form .field-row {
 
     ul {

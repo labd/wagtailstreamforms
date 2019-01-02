@@ -3,13 +3,22 @@
     {{ form.media }}
     {% csrf_token %}
     {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
-    <div class="row">
-    {% for field in form.visible_fields %}
-        <div class="col-12 col-md-6">
-            {% include 'streamforms/partials/form_field.html' %}
-        </div>
+    {% regroup form by field.section as section_group %}
+    {% for section in section_group %}
+        {% if section.grouper %}
+            <fieldset>
+                <legend>{{ section.grouper.legend }}</legend>
+                {% if section.grouper.help_text %}<p>{{ section.grouper.help_text }}</p>{% endif %}
+                <div class="row">
+                    {% for field in section.list %}
+                    <div class="col-12 col-md-6">
+                        {% include 'streamforms/partials/form_field.html' %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        {% endif %}
     {% endfor %}
-    </div>
     <div class="form-actions">
         <input class="button button-mineshaft" type="submit" value="{{ value.form.submit_button_text }}">
     </div>

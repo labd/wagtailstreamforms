@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from wagtail.core import blocks
 
+from wagtailstreamforms.blocks import CollapsibleStructBlock
 from wagtailstreamforms.fields import BaseField, register
 
 
@@ -67,7 +68,7 @@ class DropdownField(BaseField):
         return options
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -89,7 +90,7 @@ class MultiSelectField(BaseField):
         return options
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -111,7 +112,7 @@ class RadioField(BaseField):
         return options
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -133,7 +134,7 @@ class CheckboxesField(BaseField):
         return options
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -148,7 +149,7 @@ class CheckboxField(BaseField):
     label = _("Checkbox field")
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -171,7 +172,7 @@ class SingleFileField(BaseField):
     label = _("File field")
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -186,7 +187,7 @@ class MultiFileField(BaseField):
     label = _("Files field")
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),

@@ -108,7 +108,10 @@ class BaseField:
 
         :return: The ``wagtail.core.blocks.StructBlock`` to be used in the StreamField
         """
-        return blocks.StructBlock([
+
+        from wagtailstreamforms.blocks import CollapsibleStructBlock
+
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),

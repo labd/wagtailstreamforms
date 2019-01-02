@@ -1,5 +1,5 @@
 /* karma-css core */
-/*! Karma-CSS v1.9.5 MIT License | http://karmacss.com | https://github.com/accentdesign/karma-css */
+/*! Karma-CSS v1.9.6 MIT License | http://karmacss.com | https://github.com/accentdesign/karma-css */
 .container {
   padding-right: 15px;
   padding-left: 15px;
@@ -1215,11 +1215,6 @@ input[type="checkbox"], input[type="radio"] {
   opacity: 1;
 }
 
-:-ms-input-placeholder {
-  color: #b9b9b9;
-  opacity: 1;
-}
-
 ::-ms-input-placeholder {
   color: #b9b9b9;
   opacity: 1;
@@ -1511,6 +1506,17 @@ sup {
 /* add your custom modules here */
 form h2 {
   margin-bottom: 3rem;
+}
+
+form fieldset {
+  margin-bottom: 1.5rem;
+}
+
+form fieldset legend {
+  border-bottom: solid 2px #43b1b0;
+  line-height: 3.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 form .field-row ul {

@@ -11,12 +11,14 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
     StreamFieldPanel
 )
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.forms import FormBuilder
-from wagtailstreamforms.streamfield import FormFieldsStreamField
+from wagtailstreamforms.streamfield import FormSectionStreamField
 from wagtailstreamforms.utils.general import get_slug_from_string
 from wagtailstreamforms.utils.loading import get_advanced_settings_model
 
@@ -42,9 +44,9 @@ class Form(models.Model):
         max_length=255,
         choices=get_setting('FORM_TEMPLATES')
     )
-    fields = FormFieldsStreamField(
+    form_sections = FormSectionStreamField(
         [],
-        verbose_name=_('Fields')
+        verbose_name=_('Form sections')
     )
     submit_button_text = models.CharField(
         _('Submit button text'),
@@ -91,7 +93,7 @@ class Form(models.Model):
     ]
 
     field_panels = [
-        StreamFieldPanel('fields'),
+        StreamFieldPanel('form_sections'),
     ]
 
     edit_handler = TabbedInterface([
@@ -114,7 +116,7 @@ class Form(models.Model):
             title=self.title,
             slug=uuid.uuid4(),
             template_name=self.template_name,
-            fields=self.fields,
+            form_sections=self.form_sections,
             submit_button_text=self.submit_button_text,
             success_message=self.success_message,
             error_message=self.error_message,
@@ -145,10 +147,11 @@ class Form(models.Model):
         data_fields = [
             ('submit_time', _('Submission date')),
         ]
-        data_fields += [
-            (get_slug_from_string(field['value']['label']), field['value']['label'])
-            for field in self.get_form_fields()
-        ]
+        for section in self.get_form_sections():
+            data_fields += [
+                (get_slug_from_string(field['value']['label']), field['value']['label'])
+                for field in section['value']['fields']
+            ]
 
         return data_fields
 
@@ -161,12 +164,12 @@ class Form(models.Model):
     def get_form_class(self):
         """ Returns the form class. """
 
-        return FormBuilder(self.get_form_fields()).get_form_class()
+        return FormBuilder(self.get_form_sections()).get_form_class()
 
-    def get_form_fields(self):
+    def get_form_sections(self):
         """ Returns the form fields stream_data. """
 
-        return self.fields.stream_data
+        return self.form_sections.stream_data
 
     def get_submission_class(self):
         """ Returns submission class. """

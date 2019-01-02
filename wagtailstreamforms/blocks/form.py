@@ -1,22 +1,21 @@
 import uuid
 
 from django import forms
-from django.utils.safestring import mark_safe
 
 from wagtail.core import blocks
-from wagtailstreamforms.models import Form
 
 
 class InfoBlock(blocks.CharBlock):
-    def render_form(self, value, prefix='', errors=None):
-        field = self.field
-        shown_value = value if value else field.help_text
-        return mark_safe('<div style="margin-top:5px;padding:0.9em 1.2em;">%s</div>' % shown_value)
+    pass
 
 
 class FormChooserBlock(blocks.ChooserBlock):
-    target_model = Form
     widget = forms.Select
+
+    @property
+    def target_model(self):
+        from wagtailstreamforms.models import Form
+        return Form
 
     def value_for_form(self, value):
         if isinstance(value, self.target_model):

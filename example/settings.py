@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # wagtail
+    'wagtail_react_streamfield',
     'wagtail.core',
     'wagtail.admin',
     'wagtail.documents',

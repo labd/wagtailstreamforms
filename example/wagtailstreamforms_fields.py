@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from captcha.fields import ReCaptchaField
 from wagtail.core import blocks
+from wagtailstreamforms.blocks import CollapsibleStructBlock
 from wagtailstreamforms.fields import BaseField, register
 
 
@@ -20,7 +21,7 @@ class ReCaptchaField(BaseField):
         return options
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
         ], icon=self.icon, label=self.label)
@@ -46,7 +47,7 @@ class RegexValidatedField(BaseField):
         )
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),
@@ -72,7 +73,7 @@ class UserChoiceField(BaseField):
         return options
 
     def get_form_block(self):
-        return blocks.StructBlock([
+        return CollapsibleStructBlock([
             ('label', blocks.CharBlock()),
             ('help_text', blocks.CharBlock(required=False)),
             ('required', blocks.BooleanBlock(required=False)),

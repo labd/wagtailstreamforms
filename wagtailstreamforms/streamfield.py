@@ -2,6 +2,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
+
 from wagtailstreamforms.fields import get_fields, BaseField
 
 
@@ -44,3 +45,16 @@ class FormFieldsStreamField(StreamField):
     def __init__(self, block_types, **kwargs):
         super().__init__(block_types, **kwargs)
         self.stream_block = FormFieldStreamBlock(block_types, required=not self.blank)
+
+
+class FormSectionStreamField(StreamField):
+    def __init__(self, block_types, **kwargs):
+        super().__init__(block_types, **kwargs)
+        from wagtailstreamforms.blocks import CollapsibleStructBlock
+        self.stream_block = blocks.StreamBlock([
+            ('form_section', CollapsibleStructBlock([
+                ('legend', blocks.CharBlock(required=True)),
+                ('help_text', blocks.TextBlock(required=False)),
+                ('fields', FormFieldStreamBlock([], required=True))
+            ]))
+        ])
