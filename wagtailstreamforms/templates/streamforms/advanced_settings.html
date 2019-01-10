@@ -10,9 +10,10 @@
     <div class="nice-padding">
         <form action="." method="POST" novalidate>
             {% csrf_token %}
+
             <ul class="fields">
                 {% block visible_fields %}
-                    {% for field in form.visible_fields %}
+                    {% for field in form %}
                         {% include "wagtailadmin/shared/field_as_li.html" %}
                     {% endfor %}
                 {% endblock %}
@@ -22,4 +23,9 @@
             </ul>
         </form>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ block.super }}
+    {{ form.media }}
 {% endblock %}
