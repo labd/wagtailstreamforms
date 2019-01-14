@@ -7,7 +7,9 @@ from django.urls import path, reverse
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
+from wagtail.contrib.modeladmin.menus import ModelAdminMenuItem
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail.contrib.modeladmin.views import CreateView, EditView
 from wagtail.core import hooks
 
 from wagtailstreamforms.conf import get_setting
@@ -21,7 +23,7 @@ SettingsModel = get_advanced_settings_model()
 
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
-        if action in ['advanced', 'copy', 'submissions']:
+        if action in ['copy', 'submissions']:
             return reverse('wagtailstreamforms:streamforms_%s' % action, args=args, kwargs=kwargs)
 
         return super().get_action_url(action, *args, **kwargs)
@@ -30,8 +32,29 @@ class FormURLHelper(AdminURLHelper):
 class FormButtonHelper(ButtonHelper):
     def button(self, pk, action, label, title, classnames_add, classnames_exclude):
         cn = self.finalise_classname(classnames_add, classnames_exclude)
+        url = self.url_helper.get_action_url(action, quote(pk))
+
         button = {
-            'url': self.url_helper.get_action_url(action, quote(pk)),
+            'url': url,
+            'label': label,
+            'classname': cn,
+            'title': title,
+        }
+
+        return button
+
+    def advanced_button(self, pk, action, label, title, classnames_add, classnames_exclude):
+        cn = self.finalise_classname(classnames_add, classnames_exclude)
+
+        try:
+            advanced = SettingsModel.objects.get(form_id=pk)
+            url = AdvancedSettingsModelAdmin().url_helper.get_action_url('edit', quote(advanced.pk))
+        except SettingsModel.DoesNotExist:
+            url = AdvancedSettingsModelAdmin().url_helper.get_action_url('create')
+            url = '%s?form=%s' % (url, pk)
+
+        button = {
+            'url': url,
             'label': label,
             'classname': cn,
             'title': title,
@@ -49,7 +72,7 @@ class FormButtonHelper(ButtonHelper):
         # users that either create or edit forms should be able edit advanced settings
         if SettingsModel and (ph.user_can_create(usr) or ph.user_can_edit_obj(usr, obj)):
             buttons.append(
-                self.button(
+                self.advanced_button(
                     pk,
                     'advanced',
                     _('Advanced'),
@@ -109,6 +132,37 @@ class FormModelAdmin(ModelAdmin):
         return submission_class._default_manager.filter(form=obj).count()
 
     saved_submissions.short_description = _('Saved submissions')
+
+
+class AdvancedSettingsModelAdmin(ModelAdmin):
+
+    class AdvancedCreateView(CreateView):
+        def get_instance(self):
+            instance = super().get_instance()
+            instance.form_id = self.request.GET.get('form', None)
+            return instance
+
+        def get_success_url(self):
+            return FormModelAdmin().url_helper.index_url
+
+    class AdvancedEditView(EditView):
+        def get_success_url(self):
+            return FormModelAdmin().url_helper.index_url
+
+    model = SettingsModel
+    create_view_class = AdvancedCreateView
+    edit_view_class = AdvancedEditView
+
+    def get_menu_item(self, order=None):
+        class AdvancedHiddenMenuItem(ModelAdminMenuItem):
+            def is_shown(self, request):
+                return False
+
+        return AdvancedHiddenMenuItem(self, 999)
+
+
+if SettingsModel:
+    modeladmin_register(AdvancedSettingsModelAdmin)
 
 
 @hooks.register('register_admin_urls')

@@ -2,14 +2,15 @@ from django.db import models
 
 from wagtail.admin.edit_handlers import StreamFieldPanel
 from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtailstreamforms.blocks import WagtailFormBlock
 from wagtailstreamforms.models.abstract import AbstractFormSetting
 
 
 class AdvancedFormSetting(AbstractFormSetting):
-    to_address = models.EmailField()
+    to_address = models.EmailField(null=True, blank=True)
+    content = RichTextField(null=True, blank=True)
 
 
 class BasicPage(Page):
