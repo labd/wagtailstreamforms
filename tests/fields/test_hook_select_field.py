@@ -4,14 +4,8 @@ from django.forms import CheckboxSelectMultiple
 
 from wagtailstreamforms.fields import HookSelectField, HookMultiSelectFormField
 
+from ..models import HookSelectModel
 from ..test_case import AppTestCase
-
-
-class HookSelectModel(models.Model):
-    hooks = HookSelectField(null=True, blank=True, help_text='Some hooks')
-
-    class Meta:
-        app_label = 'tests'
 
 
 class HookSelectFieldTests(AppTestCase):
