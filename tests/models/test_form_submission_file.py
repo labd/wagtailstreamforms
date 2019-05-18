@@ -43,11 +43,13 @@ class DeleteTests(TransactionTestCase):
 
     def test_files_are_deleted_on_commit(self):
         test_file = AppTestCase().get_file()
+        name = None
         with transaction.atomic():
             form = Form.objects.get(pk=1)
             submission = FormSubmission.objects.create(form=form, form_data={})
             file = FormSubmissionFile.objects.create(submission=submission, field='field', file=test_file)
-            self.assertTrue(file.file.storage.exists(file.file.name))
+            name = file.file.name
+            self.assertTrue(file.file.storage.exists(name))
             file.delete()
-            self.assertTrue(file.file.storage.exists(file.file.name))
-        self.assertFalse(file.file.storage.exists(file.file.name))
+            self.assertTrue(file.file.storage.exists(name))
+        self.assertFalse(file.file.storage.exists(name))
