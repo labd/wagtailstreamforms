@@ -2,6 +2,11 @@
 Changelog
 *********
 
+3.6.1
+-----
+
+Republish do to pypi issue
+
 3.6.0
 -----
 
