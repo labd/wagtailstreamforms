@@ -8,7 +8,7 @@ from wagtailstreamforms import __version__
 
 
 install_requires = [
-    'wagtail>=2,<2.6'
+    'wagtail>=2,<2.7'
 ]
 
 documentation_extras = [
