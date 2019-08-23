@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.forms import CheckboxSelectMultiple
@@ -58,6 +59,17 @@ class HookSelectFieldTests(AppTestCase):
             formfield.choices,
             [('save_form_submission_data', 'Save form submission data')]
         )
+
+    def test_serialisation(self):
+        hooks = ['do_foo', 'do_bar']
+        obj = next(serializers.deserialize(
+            'json',
+            serializers.serialize(
+                'json',
+                [HookSelectModel(hooks=hooks)]
+            )
+        )).object
+        self.assertEqual(obj.hooks, hooks)
 
     def test_value(self):
         obj = HookSelectModel(hooks=['save_form_submission_data'])
