@@ -157,6 +157,10 @@ class HookSelectField(models.Field):
             return value
         return value.split(',')
 
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return ','.join(value)
+
     def validate(self, value, model_instance):
         arr_choices = [v for v, s in self.get_choices_default()]
         for opt in value:
