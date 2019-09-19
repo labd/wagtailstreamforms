@@ -14,6 +14,7 @@ In the community
 ----------------
 
 * `Aimee Hendrycks <https://github.com/AimeeHendrycks>`_
+* `Aram Dulyan <https://github.com/Aramgutang>`_
 * `José Luis <https://github.com/SalahAdDin>`_
 * `Nathan Victor <https://github.com/NathanQ>`_
 * `Tom Dyson <https://github.com/tomdyson>`_
