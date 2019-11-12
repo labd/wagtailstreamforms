@@ -8,7 +8,7 @@ from wagtailstreamforms import __version__
 
 
 install_requires = [
-    'wagtail>=2,<2.7'
+    'wagtail>=2,<2.8'
 ]
 
 documentation_extras = [
@@ -48,9 +48,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Framework :: Django',
         'Framework :: Django :: 2.0',
         'Framework :: Wagtail',
