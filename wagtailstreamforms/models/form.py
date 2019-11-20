@@ -11,6 +11,7 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
     StreamFieldPanel
 )
+from wagtail.core.models import Site
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
@@ -23,9 +24,15 @@ from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from .submission import FormSubmission
 
 
+class FormQuerySet(models.QuerySet):
+    def for_site(self, site):
+        """Return all forms for a specific site."""
+        return self.filter(site=site)
+
+
 class Form(models.Model):
     """ The form class. """
-
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(
         _('Title'),
         max_length=255
@@ -76,6 +83,8 @@ class Form(models.Model):
         verbose_name=_('Submission hooks'),
         blank=True
     )
+
+    objects = FormQuerySet.as_manager()
 
     settings_panels = [
         FieldPanel('title', classname='full'),
