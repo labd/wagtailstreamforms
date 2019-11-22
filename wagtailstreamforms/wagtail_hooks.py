@@ -6,9 +6,11 @@ from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.translation import ugettext_lazy as _
 
+from wagtail.admin import messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
+from wagtail.contrib.modeladmin.views import CreateView
 
 from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting
@@ -88,6 +90,19 @@ class FormButtonHelper(ButtonHelper):
         return buttons
 
 
+class CreateFormView(CreateView):
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        for fn in form_hooks.get_hooks('before_form_save'):
+            instance = fn(instance, self.request)
+        instance.save()
+        messages.success(
+            self.request, self.get_success_message(instance),
+            buttons=self.get_success_message_buttons(instance)
+        )
+        return redirect(self.get_success_url())
+
+
 @modeladmin_register
 class FormModelAdmin(ModelAdmin):
     model = Form
@@ -98,6 +113,7 @@ class FormModelAdmin(ModelAdmin):
     menu_icon = 'icon icon-form'
     search_fields = ('title', 'slug')
     button_helper_class = FormButtonHelper
+    create_view_class = CreateFormView
     url_helper_class = FormURLHelper
 
     def get_queryset(self, request):
