@@ -24,13 +24,14 @@ from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from .submission import FormSubmission
 
 
-# class FormQuerySet(models.QuerySet):
-#     def for_site(self, site):
-#         """Return all forms for a specific site."""
-#         return self.filter(site=site)
+class FormQuerySet(models.QuerySet):
+    def for_site(self, site):
+        """Return all forms for a specific site."""
+        return self.filter(site=site)
 
 
 class AbstractForm(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(
         _('Title'),
         max_length=255
