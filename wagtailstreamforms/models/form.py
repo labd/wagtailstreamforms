@@ -24,15 +24,13 @@ from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from .submission import FormSubmission
 
 
-class FormQuerySet(models.QuerySet):
-    def for_site(self, site):
-        """Return all forms for a specific site."""
-        return self.filter(site=site)
+# class FormQuerySet(models.QuerySet):
+#     def for_site(self, site):
+#         """Return all forms for a specific site."""
+#         return self.filter(site=site)
 
 
-class Form(models.Model):
-    """ The form class. """
-    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
+class AbstractForm(models.Model):
     title = models.CharField(
         _('Title'),
         max_length=255
@@ -112,6 +110,7 @@ class Form(models.Model):
         return self.title
 
     class Meta:
+        abstract = True
         ordering = ['title', ]
         verbose_name = _('Form')
         verbose_name_plural = _('Forms')
@@ -188,3 +187,7 @@ class Form(models.Model):
         for fn in hooks.get_hooks('process_form_submission'):
             if fn.__name__ in self.process_form_submission_hooks:
                 fn(self, form)
+
+
+class Form(AbstractForm):
+    pass
