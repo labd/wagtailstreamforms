@@ -6,7 +6,7 @@ from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.translation import ugettext_lazy as _
 
-from wagtail.admin import messages
+from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
@@ -96,7 +96,7 @@ class CreateFormView(CreateView):
         for fn in form_hooks.get_hooks('before_form_save'):
             instance = fn(instance, self.request)
         instance.save()
-        messages.success(
+        wagtail_messages.success(
             self.request, self.get_success_message(instance),
             buttons=self.get_success_message_buttons(instance)
         )
