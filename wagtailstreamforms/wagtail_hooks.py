@@ -6,10 +6,13 @@ from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.translation import ugettext_lazy as _
 
+from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
+from wagtail.contrib.modeladmin.views import CreateView
 
+from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.utils.loading import get_advanced_settings_model
@@ -87,16 +90,49 @@ class FormButtonHelper(ButtonHelper):
         return buttons
 
 
+class CreateFormView(CreateView):
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        for fn in form_hooks.get_hooks('before_form_save'):
+            instance = fn(instance, self.request)
+        instance.save()
+        wagtail_messages.success(
+            self.request, self.get_success_message(instance),
+            buttons=self.get_success_message_buttons(instance)
+        )
+        return redirect(self.get_success_url())
+
+
 @modeladmin_register
 class FormModelAdmin(ModelAdmin):
     model = Form
     list_display = ('title', 'slug', 'latest_submission', 'saved_submissions')
+    list_filter = None
     menu_label = _(get_setting('ADMIN_MENU_LABEL'))
     menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
     search_fields = ('title', 'slug')
     button_helper_class = FormButtonHelper
+    create_view_class = CreateFormView
     url_helper_class = FormURLHelper
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        for fn in form_hooks.get_hooks('construct_form_queryset'):
+            qs = fn(qs, request)
+        return qs
+
+    def get_list_display(self, request):
+        list_display = self.list_display
+        for fn in form_hooks.get_hooks('construct_form_list_display'):
+            list_display = fn(list_display, request)
+        return list_display
+
+    def get_list_filter(self, request):
+        list_filter = self.list_filter
+        for fn in form_hooks.get_hooks('construct_form_list_filter'):
+            list_filter = fn(list_filter, request)
+        return list_filter
 
     def latest_submission(self, obj):
         submission_class = obj.get_submission_class()
