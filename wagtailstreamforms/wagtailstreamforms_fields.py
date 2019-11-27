@@ -180,8 +180,8 @@ class MultiFileField(BaseField):
 
 
 FIELD_MAPPING = {
-    "singleline": SingleFileField,
-    "multiline": MultiFileField,
+    "singleline": SingleLineTextField,
+    "multiline": MultiLineTextField,
     "date": DateField,
     "datetime": DateTimeField,
     "email": EmailField,
