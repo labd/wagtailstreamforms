@@ -174,8 +174,11 @@ class AbstractForm(models.Model):
 
     def get_form_fields(self):
         """ Returns the form fields stream_data. """
-
-        return self.fields.stream_data
+        
+        form_fields = self.fields.stream_data
+        for fn in hooks.get_hooks('construct_submission_form_fields'):
+            form_fields = fn(form_fields)
+        return form_fields
 
     def get_submission_class(self):
         """ Returns submission class. """
