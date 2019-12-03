@@ -1,16 +1,18 @@
 from django.conf.urls import include
 from django.contrib import messages
 from django.contrib.admin.utils import quote
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import path, reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
-from wagtail.contrib.modeladmin.views import CreateView
+from wagtail.contrib.modeladmin.views import InspectView, CreateView, EditView, DeleteView
 
 from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting
@@ -90,6 +92,19 @@ class FormButtonHelper(ButtonHelper):
         return buttons
 
 
+class InstanceSpecificViewHookMixin:
+    """Mixin class responsible to apply wagtailstreamforms specific hooks."""
+
+    def dispatch(self, request, *args, **kwargs):
+        for fn in form_hooks.get_hooks('before_inspect_form_instance_dispatch'):
+            self.instance = fn(self.instance, request)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class InspectFormView(InstanceSpecificViewHookMixin, InspectView):
+    pass
+
+
 class CreateFormView(CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -103,6 +118,14 @@ class CreateFormView(CreateView):
         return redirect(self.get_success_url())
 
 
+class EditFormView(InstanceSpecificViewHookMixin, EditView):
+    pass
+
+
+class DeleteFormView(InstanceSpecificViewHookMixin, DeleteView):
+    pass
+
+
 @modeladmin_register
 class FormModelAdmin(ModelAdmin):
     model = Form
@@ -113,7 +136,10 @@ class FormModelAdmin(ModelAdmin):
     menu_icon = 'icon icon-form'
     search_fields = ('title', 'slug')
     button_helper_class = FormButtonHelper
+    inspect_view_class = InspectFormView
     create_view_class = CreateFormView
+    edit_view_class = EditFormView
+    delete_view_class = DeleteFormView
     url_helper_class = FormURLHelper
 
     def get_queryset(self, request):
