@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-02 08:19+0100\n"
+"POT-Creation-Date: 2019-12-03 16:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: blocks.py:46
+msgid "The form post action. \"\" or \".\" for the current page or a url"
+msgstr "Het adres van de pagina waar het formulier naar wordt verstuurd. Gebruik \"\" or \".\" voor de huidige pagina"
+
+#: blocks.py:50
+msgid "This form will be given a unique reference once saved"
+msgstr "Het formulier krijg een unieke referentie zodra het is opgeslagen"
 
 #: conf.py:7
 msgid "Streamforms"
@@ -56,7 +64,7 @@ msgstr "Slug"
 
 #: models/form.py:44
 msgid "Used to identify the form in template tags"
-msgstr "Word gebruikt om het formulier in template tags te identificeren"
+msgstr "Wordt gebruikt om het formulier in template tags te identificeren"
 
 #: models/form.py:47
 msgid "Template"
@@ -79,8 +87,8 @@ msgid ""
 "An optional success message to show when the form has been successfully "
 "submitted"
 msgstr ""
-"Een optioneel bedankt bericht om te laten zien zodra een formulier"
-"succesvol is verstuurd"
+"Een optioneel bedankt bericht om te laten zien zodra een formuliersuccesvol "
+"is verstuurd"
 
 #: models/form.py:67
 msgid "Error message"
@@ -88,7 +96,9 @@ msgstr "Foutmelding bericht"
 
 #: models/form.py:70
 msgid "An optional error message to show when the form has validation errors"
-msgstr "Een optional foutmelding bericht om te laten zien zodra een formulier validatie fouten heeft"
+msgstr ""
+"Een optional foutmelding bericht om te laten zien zodra een formulier "
+"validatie fouten heeft"
 
 #: models/form.py:74
 msgid "Post redirect page"
@@ -118,7 +128,7 @@ msgstr "Formulier"
 msgid "Forms"
 msgstr "Formulieren"
 
-#: models/form.py:155
+#: models/form.py:156
 msgid "Submission date"
 msgstr "Inzending gegevens"
 
@@ -359,7 +369,7 @@ msgid_plural "%(count)d submissions have been deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/submission_list.py:39
+#: views/submission_list.py:43
 msgid "No Form found matching the query"
 msgstr "Geen formulier gevonden voor deze zoekopdracht"
 
@@ -368,7 +378,9 @@ msgid "Advanced"
 msgstr "Geavanceerd"
 
 #: wagtail_hooks.py:59
-msgid "Adanced settings"
+#, fuzzy
+#| msgid "Adanced settings"
+msgid "Advanced settings"
 msgstr "Geavanceerd instellingen"
 
 #: wagtail_hooks.py:72
