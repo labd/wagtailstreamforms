@@ -120,6 +120,7 @@ class AbstractForm(models.Model):
         """ Copy this form and its fields. """
 
         form_copy = Form(
+            site=self.site,
             title=self.title,
             slug=uuid.uuid4(),
             template_name=self.template_name,
