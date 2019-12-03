@@ -10,6 +10,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 
+from wagtailstreamforms import hooks
 from wagtailstreamforms.forms import SelectDateForm
 from wagtailstreamforms.models import Form
 
@@ -34,7 +35,10 @@ class SubmissionListView(SingleObjectMixin, ListView):
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
         try:
-            return self.model.objects.get(pk=pk)
+            qs = self.model.objects.all()
+            for fn in hooks.get_hooks('construct_form_queryset'):
+                qs = fn(qs, self.request)
+            return qs.get(pk=pk)
         except self.model.DoesNotExist:
             raise Http404(_("No Form found matching the query"))
 
