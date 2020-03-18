@@ -5,6 +5,7 @@ Changelog
 unreleased
 -----
 * Removed 'multiselect' form field
+* Wagtail 2.8 support
 
 3.8.0
 -----
