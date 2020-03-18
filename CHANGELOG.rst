@@ -7,6 +7,7 @@ unreleased
 * Removed 'multiselect' form field
 * Wagtail 2.8 support
 * Dropped Wagtail 2.0 and 2.1 support
+* Integrated with GitHub actions
 
 3.8.0
 -----
