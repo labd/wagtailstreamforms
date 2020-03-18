@@ -6,6 +6,15 @@ from codecs import open
 from os import path
 from wagtailstreamforms import __version__
 
+tests_require = [
+    "mock==4.0.2",
+    # Linting
+    "isort[pyproject]==4.3.21",
+    "flake8==3.7.9",
+    "flake8-blind-except==0.1.1",
+    "flake8-debugger==3.1.0"
+]
+
 
 install_requires = [
     'wagtail>=2,<2.8'
@@ -38,7 +47,8 @@ setup(
     ],
     install_requires=install_requires,
     extras_require={
-        'docs': documentation_extras
+        'docs': documentation_extras,
+        'test': tests_require,
     },
     include_package_data=True,
     keywords=['wagtail', 'streamfield', 'forms', 'accent', 'design'],

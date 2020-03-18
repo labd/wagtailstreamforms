@@ -5,6 +5,7 @@
 .postgres
 .python-version
 .tox
+.coverage*
 **__pycache__**
 *.pyc
 /dist/
@@ -12,3 +13,5 @@
 /htmlcov/
 /node_modules/
 /wagtailstreamforms.egg-info/
+
+file*.mp4
