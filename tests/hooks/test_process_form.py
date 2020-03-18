@@ -59,7 +59,6 @@ class TestHook(AppTestCase):
             'url': 'http://google.co.uk',
             'number': 1,
             'dropdown': 'Option 1',
-            'multiselect': 'Option 1',
             'radio': 'Option 1',
             'checkboxes': 'Option 1',
             'checkbox': 'on',
@@ -87,7 +86,6 @@ class TestHook(AppTestCase):
             'url': 'http://google.co.uk',
             'number': 1,
             'dropdown': 'Option 1',
-            'multiselect': 'Option 1',
             'radio': 'Option 1',
             'checkboxes': 'Option 1',
             'checkbox': 'on',
@@ -117,7 +115,6 @@ class TestHook(AppTestCase):
             'url': 'http://google.co.uk',
             'number': 1,
             'dropdown': 'Option 1',
-            'multiselect': 'Option 1',
             'radio': 'Option 1',
             'checkboxes': 'Option 1',
             'checkbox': 'on',
@@ -130,7 +127,7 @@ class TestHook(AppTestCase):
         fake_request.user = AnonymousUser()
 
         process_form(self.page, fake_request)
-
+        self.mock_success_message.assert_called()
         self.assertEqual(self.mock_success_message.call_args[0][1], 'well done')
         self.assertEqual(self.mock_success_message.call_args[1], {'fail_silently': True})
 
@@ -147,7 +144,6 @@ class TestHook(AppTestCase):
             'url': 'http://google.co.uk',
             'number': 1,
             'dropdown': 'Option 1',
-            'multiselect': 'Option 1',
             'radio': 'Option 1',
             'checkboxes': 'Option 1',
             'checkbox': 'on',
@@ -237,7 +233,6 @@ class TestHook(AppTestCase):
                 'url': ['This field is required.'],
                 'number': ['This field is required.'],
                 'dropdown': ['This field is required.'],
-                'multiselect': ['This field is required.'],
                 'radio': ['This field is required.'],
                 'checkboxes': ['This field is required.'],
                 'checkbox': ['This field is required.'],

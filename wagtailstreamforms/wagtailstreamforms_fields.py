@@ -188,7 +188,6 @@ FIELD_MAPPING = {
     "url": URLField,
     "number": NumberField,
     "dropdown": DropdownField,
-    "multiselect": MultiFileField,
     "radio": RadioField,
     "checkboxes": CheckboxesField,
     "checkbox": CheckboxField,

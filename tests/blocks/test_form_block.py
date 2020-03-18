@@ -70,14 +70,6 @@ class TestFormBlockTestCase(AppTestCase):
             '<p class="help-text">Help</p>'
             '</div>'
             '<div class="field-row">'
-            '<label for="id_multiselect">multiselect</label>'
-            '<select name="multiselect" required id="id_multiselect" multiple="multiple">'
-            '<option value="Option 1">Option 1</option>'
-            '<option value="Option 2">Option 2</option>'
-            '<option value="Option 3">Option 3</option></select>'
-            '<p class="help-text">Help</p>'
-            '</div>'
-            '<div class="field-row">'
             '<label for="id_radio_0">radio</label>'
             '<ul id="id_radio">'
             '<li><label for="id_radio_0">'
@@ -188,7 +180,6 @@ class TestFormBlockTestCase(AppTestCase):
                 'url': ['This field is required.'],
                 'number': ['This field is required.'],
                 'dropdown': ['This field is required.'],
-                'multiselect': ['This field is required.'],
                 'radio': ['This field is required.'],
                 'checkboxes': ['This field is required.'],
                 'checkbox': ['This field is required.'],

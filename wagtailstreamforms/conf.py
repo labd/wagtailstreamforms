@@ -18,7 +18,6 @@ SETTINGS_DEFAULTS = {
         "url",
         "number",
         "dropdown",
-        "multiselect",
         "radio",
         "checkboxes",
         "checkbox",

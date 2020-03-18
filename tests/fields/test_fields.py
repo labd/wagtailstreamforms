@@ -114,18 +114,6 @@ class TestFields(AppTestCase):
         field = cls.get_formfield(data)
         self.assertEqual(field.choices[0], ('', 'Please Select'))
 
-    def test_multiselect_field(self):
-        data = self.get_form_field_data('multiselect')
-        cls = wsf_fields.MultiSelectField()
-        field = cls.get_formfield(data)
-
-        self.assertIsInstance(field, forms.MultipleChoiceField)
-        self.assertIsInstance(field.widget, forms.widgets.SelectMultiple)
-        self.assertEqual(field.label, data['label'])
-        self.assertEqual(field.required, data['required'])
-        self.assertEqual(field.help_text, data['help_text'])
-        self.assertEqual(field.choices, [(c, c) for c in data['choices']])
-
     def test_radio_field(self):
         data = self.get_form_field_data('radio')
         cls = wsf_fields.RadioField()
