@@ -22,6 +22,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
+        python-version: [3.7]
         tox_env:
             - py36-dj20-wt23
             - py36-dj21-wt24
