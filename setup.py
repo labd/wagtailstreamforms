@@ -17,7 +17,7 @@ tests_require = [
 
 
 install_requires = [
-    'wagtail>=2,<2.8'
+    'wagtail>=2,<2.9'
 ]
 
 documentation_extras = [
@@ -60,7 +60,6 @@ setup(
         'Framework :: Wagtail',
         'Framework :: Wagtail :: 2',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',

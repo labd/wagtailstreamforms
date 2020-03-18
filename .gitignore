@@ -13,5 +13,5 @@
 /htmlcov/
 /node_modules/
 /wagtailstreamforms.egg-info/
-
+/build
 file*.mp4
