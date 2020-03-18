@@ -166,7 +166,7 @@ class TestFormBlockTestCase(AppTestCase):
         self.assertIsNotNone(context["form"])
 
     def test_context_form_is_invalid_when_parent_context_has_this_form_with_errors(
-        self
+        self,
     ):
         invalid_form = self.form.get_form(
             {"form_id": self.form.id, "form_reference": "some-ref"}
