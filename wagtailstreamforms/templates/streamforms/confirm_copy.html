@@ -1,11 +1,11 @@
 {% extends "wagtailadmin/base.html" %}
 {% load i18n %}
-{% block titletag %}{% blocktrans with form_title=object.name|capfirst %}Copy of {{ form_title }}{% endblocktrans %}{% endblock %}
+{% block titletag %}{% blocktrans with form_title=object.title|capfirst %}Copy of {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block bodyclass %}menu-explorer{% endblock %}
 
 {% block content %}
     {% trans "Copy" as copy_str %}
-    {% include "wagtailadmin/shared/header.html" with title=copy_str subtitle=object.name icon="doc-empty-inverse" %}
+    {% include "wagtailadmin/shared/header.html" with title=copy_str subtitle=object.title icon="doc-empty-inverse" %}
 
     <div class="nice-padding">
         <p>{% trans 'Are you sure you want to copy this form?' %}</p>
@@ -24,4 +24,3 @@
         </form>
     </div>
 {% endblock %}
- \ No newline at end of file

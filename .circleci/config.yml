@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/wagtailstreamforms
+    docker:
+      - image: themattrix/tox
+    steps:
+      - checkout
+      - run: pip install --upgrade codecov
+      - run: tox -v
+      - run: codecov
+      - store_test_results:
+          path: htmlcov
+      - store_artifacts:
+          path: htmlcov
+          destination: coverage

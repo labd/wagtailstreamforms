@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-30 16:42+0300\n"
+"POT-Creation-Date: 2018-05-30 22:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,182 +18,118 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: conf.py:8
+#: conf.py:7
 msgid "Streamforms"
 msgstr ""
 
-#: forms.py:59
-msgid "Enter valid email addresses."
+#: forms.py:70
+msgid "Date from"
 msgstr ""
 
-#: models/form.py:43 models/validators.py:11
-msgid "Name"
+#: forms.py:74
+msgid "Date to"
 msgstr ""
 
-#: models/form.py:47
+#: models/file.py:11
+msgid "Submission"
+msgstr ""
+
+#: models/file.py:16
+msgid "Field"
+msgstr ""
+
+#: models/file.py:20
+msgid "File"
+msgstr ""
+
+#: models/file.py:29
+msgid "Form submission file"
+msgstr ""
+
+#: models/form.py:29
+msgid "Title"
+msgstr ""
+
+#: models/form.py:33
 msgid "Slug"
 msgstr ""
 
-#: models/form.py:51
+#: models/form.py:37
 msgid "Used to identify the form in template tags"
 msgstr ""
 
-#: models/form.py:55
-msgid "Content type"
-msgstr ""
-
-#: models/form.py:60
+#: models/form.py:40
 msgid "Template"
 msgstr ""
 
-#: models/form.py:65
+#: models/form.py:46 models/form.py:98
+msgid "Fields"
+msgstr ""
+
+#: models/form.py:49
 msgid "Submit button text"
 msgstr ""
 
-#: models/form.py:70
-msgid "Store submission"
-msgstr ""
-
-#: models/form.py:74
-msgid "Add recaptcha"
-msgstr ""
-
-#: models/form.py:76
-msgid "Add a reCapcha field to the form."
-msgstr ""
-
-#: models/form.py:79
+#: models/form.py:54
 msgid "Success message"
 msgstr ""
 
-#: models/form.py:82
+#: models/form.py:57
 msgid ""
 "An optional success message to show when the form has been successfully "
 "submitted"
 msgstr ""
 
-#: models/form.py:85 models/validators.py:23
+#: models/form.py:60
 msgid "Error message"
 msgstr ""
 
-#: models/form.py:88
+#: models/form.py:63
 msgid "An optional error message to show when the form has validation errors"
 msgstr ""
 
-#: models/form.py:92
+#: models/form.py:67
 msgid "Post redirect page"
 msgstr ""
 
-#: models/form.py:97
+#: models/form.py:72
 msgid "The page to redirect to after a successful submission"
 msgstr ""
 
-#: models/form.py:108
+#: models/form.py:75
+msgid "Submission hooks"
+msgstr ""
+
+#: models/form.py:87
 msgid "Messages"
 msgstr ""
 
-#: models/form.py:114 models/form.py:119 models/form.py:346
-msgid "Fields"
-msgstr ""
-
-#: models/form.py:118 models/form.py:345
+#: models/form.py:97
 msgid "General"
 msgstr ""
 
-#: models/form.py:132 models/form_field.py:33 models/submission.py:20
+#: models/form.py:106 models/submission.py:15
 msgid "Form"
 msgstr ""
 
-#: models/form.py:133
+#: models/form.py:107
 msgid "Forms"
 msgstr ""
 
-#: models/form.py:204
+#: models/form.py:133
 msgid "Submission date"
 msgstr ""
 
-#: models/form.py:302
-msgid "Basic form"
-msgstr ""
-
-#: models/form.py:303
-msgid "Basic Forms"
-msgstr ""
-
-#: models/form.py:318
-msgid "Subject"
-msgstr ""
-
-#: models/form.py:322
-msgid "From address"
-msgstr ""
-
-#: models/form.py:325
-msgid "To addresses"
-msgstr ""
-
-#: models/form.py:326
-msgid "Add one email per line"
-msgstr ""
-
-#: models/form.py:329
-msgid "Message"
-msgstr ""
-
-#: models/form.py:332
-msgid "Fail silently"
-msgstr ""
-
-#: models/form.py:347
-msgid "Email Submission"
-msgstr ""
-
-#: models/form.py:386
-msgid "Email form"
-msgstr ""
-
-#: models/form.py:387
-msgid "Email forms"
-msgstr ""
-
-#: models/form_field.py:11
-msgid "Regex validated field"
-msgstr ""
-
-#: models/form_field.py:19
-msgid "Field type"
-msgstr ""
-
-#: models/form_field.py:25 models/validators.py:39
-msgid "Regex validator"
-msgstr ""
-
-#: models/form_field.py:29
-msgid "Applicable only for the field type 'regex validated field'."
-msgstr ""
-
-#: models/submission.py:16
+#: models/submission.py:11
 msgid "Form data"
 msgstr ""
 
-#: models/submission.py:24
+#: models/submission.py:19
 msgid "Submit time"
 msgstr ""
 
-#: models/submission.py:48
+#: models/submission.py:38
 msgid "Form submission"
-msgstr ""
-
-#: models/validators.py:15
-msgid "Description"
-msgstr ""
-
-#: models/validators.py:20
-msgid "Regex"
-msgstr ""
-
-#: models/validators.py:40
-msgid "Regex validators"
 msgstr ""
 
 #: templates/streamforms/confirm_copy.html:3
@@ -202,7 +138,7 @@ msgid "Copy of %(form_title)s"
 msgstr ""
 
 #: templates/streamforms/confirm_copy.html:7
-#: templates/streamforms/confirm_copy.html:21 wagtail_hooks.py:34
+#: templates/streamforms/confirm_copy.html:21 wagtail_hooks.py:33
 msgid "Copy"
 msgstr ""
 
@@ -238,6 +174,10 @@ msgstr ""
 
 #: templates/streamforms/list_submissions.html:11
 msgid "Delete selected submissions"
+msgstr ""
+
+#: templates/streamforms/list_submissions.html:41
+msgid "Files"
 msgstr ""
 
 #: templates/streamforms/non_existent_form.html:2
@@ -276,7 +216,7 @@ msgid "There have been no submissions of the '%(title)s' form."
 msgstr ""
 
 #: views/copy.py:13
-msgid "New name"
+msgid "New title"
 msgstr ""
 
 #: views/copy.py:14
@@ -290,20 +230,88 @@ msgid_plural "%(count)d submissions have been deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: views/submission_list.py:38
-msgid "No BaseForm found matching the query"
+#: views/submission_list.py:39
+msgid "No Form found matching the query"
 msgstr ""
 
-#: wagtail_hooks.py:36
+#: wagtail_hooks.py:35
 #, python-format
 msgid "Copy this %s"
 msgstr ""
 
-#: wagtail_hooks.py:44
+#: wagtail_hooks.py:43
 msgid "Submissions"
 msgstr ""
 
-#: wagtail_hooks.py:46
+#: wagtail_hooks.py:45
 #, python-format
 msgid "Submissions of this %s"
+msgstr ""
+
+#: wagtail_hooks.py:75
+msgid "Latest submission"
+msgstr ""
+
+#: wagtail_hooks.py:81
+msgid "Saved submissions"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:11
+msgid "Text field (single line)"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:17
+msgid "Text field (multi line)"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:24
+msgid "Date field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:31
+msgid "Time field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:38
+msgid "Email field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:45
+msgid "URL field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:51
+msgid "Number field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:58
+msgid "Dropdown field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:82
+msgid "Multiselect field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:104
+msgid "Radio buttons"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:126
+msgid "Checkboxes"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:147
+msgid "Checkbox field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:162
+msgid "Hidden field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:170
+msgid "File field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:185
+msgid "Files field"
 msgstr ""

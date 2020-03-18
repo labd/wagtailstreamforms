@@ -4,7 +4,7 @@ from django.template import Library
 from django.utils.safestring import mark_safe
 
 from wagtailstreamforms.blocks import WagtailFormBlock
-from wagtailstreamforms.models import BaseForm
+from wagtailstreamforms.models import Form
 
 register = Library()
 
@@ -28,7 +28,7 @@ def streamforms_form(context, slug, reference, action='.', **kwargs):
     """
 
     try:
-        form = BaseForm.objects.get(slug=slug)
+        form = Form.objects.get(slug=slug)
 
         block = WagtailFormBlock()
 
@@ -40,5 +40,5 @@ def streamforms_form(context, slug, reference, action='.', **kwargs):
             'form_reference': reference
         }), context.flatten())
 
-    except BaseForm.DoesNotExist:
+    except Form.DoesNotExist:
         return mark_safe('')

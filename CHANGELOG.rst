@@ -2,10 +2,71 @@
 Changelog
 *********
 
-master
-======
+3.8.0
+-----
 
-* in development
+* Wagtail 2.7 Support
+
+3.7.0
+-----
+
+* Wagtail 2.6 Support
+
+3.6.1
+-----
+
+* Republish do to pypi issue
+
+3.6.0
+-----
+
+* Wagtail 2.5 Support
+
+3.5.0
+-----
+
+* Wagtail 2.4 Support
+* Tweak docs to ensure files work in js example (Thanks Aimee Hendrycks)
+
+3.4.0
+-----
+
+* Support for Wagtail 2.3
+
+3.3.0
+-----
+
+* fix issue with saving a submission with a file attached on disk.
+* added new setting ``WAGTAILSTREAMFORM_ENABLE_BUILTIN_HOOKS`` default ``True`` to allow the inbuilt form processing hooks to be disabled.
+
+3.2.0
+-----
+
+* fix template that inherited from wagtailforms to wagtailadmin
+
+3.1.0
+-----
+
+* Support for Wagtail 2.2
+
+3.0.0
+-----
+
+Version 3 is a major re-write and direction change and therefor any version prior
+to this needs to be removed in its entirety first.
+
+Whats New:
+
+* Update to Wagtail 2.1
+* The concept of creating a custom form class to add functionality has been removed.
+* Along with the concept of custom form submission classes.
+* Fields are now added via a StreamField and you can define your own like ReCAPTCHA or RegexFields.
+* You can easily overwrite fields to add things like widget attributes.
+* You can define a model that will allow you to save additional settings for each form.
+* The form submission is processed via hooks instead of baked into the models.
+* You can create as many form submission hooks as you like to process, email etc the data as you wish. These will be available to all forms that you can enable/disable at will.
+* Files can now be uploaded and are stored along with the submission using the default storage.
+* There is a management command to easily remove old submission data.
 
 2.1.2
 -----

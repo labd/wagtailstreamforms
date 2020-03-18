@@ -1,33 +1,21 @@
-// Variables
-//––––––––––––––––––––––––––––––––––––––––––––––––––
-
-/*
-* start with a copy of the current varables file:
-* https://github.com/AccentDesign/karma-css/blob/master/scss/_variables.scss
-*/
-
-
-// Styling
-//––––––––––––––––––––––––––––––––––––––––––––––––––
-
 // colors
 $colors: (
-    white:                  rgb(255, 255, 255),
-    primary:                  rgb(67, 177, 176),
-    mineshaft:              rgb(51, 51, 51)
+    "white":                    rgb(255, 255, 255),
+    "primary":                  rgb(67, 177, 176),
+    "mineshaft":                rgb(51, 51, 51)
     
-) !default;
+);
 
 // defined colors
-$body-background:               rgb(253, 253, 253) !default;
+$body-background:               rgb(253, 253, 253);
 
 
 // forms
-$input-use-full-width:          true; // false = max-width:100%, true = width:100%
+$input-use-full-width:          true;
 
 
 // buttons
 $buttons: (
     // name         color                          font-color
-    mineshaft:      map-get($colors, mineshaft)    map-get($colors, white),
+    mineshaft:      map-get($colors, "mineshaft")  map-get($colors, "white"),
 ) !default;

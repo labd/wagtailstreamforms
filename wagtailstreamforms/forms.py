@@ -1,71 +1,75 @@
+from collections import OrderedDict
+
 from django import forms
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.utils.translation import ugettext_lazy as _
 
-from captcha.fields import ReCaptchaField
-from wagtail.contrib.forms.forms import FormBuilder as OrigFormBuilder
-from wagtailstreamforms.utils import recaptcha_enabled
-from wagtailstreamforms.widgets import MultiEmailWidget
+from wagtailstreamforms.fields import get_fields
+from wagtailstreamforms.utils.general import get_slug_from_string
 
 
-class FormBuilder(OrigFormBuilder):
+class BaseForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
 
-    def __init__(self, fields, **kwargs):
-        super().__init__(fields)
+        self.user = kwargs.pop('user', None)
+        self.page = kwargs.pop('page', None)
 
-        self.add_recaptcha = kwargs.pop('add_recaptcha')
+        super().__init__(*args, **kwargs)
 
-    def create_regexfield_field(self, field, options):
-        """ The regex field """
 
-        if field.regex_validator:
-            # there is a selected validator so use it
-            options.update({
-                'regex': field.regex_validator.regex,
-                'error_messages': {'invalid': field.regex_validator.error_message}
-            })
-        else:
-            # otherwise allow anything
-            options.update({'regex': '(.*?)'})
+class FormBuilder:
 
-        return forms.RegexField(**options)
+    def __init__(self, fields):
+        self.fields = fields
 
     @property
     def formfields(self):
-        """ Add additional fields to the already defined ones """
+        """ Return a list of form fields from the registered fields. """
 
-        fields = super().formfields
+        formfields = OrderedDict()
+
+        registered_fields = get_fields()
+
+        for field in self.fields:
+            field_type = field.get('type')
+            field_value = field.get('value')
+
+            # check we have the field
+            if field_type not in registered_fields:
+                raise AttributeError(
+                    'Could not find a registered field of type %s' % field_type
+                )
+
+            # check there is a label
+            if 'label' not in field_value:
+                raise AttributeError(
+                    'The block for %s must contain a label of type blocks.CharBlock(required=True)' % field_type
+                )
+
+            # slugify the label for the field name
+            field_name = get_slug_from_string(field_value.get('label'))
+
+            # get the field
+            registered_cls = registered_fields[field_type]()
+            field_cls = registered_cls.get_formfield(field_value)
+            formfields[field_name] = field_cls
 
         # add fields to uniquely identify the form
-        fields['form_id'] = forms.CharField(widget=forms.HiddenInput)
-        fields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
+        formfields['form_id'] = forms.CharField(widget=forms.HiddenInput)
+        formfields['form_reference'] = forms.CharField(widget=forms.HiddenInput)
 
-        # add recaptcha field if enabled
-        if self.add_recaptcha and recaptcha_enabled():
-            fields['recaptcha'] = ReCaptchaField(label='')
+        return formfields
 
-        return fields
+    def get_form_class(self):
+        return type(str('StreamformsForm'), (BaseForm,), self.formfields)
 
 
-class MultiEmailField(forms.Field):
-    message = _('Enter valid email addresses.')
-    code = 'invalid'
-    widget = MultiEmailWidget
-
-    def to_python(self, value):
-        """ Normalize data to a list of strings. """
-
-        if not value:
-            return []
-        return [v.strip() for v in value.splitlines() if v != '']
-
-    def validate(self, value):
-        """ Check if value consists only of valid emails. """
-
-        super().validate(value)
-        try:
-            for email in value:
-                validate_email(email)
-        except ValidationError:
-            raise ValidationError(self.message, code=self.code)
+class SelectDateForm(forms.Form):
+    date_from = forms.DateTimeField(
+        required=False,
+        widget=forms.DateInput(attrs={'placeholder': _('Date from')})
+    )
+    date_to = forms.DateTimeField(
+        required=False,
+        widget=forms.DateInput(attrs={'placeholder': _('Date to')})
+    )

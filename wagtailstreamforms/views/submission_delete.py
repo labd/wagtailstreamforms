@@ -6,16 +6,16 @@ from django.utils.translation import ungettext
 from django.views.generic import DeleteView
 
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
-from wagtailstreamforms.models import BaseForm
+from wagtailstreamforms.models import Form
 
 
 class SubmissionDeleteView(DeleteView):
-    model = BaseForm
+    model = Form
     template_name = 'streamforms/confirm_delete.html'
 
     @property
     def permission_helper(self):
-        return PermissionHelper(model=self.object.specific_class)
+        return PermissionHelper(model=self.model)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -25,7 +25,7 @@ class SubmissionDeleteView(DeleteView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        return obj.specific
+        return obj
 
     def get_submissions(self):
         submission_ids = self.request.GET.getlist('selected-submissions')

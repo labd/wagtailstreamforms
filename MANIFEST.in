@@ -1,2 +1,2 @@
 include LICENSE
-recursive-include wagtailstreamforms *.py *.html *.js
+recursive-include wagtailstreamforms *.py *.html *.js *.mo *.po

@@ -11,15 +11,15 @@
     }
 
     li.success {
-        border: 1px solid color(primary);
-        background: lighten(color(primary), 45%);
-        color: color(primary);
+        border: 1px solid color("primary");
+        background: lighten(color("primary"), 45%);
+        color: color("primary");
     }
 
     li.error {
-        border: 1px solid color(red);
-        background: lighten(color(red), 35%);
-        color: color(red);
+        border: 1px solid color("red");
+        background: color-lighten("red", 35%);
+        color: color("red");
     }
 
 }

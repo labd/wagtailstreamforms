@@ -1,5 +1,6 @@
-<h2>{{ value.form.name }}</h2>
-<form action="{{ value.form_action }}" method="post" novalidate>
+<h2>{{ value.form.title }}</h2>
+<form{% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ value.form_action }}" method="post" novalidate>
+    {{ form.media }}
     {% csrf_token %}
     {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
     {% for field in form.visible_fields %}

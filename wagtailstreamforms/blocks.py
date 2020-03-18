@@ -2,9 +2,10 @@ import uuid
 
 from django import forms
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from wagtail.core import blocks
-from wagtailstreamforms.models import BaseForm
+from wagtailstreamforms.models import Form
 
 
 class InfoBlock(blocks.CharBlock):
@@ -15,7 +16,7 @@ class InfoBlock(blocks.CharBlock):
 
 
 class FormChooserBlock(blocks.ChooserBlock):
-    target_model = BaseForm
+    target_model = Form
     widget = forms.Select
 
     def value_for_form(self, value):
@@ -33,7 +34,7 @@ class FormChooserBlock(blocks.ChooserBlock):
             return value
         else:
             try:
-                return self.target_model.objects.get(pk=value).specific
+                return self.target_model.objects.get(pk=value)
             except self.target_model.DoesNotExist:
                 return None
 
@@ -42,11 +43,11 @@ class WagtailFormBlock(blocks.StructBlock):
     form = FormChooserBlock()
     form_action = blocks.CharBlock(
         required=False,
-        help_text='The form post action. "" or "." for the current page or a url'
+        help_text=_('The form post action. "" or "." for the current page or a url')
     )
     form_reference = InfoBlock(
         required=False,
-        help_text='This form will be given a unique reference once saved'
+        help_text=_('This form will be given a unique reference once saved')
     )
 
     class Meta:

@@ -1,5 +1,9 @@
 # The app itself
 -e .
 
+Django>=1.11,<2.3
 mock
-psycopg2
+psycopg2-binary
+
+# example site
+django-recaptcha

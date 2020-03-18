@@ -1,3 +1,8 @@
+import sys
+from contextlib import contextmanager
+from importlib import reload, import_module
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models, connection
 from django.template import Context, Template
 from django.test import TestCase
@@ -19,6 +24,34 @@ class AppTestCase(TestCase):
 
     def get_field(self, modelClass, name):
         return modelClass._meta.get_field(name)
+
+    def get_file(self):
+        return SimpleUploadedFile("file.mp4", b"file_content", content_type="video/mp4")
+
+    @contextmanager
+    def register_field(self, field_type, cls):
+        from wagtailstreamforms import fields
+
+        fields.register(field_type, cls)
+        try:
+            yield
+        finally:
+            fields._fields[field_type].remove(cls)
+
+    @contextmanager
+    def register_hook(self, hook_name, fn, order=0):
+        from wagtailstreamforms import hooks
+
+        hooks.register(hook_name, fn, order)
+        try:
+            yield
+        finally:
+            hooks._hooks[hook_name].remove((fn, order))
+
+    def reload_module(self, path):
+        if path in sys.modules:
+            reload(sys.modules[path])
+        return import_module(path)
 
     def render_template(self, string, context=None):
         context = context or {}

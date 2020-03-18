@@ -4,7 +4,7 @@ from django.test.client import Client
 from mock import patch
 from wagtail.core.models import Page
 
-from wagtailstreamforms.models import BasicForm, FormField
+from wagtailstreamforms.models import Form
 from wagtailstreamforms.wagtail_hooks import process_form
 from ..test_case import AppTestCase
 
@@ -20,7 +20,7 @@ class TestHook(AppTestCase):
         self.mock_success_message = self.mock_messages_success.start()
 
     def test_form(self):
-        form = BasicForm.objects.get(pk=1)
+        form = Form.objects.get(pk=1)
         return form
 
     def test_get_returns_nothing(self):
@@ -51,7 +51,21 @@ class TestHook(AppTestCase):
         form.post_redirect_page = redirect_to
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -65,7 +79,21 @@ class TestHook(AppTestCase):
     def test_valid_post_redirects__falls_back_to_current_page(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -76,25 +104,26 @@ class TestHook(AppTestCase):
 
         self.assertRedirects(response, self.page.get_url(fake_request))
 
-    def test_valid_post_saves_submission(self):
-        form = self.test_form()
-        fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
-            'form_id': form.pk,
-            'form_reference': 'some-ref'
-        })
-        fake_request.user = AnonymousUser()
-
-        process_form(self.page, fake_request)
-
-        self.assertEqual(form.get_submission_class().objects.count(), 1)
-
     def test_success_message__sent_when_form_has_message(self):
         form = self.test_form()
         form.success_message = 'well done'
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -110,7 +139,21 @@ class TestHook(AppTestCase):
         form.success_message = ''
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': 'Bill',
+            'singleline': 'Bill',
+            'multiline': 'Bill',
+            'date': '2018-01-01',
+            'datetime': '2018-01-01 00:00:00',
+            'email': 'email@example.com',
+            'url': 'http://google.co.uk',
+            'number': 1,
+            'dropdown': 'Option 1',
+            'multiselect': 'Option 1',
+            'radio': 'Option 1',
+            'checkboxes': 'Option 1',
+            'checkbox': 'on',
+            'hidden': 'secret',
+            'singlefile': self.get_file(),
+            'multifile': self.get_file(),
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -125,7 +168,7 @@ class TestHook(AppTestCase):
         form.error_message = 'oops'
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': '',
+            'singleline': '',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -141,7 +184,7 @@ class TestHook(AppTestCase):
         form.error_message = ''
         form.save()
         fake_request = self.rf.post('/fake/', {
-            'name': '',
+            'singleline': '',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -172,7 +215,6 @@ class TestHook(AppTestCase):
     def test_invalid_form_returns_response_with_form(self):
         form = self.test_form()
         fake_request = self.rf.post('/fake/', {
-            'name': '',
             'form_id': form.pk,
             'form_reference': 'some-ref'
         })
@@ -184,7 +226,26 @@ class TestHook(AppTestCase):
         self.assertEqual(response.context_data['invalid_stream_form_reference'], 'some-ref')
 
         invalid_form = response.context_data['invalid_stream_form']
-        self.assertEqual(invalid_form.errors, {'name': ['This field is required.']})
+        self.assertDictEqual(
+            invalid_form.errors,
+            {
+                'singleline': ['This field is required.'],
+                'multiline': ['This field is required.'],
+                'date': ['This field is required.'],
+                'datetime': ['This field is required.'],
+                'email': ['This field is required.'],
+                'url': ['This field is required.'],
+                'number': ['This field is required.'],
+                'dropdown': ['This field is required.'],
+                'multiselect': ['This field is required.'],
+                'radio': ['This field is required.'],
+                'checkboxes': ['This field is required.'],
+                'checkbox': ['This field is required.'],
+                'hidden': ['This field is required.'],
+                'singlefile': ['This field is required.'],
+                'multifile': ['This field is required.']
+            }
+        )
 
     def tearDown(self):
         self.mock_messages_error.stop()

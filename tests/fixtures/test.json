@@ -1,80 +1,17 @@
 [
   {
-    "model": "wagtailstreamforms.baseform",
+    "model": "wagtailstreamforms.form",
     "pk": 1,
     "fields": {
-      "name": "Basic Form",
+      "title": "Basic Form",
       "slug": "basic-form",
-      "content_type": ["wagtailstreamforms", "basicform"],
       "template_name": "streamforms/form_block.html",
+      "fields": "[{\"type\": \"singleline\", \"value\": {\"label\": \"singleline\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"9c46e208-e53a-4562-81f6-3fb3f34520f2\"}, {\"type\": \"multiline\", \"value\": {\"label\": \"multiline\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"91bac05f-754b-41a3-b038-ac7850e6f951\"}, {\"type\": \"date\", \"value\": {\"label\": \"date\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"f73034ea-86f1-491d-9615-1852e6623b30\"}, {\"type\": \"datetime\", \"value\": {\"label\": \"datetime\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"e135820c-aafd-4b5c-9cdb-041ac18ca50f\"}, {\"type\": \"email\", \"value\": {\"label\": \"email\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"c8210a55-01ff-47bb-8ac0-635d58d855dd1\"}, {\"type\": \"url\", \"value\": {\"label\": \"url\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"33814d84-dd38-4a42-a864-85adffcbf7ae\"}, {\"type\": \"number\", \"value\": {\"label\": \"number\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"bdbddb0e-a5b7-481c-80ad-0d615df17410\"}, {\"type\": \"dropdown\", \"value\": {\"label\": \"dropdown\", \"help_text\": \"Help\", \"required\": true, \"empty_label\": \"\", \"choices\": [\"Option 1\", \"Option 2\", \"Option 3\"]}, \"id\": \"3a3bdb64-3048-41c5-b418-4ea598c086cb\"}, {\"type\": \"multiselect\", \"value\": {\"label\": \"multiselect\", \"help_text\": \"Help\", \"required\": true, \"choices\": [\"Option 1\", \"Option 2\", \"Option 3\"]}, \"id\": \"2bf277bb-ccd3-4797-841d-49e42d0ac84e\"}, {\"type\": \"radio\", \"value\": {\"label\": \"radio\", \"help_text\": \"Help\", \"required\": true, \"choices\": [\"Option 1\", \"Option 2\", \"Option 3\"]}, \"id\": \"db5e500c-ed17-4834-8987-99b41d4a57f9\"}, {\"type\": \"checkboxes\", \"value\": {\"label\": \"checkboxes\", \"help_text\": \"Help\", \"required\": true, \"choices\": [\"Option 1\", \"Option 2\", \"Option 3\"]}, \"id\": \"870e40f6-ee52-4581-81ea-a178d8715a51\"}, {\"type\": \"checkbox\", \"value\": {\"label\": \"checkbox\", \"help_text\": \"Help\", \"required\": true}, \"id\": \"61682894-60ea-43be-93ac-d3a7f1a73d70\"}, {\"type\": \"hidden\", \"value\": {\"label\": \"hidden\", \"help_text\": \"Help\", \"required\": true, \"default_value\": \"\"}, \"id\": \"2a1b98f2-1968-489f-803b-d40a7d54f376\"}, {\"type\": \"singlefile\", \"value\": {\"label\": \"singlefile\", \"help_text\": \"Help\", \"required\": true}, \"id\": \"c1f54890-1020-42cb-becc-e88b688004ae\"}, {\"type\": \"multifile\", \"value\": {\"label\": \"multifile\", \"help_text\": \"Help\", \"required\": true}, \"id\": \"b951d149-c02a-4773-b173-a9d82c504630\"}]",
       "submit_button_text": "Submit",
-      "store_submission": true,
-      "add_recaptcha": false,
       "success_message": "Thankyou",
       "error_message": "Oops",
-      "post_redirect_page": null
-    }
-  },
-  {
-    "model": "wagtailstreamforms.basicform",
-    "pk": 1,
-    "fields": {}
-  },
-  {
-    "model": "wagtailstreamforms.formfield",
-    "pk": 1,
-    "fields": {
-      "sort_order": 0,
-      "label": "Name",
-      "required": true,
-      "choices": "",
-      "default_value": "",
-      "help_text": "Please enter your name",
-      "field_type": "singleline",
-      "regex_validator": null,
-      "form": 1
-    }
-  },
-  {
-    "model": "wagtailstreamforms.baseform",
-    "pk": 2,
-    "fields": {
-      "name": "Email Form",
-      "slug": "email-form",
-      "content_type": ["wagtailstreamforms", "emailform"],
-      "template_name": "streamforms/form_block.html",
-      "submit_button_text": "Submit",
-      "store_submission": true,
-      "add_recaptcha": false,
-      "success_message": "Thankyou",
-      "error_message": "Oops",
-      "post_redirect_page": null
-    }
-  },
-  {
-    "model": "wagtailstreamforms.emailform",
-    "pk": 2,
-    "fields": {
-      "subject": "New Form Submission",
-      "from_address": "from@example.com",
-      "to_addresses": "['to@example.com']",
-      "message": "Please see below submission",
-      "fail_silently": true
-    }
-  },
-  {
-    "model": "wagtailstreamforms.formfield",
-    "pk": 2,
-    "fields": {
-      "sort_order": 0,
-      "label": "Name",
-      "required": true,
-      "choices": "",
-      "default_value": "",
-      "help_text": "Please enter your name",
-      "field_type": "singleline",
-      "regex_validator": null,
-      "form": 2
+      "post_redirect_page": null,
+      "process_form_submission_hooks": "[]"
     }
   }
 ]

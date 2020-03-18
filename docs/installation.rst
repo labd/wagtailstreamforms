@@ -14,7 +14,6 @@ Once thats done you need to add the following to your ``INSTALLED_APPS`` setting
     INSTALLED_APPS = [
         ...
         'wagtail.contrib.modeladmin',
-        'wagtail.contrib.forms',
         'wagtailstreamforms'
         ...
     ]

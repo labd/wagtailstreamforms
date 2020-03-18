@@ -1,115 +1,183 @@
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.contrib import messages
 from django.contrib.admin.utils import quote
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
-from django.urls import reverse
+from django.urls import path, reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 
+from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register, ModelAdminGroup
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.core import hooks
+from wagtail.contrib.modeladmin.views import InspectView, CreateView, EditView, DeleteView
 
+from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting
-from wagtailstreamforms.models import BaseForm, RegexFieldValidator
-from wagtailstreamforms.utils import get_form_instance_from_request, get_valid_subclasses
+from wagtailstreamforms.models import Form
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
+from wagtailstreamforms.utils.requests import get_form_instance_from_request
+
+
+SettingsModel = get_advanced_settings_model()
 
 
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
-        if action == 'copy':
-            return reverse('wagtailstreamforms:streamforms_copy', args=args, kwargs=kwargs)
-        elif action == 'submissions':
-            return reverse('wagtailstreamforms:streamforms_submissions', args=args, kwargs=kwargs)
+        if action in ['advanced', 'copy', 'submissions']:
+            return reverse('wagtailstreamforms:streamforms_%s' % action, args=args, kwargs=kwargs)
+
         return super().get_action_url(action, *args, **kwargs)
 
 
 class FormButtonHelper(ButtonHelper):
-
-    def copy_button(self, pk, classnames_add=[], classnames_exclude=[]):
+    def button(self, pk, action, label, title, classnames_add, classnames_exclude):
         cn = self.finalise_classname(classnames_add, classnames_exclude)
         button = {
-            'url': self.url_helper.get_action_url('copy', quote(pk)),
-            'label': _('Copy'),
+            'url': self.url_helper.get_action_url(action, quote(pk)),
+            'label': label,
             'classname': cn,
-            'title': _('Copy this %s') % self.verbose_name,
+            'title': title,
         }
-        return button
 
-    def submissions_button(self, pk, classnames_add=[], classnames_exclude=[]):
-        cn = self.finalise_classname(classnames_add, classnames_exclude)
-        button = {
-            'url': self.url_helper.get_action_url('submissions', quote(pk)),
-            'label': _('Submissions'),
-            'classname': cn,
-            'title': _('Submissions of this %s') % self.verbose_name,
-        }
         return button
 
     def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
-        btns = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
+        buttons = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
         pk = getattr(obj, self.opts.pk.attname)
         ph = self.permission_helper
         usr = self.request.user
-        btns.append(self.submissions_button(pk, classnames_add, classnames_exclude))
+
+        # if there is a form settings model defined
+        # users that either create or edit forms should be able edit advanced settings
+        if SettingsModel and (ph.user_can_create(usr) or ph.user_can_edit_obj(usr, obj)):
+            buttons.append(
+                self.button(
+                    pk,
+                    'advanced',
+                    _('Advanced'),
+                    _('Advanced settings'),
+                    classnames_add,
+                    classnames_exclude
+                )
+            )
+
+        # users that can create forms can copy them
         if ph.user_can_create(usr):
-            btns.append(self.copy_button(pk, classnames_add, classnames_exclude))
-        return btns
+            buttons.append(
+                self.button(
+                    pk,
+                    'copy',
+                    _('Copy'),
+                    _('Copy this form'),
+                    classnames_add,
+                    classnames_exclude
+                )
+            )
+
+        # users that can do any form actions can vies submissions
+        buttons.append(
+            self.button(
+                pk,
+                'submissions',
+                _('Submissions'),
+                _('Submissions of this form'),
+                classnames_add,
+                classnames_exclude
+            )
+        )
+
+        return buttons
 
 
+class InstanceSpecificViewHookMixin:
+    """Mixin class responsible to apply wagtailstreamforms specific hooks."""
+
+    def dispatch(self, request, *args, **kwargs):
+        for fn in form_hooks.get_hooks('before_inspect_form_instance_dispatch'):
+            self.instance = fn(self.instance, request)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class InspectFormView(InstanceSpecificViewHookMixin, InspectView):
+    pass
+
+
+class CreateFormView(CreateView):
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        for fn in form_hooks.get_hooks('before_form_save'):
+            instance = fn(instance, self.request)
+        instance.save()
+        wagtail_messages.success(
+            self.request, self.get_success_message(instance),
+            buttons=self.get_success_message_buttons(instance)
+        )
+        return redirect(self.get_success_url())
+
+
+class EditFormView(InstanceSpecificViewHookMixin, EditView):
+    pass
+
+
+class DeleteFormView(InstanceSpecificViewHookMixin, DeleteView):
+    pass
+
+
+@modeladmin_register
 class FormModelAdmin(ModelAdmin):
-    model = BaseForm
-    list_display = ('name', 'slug', 'latest_submission_date', 'number_of_submissions')
+    model = Form
+    list_display = ('title', 'slug', 'latest_submission', 'saved_submissions')
+    list_filter = None
+    menu_label = _(get_setting('ADMIN_MENU_LABEL'))
+    menu_order = get_setting('ADMIN_MENU_ORDER')
     menu_icon = 'icon icon-form'
-    search_fields = ('name', 'slug')
+    search_fields = ('title', 'slug')
     button_helper_class = FormButtonHelper
+    inspect_view_class = InspectFormView
+    create_view_class = CreateFormView
+    edit_view_class = EditFormView
+    delete_view_class = DeleteFormView
     url_helper_class = FormURLHelper
-    form_view_extra_js = [
-        static('streamforms/js/form-editor.js')
-    ]
 
-    def latest_submission_date(self, obj):
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        for fn in form_hooks.get_hooks('construct_form_queryset'):
+            qs = fn(qs, request)
+        return qs
+
+    def get_list_display(self, request):
+        list_display = self.list_display
+        for fn in form_hooks.get_hooks('construct_form_list_display'):
+            list_display = fn(list_display, request)
+        return list_display
+
+    def get_list_filter(self, request):
+        list_filter = self.list_filter
+        for fn in form_hooks.get_hooks('construct_form_list_filter'):
+            list_filter = fn(list_filter, request)
+        return list_filter
+
+    def latest_submission(self, obj):
         submission_class = obj.get_submission_class()
         return submission_class._default_manager.filter(form=obj).latest('submit_time').submit_time
 
-    def number_of_submissions(self, obj):
+    latest_submission.short_description = _('Latest submission')
+
+    def saved_submissions(self, obj):
         submission_class = obj.get_submission_class()
         return submission_class._default_manager.filter(form=obj).count()
 
-
-# loop all subclasses of BaseForm and create model admin classes for them
-form_admins = []
-for cls in get_valid_subclasses(BaseForm):
-    object_name = cls._meta.object_name
-    admin_name = "{}Admin".format(object_name)
-    admin_defs = {'model': cls}
-    admin_class = type(admin_name, (FormModelAdmin, ), admin_defs)
-    form_admins.append(admin_class)
-
-
-class RegexFieldValidatorModelAdmin(ModelAdmin):
-    model = RegexFieldValidator
-    list_display = ('name', )
-    menu_icon = 'icon icon-tick'
-    search_fields = ('name', )
+    saved_submissions.short_description = _('Saved submissions')
 
 
 @hooks.register('register_admin_urls')
 def register_admin_urls():
     from wagtailstreamforms import urls
     return [
-        url(r'^wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
-    ]
-
-
-@modeladmin_register
-class FormGroup(ModelAdminGroup):
-    menu_label = _(get_setting('ADMIN_MENU_LABEL'))
-    menu_order = get_setting('ADMIN_MENU_ORDER')
-    menu_icon = 'icon icon-form'
-    items = form_admins + [
-        RegexFieldValidatorModelAdmin
+        path('wagtailstreamforms/', include((urls, 'wagtailstreamforms'))),
     ]
 
 

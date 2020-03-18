@@ -1,14 +1,20 @@
-from django.conf.urls import url
+from django.urls import path
 
-from wagtailstreamforms.views import (
-    CopyFormView,
-    SubmissionDeleteView,
-    SubmissionListView
-)
+from wagtailstreamforms import views
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
+
+
+SettingsModel = get_advanced_settings_model()
 
 
 urlpatterns = [
-    url(r'^(?P<pk>\d+)/copy/$', CopyFormView.as_view(), name='streamforms_copy'),
-    url(r'^(?P<pk>\d+)/submissions/$', SubmissionListView.as_view(), name='streamforms_submissions'),
-    url(r'^(?P<pk>\d+)/submissions/delete/$', SubmissionDeleteView.as_view(), name='streamforms_delete_submissions'),
+    path('<int:pk>/copy/', views.CopyFormView.as_view(), name='streamforms_copy'),
+    path('<int:pk>/submissions/', views.SubmissionListView.as_view(), name='streamforms_submissions'),
+    path('<int:pk>/submissions/delete/', views.SubmissionDeleteView.as_view(), name='streamforms_delete_submissions'),
 ]
+
+
+if SettingsModel:  # pragma: no cover
+    urlpatterns += [
+        path('<int:pk>/advanced/', views.AdvancedSettingsView.as_view(), name='streamforms_advanced'),
+    ]

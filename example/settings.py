@@ -36,20 +36,18 @@ INSTALLED_APPS = [
     'wagtail.embeds',
     'wagtail.search',
     'wagtail.contrib.redirects',
-    'wagtail.contrib.forms',
     'wagtail.sites',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.postgres_search',
     'wagtail.contrib.settings',
     'wagtail.contrib.search_promotions',
 
-    'modelcluster',
+    'captcha',
     'taggit',
 
     # app specific
-    'captcha',
+    'wagtailstreamforms',
     'example',
-    'wagtailstreamforms'
 ]
 
 MIDDLEWARE = [
@@ -104,13 +102,8 @@ DATABASES = {
 
 # Email
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Django <no_reply@example.com>'
-EMAIL_HOST = environ.get('EMAIL_HOST')
-EMAIL_PORT = environ.get('EMAIL_PORT')
-EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = False
 
 
 # Authentication
@@ -143,9 +136,25 @@ STATICFILES_DIRS = [
     join(SITE_DIR, "static"),
 ]
 STATIC_URL = "/static/"
+
+MEDIA_ROOT = join(SITE_DIR, "media")
 MEDIA_URL = "/media/"
 
 
 # Wagtail
 
 WAGTAIL_SITE_NAME = 'example.com'
+
+
+# Forms
+
+WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'example.AdvancedFormSetting'
+
+
+# ReCAPTCHA
+
+# developer keys
+RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+NOCAPTCHA = True
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']

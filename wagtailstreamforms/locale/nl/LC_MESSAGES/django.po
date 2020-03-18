@@ -1,0 +1,464 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-03 16:57+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: blocks.py:46
+msgid "The form post action. \"\" or \".\" for the current page or a url"
+msgstr "Het adres van de pagina waar het formulier naar wordt verstuurd. Gebruik \"\" or \".\" voor de huidige pagina"
+
+#: blocks.py:50
+msgid "This form will be given a unique reference once saved"
+msgstr "Het formulier krijg een unieke referentie zodra het is opgeslagen"
+
+#: conf.py:7
+msgid "Streamforms"
+msgstr "Streamforms"
+
+#: forms.py:70
+msgid "Date from"
+msgstr "Datum van"
+
+#: forms.py:74
+msgid "Date to"
+msgstr "Datum tot"
+
+#: models/file.py:11
+msgid "Submission"
+msgstr "Inzending"
+
+#: models/file.py:16
+msgid "Field"
+msgstr "Veld"
+
+#: models/file.py:20
+msgid "File"
+msgstr "Bestand"
+
+#: models/file.py:29
+msgid "Form submission file"
+msgstr "Formulier inzending bestand"
+
+#: models/form.py:36
+msgid "Title"
+msgstr "Titel"
+
+#: models/form.py:40
+msgid "Slug"
+msgstr "Slug"
+
+#: models/form.py:44
+msgid "Used to identify the form in template tags"
+msgstr "Wordt gebruikt om het formulier in template tags te identificeren"
+
+#: models/form.py:47
+msgid "Template"
+msgstr "Template"
+
+#: models/form.py:53 models/form.py:107
+msgid "Fields"
+msgstr "Velden"
+
+#: models/form.py:56
+msgid "Submit button text"
+msgstr "Verstuur button tekst"
+
+#: models/form.py:61
+msgid "Success message"
+msgstr "Bedankt bericht"
+
+#: models/form.py:64
+msgid ""
+"An optional success message to show when the form has been successfully "
+"submitted"
+msgstr ""
+"Een optioneel bedankt bericht om te laten zien zodra een formuliersuccesvol "
+"is verstuurd"
+
+#: models/form.py:67
+msgid "Error message"
+msgstr "Foutmelding bericht"
+
+#: models/form.py:70
+msgid "An optional error message to show when the form has validation errors"
+msgstr ""
+"Een optional foutmelding bericht om te laten zien zodra een formulier "
+"validatie fouten heeft"
+
+#: models/form.py:74
+msgid "Post redirect page"
+msgstr "Verwijzings pagina"
+
+#: models/form.py:79
+msgid "The page to redirect to after a successful submission"
+msgstr "De pagina naar te verwijzen na een succesvolle inzending"
+
+#: models/form.py:82
+msgid "Submission hooks"
+msgstr "Inzending hooks"
+
+#: models/form.py:96
+msgid "Messages"
+msgstr "Berichten"
+
+#: models/form.py:106
+msgid "General"
+msgstr "Algemeen"
+
+#: models/form.py:116 models/submission.py:15
+msgid "Form"
+msgstr "Formulier"
+
+#: models/form.py:117
+msgid "Forms"
+msgstr "Formulieren"
+
+#: models/form.py:156
+msgid "Submission date"
+msgstr "Inzending gegevens"
+
+#: models/submission.py:11
+msgid "Form data"
+msgstr "Formulier data"
+
+#: models/submission.py:19
+msgid "Submit time"
+msgstr "Inzending tijd"
+
+#: models/submission.py:38
+msgid "Form submission"
+msgstr "Formulier inzending"
+
+#: templates/streamforms/advanced_settings.html:3
+#, python-format
+msgid "Advanced form settings for %(form_title)s"
+msgstr "Geavanceerde formulier instellingen voor %(form_title)s"
+
+#: templates/streamforms/advanced_settings.html:7
+msgid "Advanced form settings"
+msgstr "Geavanceerde formulier instellingen"
+
+#: templates/streamforms/advanced_settings.html:20
+msgid "Save"
+msgstr "Opslaan"
+
+#: templates/streamforms/confirm_copy.html:3
+#, python-format
+msgid "Copy of %(form_title)s"
+msgstr "Kopie van %(form_title)s"
+
+#: templates/streamforms/confirm_copy.html:7
+#: templates/streamforms/confirm_copy.html:21 wagtail_hooks.py:71
+msgid "Copy"
+msgstr "Kopie"
+
+#: templates/streamforms/confirm_copy.html:11
+msgid "Are you sure you want to copy this form?"
+msgstr "Weet je zeker dat je dit formulier wilt kopieren?"
+
+#: templates/streamforms/confirm_delete.html:3
+#: templates/streamforms/index_submissions.html:3
+#, python-format
+msgid "Submissions of %(form_title)s"
+msgstr "Inzendingen van %(form_title)s"
+
+#: templates/streamforms/confirm_delete.html:7
+msgid "Delete form data"
+msgstr "Verwijder formulier data"
+
+#: templates/streamforms/confirm_delete.html:12
+msgid ""
+"\n"
+"                Are you sure you want to delete this form submission?\n"
+"            "
+msgid_plural ""
+"\n"
+"                Are you sure you want to delete these form submissions?\n"
+"            "
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/streamforms/confirm_delete.html:20
+msgid "Delete"
+msgstr "Verwijder"
+
+#: templates/streamforms/index_submissions.html:74
+#, python-format
+msgid "Form data <span>%(form_title)s</span>"
+msgstr "Formulier data <span>%(form_title)s</span>"
+
+#: templates/streamforms/index_submissions.html:83
+msgid "Filter"
+msgstr "Filter"
+
+#: templates/streamforms/index_submissions.html:89
+msgid "Download CSV"
+msgstr "Download CSV"
+
+#: templates/streamforms/index_submissions.html:101
+#, python-format
+msgid "There have been no submissions of the '%(title)s' form."
+msgstr "Er zijn geen inzendingen voor '%(title)s'."
+
+#: templates/streamforms/list_submissions.html:11
+msgid "Delete selected submissions"
+msgstr "Verwijder geselecteerde inzendingen"
+
+#: templates/streamforms/list_submissions.html:41
+msgid "Files"
+msgstr "Bestanden"
+
+#: templates/streamforms/non_existent_form.html:2
+msgid "Sorry, this form has been deleted."
+msgstr "Sorry, dit formulier is al verwijderd."
+
+#: templates/streamforms/partials/pagination_nav.html:4
+#, python-format
+msgid "Page %(page_num)s of %(total_pages)s."
+msgstr "Pagina %(page_num)s van %(total_pages)s."
+
+#: templates/streamforms/partials/pagination_nav.html:8
+msgid "Previous"
+msgstr "Vorige"
+
+#: templates/streamforms/partials/pagination_nav.html:13
+msgid "Next"
+msgstr "Volgende"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:6
+msgid "January"
+msgstr "January"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:7
+msgid "February"
+msgstr "Februari"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:8
+msgid "March"
+msgstr "Maart"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:9
+msgid "April"
+msgstr "April"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:10
+msgid "May"
+msgstr "Mei"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:11
+msgid "June"
+msgstr "Juni"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:12
+msgid "July"
+msgstr "Juli"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:13
+msgid "August"
+msgstr "Augustus"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:14
+msgid "September"
+msgstr "September"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:15
+msgid "October"
+msgstr "Oktober"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:16
+msgid "November"
+msgstr "November"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:17
+msgid "December"
+msgstr "December"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:20
+msgid "Sunday"
+msgstr "Zondag"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:21
+msgid "Monday"
+msgstr "Maandag"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:22
+msgid "Tuesday"
+msgstr "Dinsdag"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:23
+msgid "Wednesday"
+msgstr ""
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:24
+msgid "Thursday"
+msgstr "Woensdag"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:25
+msgid "Friday"
+msgstr "Vrijdag"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:26
+msgid "Saturday"
+msgstr "Zaterdag"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:29
+msgid "Sun"
+msgstr "Zo"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:30
+msgid "Mon"
+msgstr "Ma"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:31
+msgid "Tue"
+msgstr "Di"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:32
+msgid "Wed"
+msgstr "Wo"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:33
+msgid "Thu"
+msgstr "Do"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:34
+msgid "Fri"
+msgstr "Vr"
+
+#: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:35
+msgid "Sat"
+msgstr "Za"
+
+#: views/advanced_settings.py:25
+#, python-format
+msgid "Form '%s' advanced settings updated."
+msgstr "Formulier '%s' geavanceerde instellingen geüpdatet."
+
+#: views/copy.py:14
+msgid "New title"
+msgstr "Nieuwe titel"
+
+#: views/copy.py:15
+msgid "New slug"
+msgstr "Nieuwe slug"
+
+#: views/copy.py:27
+#, python-format
+msgid "Form '%s' copied to '%s'."
+msgstr "Formulier '%s' gekopieerd naar '%s'."
+
+#: views/submission_delete.py:52
+#, python-format
+msgid "One submission has been deleted."
+msgid_plural "%(count)d submissions have been deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/submission_list.py:43
+msgid "No Form found matching the query"
+msgstr "Geen formulier gevonden voor deze zoekopdracht"
+
+#: wagtail_hooks.py:58
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+#: wagtail_hooks.py:59
+#, fuzzy
+#| msgid "Adanced settings"
+msgid "Advanced settings"
+msgstr "Geavanceerd instellingen"
+
+#: wagtail_hooks.py:72
+msgid "Copy this form"
+msgstr "Kopieer dit formulier"
+
+#: wagtail_hooks.py:83
+msgid "Submissions"
+msgstr "Inzendingen"
+
+#: wagtail_hooks.py:84
+msgid "Submissions of this form"
+msgstr "Inzendingen van dit formulier"
+
+#: wagtail_hooks.py:141
+msgid "Latest submission"
+msgstr "Laatste inzending"
+
+#: wagtail_hooks.py:147
+msgid "Saved submissions"
+msgstr "Opgeslagen inzendingen"
+
+#: wagtailstreamforms_fields.py:11
+msgid "Text field (single line)"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:17
+msgid "Text field (multi line)"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:23
+msgid "Date field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:29
+msgid "Time field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:35
+msgid "Email field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:41
+msgid "URL field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:46
+msgid "Number field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:52
+msgid "Dropdown field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:75
+msgid "Multiselect field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:96
+msgid "Radio buttons"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:117
+msgid "Checkboxes"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:137
+msgid "Checkbox field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:151
+msgid "Hidden field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:158
+msgid "File field"
+msgstr ""
+
+#: wagtailstreamforms_fields.py:172
+msgid "Files field"
+msgstr ""

@@ -10,7 +10,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # wagtail
     'wagtail.core',
     'wagtail.admin',
@@ -26,10 +26,8 @@ INSTALLED_APPS = [
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
 
-    'modelcluster',
     'taggit',
 
-    'captcha',
     'wagtailstreamforms',
     'tests',
 ]
@@ -49,6 +47,7 @@ MIDDLEWARE = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testdb'
     }
 }
 
@@ -73,3 +72,5 @@ ROOT_URLCONF = 'tests.urls'
 STATIC_URL = '/static/'
 
 LOGIN_URL = reverse_lazy('admin:login')
+
+WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'tests.ValidFormSettingsModel'
