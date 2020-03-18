@@ -81,10 +81,8 @@ jobs:
         pip install tox tox-gh-actions
     - name: Test with tox
       run: tox -e ${{ matrix.tox_env }}
-    - name: Check content
-      run: ls -la
     - name: Prepare artifacts
-      run: mkdir -p .coverage-data && mv .coverage.* .coverage-data/
+      run: mkdir -p .coverage-data && mv .coverage .coverage-data/
     - uses: actions/upload-artifact@master
       with:
         name: coverage-data
