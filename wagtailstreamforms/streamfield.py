@@ -1,8 +1,7 @@
 from django.core.exceptions import ImproperlyConfigured
-
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
-from wagtailstreamforms.fields import get_fields, BaseField
+from wagtailstreamforms.fields import BaseField, get_fields
 
 
 class FormFieldStreamBlock(blocks.StreamBlock):
@@ -22,7 +21,9 @@ class FormFieldStreamBlock(blocks.StreamBlock):
 
             # ensure the field is a subclass of BaseField.
             if not issubclass(field_class, BaseField):
-                raise ImproperlyConfigured("'%s' must be a subclass of '%s'" % (field_class, BaseField))
+                raise ImproperlyConfigured(
+                    "'%s' must be a subclass of '%s'" % (field_class, BaseField)
+                )
 
             # assign the block
             block = field_class().get_form_block()

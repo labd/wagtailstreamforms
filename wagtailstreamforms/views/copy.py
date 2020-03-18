@@ -3,19 +3,21 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic.detail import SingleObjectTemplateResponseMixin, BaseDetailView
-
+from django.views.generic.detail import (
+    BaseDetailView,
+    SingleObjectTemplateResponseMixin,
+)
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
-from wagtailstreamforms.wagtail_hooks import FormURLHelper
 from wagtailstreamforms.models import Form
+from wagtailstreamforms.wagtail_hooks import FormURLHelper
 
 
 class CopyForm(forms.Form):
-    title = forms.CharField(label=_('New title'))
-    slug = forms.SlugField(label=_('New slug'))
+    title = forms.CharField(label=_("New title"))
+    slug = forms.SlugField(label=_("New slug"))
 
     def clean_slug(self):
-        slug = self.cleaned_data['slug']
+        slug = self.cleaned_data["slug"]
         if Form.objects.filter(slug=slug).exists():
             raise forms.ValidationError("This slug is already in use")
         return slug
@@ -23,7 +25,7 @@ class CopyForm(forms.Form):
 
 class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
     model = Form
-    template_name = 'streamforms/confirm_copy.html'
+    template_name = "streamforms/confirm_copy.html"
     success_message = _("Form '%s' copied to '%s'.")
 
     @property
@@ -50,8 +52,8 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
         if form.is_valid():
 
             copied = self.object.copy()
-            copied.title = form.cleaned_data['title']
-            copied.slug = form.cleaned_data['slug']
+            copied.title = form.cleaned_data["title"]
+            copied.slug = form.cleaned_data["slug"]
 
             copied.save()
 
@@ -60,13 +62,15 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
             return HttpResponseRedirect(self.get_success_url())
 
         context = self.get_context_data(object=self.object)
-        context['form'] = form
+        context["form"] = form
 
         return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(object=self.object)
-        context['form'] = CopyForm(initial={'title': self.object.title, 'slug': self.object.slug})
+        context["form"] = CopyForm(
+            initial={"title": self.object.title, "slug": self.object.slug}
+        )
 
         return self.render_to_response(context)
 

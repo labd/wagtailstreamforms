@@ -13,7 +13,7 @@ def get_form_model_string():
     Useful for developers making Wagtail plugins that need to refer to the
     form model, such as in foreign keys, but the model itself is not required.
     """
-    return getattr(settings, 'WAGTAILSTREAMFORMS_FORM_MODEL', 'wagtailstreamforms.Form')
+    return getattr(settings, "WAGTAILSTREAMFORMS_FORM_MODEL", "wagtailstreamforms.Form")
 
 
 def get_form_model():
@@ -24,12 +24,16 @@ def get_form_model():
     if no custom model is defined.
     """
     from django.apps import apps
+
     model_string = get_form_model_string()
     try:
         return apps.get_model(model_string)
     except ValueError:
-        raise ImproperlyConfigured("WAGTAILSTREAMFORMS_FORM_MODEL must be of the form 'app_label.model_name'")
+        raise ImproperlyConfigured(
+            "WAGTAILSTREAMFORMS_FORM_MODEL must be of the form 'app_label.model_name'"
+        )
     except LookupError:
         raise ImproperlyConfigured(
-            "WAGTAILSTREAMFORMS_FORM_MODEL refers to model '%s' that has not been installed" % model_string
+            "WAGTAILSTREAMFORMS_FORM_MODEL refers to model '%s' that has not been installed"
+            % model_string
         )

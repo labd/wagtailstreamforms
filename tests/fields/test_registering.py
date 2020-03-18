@@ -1,5 +1,6 @@
 from django import forms
 from wagtailstreamforms import fields
+
 from ..test_case import AppTestCase
 
 
@@ -8,14 +9,13 @@ class MyField(fields.BaseField):
 
 
 class TestFieldRegistering(AppTestCase):
-
     @classmethod
     def setUpClass(cls):
-        fields.register('myfield', MyField)
+        fields.register("myfield", MyField)
 
     @classmethod
     def tearDownClass(cls):
-        del fields._fields['myfield']
+        del fields._fields["myfield"]
 
     def test_field(self):
-        self.assertIn('myfield', fields.get_fields())
+        self.assertIn("myfield", fields.get_fields())

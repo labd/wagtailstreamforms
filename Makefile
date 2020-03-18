@@ -11,16 +11,16 @@ docs:
 	$(MAKE) -C docs html
 
 format:
-	isort --recursive src tests
-	black src/ tests/
+	isort --recursive wagtailstreamforms tests
+	black wagtailstreamforms/ tests/
 
 #
 # Utility
 makemessages:
-	cd src/wagtailstreamforms && python ../../manage.py makemessages -all
+	./manage.py makemessages -all
 
 compilemessages:
-	cd src/wagtailstreamforms && python ../../manage.py compilemessages
+	./manage.py compilemessages
 
 release:
 	rm -rf dist/*

@@ -1,14 +1,13 @@
 import json
-from datetime import datetime, date
+from datetime import date, datetime
 
 from django.contrib.auth.models import User
+from wagtailstreamforms.serializers import FormSubmissionSerializer
 
 from tests.test_case import AppTestCase
-from wagtailstreamforms.serializers import FormSubmissionSerializer
 
 
 class TestSerializer(AppTestCase):
-
     def test_serialized(self):
         data_to_serialize = {
             "model": User(username="fred"),
@@ -17,7 +16,7 @@ class TestSerializer(AppTestCase):
             "datetime": datetime(2018, 1, 1),
             "list": [1, 2],
             "string": "foo",
-            "integer": 1
+            "integer": 1,
         }
         expected_data = {
             "model": "fred",
@@ -26,7 +25,7 @@ class TestSerializer(AppTestCase):
             "datetime": "2018-01-01T00:00:00",
             "list": [1, 2],
             "string": "foo",
-            "integer": 1
+            "integer": 1,
         }
 
         json_data = json.dumps(data_to_serialize, cls=FormSubmissionSerializer)

@@ -1,13 +1,12 @@
 from django.db import models
-
 from wagtailstreamforms.models import AbstractFormSetting, Form
 
-from . import ValidFormSettingsModel
 from ..test_case import AppTestCase
+from . import ValidFormSettingsModel
 
 
 class ModelGenericTests(AppTestCase):
-    fixtures = ['test']
+    fixtures = ["test"]
 
     def test_abstract(self):
         self.assertTrue(AbstractFormSetting._meta.abstract)
@@ -18,10 +17,9 @@ class ModelGenericTests(AppTestCase):
 
 
 class ModelFieldTests(AppTestCase):
-
     def test_form(self):
-        field = self.get_field(AbstractFormSetting, 'form')
+        field = self.get_field(AbstractFormSetting, "form")
         self.assertModelField(field, models.OneToOneField)
-        self.assertEqual(field.remote_field.model, 'wagtailstreamforms.Form')
+        self.assertEqual(field.remote_field.model, "wagtailstreamforms.Form")
         self.assertEqual(field.remote_field.on_delete, models.CASCADE)
-        self.assertEqual(field.remote_field.related_name, 'advanced_settings')
+        self.assertEqual(field.remote_field.related_name, "advanced_settings")

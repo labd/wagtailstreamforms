@@ -3,7 +3,6 @@ from operator import itemgetter
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.utils.apps import get_app_submodules
 
-
 _hooks = {}
 
 
@@ -21,9 +20,11 @@ def register(hook_name, fn=None, order=0):
 
     # Pretend to be a decorator if fn is not supplied
     if fn is None:
+
         def decorator(fn):
             register(hook_name, fn, order=order)
             return fn
+
         return decorator
 
     if hook_name not in _hooks:
@@ -37,7 +38,7 @@ _searched_for_hooks = False
 def search_for_hooks():
     global _searched_for_hooks
     if not _searched_for_hooks:
-        list(get_app_submodules('wagtailstreamforms_hooks'))
+        list(get_app_submodules("wagtailstreamforms_hooks"))
         _searched_for_hooks = True
 
 
@@ -48,8 +49,8 @@ def get_hooks(hook_name):
     hooks = _hooks.get(hook_name, [])
     hooks = sorted(hooks, key=itemgetter(1))
     fncs = []
-    builtin_hook_modules = ['wagtailstreamforms.wagtailstreamforms_hooks']
-    builtin_enabled = get_setting('ENABLE_BUILTIN_HOOKS')
+    builtin_hook_modules = ["wagtailstreamforms.wagtailstreamforms_hooks"]
+    builtin_enabled = get_setting("ENABLE_BUILTIN_HOOKS")
 
     for fn, _ in hooks:
         # dont add the hooks if they have been disabled via the setting

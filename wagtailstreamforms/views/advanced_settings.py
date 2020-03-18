@@ -3,25 +3,23 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.generic import UpdateView
-
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from wagtailstreamforms.wagtail_hooks import FormURLHelper
-
 
 SettingsModel = get_advanced_settings_model()
 
 
 class AdvancedSettingsForm(forms.ModelForm):
     class Meta:
-        exclude = ('form',)
+        exclude = ("form",)
         model = SettingsModel
 
 
 class AdvancedSettingsView(UpdateView):
     form_class = AdvancedSettingsForm
     model = SettingsModel
-    template_name = 'streamforms/advanced_settings.html'
+    template_name = "streamforms/advanced_settings.html"
     success_message = _("Form '%s' advanced settings updated.")
 
     @property
@@ -29,7 +27,7 @@ class AdvancedSettingsView(UpdateView):
         return FormURLHelper(model=Form)
 
     def get_object(self, queryset=None):
-        form_pk = self.kwargs.get('pk')
+        form_pk = self.kwargs.get("pk")
         form = get_object_or_404(Form, pk=form_pk)
 
         try:

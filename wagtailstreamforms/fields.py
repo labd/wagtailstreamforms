@@ -2,12 +2,9 @@ from django import forms
 from django.core import exceptions
 from django.db import models
 from django.utils.text import capfirst
-
 from wagtail.core import blocks
-
 from wagtailstreamforms import hooks
 from wagtailstreamforms.utils.apps import get_app_submodules
-
 
 _fields = {}
 _searched_for_fields = False
@@ -26,9 +23,11 @@ def register(field_name, cls=None):
     """
 
     if cls is None:
+
         def decorator(cls):
             register(field_name, cls)
             return cls
+
         return decorator
 
     _fields[field_name] = cls
@@ -37,7 +36,7 @@ def register(field_name, cls=None):
 def search_for_fields():
     global _searched_for_fields
     if not _searched_for_fields:
-        list(get_app_submodules('wagtailstreamforms_fields'))
+        list(get_app_submodules("wagtailstreamforms_fields"))
         _searched_for_fields = True
 
 
@@ -64,7 +63,7 @@ class BaseField:
 
     field_class = None
     widget = None
-    icon = 'placeholder'
+    icon = "placeholder"
     label = None
 
     def get_formfield(self, block_value):
@@ -76,7 +75,7 @@ class BaseField:
         """
 
         if not self.field_class:
-            raise NotImplementedError('must provide a cls.field_class')
+            raise NotImplementedError("must provide a cls.field_class")
 
         options = self.get_options(block_value)
 
@@ -95,10 +94,10 @@ class BaseField:
         """
 
         return {
-            'label': block_value.get('label'),
-            'help_text': block_value.get('help_text'),
-            'required': block_value.get('required'),
-            'initial': block_value.get('default_value')
+            "label": block_value.get("label"),
+            "help_text": block_value.get("help_text"),
+            "required": block_value.get("required"),
+            "initial": block_value.get("default_value"),
         }
 
     def get_form_block(self):
@@ -108,12 +107,16 @@ class BaseField:
 
         :return: The ``wagtail.core.blocks.StructBlock`` to be used in the StreamField
         """
-        return blocks.StructBlock([
-            ('label', blocks.CharBlock()),
-            ('help_text', blocks.CharBlock(required=False)),
-            ('required', blocks.BooleanBlock(required=False)),
-            ('default_value', blocks.CharBlock(required=False)),
-        ], icon=self.icon, label=self.label)
+        return blocks.StructBlock(
+            [
+                ("label", blocks.CharBlock()),
+                ("help_text", blocks.CharBlock(required=False)),
+                ("required", blocks.BooleanBlock(required=False)),
+                ("default_value", blocks.CharBlock(required=False)),
+            ],
+            icon=self.icon,
+            label=self.label,
+        )
 
 
 class HookMultiSelectFormField(forms.MultipleChoiceField):
@@ -121,11 +124,10 @@ class HookMultiSelectFormField(forms.MultipleChoiceField):
 
 
 class HookSelectField(models.Field):
-
     def get_choices_default(self):
         return [
-            (fn.__name__, capfirst(fn.__name__.replace('_', ' ')))
-            for fn in hooks.get_hooks('process_form_submission')
+            (fn.__name__, capfirst(fn.__name__.replace("_", " ")))
+            for fn in hooks.get_hooks("process_form_submission")
         ]
 
     def get_db_prep_value(self, value, connection=None, prepared=False):
@@ -139,31 +141,31 @@ class HookSelectField(models.Field):
 
     def formfield(self, **kwargs):
         defaults = {
-            'form_class': HookMultiSelectFormField,
-            'choices': self.get_choices_default()
+            "form_class": HookMultiSelectFormField,
+            "choices": self.get_choices_default(),
         }
         defaults.update(kwargs)
         return super().formfield(**defaults)
 
     def from_db_value(self, value, expression, connection, context):
-        if value is None or value == '':
+        if value is None or value == "":
             return []
-        return value.split(',')
+        return value.split(",")
 
     def to_python(self, value):
-        if not value or value == '':
+        if not value or value == "":
             return []
         if isinstance(value, list):
             return value
-        return value.split(',')
+        return value.split(",")
 
     def value_to_string(self, obj):
         value = self.value_from_object(obj)
-        return ','.join(value)
+        return ",".join(value)
 
     def validate(self, value, model_instance):
         arr_choices = [v for v, s in self.get_choices_default()]
         for opt in value:
             if opt not in arr_choices:
-                raise exceptions.ValidationError('%s is not a valid choice' % opt)
+                raise exceptions.ValidationError("%s is not a valid choice" % opt)
         return

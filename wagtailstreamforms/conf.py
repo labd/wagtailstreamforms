@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-
 SETTINGS_PREFIX = "WAGTAILSTREAMFORMS"
 SETTINGS_DEFAULTS = {
     "ADMIN_MENU_LABEL": _("Streamforms"),

@@ -1,13 +1,13 @@
 from datetime import timedelta
 
 from django.core.management import call_command
+from wagtailstreamforms.models import Form, FormSubmission
 
 from tests.test_case import AppTestCase
-from wagtailstreamforms.models import FormSubmission, Form
 
 
 class Tests(AppTestCase):
-    fixtures = ['test']
+    fixtures = ["test"]
 
     def test_command(self):
         form = Form.objects.get(pk=1)
@@ -16,7 +16,7 @@ class Tests(AppTestCase):
         to_delete.submit_time = to_delete.submit_time - timedelta(days=2)
         to_delete.save()
 
-        call_command('prunesubmissions', 1)
+        call_command("prunesubmissions", 1)
 
         FormSubmission.objects.get(pk=to_keep.pk)
 

@@ -1,5 +1,4 @@
 from django.db import models
-
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.models import AbstractFormSetting
 
@@ -14,4 +13,4 @@ class InvalidFormSettingsModel(models.Model):
 
 
 class HookSelectModel(models.Model):
-    hooks = HookSelectField(null=True, blank=True, help_text='Some hooks')
+    hooks = HookSelectField(null=True, blank=True, help_text="Some hooks")
