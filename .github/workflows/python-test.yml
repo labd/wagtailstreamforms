@@ -82,7 +82,7 @@ jobs:
     - name: Test with tox
       run: tox -e ${{ matrix.tox_env }}
     - name: Prepare artifacts
-      run: mkdir -p .coverage-data && mv .coverage .coverage-data/
+      run: mkdir -p .coverage-data && mv .coverage.* .coverage-data/
     - uses: actions/upload-artifact@master
       with:
         name: coverage-data

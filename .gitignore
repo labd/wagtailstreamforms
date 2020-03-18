@@ -5,7 +5,7 @@
 .postgres
 .python-version
 .tox
-.coverage
+.coverage.*
 **__pycache__**
 *.pyc
 /dist/
