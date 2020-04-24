@@ -1,4 +1,6 @@
 import csv
+import zipfile
+import os.path
 import datetime
 
 from django.core.exceptions import PermissionDenied
@@ -10,7 +12,7 @@ from django.views.generic.detail import SingleObjectMixin
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtailstreamforms import hooks
 from wagtailstreamforms.forms import SelectDateForm
-from wagtailstreamforms.models import Form
+from wagtailstreamforms.models import Form, FormSubmissionFile
 
 
 class SubmissionListView(SingleObjectMixin, ListView):
@@ -46,6 +48,9 @@ class SubmissionListView(SingleObjectMixin, ListView):
         if request.GET.get("action") == "CSV":
             return self.csv()
 
+        if request.GET.get("action") == "ZIP":
+            return self.zip()
+
         return super().get(request, *args, **kwargs)
 
     def csv(self):
@@ -65,6 +70,22 @@ class SubmissionListView(SingleObjectMixin, ListView):
                 data_row.append(smart_str(form_data.get(name)))
             writer.writerow(data_row)
 
+        return response
+
+    def zip(self):
+        response = HttpResponse(content_type="application/zip")
+        response["Content-Disposition"] = "attachment;filename=export.zip"
+
+        submission_files = FormSubmissionFile.objects.filter(submission__form=self.object)
+
+        # Write a zipfile to the response
+        zipf = zipfile.ZipFile(response, "w")
+
+        for submission in submission_files:
+            # write a file to the response with only the correct filename
+            zipf.writestr(os.path.split(submission.file.name)[1], submission.file.read())
+        
+        zipf.close()
         return response
 
     def get_queryset(self):
