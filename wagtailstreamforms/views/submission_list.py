@@ -128,6 +128,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
                 "has_delete_permission": self.permission_helper.user_can_delete_obj(
                     self.request.user, self.object
                 ),
+                "contains_files": FormSubmissionFile.objects.filter(submission__form=self.object).count() > 0
             }
         )
 

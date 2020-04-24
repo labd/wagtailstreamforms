@@ -89,9 +89,11 @@
                   <div class="col">
                       <button name="action" value="CSV" class="button bicolor icon icon-download">{% trans 'Download CSV' %}</button>
                   </div>
+                  {% if contains_files %}
                   <div class="col">
                       <button name="action" value="ZIP" class="button bicolor icon icon-download">{% trans 'Download ZIP' %}</button>
                   </div>
+                  {% endif %}
                 </div>
             </div>
         </form>
