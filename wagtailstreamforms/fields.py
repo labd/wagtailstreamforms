@@ -147,7 +147,7 @@ class HookSelectField(models.Field):
         defaults.update(kwargs)
         return super().formfield(**defaults)
 
-    def from_db_value(self, value, expression, connection, context):
+    def from_db_value(self, value, expression, connection, context=None, *args, **kwargs):
         if value is None or value == "":
             return []
         return value.split(",")
