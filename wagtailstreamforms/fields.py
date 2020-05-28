@@ -94,6 +94,7 @@ class BaseField:
         """
 
         return {
+            # "name": block_value.get("name"),
             "label": block_value.get("label"),
             "help_text": block_value.get("help_text"),
             "required": block_value.get("required"),
@@ -109,6 +110,7 @@ class BaseField:
         """
         return blocks.StructBlock(
             [
+                ("name", blocks.CharBlock(required=False)),
                 ("label", blocks.CharBlock()),
                 ("help_text", blocks.CharBlock(required=False)),
                 ("required", blocks.BooleanBlock(required=False)),
