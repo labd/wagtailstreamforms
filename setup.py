@@ -17,7 +17,7 @@ tests_require = [
 
 
 install_requires = [
-    'wagtail>=2,<3.0'
+    'wagtail>=2,<2.11'
 ]
 
 documentation_extras = [
