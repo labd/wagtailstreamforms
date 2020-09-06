@@ -72,7 +72,7 @@ Clone the repo
 
 .. code:: bash
 
-    $ git clone https://github.com/AccentDesign/wagtailstreamforms.git
+    $ git clone https://github.com/labd/wagtailstreamforms.git
 
 Run the docker container
 
