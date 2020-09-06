@@ -2,6 +2,11 @@
 Changelog
 *********
 
+3.11.0
+------
+* Django 3.0 support
+* Wagtail 2.10 support
+
 3.10.0
 ------
 * Wagtail 2.9 support
