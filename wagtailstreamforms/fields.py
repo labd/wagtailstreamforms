@@ -3,6 +3,7 @@ from django.core import exceptions
 from django.db import models
 from django.utils.text import capfirst
 from wagtail.core import blocks
+
 from wagtailstreamforms import hooks
 from wagtailstreamforms.utils.apps import get_app_submodules
 
@@ -147,7 +148,9 @@ class HookSelectField(models.Field):
         defaults.update(kwargs)
         return super().formfield(**defaults)
 
-    def from_db_value(self, value, expression, connection, context=None, *args, **kwargs):
+    def from_db_value(
+        self, value, expression, connection, context=None, *args, **kwargs
+    ):
         if value is None or value == "":
             return []
         return value.split(",")
