@@ -90,7 +90,7 @@ Create yourself a superuser
 
 Go to http://127.0.0.1:8000
 
-.. |CircleCI| image:: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/3-dev.svg?style=svg
-   :target: https://circleci.com/gh/AccentDesign/wagtailstreamforms/tree/3-dev
-.. |Codecov| image:: https://codecov.io/gh/AccentDesign/wagtailstreamforms/branch/3-dev/graph/badge.svg
-   :target: https://codecov.io/gh/AccentDesign/wagtailstreamforms
+.. |CircleCI| image:: https://circleci.com/gh/labd/wagtailstreamforms/tree/master.svg?style=svg
+   :target: https://circleci.com/gh/labd/wagtailstreamforms/tree/master
+.. |Codecov| image:: https://codecov.io/gh/labd/wagtailstreamforms/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/labd/wagtailstreamforms
