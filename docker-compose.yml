@@ -1,3 +1,4 @@
+---
 version: '2'
 
 # run the app in development mode
@@ -7,29 +8,29 @@ services:
     build: .
     tty: true
     volumes:
-    - .:/code
+      - .:/code
     environment:
-    - DJANGO_MANAGEPY_COLLECTSTATIC=off
-    - DJANGO_SETTINGS_MODULE=example.settings
-    - SECRET_KEY=secret
-    - ALLOWED_HOSTS=*
-    - RDS_HOSTNAME=db
-    - RDS_PORT=5432
-    - RDS_DB_NAME=postgres
-    - RDS_USERNAME=postgres
-    - RDS_PASSWORD=password
+      - DJANGO_MANAGEPY_COLLECTSTATIC=off
+      - DJANGO_SETTINGS_MODULE=example.settings
+      - SECRET_KEY=secret
+      - ALLOWED_HOSTS=*
+      - RDS_HOSTNAME=db
+      - RDS_PORT=5432
+      - RDS_DB_NAME=postgres
+      - RDS_USERNAME=postgres
+      - RDS_PASSWORD=password
     depends_on:
-    - db
+      - db
     ports:
-    - 8000:8000
+      - 8000:8000
   db:
     image: postgres:9.6
     environment:
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=password
-    - POSTGRES_DB=postgres
-    - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-    - ./.postgres:/var/lib/postgresql/data/pgdata
+      - ./.postgres:/var/lib/postgresql/data/pgdata
     ports:
-    - 5432:5432
+      - 5432:5432
