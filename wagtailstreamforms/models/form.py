@@ -22,13 +22,11 @@ from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from .submission import FormSubmission
 
 
-class FormQuerySet(models.QuerySet):
-    def for_site(self, site):
-        """Return all forms for a specific site."""
-        return self.filter(site=site)
-
-
 class AbstractFormOuter(models.Model):
+    """
+    Provides the fields and panels necessary for participating in form rendering and
+    processing.
+    """
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )
@@ -118,7 +116,16 @@ class AbstractFormOuter(models.Model):
         abstract = True
 
 
+class FormQuerySet(models.QuerySet):
+    def for_site(self, site):
+        """Return all forms for a specific site."""
+        return self.filter(site=site)
+
+
 class AbstractForm(AbstractFormOuter):
+    """
+    Provides the fields and handlers necessary for creating reusable form objects.
+    """
     site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(_("Title"), max_length=255)
     slug = models.SlugField(

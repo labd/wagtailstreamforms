@@ -26,31 +26,8 @@ class FormBuilder:
 
         formfields = OrderedDict()
 
-        registered_fields = get_fields()
-
         for field in self.fields:
-            field_type = field.get("type")
-            field_value = field.get("value")
-
-            # check we have the field
-            if field_type not in registered_fields:
-                raise AttributeError(
-                    "Could not find a registered field of type %s" % field_type
-                )
-
-            # check there is a label
-            if "label" not in field_value:
-                raise AttributeError(
-                    "The block for %s must contain a label of type blocks.CharBlock(required=True)"
-                    % field_type
-                )
-
-            # slugify the label for the field name
-            field_name = get_slug_from_string(field_value.get("label"))
-
-            # get the field
-            registered_cls = registered_fields[field_type]()
-            field_cls = registered_cls.get_formfield(field_value)
+            field_name, field_cls = self.create_field_class(field)
             formfields[field_name] = field_cls
 
         # add fields to uniquely identify the form
@@ -58,6 +35,36 @@ class FormBuilder:
         formfields["form_reference"] = forms.CharField(widget=forms.HiddenInput)
 
         return formfields
+
+    def create_field_class(self, field):
+        """
+        Encapsulates the field_cls creation such that there is a method to override
+        when the field_cls needs to be modified.
+        @param field:
+        @return:
+        """
+        registered_fields = get_fields()
+
+        field_type = field.get("type")
+        field_value = field.get("value")
+        # check we have the field
+        if field_type not in registered_fields:
+            raise AttributeError(
+                "Could not find a registered field of type %s" % field_type
+            )
+        # check there is a label
+        if "label" not in field_value:
+            raise AttributeError(
+                "The block for %s must contain a label of type blocks.CharBlock("
+                "required=True)"
+                % field_type
+            )
+        # slugify the label for the field name
+        field_name = get_slug_from_string(field_value.get("label"))
+        # get the field
+        registered_cls = registered_fields[field_type]()
+        field_cls = registered_cls.get_formfield(field_value)
+        return field_name, field_cls
 
     def get_form_class(self):
         return type(str("StreamformsForm"), (BaseForm,), self.formfields)
