@@ -52,6 +52,22 @@ class FormBuilder:
             raise AttributeError(
                 "Could not find a registered field of type %s" % field_type
             )
+        field_name = self.create_field_name(field)
+        # get the field
+        registered_cls = registered_fields[field_type]()
+        field_cls = registered_cls.get_formfield(field_value)
+        return field_name, field_cls
+
+    def create_field_name(self, field):
+        """
+        Encapsulates the field_name creation such that there is a method to override
+        when the field_name needs to be modified.
+
+        @param field:
+        @return:
+        """
+        field_type = field.get("type")
+        field_value = field.get("value")
         # check there is a label
         if "label" not in field_value:
             raise AttributeError(
@@ -60,11 +76,7 @@ class FormBuilder:
                 % field_type
             )
         # slugify the label for the field name
-        field_name = get_slug_from_string(field_value.get("label"))
-        # get the field
-        registered_cls = registered_fields[field_type]()
-        field_cls = registered_cls.get_formfield(field_value)
-        return field_name, field_cls
+        return get_slug_from_string(field_value.get("label"))
 
     def get_form_class(self):
         return type(str("StreamformsForm"), (BaseForm,), self.formfields)
