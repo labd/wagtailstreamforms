@@ -2,6 +2,10 @@
 Changelog
 *********
 
+3.12.0
+------
+* Allow fields classes to more easily control the name, label and other values used for form fields
+
 3.11.0
 ------
 * Django 3.0 support
