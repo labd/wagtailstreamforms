@@ -73,7 +73,9 @@ class BaseField:
         """
         Return a value to use as the 'name' for the Django form field.
         """
-        return block_value.get("name") or get_slug_from_string(cls.get_formfield_label(block_value))
+        return block_value.get("name") or get_slug_from_string(
+            cls.get_formfield_label(block_value)
+        )
 
     @classmethod
     def get_formfield_label(cls, block_value):

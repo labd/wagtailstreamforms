@@ -1,4 +1,5 @@
 from django import forms
+
 from wagtailstreamforms.fields import get_fields
 from wagtailstreamforms.forms import FormBuilder
 from wagtailstreamforms.models import Form
@@ -35,7 +36,7 @@ class FormBuilderTests(AppTestCase):
             "No label value can be determined for an instance of SingleLineTextField. "
             "Add a 'label' CharBlock() in your field's get_form_block() method to allow "
             "this to be specified by form editors. Or, override get_formfield_label() "
-            "to return a different value."
+            "to return a different value.",
         )
 
     def test_get_form_class(self):
