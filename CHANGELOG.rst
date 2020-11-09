@@ -2,6 +2,10 @@
 Changelog
 *********
 
+unreleased
+----------
+* Wagtail 2.11 support
+
 3.12.0
 ------
 * Allow fields classes to more easily control the name, label and other values used for form fields
