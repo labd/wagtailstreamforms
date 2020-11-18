@@ -22,11 +22,26 @@ from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from .submission import FormSubmission
 
 
-class AbstractFormOuter(models.Model):
-    """
-    Provides the fields and panels necessary for participating in form rendering and
-    processing.
-    """
+class FormQuerySet(models.QuerySet):
+    def for_site(self, site):
+        """Return all forms for a specific site."""
+        return self.filter(site=site)
+
+
+class AbstractForm(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(_("Title"), max_length=255)
+    slug = models.SlugField(
+        _("Slug"),
+        allow_unicode=True,
+        max_length=255,
+        unique=True,
+        help_text=_("Used to identify the form in template tags"),
+    )
+    template_name = models.CharField(
+        _("Template"), max_length=255, choices=get_setting("FORM_TEMPLATES")
+    )
+    fields = FormFieldsStreamField([], verbose_name=_("Fields"))
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )
@@ -35,8 +50,7 @@ class AbstractFormOuter(models.Model):
         blank=True,
         max_length=255,
         help_text=_(
-            "An optional success message to show when the form has been successfully "
-            "submitted"
+            "An optional success message to show when the form has been successfully submitted"
         ),
     )
     error_message = models.CharField(
@@ -60,93 +74,18 @@ class AbstractFormOuter(models.Model):
         verbose_name=_("Submission hooks"), blank=True
     )
 
-    settings_panels = [
-        FieldPanel("submit_button_text"),
-        MultiFieldPanel(
-            [FieldPanel("success_message"), FieldPanel("error_message")], _("Messages")
-        ),
-        FieldPanel("process_form_submission_hooks", classname="choice_field"),
-        PageChooserPanel("post_redirect_page"),
-    ]
-
-    def get_data_fields(self):
-        """ Returns a list of tuples with (field_name, field_label). """
-
-        data_fields = [("submit_time", _("Submission date"))]
-        data_fields += [
-            (get_slug_from_string(field["value"]["label"]), field["value"]["label"])
-            for field in self.get_form_fields()
-        ]
-
-        return data_fields
-
-    def get_form(self, *args, **kwargs):
-        """ Returns the form. """
-
-        form_class = self.get_form_class()
-        form_instance = form_class(*args, **kwargs)
-        return form_instance
-
-    def get_form_class(self):
-        """ Returns the form class. """
-
-        return FormBuilder(self.get_form_fields()).get_form_class()
-
-    def get_form_fields(self):
-        """ Returns the form fields stream_data. """
-
-        form_fields = self.fields.stream_data
-        for fn in hooks.get_hooks("construct_submission_form_fields"):
-            form_fields = fn(form_fields)
-        return form_fields
-
-    def get_submission_class(self):
-        """ Returns submission class. """
-
-        return FormSubmission
-
-    def process_form_submission(self, form):
-        """ Runs each hook if selected in the form. """
-
-        for fn in hooks.get_hooks("process_form_submission"):
-            if fn.__name__ in self.process_form_submission_hooks:
-                fn(self, form)
-
-    class Meta:
-        abstract = True
-
-
-class FormQuerySet(models.QuerySet):
-    def for_site(self, site):
-        """Return all forms for a specific site."""
-        return self.filter(site=site)
-
-
-class AbstractForm(AbstractFormOuter):
-    """
-    Provides the fields and handlers necessary for creating reusable form objects.
-    """
-    site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(_("Title"), max_length=255)
-    slug = models.SlugField(
-        _("Slug"),
-        allow_unicode=True,
-        max_length=255,
-        unique=True,
-        help_text=_("Used to identify the form in template tags"),
-    )
-    template_name = models.CharField(
-        _("Template"), max_length=255, choices=get_setting("FORM_TEMPLATES")
-    )
-    fields = FormFieldsStreamField([], verbose_name=_("Fields"))
-
     objects = FormQuerySet.as_manager()
 
     settings_panels = [
         FieldPanel("title", classname="full"),
         FieldPanel("slug"),
         FieldPanel("template_name"),
-        *AbstractFormOuter.settings_panels,
+        FieldPanel("submit_button_text"),
+        MultiFieldPanel(
+            [FieldPanel("success_message"), FieldPanel("error_message")], _("Messages")
+        ),
+        FieldPanel("process_form_submission_hooks", classname="choice_field"),
+        PageChooserPanel("post_redirect_page"),
     ]
 
     field_panels = [StreamFieldPanel("fields")]
@@ -199,6 +138,48 @@ class AbstractForm(AbstractFormOuter):
         return form_copy
 
     copy.alters_data = True
+
+    def get_data_fields(self):
+        """ Returns a list of tuples with (field_name, field_label). """
+
+        data_fields = [("submit_time", _("Submission date"))]
+        data_fields += [
+            (get_slug_from_string(field["value"]["label"]), field["value"]["label"])
+            for field in self.get_form_fields()
+        ]
+
+        return data_fields
+
+    def get_form(self, *args, **kwargs):
+        """ Returns the form. """
+
+        form_class = self.get_form_class()
+        return form_class(*args, **kwargs)
+
+    def get_form_class(self):
+        """ Returns the form class. """
+
+        return FormBuilder(self.get_form_fields()).get_form_class()
+
+    def get_form_fields(self):
+        """ Returns the form fields stream_data. """
+
+        form_fields = self.fields.stream_data
+        for fn in hooks.get_hooks("construct_submission_form_fields"):
+            form_fields = fn(form_fields)
+        return form_fields
+
+    def get_submission_class(self):
+        """ Returns submission class. """
+
+        return FormSubmission
+
+    def process_form_submission(self, form):
+        """ Runs each hook if selected in the form. """
+
+        for fn in hooks.get_hooks("process_form_submission"):
+            if fn.__name__ in self.process_form_submission_hooks:
+                fn(self, form)
 
 
 class Form(AbstractForm):
