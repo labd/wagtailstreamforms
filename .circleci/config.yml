@@ -8,7 +8,7 @@ jobs:
     steps:
       - checkout
       - run: apt-get update
-      - run: apt-get install libjpeg-dev
+      - run: apt-get install -y libjpeg-dev
       - run: pip install --upgrade codecov
       - run: tox -v
       - run: codecov
