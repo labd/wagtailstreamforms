@@ -40,8 +40,11 @@ class FormBuilder:
         """
         Encapsulates the field_cls creation such that there is a method to override
         when the field_cls needs to be modified.
-        @param field:
-        @return:
+
+        :param field: StreamBlock representing a form field; an item in
+        fields.stream_data
+        :return: a tuple of field_name - the name to use in the html form for this
+        field, and field_cls - in instantiated field class that may be added to a form
         """
         registered_fields = get_fields()
 
@@ -64,8 +67,11 @@ class FormBuilder:
         Encapsulates the field_name creation such that there is a method to override
         when the field_name needs to be modified.
 
-        @param field:
-        @return:
+        :param field: StreamBlock representing a form field; an item in
+        fields.stream_data
+        :param registered_cls: The subclass of wagtailstreamforms.fields.BaseField
+        that defined this form field
+        :return: a name to use in the html form for this field
         """
         field_name = registered_cls.get_formfield_name(field.get("value"))
 
