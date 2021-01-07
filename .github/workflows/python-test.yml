@@ -97,12 +97,6 @@ jobs:
           - python-version: 3.8
             tox_env: py38-dj22-wt211
           - python-version: 3.7
-            tox_env: py37-dj30-wt25
-          - python-version: 3.7
-            tox_env: py37-dj30-wt26
-          - python-version: 3.7
-            tox_env: py37-dj30-wt27
-          - python-version: 3.7
             tox_env: py37-dj30-wt28
           - python-version: 3.7
             tox_env: py37-dj30-wt29
@@ -110,12 +104,6 @@ jobs:
             tox_env: py37-dj30-wt210
           - python-version: 3.7
             tox_env: py37-dj30-wt211
-          - python-version: 3.8
-            tox_env: py38-dj30-wt25
-          - python-version: 3.8
-            tox_env: py38-dj30-wt26
-          - python-version: 3.8
-            tox_env: py38-dj30-wt27
           - python-version: 3.8
             tox_env: py38-dj30-wt28
           - python-version: 3.8
