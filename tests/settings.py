@@ -1,5 +1,6 @@
 import os
 import re
+
 from django.urls import reverse_lazy
 
 SECRET_KEY = "secret"
@@ -52,14 +53,14 @@ PRE_WAGTAIL_211_VERSIONS = [
     "wt27",
     "wt28",
     "wt29",
-    "wt210"
+    "wt210",
 ]
 
 PRE_WAGTAIL_211 = False
 
 if WAGTAIL_VERSION in PRE_WAGTAIL_211_VERSIONS:
-     MIDDLEWARE.append("wagtail.core.middleware.SiteMiddleware")
-     PRE_WAGTAIL_211 = True
+    MIDDLEWARE.append("wagtail.core.middleware.SiteMiddleware")
+    PRE_WAGTAIL_211 = True
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testdb"}}
 
