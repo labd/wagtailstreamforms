@@ -43,7 +43,7 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-WAGTAIL_VERSION = re.search("wt[0-9]*", os.environ["TOX_ENV_NAME"])[0]
+WAGTAIL_VERSION = re.search("wt[0-9]*", os.environ.get("TOX_ENV_NAME", "wt211"))[0]
 
 PRE_WAGTAIL_211_VERSIONS = [
     "wt23",
