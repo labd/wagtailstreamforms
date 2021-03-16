@@ -17,7 +17,7 @@ tests_require = [
 ]
 
 
-install_requires = ["wagtail>=2,<2.12"]
+install_requires = ["wagtail>=2,<2.13"]
 
 documentation_extras = [
     "sphinxcontrib-spelling>=2.3.0",

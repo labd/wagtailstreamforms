@@ -73,7 +73,7 @@ class FormBuilder:
         that defined this form field
         :return: a name to use in the html form for this field
         """
-        field_name = registered_cls.get_formfield_name(field.get("value"))
+        return registered_cls.get_formfield_name(field.get("value"))
 
     def get_form_class(self):
         return type(str("StreamformsForm"), (BaseForm,), self.formfields)
