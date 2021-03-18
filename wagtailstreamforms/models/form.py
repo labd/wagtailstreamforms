@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     MultiFieldPanel,
@@ -162,9 +163,12 @@ class AbstractForm(models.Model):
         return FormBuilder(self.get_form_fields()).get_form_class()
 
     def get_form_fields(self):
-        """ Returns the form fields stream_data. """
+        """ Returns the form field's stream data. """
 
-        form_fields = self.fields.stream_data
+        if WAGTAIL_VERSION >= (2, 12):
+            form_fields = self.fields.raw_data
+        else:
+            form_fields = self.fields.stream_data
         for fn in hooks.get_hooks("construct_submission_form_fields"):
             form_fields = fn(form_fields)
         return form_fields

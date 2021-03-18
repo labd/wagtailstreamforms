@@ -1,3 +1,4 @@
+from html import unescape
 import urllib.parse as urlparse
 
 from ..test_case import AppTestCase
@@ -11,7 +12,7 @@ class TemplateTagTests(AppTestCase):
             {"request": fake_request},
         )
         # parse the url as they can be reordered unpredictably
-        parsed = urlparse.parse_qs(urlparse.urlparse(rendered).query)
+        parsed = urlparse.parse_qs(urlparse.urlparse(unescape(rendered)).query)
         self.assertDictEqual(parsed, {"page": ["1"]})
 
     def test_kwarg_appended(self):
@@ -21,7 +22,7 @@ class TemplateTagTests(AppTestCase):
             {"request": fake_request},
         )
         # parse the url as they can be reordered unpredictably
-        parsed = urlparse.parse_qs(urlparse.urlparse(rendered).query)
+        parsed = urlparse.parse_qs(urlparse.urlparse(unescape(rendered)).query)
         self.assertDictEqual(parsed, {"foo": ["bar"], "page": ["1"]})
 
     def test_kwarg_replaced(self):
@@ -31,5 +32,5 @@ class TemplateTagTests(AppTestCase):
             {"request": fake_request},
         )
         # parse the url as they can be reordered unpredictably
-        parsed = urlparse.parse_qs(urlparse.urlparse(rendered).query)
+        parsed = urlparse.parse_qs(urlparse.urlparse(unescape(rendered)).query)
         self.assertDictEqual(parsed, {"foo": ["bar"], "page": ["5"]})

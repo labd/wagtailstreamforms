@@ -2,8 +2,8 @@
 Changelog
 *********
 
-unreleased
-----------
+3.13.0
+------
 * Wagtail 2.11 support
 * Dropped Django 2.0 and 2.1 support
 
