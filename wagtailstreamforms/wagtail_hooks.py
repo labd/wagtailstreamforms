@@ -7,6 +7,7 @@ from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
+from wagtail import VERSION
 from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
@@ -144,7 +145,11 @@ class FormModelAdmin(ModelAdmin):
     list_filter = None
     menu_label = _(get_setting("ADMIN_MENU_LABEL"))
     menu_order = get_setting("ADMIN_MENU_ORDER")
-    menu_icon = "icon icon-form"
+    menu_icon = (
+        "icon icon-form"
+        if VERSION[0] < 2 or (VERSION[0] == 2 and VERSION[1] < 11)
+        else "form"
+    )
     search_fields = ("title", "slug")
     button_helper_class = FormButtonHelper
     inspect_view_class = InspectFormView
