@@ -25,9 +25,9 @@ class FormFieldStreamBlock(blocks.StreamBlock):
                     "'%s' must be a subclass of '%s'" % (field_class, BaseField)
                 )
 
-            # assign the block
-            block = self.instantiate_block(field_class, name)
-            self._child_blocks[name] = block
+            # assign the block if instantiation returns non None
+            if block := self.instantiate_block(field_class, name):
+                self._child_blocks[name] = block
 
         self._dependencies = self._child_blocks.values()
 
