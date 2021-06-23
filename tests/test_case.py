@@ -16,7 +16,7 @@ class AppTestCase(TestCase):
 
     @staticmethod
     def setupModels(*models):
-        """ Create test models """
+        """Create test models"""
         with connection.schema_editor(atomic=True) as schema_editor:
             for model in models:
                 schema_editor.create_model(model)

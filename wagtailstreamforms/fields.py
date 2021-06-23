@@ -43,7 +43,7 @@ def search_for_fields():
 
 
 def get_fields():
-    """ Return the registered field classes. """
+    """Return the registered field classes."""
 
     search_for_fields()
     return _fields
