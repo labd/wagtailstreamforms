@@ -3,7 +3,7 @@ from django.db import models
 
 
 class FormSubmissionSerializer(DjangoJSONEncoder):
-    """ Form submission serializer """
+    """Form submission serializer"""
 
     def default(self, o):
         if isinstance(o, models.Model):

@@ -5,7 +5,7 @@ from wagtailstreamforms.fields import BaseField, get_fields
 
 
 class FormFieldStreamBlock(blocks.StreamBlock):
-    """ Add all registered instances of BaseField's get_form_block method to the streamfield. """
+    """Add all registered instances of BaseField's get_form_block method to the streamfield."""
 
     def __init__(self, local_blocks=None, **kwargs):
         self._constructor_kwargs = kwargs

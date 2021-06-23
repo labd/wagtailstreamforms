@@ -22,7 +22,7 @@ class FormBuilder:
 
     @property
     def formfields(self):
-        """ Return a list of form fields from the registered fields. """
+        """Return a list of form fields from the registered fields."""
 
         formfields = OrderedDict()
 
