@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.7
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Install dependencies
         run: pip install tox
       - name: Validate formatting
@@ -24,28 +24,46 @@ jobs:
       max-parallel: 4
       matrix:
         tox_env:
-          - py36-dj20-wt23
-          - py36-dj21-wt24
-          - py37-dj21-wt24
           - py36-dj22-wt25
           - py36-dj22-wt26
           - py36-dj22-wt27
           - py36-dj22-wt28
+          - py36-dj22-wt29
+          - py36-dj22-wt210
+          - py36-dj22-wt211
+          - py36-dj22-wt212
+          - py36-dj22-wt213
           - py37-dj22-wt25
           - py37-dj22-wt26
           - py37-dj22-wt27
           - py37-dj22-wt28
+          - py37-dj22-wt29
+          - py37-dj22-wt210
+          - py37-dj22-wt211
+          - py37-dj22-wt212
+          - py37-dj22-wt213
           - py38-dj22-wt25
           - py38-dj22-wt26
           - py38-dj22-wt27
           - py38-dj22-wt28
+          - py38-dj22-wt29
+          - py38-dj22-wt210
+          - py38-dj22-wt211
+          - py38-dj22-wt212
+          - py38-dj22-wt213
+          - py37-dj30-wt28
+          - py37-dj30-wt29
+          - py37-dj30-wt210
+          - py37-dj30-wt211
+          - py37-dj30-wt212
+          - py37-dj30-wt213
+          - py38-dj30-wt28
+          - py38-dj30-wt29
+          - py38-dj30-wt210
+          - py38-dj30-wt211
+          - py38-dj30-wt212
+          - py38-dj30-wt213
         include:
-          - python-version: 3.6
-            tox_env: py36-dj20-wt23
-          - python-version: 3.6
-            tox_env: py36-dj21-wt24
-          - python-version: 3.7
-            tox_env: py37-dj21-wt24
           - python-version: 3.6
             tox_env: py36-dj22-wt25
           - python-version: 3.6
@@ -54,6 +72,16 @@ jobs:
             tox_env: py36-dj22-wt27
           - python-version: 3.6
             tox_env: py36-dj22-wt28
+          - python-version: 3.6
+            tox_env: py36-dj22-wt29
+          - python-version: 3.6
+            tox_env: py36-dj22-wt210
+          - python-version: 3.6
+            tox_env: py36-dj22-wt211
+          - python-version: 3.6
+            tox_env: py36-dj22-wt212
+          - python-version: 3.6
+            tox_env: py36-dj22-wt213
           - python-version: 3.7
             tox_env: py37-dj22-wt25
           - python-version: 3.7
@@ -62,6 +90,16 @@ jobs:
             tox_env: py37-dj22-wt27
           - python-version: 3.7
             tox_env: py37-dj22-wt28
+          - python-version: 3.7
+            tox_env: py37-dj22-wt29
+          - python-version: 3.7
+            tox_env: py37-dj22-wt210
+          - python-version: 3.7
+            tox_env: py37-dj22-wt211
+          - python-version: 3.7
+            tox_env: py37-dj22-wt212
+          - python-version: 3.7
+            tox_env: py37-dj22-wt213
           - python-version: 3.8
             tox_env: py38-dj22-wt25
           - python-version: 3.8
@@ -70,6 +108,40 @@ jobs:
             tox_env: py38-dj22-wt27
           - python-version: 3.8
             tox_env: py38-dj22-wt28
+          - python-version: 3.8
+            tox_env: py38-dj22-wt29
+          - python-version: 3.8
+            tox_env: py38-dj22-wt210
+          - python-version: 3.8
+            tox_env: py38-dj22-wt211
+          - python-version: 3.8
+            tox_env: py38-dj22-wt212
+          - python-version: 3.8
+            tox_env: py38-dj22-wt213
+          - python-version: 3.7
+            tox_env: py37-dj30-wt28
+          - python-version: 3.7
+            tox_env: py37-dj30-wt29
+          - python-version: 3.7
+            tox_env: py37-dj30-wt210
+          - python-version: 3.7
+            tox_env: py37-dj30-wt211
+          - python-version: 3.7
+            tox_env: py37-dj30-wt212
+          - python-version: 3.7
+            tox_env: py37-dj30-wt213
+          - python-version: 3.8
+            tox_env: py38-dj30-wt28
+          - python-version: 3.8
+            tox_env: py38-dj30-wt29
+          - python-version: 3.8
+            tox_env: py38-dj30-wt210
+          - python-version: 3.8
+            tox_env: py38-dj30-wt211
+          - python-version: 3.8
+            tox_env: py38-dj30-wt212
+          - python-version: 3.8
+            tox_env: py38-dj30-wt213
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -81,7 +153,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox tox-gh-actions
       - name: Test with tox
-        run: tox -e ${{ matrix.tox_env }}
+        run: tox -e ${{ matrix.tox_env }} --index-url=https://pypi.python.org/simple/
       - name: Prepare artifacts
         run: mkdir -p .coverage-data && mv .coverage.* .coverage-data/
       - uses: actions/upload-artifact@master
@@ -98,10 +170,10 @@ jobs:
         with:
           name: coverage-data
           path: .
-      - name: Set up Python 3.7
+      - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: 3.8
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip

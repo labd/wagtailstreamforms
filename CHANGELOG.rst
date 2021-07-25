@@ -2,6 +2,19 @@
 Changelog
 *********
 
+3.15.0
+------
+* Wagtail 2.13 support
+
+3.14.0
+------
+* Wagtail 2.12 support
+
+3.13.0
+------
+* Wagtail 2.11 support
+* Dropped Django 2.0 and 2.1 support
+
 3.12.0
 ------
 * Allow fields classes to more easily control the name, label and other values used for form fields

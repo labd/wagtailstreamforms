@@ -197,7 +197,7 @@ def register_admin_urls():
 
 @hooks.register("before_serve_page")
 def process_form(page, request, *args, **kwargs):
-    """ Process the form if there is one, if not just continue. """
+    """Process the form if there is one, if not just continue."""
 
     # only process if settings.WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING is True
     if not get_setting("ENABLE_FORM_PROCESSING"):

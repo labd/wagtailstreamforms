@@ -8,7 +8,7 @@ from wagtailstreamforms.serializers import FormSubmissionSerializer
 
 @register("process_form_submission")
 def save_form_submission_data(instance, form):
-    """ saves the form submission data """
+    """saves the form submission data"""
 
     # copy the cleaned_data so we dont mess with the original
     submission_data = form.cleaned_data.copy()
