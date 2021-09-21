@@ -46,7 +46,10 @@ setup(
     license="MIT",
     packages=["wagtailstreamforms"],
     install_requires=install_requires,
-    extras_require={"docs": documentation_extras, "test": tests_require,},
+    extras_require={
+        "docs": documentation_extras,
+        "test": tests_require,
+    },
     include_package_data=True,
     keywords=["wagtail", "streamfield", "forms", "accent", "design"],
     classifiers=[
