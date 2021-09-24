@@ -2,10 +2,11 @@
 
 import django.db.models.deletion
 import wagtail.core.blocks
+from django.db import migrations, models
+
 import wagtailstreamforms.conf
 import wagtailstreamforms.fields
 import wagtailstreamforms.streamfield
-from django.db import migrations, models
 
 
 class Migration(migrations.Migration):

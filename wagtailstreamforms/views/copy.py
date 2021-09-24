@@ -8,6 +8,7 @@ from django.views.generic.detail import (
     SingleObjectTemplateResponseMixin,
 )
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
+
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.wagtail_hooks import FormURLHelper
 

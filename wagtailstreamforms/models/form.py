@@ -12,6 +12,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.models import Site
+
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField

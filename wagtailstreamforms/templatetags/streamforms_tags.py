@@ -2,6 +2,7 @@ from urllib.parse import urlencode
 
 from django.template import Library
 from django.utils.safestring import mark_safe
+
 from wagtailstreamforms.blocks import WagtailFormBlock
 from wagtailstreamforms.models import Form
 
