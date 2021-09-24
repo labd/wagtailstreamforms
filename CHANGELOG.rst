@@ -2,6 +2,10 @@
 Changelog
 *********
 
+3.16.3
+-----
+* Republish do to pypi issue
+
 3.16.2
 ------
 * Republish do to formatting issue
