@@ -2,6 +2,10 @@
 Changelog
 *********
 
+3.16.1
+-----
+* Apply black and isort
+
 3.16.0
 ------
 * Wagtail 2.14 support
