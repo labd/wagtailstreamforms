@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.urls import reverse
@@ -29,8 +28,10 @@ class SubmissionListViewTestCase(AppTestCase):
         self.invalid_list_url = reverse(
             "wagtailstreamforms:streamforms_submissions", kwargs={"pk": 100}
         )
-        self.filter_url = "{}?date_from=2017-01-01&date_to=2017-01-02&action=filter".format(
-            self.list_url
+        self.filter_url = (
+            "{}?date_from=2017-01-01&date_to=2017-01-02&action=filter".format(
+                self.list_url
+            )
         )
         self.invalid_filter_url = "{}?date_from=xx&date_to=xx&action=filter".format(
             self.list_url
