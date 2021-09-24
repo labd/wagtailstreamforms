@@ -2,8 +2,12 @@
 Changelog
 *********
 
+3.16.2
+------
+* Republish do to formatting issue
+
 3.16.1
------
+------
 * Apply black and isort
 
 3.16.0
