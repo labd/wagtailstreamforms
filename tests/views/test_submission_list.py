@@ -39,6 +39,9 @@ class SubmissionListViewTestCase(AppTestCase):
         self.csv_url = "{}?date_from=2017-01-01&date_to=2017-01-02&action=CSV".format(
             self.list_url
         )
+        self.xlsx_url = "{}?date_from=2017-01-01&date_to=2017-01-02&action=XLSX".format(
+            self.list_url
+        )
 
         self.client.login(username="user", password="password")
 
@@ -69,6 +72,12 @@ class SubmissionListViewTestCase(AppTestCase):
         response = self.client.get(self.csv_url)
         self.assertEqual(
             response.get("Content-Disposition"), "attachment;filename=export.csv"
+        )
+
+    def test_get_xlsx(self):
+        response = self.client.get(self.xlsx_url)
+        self.assertEqual(
+            response.get("Content-Disposition"), "attachment;filename=export.xlsx"
         )
 
 
