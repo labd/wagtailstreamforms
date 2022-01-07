@@ -2,6 +2,26 @@
 Changelog
 *********
 
+3.16.3
+-----
+* Republish do to pypi issue
+
+3.16.2
+------
+* Republish do to formatting issue
+
+3.16.1
+------
+* Apply black and isort
+
+3.16.0
+------
+* Wagtail 2.14 support
+
+3.15.0
+------
+* Wagtail 2.13 support
+
 3.14.0
 ------
 * Wagtail 2.12 support

@@ -1,4 +1,5 @@
 from django.test import override_settings
+
 from wagtailstreamforms import hooks
 from wagtailstreamforms.wagtailstreamforms_hooks import save_form_submission_data
 

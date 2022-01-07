@@ -1,4 +1,5 @@
 from django.db import models
+
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.models import AbstractFormSetting
 

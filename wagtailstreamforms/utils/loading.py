@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
+
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import AbstractFormSetting
 

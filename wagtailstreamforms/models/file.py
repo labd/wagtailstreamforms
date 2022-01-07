@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class FormSubmissionFile(models.Model):
-    """ Data for a form submission file. """
+    """Data for a form submission file."""
 
     submission = models.ForeignKey(
         "FormSubmission",
@@ -28,7 +28,7 @@ class FormSubmissionFile(models.Model):
 
 
 def delete_file_from_storage(instance, **kwargs):
-    """ Cleanup deleted files from disk """
+    """Cleanup deleted files from disk"""
     transaction.on_commit(lambda: instance.file.delete(False))
 
 

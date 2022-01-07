@@ -2,6 +2,7 @@ from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.forms import CheckboxSelectMultiple
+
 from wagtailstreamforms.fields import HookMultiSelectFormField, HookSelectField
 
 from ..models import HookSelectModel

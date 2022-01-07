@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils.translation import ungettext
 from django.views.generic import DeleteView
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
+
 from wagtailstreamforms.models import Form
 
 

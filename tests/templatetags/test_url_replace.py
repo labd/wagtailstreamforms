@@ -1,5 +1,5 @@
-from html import unescape
 import urllib.parse as urlparse
+from html import unescape
 
 from ..test_case import AppTestCase
 

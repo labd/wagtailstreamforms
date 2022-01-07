@@ -1,4 +1,5 @@
 from django.db import models
+
 from wagtailstreamforms.models import AbstractFormSetting, Form
 
 from ..test_case import AppTestCase
