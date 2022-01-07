@@ -3,6 +3,7 @@ from django.db import models
 from django.test import override_settings
 from django.utils.translation import ugettext_lazy as _
 from wagtail.core.models import Page
+
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
 from wagtailstreamforms.models import Form, FormSubmission

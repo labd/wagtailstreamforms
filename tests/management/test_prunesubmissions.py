@@ -1,9 +1,9 @@
 from datetime import timedelta
 
 from django.core.management import call_command
-from wagtailstreamforms.models import Form, FormSubmission
 
 from tests.test_case import AppTestCase
+from wagtailstreamforms.models import Form, FormSubmission
 
 
 class Tests(AppTestCase):

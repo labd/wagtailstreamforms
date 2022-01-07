@@ -1,4 +1,5 @@
 from django import forms
+
 from wagtailstreamforms import fields
 
 from ..test_case import AppTestCase

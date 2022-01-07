@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from wagtail.core import blocks
+
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import BaseField, register
 

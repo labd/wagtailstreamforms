@@ -1,4 +1,5 @@
 from django.test import override_settings
+
 from wagtailstreamforms.urls import urlpatterns
 
 from .test_case import AppTestCase

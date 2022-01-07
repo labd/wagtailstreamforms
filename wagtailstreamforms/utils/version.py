@@ -1,5 +1,5 @@
 def get_version(version):  # pragma: no cover
-    """ Returns a PEP 386-compliant version number from VERSION. """
+    """Returns a PEP 386-compliant version number from VERSION."""
 
     main = get_main_version(version)
 
@@ -12,7 +12,7 @@ def get_version(version):  # pragma: no cover
 
 
 def get_main_version(version):  # pragma: no cover
-    """ Returns main version (X.Y[.Z]) from VERSION. """
+    """Returns main version (X.Y[.Z]) from VERSION."""
 
     parts = 2 if version[2] == 0 else 3
     return ".".join(str(x) for x in version[:parts])

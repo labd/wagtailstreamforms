@@ -43,7 +43,7 @@ def search_for_hooks():
 
 
 def get_hooks(hook_name):
-    """ Return the hooks function sorted by their order. """
+    """Return the hooks function sorted by their order."""
 
     search_for_hooks()
     hooks = _hooks.get(hook_name, [])

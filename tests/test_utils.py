@@ -1,8 +1,8 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
-from wagtailstreamforms.utils.loading import get_advanced_settings_model
 
 from tests.models import ValidFormSettingsModel
+from wagtailstreamforms.utils.loading import get_advanced_settings_model
 
 from .test_case import AppTestCase
 

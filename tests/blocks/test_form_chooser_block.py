@@ -37,17 +37,3 @@ class TestFormChooserBlockTestCase(AppTestCase):
         self.assertIsNone(block.to_python(100))
 
         self.assertTrue(isinstance(block.to_python(self.form.pk), self.form.__class__))
-
-    def test_form_render(self):
-        block = FormChooserBlock()
-
-        test_form_html = block.render_form(self.form, "form")
-        expected_html = "\n".join(
-            [
-                '<select name="form" placeholder="" id="form">',
-                '<option value="">---------</option>',
-                '<option value="%s" selected>Basic Form</option>' % self.form.id,
-                "</select>",
-            ]
-        )
-        self.assertInHTML(expected_html, test_form_html)

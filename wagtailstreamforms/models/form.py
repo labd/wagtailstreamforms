@@ -12,6 +12,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.models import Site
+
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
@@ -108,7 +109,7 @@ class AbstractForm(models.Model):
         verbose_name_plural = _("Forms")
 
     def copy(self):
-        """ Copy this form and its fields. """
+        """Copy this form and its fields."""
 
         form_copy = Form(
             site=self.site,
@@ -141,7 +142,7 @@ class AbstractForm(models.Model):
     copy.alters_data = True
 
     def get_data_fields(self):
-        """ Returns a list of tuples with (field_name, field_label). """
+        """Returns a list of tuples with (field_name, field_label)."""
 
         data_fields = [("submit_time", _("Submission date"))]
         data_fields += [
@@ -152,18 +153,18 @@ class AbstractForm(models.Model):
         return data_fields
 
     def get_form(self, *args, **kwargs):
-        """ Returns the form. """
+        """Returns the form."""
 
         form_class = self.get_form_class()
         return form_class(*args, **kwargs)
 
     def get_form_class(self):
-        """ Returns the form class. """
+        """Returns the form class."""
 
         return FormBuilder(self.get_form_fields()).get_form_class()
 
     def get_form_fields(self):
-        """ Returns the form field's stream data. """
+        """Returns the form field's stream data."""
 
         if WAGTAIL_VERSION >= (2, 12):
             form_fields = self.fields.raw_data
@@ -174,12 +175,12 @@ class AbstractForm(models.Model):
         return form_fields
 
     def get_submission_class(self):
-        """ Returns submission class. """
+        """Returns submission class."""
 
         return FormSubmission
 
     def process_form_submission(self, form):
-        """ Runs each hook if selected in the form. """
+        """Runs each hook if selected in the form."""
 
         for fn in hooks.get_hooks("process_form_submission"):
             if fn.__name__ in self.process_form_submission_hooks:
