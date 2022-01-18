@@ -2,8 +2,12 @@
 Changelog
 *********
 
+3.17.0
+------
+* Wagtail 2.15 support
+
 3.16.3
------
+------
 * Republish do to pypi issue
 
 3.16.2
