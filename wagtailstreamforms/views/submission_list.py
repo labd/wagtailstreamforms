@@ -51,7 +51,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
 
     def csv(self):
         queryset = self.get_queryset()
-        data_fields = self.object.get_data_fields()
+        data_fields = self.object.get_data_fields_v2()
         data_headings = [smart_str(label) for name, label in data_fields]
 
         response = HttpResponse(content_type="text/csv; charset=utf-8")
@@ -87,7 +87,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        data_fields = self.object.get_data_fields()
+        data_fields = self.object.get_data_fields_v2()
         data_headings = [label for name, label in data_fields]
 
         # populate data rows from paginator

@@ -151,6 +151,21 @@ class AbstractForm(models.Model):
         ]
 
         return data_fields
+    
+    def get_data_fields_v2(self):
+        """ Returns a list of tuples with (field_name, field_label). """
+        
+        data_fields = [
+	        ('submit_time', _('Submission date')),
+	    ]
+        data_fields += [
+	        (get_slug_from_string(field['id']), field['value']['label'])
+	        for field in self.get_form_fields()
+	    ]
+        
+        return data_fields
+
+
 
     def get_form(self, *args, **kwargs):
         """Returns the form."""
