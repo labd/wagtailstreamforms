@@ -3,11 +3,12 @@ import datetime
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse
-from django.utils.encoding import smart_str
+from django.utils.encoding import force_text, smart_str
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
+from xlsxwriter.workbook import Workbook
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.forms import SelectDateForm
@@ -46,6 +47,8 @@ class SubmissionListView(SingleObjectMixin, ListView):
 
         if request.GET.get("action") == "CSV":
             return self.csv()
+        elif request.GET.get("action") == "XLSX":
+            return self.xlsx()
 
         return super().get(request, *args, **kwargs)
 
@@ -66,6 +69,42 @@ class SubmissionListView(SingleObjectMixin, ListView):
                 data_row.append(smart_str(form_data.get(name)))
             writer.writerow(data_row)
 
+        return response
+
+    def xlsx(self):
+        queryset = self.get_queryset()
+        data_fields = self.object.get_data_fields()
+        data_headings = [force_text(label) for name, label in data_fields]
+
+        response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        response["Content-Disposition"] = "attachment;filename=export.xlsx"
+
+        # create workbook
+        workbook = Workbook(
+            response,
+            {
+                "in_memory": True,
+                "constant_memory": True,
+                "remove_timezone": True,
+                "default_date_format": "dd/mm/yy hh:mm:ss",
+            },
+        )
+        worksheet = workbook.add_worksheet()
+
+        # write heading
+        for col_number, heading in enumerate(data_headings):
+            worksheet.write(0, col_number, heading)
+
+        # write row data
+        for row_number, item in enumerate(queryset):
+            data_row = []
+            form_data = item.get_data()
+            for name, label in data_fields:
+                data_row.append(force_text(form_data.get(name)))
+            for col_number, col_value in enumerate(data_row):
+                worksheet.write(row_number+1, col_number, col_value)
+
+        workbook.close()
         return response
 
     def get_queryset(self):
