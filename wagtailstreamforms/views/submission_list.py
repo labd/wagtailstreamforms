@@ -4,7 +4,7 @@ import datetime
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse
 from django.utils.encoding import smart_str
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
