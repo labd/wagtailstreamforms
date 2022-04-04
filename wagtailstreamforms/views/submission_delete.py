@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.translation import ungettext
+from django.utils.translation import ngettext
 from django.views.generic import DeleteView
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 
@@ -50,7 +50,7 @@ class SubmissionDeleteView(DeleteView):
     def create_success_message(self, count):
         messages.success(
             self.request,
-            ungettext(
+            ngettext(
                 "One submission has been deleted.",
                 "%(count)d submissions have been deleted.",
                 count,
