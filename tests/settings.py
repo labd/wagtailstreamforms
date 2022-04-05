@@ -43,24 +43,10 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-WAGTAIL_VERSION = re.search("wt[0-9]*", os.environ.get("TOX_ENV_NAME", "wt211"))[0]
+DJANGO_VERSION = int(re.search("dj([0-9]+)", os.environ.get("TOX_ENV_NAME", "dj40")).group(1))
+WAGTAIL_VERSION = int(re.search("wt([0-9]+)", os.environ.get("TOX_ENV_NAME", "wt216")).group(1))
 
-PRE_WAGTAIL_211_VERSIONS = [
-    "wt23",
-    "wt24",
-    "wt25",
-    "wt26",
-    "wt27",
-    "wt28",
-    "wt29",
-    "wt210",
-]
-
-PRE_WAGTAIL_211 = False
-
-if WAGTAIL_VERSION in PRE_WAGTAIL_211_VERSIONS:
-    MIDDLEWARE.append("wagtail.core.middleware.SiteMiddleware")
-    PRE_WAGTAIL_211 = True
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testdb"}}
 
