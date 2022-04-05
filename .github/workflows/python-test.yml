@@ -23,57 +23,6 @@ jobs:
       max-parallel: 4
       matrix:
         tox_env:
-          - py36-dj22-wt25
-          - py36-dj22-wt26
-          - py36-dj22-wt27
-          - py36-dj22-wt28
-          - py36-dj22-wt29
-          - py36-dj22-wt210
-          - py36-dj22-wt211
-          - py36-dj22-wt212
-          - py36-dj22-wt213
-          - py37-dj22-wt25
-          - py37-dj22-wt26
-          - py37-dj22-wt27
-          - py37-dj22-wt28
-          - py37-dj22-wt29
-          - py37-dj22-wt210
-          - py37-dj22-wt211
-          - py37-dj22-wt212
-          - py37-dj22-wt213
-          - py38-dj22-wt25
-          - py38-dj22-wt26
-          - py38-dj22-wt27
-          - py38-dj22-wt28
-          - py38-dj22-wt29
-          - py38-dj22-wt210
-          - py38-dj22-wt211
-          - py38-dj22-wt212
-          - py38-dj22-wt213
-          - py37-dj30-wt28
-          - py37-dj30-wt29
-          - py37-dj30-wt210
-          - py37-dj30-wt211
-          - py37-dj30-wt212
-          - py37-dj30-wt213
-          - py37-dj30-wt214
-          - py37-dj30-wt215
-          - py37-dj30-wt216
-          - py38-dj30-wt28
-          - py38-dj30-wt29
-          - py38-dj30-wt210
-          - py38-dj30-wt211
-          - py38-dj30-wt212
-          - py38-dj30-wt213
-          - py38-dj30-wt214
-          - py38-dj30-wt215
-          - py38-dj30-wt216
-          - py37-dj31-wt214
-          - py37-dj31-wt215
-          - py37-dj31-wt216
-          - py38-dj31-wt214
-          - py38-dj31-wt215
-          - py38-dj31-wt216
           - py37-dj32-wt213
           - py37-dj32-wt214
           - py37-dj32-wt215
@@ -82,109 +31,18 @@ jobs:
           - py38-dj32-wt214
           - py38-dj32-wt215
           - py38-dj32-wt216
+          - py39-dj32-wt213
+          - py39-dj32-wt214
+          - py39-dj32-wt215
+          - py39-dj32-wt216
+          - py310-dj32-wt213
+          - py310-dj32-wt214
+          - py310-dj32-wt215
+          - py310-dj32-wt216
+          - py38-dj40-wt216
+          - py39-dj40-wt216
+          - py310-dj40-wt216
         include:
-          - python-version: 3.6
-            tox_env: py36-dj22-wt25
-          - python-version: 3.6
-            tox_env: py36-dj22-wt26
-          - python-version: 3.6
-            tox_env: py36-dj22-wt27
-          - python-version: 3.6
-            tox_env: py36-dj22-wt28
-          - python-version: 3.6
-            tox_env: py36-dj22-wt29
-          - python-version: 3.6
-            tox_env: py36-dj22-wt210
-          - python-version: 3.6
-            tox_env: py36-dj22-wt211
-          - python-version: 3.6
-            tox_env: py36-dj22-wt212
-          - python-version: 3.6
-            tox_env: py36-dj22-wt213
-          - python-version: 3.7
-            tox_env: py37-dj22-wt25
-          - python-version: 3.7
-            tox_env: py37-dj22-wt26
-          - python-version: 3.7
-            tox_env: py37-dj22-wt27
-          - python-version: 3.7
-            tox_env: py37-dj22-wt28
-          - python-version: 3.7
-            tox_env: py37-dj22-wt29
-          - python-version: 3.7
-            tox_env: py37-dj22-wt210
-          - python-version: 3.7
-            tox_env: py37-dj22-wt211
-          - python-version: 3.7
-            tox_env: py37-dj22-wt212
-          - python-version: 3.7
-            tox_env: py37-dj22-wt213
-          - python-version: 3.8
-            tox_env: py38-dj22-wt25
-          - python-version: 3.8
-            tox_env: py38-dj22-wt26
-          - python-version: 3.8
-            tox_env: py38-dj22-wt27
-          - python-version: 3.8
-            tox_env: py38-dj22-wt28
-          - python-version: 3.8
-            tox_env: py38-dj22-wt29
-          - python-version: 3.8
-            tox_env: py38-dj22-wt210
-          - python-version: 3.8
-            tox_env: py38-dj22-wt211
-          - python-version: 3.8
-            tox_env: py38-dj22-wt212
-          - python-version: 3.8
-            tox_env: py38-dj22-wt213
-          - python-version: 3.7
-            tox_env: py37-dj30-wt28
-          - python-version: 3.7
-            tox_env: py37-dj30-wt29
-          - python-version: 3.7
-            tox_env: py37-dj30-wt210
-          - python-version: 3.7
-            tox_env: py37-dj30-wt211
-          - python-version: 3.7
-            tox_env: py37-dj30-wt212
-          - python-version: 3.7
-            tox_env: py37-dj30-wt213
-          - python-version: 3.7
-            tox_env: py37-dj30-wt214
-          - python-version: 3.7
-            tox_env: py37-dj30-wt215
-          - python-version: 3.7
-            tox_env: py37-dj30-wt216
-          - python-version: 3.8
-            tox_env: py38-dj30-wt28
-          - python-version: 3.8
-            tox_env: py38-dj30-wt29
-          - python-version: 3.8
-            tox_env: py38-dj30-wt210
-          - python-version: 3.8
-            tox_env: py38-dj30-wt211
-          - python-version: 3.8
-            tox_env: py38-dj30-wt212
-          - python-version: 3.8
-            tox_env: py38-dj30-wt213
-          - python-version: 3.8
-            tox_env: py38-dj30-wt214
-          - python-version: 3.8
-            tox_env: py38-dj30-wt215
-          - python-version: 3.8
-            tox_env: py38-dj30-wt216
-          - python-version: 3.7
-            tox_env: py37-dj31-wt214
-          - python-version: 3.7
-            tox_env: py37-dj31-wt215
-          - python-version: 3.7
-            tox_env: py37-dj31-wt216
-          - python-version: 3.8
-            tox_env: py38-dj31-wt214
-          - python-version: 3.8
-            tox_env: py38-dj31-wt215
-          - python-version: 3.8
-            tox_env: py38-dj31-wt216
           - python-version: 3.7
             tox_env: py37-dj32-wt213
           - python-version: 3.7
@@ -201,6 +59,28 @@ jobs:
             tox_env: py38-dj32-wt215
           - python-version: 3.8
             tox_env: py38-dj32-wt216
+          - python-version: 3.9
+            tox_env: py39-dj32-wt213
+          - python-version: 3.9
+            tox_env: py39-dj32-wt214
+          - python-version: 3.9
+            tox_env: py39-dj32-wt215
+          - python-version: 3.9
+            tox_env: py39-dj32-wt216
+          - python-version: 3.10.4
+            tox_env: py310-dj32-wt213
+          - python-version: 3.10.4
+            tox_env: py310-dj32-wt214
+          - python-version: 3.10.4
+            tox_env: py310-dj32-wt215
+          - python-version: 3.10.4
+            tox_env: py310-dj32-wt216
+          - python-version: 3.8
+            tox_env: py38-dj40-wt216
+          - python-version: 3.9
+            tox_env: py39-dj40-wt216
+          - python-version: 3.10.4
+            tox_env: py310-dj40-wt216
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
