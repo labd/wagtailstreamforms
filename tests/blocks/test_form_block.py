@@ -13,7 +13,6 @@ class TestFormBlockTestCase(AppTestCase):
         self.form = Form.objects.get(pk=1)
 
     def test_render(self):
-        self.maxDiff = None
         block = WagtailFormBlock()
 
         html = block.render(

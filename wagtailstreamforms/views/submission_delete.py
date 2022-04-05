@@ -40,6 +40,19 @@ class SubmissionDeleteView(DeleteView):
         return context
 
     def delete(self, request, *args, **kwargs):
+        """
+        Django 4.0 uses FormMixin, so this logic has been moved to form_valid.
+
+        This can be removed once Django 3.2 is no longer supported.
+        """
+        success_url = self.get_success_url()
+        submissions = self.get_submissions()
+        count = submissions.count()
+        submissions.delete()
+        self.create_success_message(count)
+        return HttpResponseRedirect(success_url)
+
+    def form_valid(self, request, *args, **kwargs):
         success_url = self.get_success_url()
         submissions = self.get_submissions()
         count = submissions.count()

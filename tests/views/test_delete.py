@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.urls import reverse
 
@@ -34,7 +33,7 @@ class DeleteViewTestCase(AppTestCase):
 
         self.client.login(username="user", password="password")
 
-    def test_get_responds(self):
+    def test_get_response(self):
         response = self.client.get(self.multiple_url)
         self.assertEqual(response.status_code, 200)
 
