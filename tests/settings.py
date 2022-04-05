@@ -43,10 +43,14 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-DJANGO_VERSION = int(re.search("dj([0-9]+)", os.environ.get("TOX_ENV_NAME", "dj40")).group(1))
-WAGTAIL_VERSION = int(re.search("wt([0-9]+)", os.environ.get("TOX_ENV_NAME", "wt216")).group(1))
+DJANGO_VERSION = int(
+    re.search("dj([0-9]+)", os.environ.get("TOX_ENV_NAME", "dj40")).group(1)
+)
+WAGTAIL_VERSION = int(
+    re.search("wt([0-9]+)", os.environ.get("TOX_ENV_NAME", "wt216")).group(1)
+)
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testdb"}}
 
