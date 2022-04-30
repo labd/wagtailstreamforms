@@ -27,3 +27,6 @@ Any settings with their defaults are listed below for quick reference.
     WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
         ('streamforms/form_block.html', 'Default Form Template'),
     )
+
+    # show the form reference field in the list view and export
+    WAGTAILSTREAMFORMS_SHOW_FORM_REFERENCE = True
