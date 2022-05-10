@@ -2,6 +2,16 @@
 Changelog
 *********
 
+3.18.1
+------
+* Dropped Django 2.X 3.0 and 3.1 support
+* Dropped Python 3.6 support
+* Dropped Wagtail 2.2 > 2.14 support
+
+3.18.0
+------
+* Wagtail 2.16 support
+
 3.17.0
 ------
 * Wagtail 2.15 support
