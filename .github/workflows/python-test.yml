@@ -58,6 +58,7 @@ jobs:
           - py37-dj30-wt213
           - py37-dj30-wt214
           - py37-dj30-wt215
+          - py37-dj30-wt216
           - py38-dj30-wt28
           - py38-dj30-wt29
           - py38-dj30-wt210
@@ -66,16 +67,21 @@ jobs:
           - py38-dj30-wt213
           - py38-dj30-wt214
           - py38-dj30-wt215
+          - py38-dj30-wt216
           - py37-dj31-wt214
           - py37-dj31-wt215
+          - py37-dj31-wt216
           - py38-dj31-wt214
           - py38-dj31-wt215
+          - py38-dj31-wt216
           - py37-dj32-wt213
           - py37-dj32-wt214
           - py37-dj32-wt215
+          - py37-dj32-wt216
           - py38-dj32-wt213
           - py38-dj32-wt214
           - py38-dj32-wt215
+          - py38-dj32-wt216
         include:
           - python-version: 3.6
             tox_env: py36-dj22-wt25
@@ -147,6 +153,8 @@ jobs:
             tox_env: py37-dj30-wt214
           - python-version: 3.7
             tox_env: py37-dj30-wt215
+          - python-version: 3.7
+            tox_env: py37-dj30-wt216
           - python-version: 3.8
             tox_env: py38-dj30-wt28
           - python-version: 3.8
@@ -163,26 +171,36 @@ jobs:
             tox_env: py38-dj30-wt214
           - python-version: 3.8
             tox_env: py38-dj30-wt215
+          - python-version: 3.8
+            tox_env: py38-dj30-wt216
           - python-version: 3.7
             tox_env: py37-dj31-wt214
           - python-version: 3.7
             tox_env: py37-dj31-wt215
+          - python-version: 3.7
+            tox_env: py37-dj31-wt216
           - python-version: 3.8
             tox_env: py38-dj31-wt214
           - python-version: 3.8
             tox_env: py38-dj31-wt215
+          - python-version: 3.8
+            tox_env: py38-dj31-wt216
           - python-version: 3.7
             tox_env: py37-dj32-wt213
           - python-version: 3.7
             tox_env: py37-dj32-wt214
           - python-version: 3.7
             tox_env: py37-dj32-wt215
+          - python-version: 3.7
+            tox_env: py37-dj32-wt216
           - python-version: 3.8
             tox_env: py38-dj32-wt213
           - python-version: 3.8
             tox_env: py38-dj32-wt214
           - python-version: 3.8
             tox_env: py38-dj32-wt215
+          - python-version: 3.8
+            tox_env: py38-dj32-wt216
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
