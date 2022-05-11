@@ -80,11 +80,8 @@ class CopyViewPermissionTestCase(AppTestCase):
         self.client.login(username="user", password="password")
 
         response = self.client.get(self.copy_url)
-        if settings.PRE_WAGTAIL_211:
-            self.assertEqual(response.status_code, 403)
-        else:
-            self.assertEqual(response.status_code, 302)
-            self.assertTrue(response.url.startswith("/cms/"))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith("/cms/"))
 
     def test_user_with_add_perm_has_access(self):
         access_admin = Permission.objects.get(codename="access_admin")
