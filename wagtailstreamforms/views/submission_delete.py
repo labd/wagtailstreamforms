@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.utils.translation import ungettext
+from django.utils.translation import ngettext
 from django.views.generic import DeleteView
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 
@@ -40,6 +40,19 @@ class SubmissionDeleteView(DeleteView):
         return context
 
     def delete(self, request, *args, **kwargs):
+        """
+        Django 4.0 uses FormMixin, so this logic has been moved to form_valid.
+
+        This can be removed once Django 3.2 is no longer supported.
+        """
+        success_url = self.get_success_url()
+        submissions = self.get_submissions()
+        count = submissions.count()
+        submissions.delete()
+        self.create_success_message(count)
+        return HttpResponseRedirect(success_url)
+
+    def form_valid(self, request, *args, **kwargs):
         success_url = self.get_success_url()
         submissions = self.get_submissions()
         count = submissions.count()
@@ -50,7 +63,7 @@ class SubmissionDeleteView(DeleteView):
     def create_success_message(self, count):
         messages.success(
             self.request,
-            ungettext(
+            ngettext(
                 "One submission has been deleted.",
                 "%(count)d submissions have been deleted.",
                 count,

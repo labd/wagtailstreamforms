@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.urls import reverse
 
@@ -34,7 +33,7 @@ class DeleteViewTestCase(AppTestCase):
 
         self.client.login(username="user", password="password")
 
-    def test_get_responds(self):
+    def test_get_response(self):
         response = self.client.get(self.multiple_url)
         self.assertEqual(response.status_code, 200)
 
@@ -102,11 +101,8 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.client.login(username="user", password="password")
 
         response = self.client.get(self.delete_url)
-        if settings.PRE_WAGTAIL_211:
-            self.assertEqual(response.status_code, 403)
-        else:
-            self.assertEqual(response.status_code, 302)
-            self.assertTrue(response.url.startswith("/cms/"))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith("/cms/"))
 
     def test_user_with_delete_perm_has_access(self):
         access_admin = Permission.objects.get(codename="access_admin")
