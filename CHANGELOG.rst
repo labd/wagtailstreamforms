@@ -2,6 +2,10 @@
 Changelog
 *********
 
+3.19.0
+------
+* Django 4.0 support
+
 3.18.1
 ------
 * Dropped Django 2.X 3.0 and 3.1 support
