@@ -2,6 +2,10 @@
 Changelog
 *********
 
+3.19.1
+------
+* Update get_options method for CheckboxesField, RadioField, MultiSelectField and DropdownField
+
 3.19.0
 ------
 * Django 4.0 support
