@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import List, Tuple
 
 from django import forms
 from django.utils.translation import gettext_lazy as _

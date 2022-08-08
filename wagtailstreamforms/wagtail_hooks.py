@@ -1,21 +1,16 @@
-from django.urls import include
 from django.contrib import messages
 from django.contrib.admin.utils import quote
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
-from django.urls import path, reverse
+from django.urls import include, path, reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.contrib.modeladmin.views import (
-    CreateView,
-    DeleteView,
-    EditView,
-    InspectView,
-)
+from wagtail.contrib.modeladmin.views import (CreateView, DeleteView, EditView,
+                                              InspectView)
 from wagtail.core import hooks
 
 from wagtailstreamforms import hooks as form_hooks
