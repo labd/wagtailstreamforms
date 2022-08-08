@@ -108,6 +108,10 @@ class TestFields(AppTestCase):
         cls = wsf_fields.DropdownField()
         field = cls.get_formfield(data)
 
+        block_value = {'label': 'dropdown', 'help_text': '', 'required': False, 'empty_label': '', 'choices': ['choice 1', 'choice 2', 'choice 3']}
+        options = wsf_fields.DropdownField().get_options(block_value=block_value)
+        assert options == {'label': 'dropdown', 'help_text': '', 'required': False, 'initial': None, 'choices': [('choice 1', 'choice 1'), ('choice 2', 'choice 2'), ('choice 3', 'choice 3')]}
+
         self.assertIsInstance(field, forms.ChoiceField)
         self.assertIsInstance(field.widget, forms.widgets.Select)
         self.assertEqual(field.label, data["label"])

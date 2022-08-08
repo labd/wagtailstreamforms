@@ -1,3 +1,5 @@
+from typing import Tuple, List
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from wagtail.core import blocks
@@ -53,7 +55,13 @@ class DropdownField(BaseField):
 
     def get_options(self, block_value):
         options = super().get_options(block_value)
-        choices = [(c.strip(), c.strip()) for c in block_value.get("choices")]
+        choices: List[Tuple[str, str]] = []
+        for c in block_value.get("choices"):
+            if isinstance(c, dict) and c.get('value'):
+                choices.append((c['value'].strip(), c['value'].strip()))
+            else:
+                choices.append((c.strip(), c.strip()))
+
         if block_value.get("empty_label"):
             choices.insert(0, ("", block_value.get("empty_label")))
         options.update({"choices": choices})
@@ -80,7 +88,12 @@ class MultiSelectField(BaseField):
 
     def get_options(self, block_value):
         options = super().get_options(block_value)
-        choices = [(c.strip(), c.strip()) for c in block_value.get("choices")]
+        choices: List[Tuple[str, str]] = []
+        for c in block_value.get("choices"):
+            if isinstance(c, dict) and c.get('value'):
+                choices.append((c['value'].strip(), c['value'].strip()))
+            else:
+                choices.append((c.strip(), c.strip()))
         options.update({"choices": choices})
         return options
 
@@ -105,7 +118,12 @@ class RadioField(BaseField):
 
     def get_options(self, block_value):
         options = super().get_options(block_value)
-        choices = [(c.strip(), c.strip()) for c in block_value.get("choices")]
+        choices: List[Tuple[str, str]] = []
+        for c in block_value.get("choices"):
+            if isinstance(c, dict) and c.get('value'):
+                choices.append((c['value'].strip(), c['value'].strip()))
+            else:
+                choices.append((c.strip(), c.strip()))
         options.update({"choices": choices})
         return options
 
@@ -130,7 +148,12 @@ class CheckboxesField(BaseField):
 
     def get_options(self, block_value):
         options = super().get_options(block_value)
-        choices = [(c.strip(), c.strip()) for c in block_value.get("choices")]
+        choices: List[Tuple[str, str]] = []
+        for c in block_value.get("choices"):
+            if isinstance(c, dict) and c.get('value'):
+                choices.append((c['value'].strip(), c['value'].strip()))
+            else:
+                choices.append((c.strip(), c.strip()))
         options.update({"choices": choices})
         return options
 
