@@ -3,8 +3,10 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
-from django.views.generic.detail import (BaseDetailView,
-                                         SingleObjectTemplateResponseMixin)
+from django.views.generic.detail import (
+    BaseDetailView,
+    SingleObjectTemplateResponseMixin,
+)
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms.models import Form

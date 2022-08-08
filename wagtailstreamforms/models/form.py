@@ -3,9 +3,14 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.admin.edit_handlers import (FieldPanel, MultiFieldPanel,
-                                         ObjectList, PageChooserPanel,
-                                         StreamFieldPanel, TabbedInterface)
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    MultiFieldPanel,
+    ObjectList,
+    PageChooserPanel,
+    StreamFieldPanel,
+    TabbedInterface,
+)
 from wagtail.core.models import Site
 
 from wagtailstreamforms import hooks

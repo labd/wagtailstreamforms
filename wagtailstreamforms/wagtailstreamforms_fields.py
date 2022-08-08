@@ -57,8 +57,8 @@ class DropdownField(BaseField):
         options = super().get_options(block_value)
         choices: List[Tuple[str, str]] = []
         for c in block_value.get("choices"):
-            if isinstance(c, dict) and c.get('value'):
-                choices.append((c['value'].strip(), c['value'].strip()))
+            if isinstance(c, dict) and c.get("value"):
+                choices.append((c["value"].strip(), c["value"].strip()))
             else:
                 choices.append((c.strip(), c.strip()))
 
@@ -90,8 +90,8 @@ class MultiSelectField(BaseField):
         options = super().get_options(block_value)
         choices: List[Tuple[str, str]] = []
         for c in block_value.get("choices"):
-            if isinstance(c, dict) and c.get('value'):
-                choices.append((c['value'].strip(), c['value'].strip()))
+            if isinstance(c, dict) and c.get("value"):
+                choices.append((c["value"].strip(), c["value"].strip()))
             else:
                 choices.append((c.strip(), c.strip()))
         options.update({"choices": choices})
@@ -120,8 +120,8 @@ class RadioField(BaseField):
         options = super().get_options(block_value)
         choices: List[Tuple[str, str]] = []
         for c in block_value.get("choices"):
-            if isinstance(c, dict) and c.get('value'):
-                choices.append((c['value'].strip(), c['value'].strip()))
+            if isinstance(c, dict) and c.get("value"):
+                choices.append((c["value"].strip(), c["value"].strip()))
             else:
                 choices.append((c.strip(), c.strip()))
         options.update({"choices": choices})
@@ -150,8 +150,8 @@ class CheckboxesField(BaseField):
         options = super().get_options(block_value)
         choices: List[Tuple[str, str]] = []
         for c in block_value.get("choices"):
-            if isinstance(c, dict) and c.get('value'):
-                choices.append((c['value'].strip(), c['value'].strip()))
+            if isinstance(c, dict) and c.get("value"):
+                choices.append((c["value"].strip(), c["value"].strip()))
             else:
                 choices.append((c.strip(), c.strip()))
         options.update({"choices": choices})
