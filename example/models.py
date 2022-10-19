@@ -1,9 +1,9 @@
 from django.db import models
 
-from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
+from wagtail.admin.panels import StreamFieldPanel
+from wagtail import blocks
+from wagtail.fields import StreamField
+from wagtail.models import Page
 from wagtailstreamforms.blocks import WagtailFormBlock
 from wagtailstreamforms.models.abstract import AbstractFormSetting
 

@@ -1,6 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail import blocks
+from wagtail.fields import StreamField
 
 from wagtailstreamforms.fields import BaseField, get_fields
 
