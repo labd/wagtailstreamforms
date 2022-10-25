@@ -8,11 +8,9 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.models import Site
-
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
@@ -43,7 +41,7 @@ class AbstractForm(models.Model):
     template_name = models.CharField(
         _("Template"), max_length=255, choices=get_setting("FORM_TEMPLATES")
     )
-    fields = FormFieldsStreamField([], verbose_name=_("Fields"))
+    fields = FormFieldsStreamField([], use_json_field=True, verbose_name=_("Fields"))
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )
@@ -90,7 +88,7 @@ class AbstractForm(models.Model):
         PageChooserPanel("post_redirect_page"),
     ]
 
-    field_panels = [StreamFieldPanel("fields")]
+    field_panels = [FieldPanel("fields")]
 
     edit_handler = TabbedInterface(
         [
