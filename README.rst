@@ -1,6 +1,8 @@
 Wagtail StreamForms
 ===================
 
+This seems to work with wagtail 4.1.1
+
 |CircleCI| |Codecov|
 
 Allows you to build forms in the CMS admin area and add them to any StreamField in your site.
