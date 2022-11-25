@@ -42,7 +42,7 @@ class AbstractForm(models.Model):
     template_name = models.CharField(
         _("Template"), max_length=255, choices=get_setting("FORM_TEMPLATES")
     )
-    fields = FormFieldsStreamField([], verbose_name=_("Fields"))
+    fields = FormFieldsStreamField([], verbose_name=_("Fields"), use_json_field=True)
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )
