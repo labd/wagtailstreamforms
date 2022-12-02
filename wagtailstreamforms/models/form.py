@@ -8,7 +8,6 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.core.models import Site
@@ -43,7 +42,7 @@ class AbstractForm(models.Model):
     template_name = models.CharField(
         _("Template"), max_length=255, choices=get_setting("FORM_TEMPLATES")
     )
-    fields = FormFieldsStreamField([], verbose_name=_("Fields"))
+    fields = FormFieldsStreamField([], verbose_name=_("Fields"), use_json_field=True)
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )
@@ -90,7 +89,7 @@ class AbstractForm(models.Model):
         PageChooserPanel("post_redirect_page"),
     ]
 
-    field_panels = [StreamFieldPanel("fields")]
+    field_panels = [FieldPanel("fields")]
 
     edit_handler = TabbedInterface(
         [
