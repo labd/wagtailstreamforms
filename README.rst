@@ -1,8 +1,6 @@
 Wagtail StreamForms
 ===================
 
-This seems to work with wagtail 4.1.1
-
 |CircleCI| |Codecov|
 
 Allows you to build forms in the CMS admin area and add them to any StreamField in your site.
@@ -27,11 +25,17 @@ If you are using a version of wagtail 1.x, then the latest compatible version of
 
     $ pip install wagtailstreamforms<2
 
-Other wise you must install a version of this package from 2 onwards:
+If you are using a version of wagtail 2.x, then the latest compatible version of this package is 3.19.1:
 
 .. code:: bash
 
-    $ pip install wagtailstreamforms>=2
+    $ pip install wagtailstreamforms<3.19.2
+
+Otherwise you must install a version of this package from 2 onwards:
+
+.. code:: bash
+
+    $ pip install wagtailstreamforms>=3.19.2
 
 What else is included?
 ----------------------
