@@ -18,7 +18,7 @@ tests_require = [
 
 
 install_requires = [
-    "wagtail>=2,<2.17",
+    "wagtail>=2,<4.1",
     "Unidecode>=0.04.14,<2.0",
 ]
 
@@ -70,6 +70,8 @@ setup(
         "Framework :: Django :: 4",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
+        "Framework :: Wagtail :: 3",
+        "Framework :: Wagtail :: 4",
         "Topic :: Internet :: WWW/HTTP :: Site Management",
     ],
 )
