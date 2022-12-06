@@ -90,7 +90,7 @@ class AbstractForm(models.Model):
         PageChooserPanel("post_redirect_page"),
     ]
 
-    field_panels = [StreamFieldPanel("fields")]
+    field_panels = [FieldPanel("fields")]
 
     edit_handler = TabbedInterface(
         [
