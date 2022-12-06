@@ -29,7 +29,7 @@ class AdvancedSettingsViewTestCase(AppTestCase):
     def test_invalid_form_responds(self):
         response = self.client.post(self.advanced_url, data={})
         self.assertEqual(response.status_code, 200)
-        self.assertInHTML("This field is required.", str(response.content))
+        self.assertIn("This field is required.", str(response.content))
 
     def test_valid_post(self):
         response = self.client.post(
