@@ -2,6 +2,10 @@
 Changelog
 *********
 
+3.20.0
+------
+ * Wagtail 3.0 and 4.0 support
+
 3.19.1
 ------
 * Update get_options method for CheckboxesField, RadioField, MultiSelectField and DropdownField
