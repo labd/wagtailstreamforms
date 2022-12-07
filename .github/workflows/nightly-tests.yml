@@ -3,11 +3,13 @@
 
 name: Nightly Wagtail test
 
-on:
-  schedule:
-    - cron: "0 0 * * *"
+on: [push]
+# FIXME: Replace this with push after successful run
+# on: 
+#   schedule:
+#     - cron: "0 0 * * *"
 
-  workflow_dispatch:
+#   workflow_dispatch:
 
 jobs:
   nightly-test:
