@@ -2,9 +2,13 @@
 Changelog
 *********
 
+3.20.1
+------
+* Remove CircleCI from package
+
 3.20.0
 ------
- * Wagtail 3.0 and 4.0 support
+* Wagtail 3.0 and 4.0 support
 
 3.19.1
 ------
