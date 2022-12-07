@@ -302,11 +302,11 @@ msgstr "Dinsdag"
 
 #: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:23
 msgid "Wednesday"
-msgstr ""
+msgstr "Woensdag"
 
 #: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:24
 msgid "Thursday"
-msgstr "Woensdag"
+msgstr "Donderdag"
 
 #: templates/streamforms/wagtailadmin/shared/datetimepicker_translations.html:25
 msgid "Friday"
