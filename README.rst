@@ -1,7 +1,7 @@
 Wagtail StreamForms
 ===================
 
-|CircleCI| |Codecov|
+|tests| |Codecov| |pypi| |github|
 
 Allows you to build forms in the CMS admin area and add them to any StreamField in your site.
 You can add your own fields along with the vast array of default fields which include the likes
@@ -90,7 +90,12 @@ Create yourself a superuser
 
 Go to http://127.0.0.1:8000
 
-.. |CircleCI| image:: https://circleci.com/gh/labd/wagtailstreamforms/tree/master.svg?style=svg
-   :target: https://circleci.com/gh/labd/wagtailstreamforms/tree/master
+.. |tests| image:: https://github.com/labd/wagtailstreamforms/workflows/Python%20Tests/badge.svg
+   :target: https://github.com/labd/wagtailstreamforms/actions?query=workflow%3A%22Python+Tests%22
 .. |Codecov| image:: https://codecov.io/gh/labd/wagtailstreamforms/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/labd/wagtailstreamforms
+.. |pypi| image:: https://img.shields.io/pypi/v/wagtailstreamforms.svg
+   :target: https://pypi.org/project/wagtailstreamforms/
+.. |github| image:: https://img.shields.io/github/stars/labd/wagtailstreamforms.svg?style=social&logo=github
+   :target: https://github.com/labd/wagtailstreamforms/stargazers
+
