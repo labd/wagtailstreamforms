@@ -37,8 +37,6 @@ jobs:
           pip install "psycopg2>=2.6"
           pip install "git+https://github.com/wagtail/wagtail.git@main#egg=wagtail"
           pip install -e .[test]
-        env:
-          DJANGO_SETTINGS_MODULE: tests.settings
       - name: Test
         id: test
         continue-on-error: true
@@ -49,3 +47,4 @@ jobs:
           DATABASE_HOST: localhost
           DATABASE_USER: postgres
           DATABASE_PASS: postgres
+          DJANGO_SETTINGS_MODULE: tests.settings
