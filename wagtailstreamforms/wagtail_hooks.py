@@ -142,7 +142,7 @@ class FormModelAdmin(ModelAdmin):
     list_filter = None
     menu_label = _(get_setting("ADMIN_MENU_LABEL"))
     menu_order = get_setting("ADMIN_MENU_ORDER")
-    menu_icon = "icon icon-form"
+    menu_icon = "form"
     search_fields = ("title", "slug")
     button_helper_class = FormButtonHelper
     inspect_view_class = InspectFormView
