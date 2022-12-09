@@ -2,6 +2,14 @@
 Changelog
 *********
 
+3.21.0
+------
+* Add Wagtail 4.1 support
+* Update Wagtail menu icon
+* Add nightly test against Wagtail main branch
+* feat: show the form reference field in the list view and export
+* Update Dutch translations
+
 3.20.1
 ------
 * Remove CircleCI from package
