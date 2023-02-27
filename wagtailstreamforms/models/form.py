@@ -4,14 +4,14 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
     TabbedInterface,
 )
-from wagtail.core.models import Site
+from wagtail.models import Site
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
@@ -43,7 +43,7 @@ class AbstractForm(models.Model):
     template_name = models.CharField(
         _("Template"), max_length=255, choices=get_setting("FORM_TEMPLATES")
     )
-    fields = FormFieldsStreamField([], verbose_name=_("Fields"))
+    fields = FormFieldsStreamField([], verbose_name=_("Fields"), use_json_field=True)
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )

@@ -2,7 +2,7 @@ from typing import List, Tuple
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from wagtail.core import blocks
+from wagtail import blocks
 
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import BaseField, register

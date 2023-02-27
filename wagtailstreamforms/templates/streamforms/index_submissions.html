@@ -1,5 +1,5 @@
 {% extends "wagtailadmin/base.html" %}
-{% load i18n %}
+{% load i18n wagtailadmin_tags %}
 {% block titletag %}{% blocktrans with form_title=object.title|capfirst %}Submissions of {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block extra_js %}
     {{ block.super }}
@@ -65,40 +65,52 @@
     </script>
 {% endblock %}
 {% block content %}
-    <header class="nice-padding hasform">
-        <form action="" method="get" novalidate>
-            <div class="row">
-                <div class="left">
-                    <div class="col">
-                        <h1 class="icon icon-form">
-                            {% blocktrans with form_title=object.title|capfirst %}Form data <span>{{ form_title }}</span>{% endblocktrans %}
-                        </h1>
-                    </div>
-                    <div class="col search-bar">
-                        <ul class="fields row rowflush">
-                            {% for field in filter_form %}
-                                {% include "wagtailadmin/shared/field_as_li.html" with field=field field_classes="field-small" li_classes="col4" %}
-                            {% endfor %}
-                            <li class="submit col2">
-                                <button name="action" value="filter" class="button button-filter">{% trans 'Filter' %}</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="right">
-                    <button name="action" value="CSV" class="button bicolor icon icon-download">{% trans 'Download CSV' %}</button>
+    <header class="w-header w-header--no-borderclassname w-header--merged">
+        <div class="row">
+            <div class="left">
+                <div class="col">
+                    <h1 class="w-header__title" id="header-title">
+                        {% icon class_name="w-header__glyph" name="form" %}
+                        Form Data<span class="w-header__subtitle">{{ object.title|capfirst }}</span>
+                    </h1>
                 </div>
             </div>
-        </form>
+            <div class="right">
+            <button name="action" value="CSV"  class="button bicolor icon icon-download">
+                {% trans 'Download CSV' %}
+            </button>
+            </div>
+        </div>
     </header>
-    <div>
-        {% if object_list %}
-            <form action="{% url 'wagtailstreamforms:streamforms_delete_submissions' object.id %}" method="get">
-                {% include "streamforms/list_submissions.html" %}
-                {% include "streamforms/partials/pagination_nav.html" with items=page_obj %}
+
+
+    <div class="report filterable">
+        <div class="report__results w-overflow-y-hidden">
+            {% if object_list %}
+                <form action="{% url 'wagtailstreamforms:streamforms_delete_submissions' object.id %}" method="get">
+                    {% include "streamforms/list_submissions.html" %}
+
+                </form>
+            {% else %}
+                <p class="no-results-message nice-padding">{% blocktrans with title=object.title %}There have been no submissions of the '{{ title }}' form.{% endblocktrans %}</p>
+            {% endif %}
+        </div>
+        <div class="filterable__filters">
+            <h2>{% trans 'Filter' %}</h2>
+            <form action="" method="get" novalidate>
+                <button
+                    class="button button-longrunning"
+                    type="submit"
+                    data-controller="w-progress"
+                    data-action="w-progress#activate"
+                >
+                    {% icon name="spinner" %}{% trans 'Apply filters' %}
+                </button>
+                {% for field in filter_form %}
+                    {% include "wagtailadmin/shared/field_as_li.html" with field=field %}
+                {% endfor %}
             </form>
-        {% else %}
-            <p class="no-results-message nice-padding">{% blocktrans with title=object.title %}There have been no submissions of the '{{ title }}' form.{% endblocktrans %}</p>
-        {% endif %}
+        </div>
+        {% include "streamforms/partials/pagination_nav.html" with items=page_obj %}
     </div>
 {% endblock %}

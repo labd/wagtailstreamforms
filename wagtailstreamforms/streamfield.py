@@ -1,6 +1,6 @@
 from django.core.exceptions import ImproperlyConfigured
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
+from wagtail import blocks
+from wagtail.fields import StreamField
 
 from wagtailstreamforms.fields import BaseField, get_fields
 
@@ -44,6 +44,6 @@ class FormFieldStreamBlock(blocks.StreamBlock):
 
 
 class FormFieldsStreamField(StreamField):
-    def __init__(self, block_types, **kwargs):
-        super().__init__(block_types, **kwargs)
+    def __init__(self, block_types, use_json_field=None, **kwargs):
+        super().__init__(block_types, use_json_field=use_json_field, **kwargs)
         self.stream_block = FormFieldStreamBlock(block_types, required=not self.blank)

@@ -3,7 +3,7 @@ import uuid
 from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from wagtail.core import blocks
+from wagtail import blocks
 
 from wagtailstreamforms.models import Form
 
@@ -39,6 +39,11 @@ class FormChooserBlock(blocks.ChooserBlock):
                 return self.target_model.objects.get(pk=value)
             except self.target_model.DoesNotExist:
                 return None
+
+    def get_form_state(self, value):
+        return self.field.widget.format_value(
+            self.field.prepare_value(self.value_for_form(value))
+        )
 
 
 class WagtailFormBlock(blocks.StructBlock):

@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # wagtail
-    'wagtail.core',
+    'wagtail',
     'wagtail.admin',
     'wagtail.documents',
     'wagtail.snippets',
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'wagtail.contrib.redirects',
     'wagtail.sites',
     'wagtail.contrib.modeladmin',
-    'wagtail.contrib.postgres_search',
     'wagtail.contrib.settings',
     'wagtail.contrib.search_promotions',
 
@@ -143,7 +142,8 @@ MEDIA_URL = "/media/"
 # Wagtail
 
 WAGTAIL_SITE_NAME = 'example.com'
-
+WAGTAILADMIN_BASE_URL = '127.0.0.1'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Forms
 
