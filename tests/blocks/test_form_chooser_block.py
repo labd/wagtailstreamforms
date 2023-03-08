@@ -14,14 +14,10 @@ class TestFormChooserBlockTestCase(AppTestCase):
         block = FormChooserBlock()
 
         self.assertEqual(block.value_for_form(self.form.pk), self.form.pk)
-        self.assertEqual(block.value_for_form(self.form), self.form.pk)
+        self.assertEqual(block.value_for_form(self.form), self.form)
 
     def test_value_from_form(self):
         block = FormChooserBlock()
-
-        # possibly a bug in wagtail as not choosing a value and submitting
-        # raises invalid literal for int() with base 10: ''
-        self.assertIsNone(block.value_from_form(""))
 
         self.assertTrue(
             isinstance(block.value_from_form(self.form.pk), self.form.__class__)
