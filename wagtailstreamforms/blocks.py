@@ -65,7 +65,6 @@ class WagtailFormBlock(blocks.StructBlock):
         form_reference = value.get("form_reference")
 
         if form:
-
             # check the context for an invalid form submitted to the page.
             # Use that instead if it has the same unique form_reference number
             invalid_form_reference = context.get("invalid_stream_form_reference")

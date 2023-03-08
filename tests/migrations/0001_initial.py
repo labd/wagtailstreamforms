@@ -7,7 +7,6 @@ import wagtailstreamforms.fields
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [("wagtailstreamforms", "0001_initial")]

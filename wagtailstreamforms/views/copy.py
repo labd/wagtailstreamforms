@@ -3,8 +3,10 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext_lazy as _
-from django.views.generic.detail import (BaseDetailView,
-                                         SingleObjectTemplateResponseMixin)
+from django.views.generic.detail import (
+    BaseDetailView,
+    SingleObjectTemplateResponseMixin,
+)
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms.models import Form
@@ -49,7 +51,6 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
         form = CopyForm(request.POST)
 
         if form.is_valid():
-
             copied = self.object.copy()
             copied.title = form.cleaned_data["title"]
             copied.slug = form.cleaned_data["slug"]
