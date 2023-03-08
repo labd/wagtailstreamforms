@@ -144,7 +144,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox tox-gh-actions
       - name: Test with tox
-        run: tox -e ${{ matrix.tox_env }} --index-url=https://pypi.python.org/simple/
+        run: tox -e ${{ matrix.tox_env }} -- index-url=https://pypi.python.org/simple/
       - name: Prepare artifacts
         run: mkdir -p .coverage-data && mv .coverage.* .coverage-data/
       - uses: actions/upload-artifact@master
