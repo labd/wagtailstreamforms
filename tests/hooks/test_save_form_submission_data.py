@@ -4,7 +4,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import QueryDict
 
 from wagtailstreamforms.models import Form
-from wagtailstreamforms.wagtailstreamforms_hooks import save_form_submission_data
+from wagtailstreamforms.wagtailstreamforms_hooks import \
+    save_form_submission_data
 
 from ..test_case import AppTestCase
 
