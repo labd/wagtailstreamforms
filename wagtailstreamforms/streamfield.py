@@ -20,7 +20,6 @@ class FormFieldStreamBlock(blocks.StreamBlock):
         self._child_blocks = self.base_blocks.copy()
 
         for name, field_class in get_fields().items():
-
             # ensure the field is a subclass of BaseField.
             if not issubclass(field_class, BaseField):
                 raise ImproperlyConfigured(

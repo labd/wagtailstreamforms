@@ -1,18 +1,17 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test import override_settings
 from django.test.client import Client
-
-try:
-    from mock import patch
-except ModuleNotFoundError:
-    from unittest.mock import patch
-
 from wagtail.core.models import Page
 
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.wagtail_hooks import process_form
 
 from ..test_case import AppTestCase
+
+try:
+    from mock import patch
+except ModuleNotFoundError:
+    from unittest.mock import patch
 
 
 class TestHook(AppTestCase):

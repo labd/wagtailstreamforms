@@ -1,11 +1,12 @@
 import uuid
 
-from django import forms
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from wagtail.core import blocks
 
 from wagtailstreamforms.models import Form
+from wagtailstreamforms.wagtail_hooks import WagtailStreamFormsChooser
 
 
 class InfoBlock(blocks.CharBlock):
@@ -18,27 +19,16 @@ class InfoBlock(blocks.CharBlock):
 
 
 class FormChooserBlock(blocks.ChooserBlock):
-    target_model = Form
-    widget = forms.Select
+    @cached_property
+    def target_model(self):
+        return Form
 
-    def value_for_form(self, value):
-        if isinstance(value, self.target_model):
-            return value.pk
-        return value
+    @cached_property
+    def widget(self):
+        return WagtailStreamFormsChooser()
 
-    def value_from_form(self, value):
-        if value == "":
-            return None
-        return super().value_from_form(value)
-
-    def to_python(self, value):
-        if value is None:
-            return value
-        else:
-            try:
-                return self.target_model.objects.get(pk=value)
-            except self.target_model.DoesNotExist:
-                return None
+    def get_form_state(self, value):
+        return self.widget.get_value_data(value)
 
 
 class WagtailFormBlock(blocks.StructBlock):
@@ -75,7 +65,6 @@ class WagtailFormBlock(blocks.StructBlock):
         form_reference = value.get("form_reference")
 
         if form:
-
             # check the context for an invalid form submitted to the page.
             # Use that instead if it has the same unique form_reference number
             invalid_form_reference = context.get("invalid_stream_form_reference")

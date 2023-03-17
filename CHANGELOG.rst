@@ -1,6 +1,11 @@
 *********
 Changelog
 *********
+3.22
+----
+* Add Wagtail 4.2 support
+* Add Django 4.1 support
+* Fix issue with FormChooserBlock
 
 3.21.0
 ------

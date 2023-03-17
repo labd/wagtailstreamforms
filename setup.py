@@ -18,8 +18,9 @@ tests_require = [
 
 
 install_requires = [
-    "wagtail>=2,<4.2",
+    "wagtail>=2,<4.3",
     "Unidecode>=0.04.14,<2.0",
+    "wagtail-generic-chooser>=0.5.0,<0.6",
 ]
 
 documentation_extras = [
@@ -68,6 +69,7 @@ setup(
         "Framework :: Django :: 2.2",
         "Framework :: Django :: 3.2",
         "Framework :: Django :: 4",
+        "Framework :: Django :: 4.1",
         "Framework :: Wagtail",
         "Framework :: Wagtail :: 2",
         "Framework :: Wagtail :: 3",
