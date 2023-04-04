@@ -1,6 +1,27 @@
 *********
 Changelog
 *********
+3.22
+----
+* Add Wagtail 4.2 support
+* Add Django 4.1 support
+* Fix issue with FormChooserBlock
+
+3.21.0
+------
+* Add Wagtail 4.1 support
+* Update Wagtail menu icon
+* Add nightly test against Wagtail main branch
+* feat: show the form reference field in the list view and export
+* Update Dutch translations
+
+3.20.1
+------
+* Remove CircleCI from package
+
+3.20.0
+------
+* Wagtail 3.0 and 4.0 support
 
 3.19.1
 ------

@@ -4,7 +4,6 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from wagtailstreamforms.fields import get_fields
-from wagtailstreamforms.utils.general import get_slug_from_string
 
 
 class BaseForm(forms.Form):

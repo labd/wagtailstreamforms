@@ -10,7 +10,6 @@ import wagtailstreamforms.streamfield
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [("wagtailcore", "0040_page_draft_title")]

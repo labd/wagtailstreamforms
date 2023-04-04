@@ -12,14 +12,14 @@ class FormFieldStreamBlock(blocks.StreamBlock):
         self._constructor_kwargs = kwargs
 
         # Note, this is calling BaseStreamBlock's super __init__, not FormFieldStreamBlock's.
-        # We don't want BaseStreamBlock.__init__() to run, because it tries to assign to self.child_blocks,
-        # which we've overridden with a @property. But we DO want Block.__init__() to run.
+        # We don't want BaseStreamBlock.__init__() to run, because it tries to assign to
+        # self.child_blocks, which we've overridden with a @property. But we DO want
+        # Block.__init__() to run.
         super(blocks.BaseStreamBlock, self).__init__()
 
         self._child_blocks = self.base_blocks.copy()
 
         for name, field_class in get_fields().items():
-
             # ensure the field is a subclass of BaseField.
             if not issubclass(field_class, BaseField):
                 raise ImproperlyConfigured(

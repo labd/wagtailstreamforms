@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from .abstract import AbstractFormSetting
-from .file import FormSubmissionFile
-from .form import Form
-from .submission import FormSubmission
+from .abstract import AbstractFormSetting  # noqa
+from .file import FormSubmissionFile  # noqa
+from .form import Form  # noqa
+from .submission import FormSubmission  # noqa
 
 
 def get_form_model_string():

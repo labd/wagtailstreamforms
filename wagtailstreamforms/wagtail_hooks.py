@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.contrib.admin.utils import quote
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.urls import include, path, reverse
-from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from generic_chooser.views import ModelChooserViewSet
+from generic_chooser.widgets import AdminChooser
 from wagtail.admin import messages as wagtail_messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
@@ -87,7 +87,7 @@ class FormButtonHelper(ButtonHelper):
                 )
             )
 
-        # users that can do any form actions can vies submissions
+        # users that can do any form actions can view submissions
         buttons.append(
             self.button(
                 pk,
@@ -144,7 +144,7 @@ class FormModelAdmin(ModelAdmin):
     list_filter = None
     menu_label = _(get_setting("ADMIN_MENU_LABEL"))
     menu_order = get_setting("ADMIN_MENU_ORDER")
-    menu_icon = "icon icon-form"
+    menu_icon = "form"
     search_fields = ("title", "slug")
     button_helper_class = FormButtonHelper
     inspect_view_class = InspectFormView
@@ -223,7 +223,8 @@ def process_form(page, request, *args, **kwargs):
                     )
 
                 # redirect to the page defined in the form
-                # or the current page as a fallback - this will avoid refreshing and submitting again
+                # or the current page as a fallback - this will avoid refreshing
+                # and submitting again
                 redirect_page = form_def.post_redirect_page or page
 
                 return redirect(redirect_page.get_url(request), context=context)
@@ -246,3 +247,26 @@ def process_form(page, request, *args, **kwargs):
                 return TemplateResponse(
                     request, page.get_template(request, *args, **kwargs), context
                 )
+
+
+class WagtailStreamFormsChooserViewSet(ModelChooserViewSet):
+    icon = "form"
+    model = Form
+    page_title = _("Choose a form")
+    per_page = 10
+
+
+class WagtailStreamFormsChooser(AdminChooser):
+    choose_one_text = _("Choose a form")
+    choose_another_text = _("Choose another form")
+    link_to_chosen_text = _("Edit this form")
+    model = Form
+    choose_modal_url_name = "wagtailstreamforms_chooser:choose"
+    icon = "form"
+
+
+@hooks.register("register_admin_viewset")
+def register_wagtailstreamforms_chooser_viewset():
+    return WagtailStreamFormsChooserViewSet(
+        "wagtailstreamforms_chooser", url_prefix="wagtailstreamforms-chooser"
+    )

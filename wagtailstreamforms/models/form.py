@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail import VERSION as WAGTAIL_VERSION
@@ -147,7 +148,8 @@ class AbstractForm(models.Model):
             (get_slug_from_string(field["value"]["label"]), field["value"]["label"])
             for field in self.get_form_fields()
         ]
-
+        if getattr(settings, "WAGTAILSTREAMFORMS_SHOW_FORM_REFERENCE", False):
+            data_fields += [("form_reference", _("Form reference"))]
         return data_fields
 
     def get_form(self, *args, **kwargs):

@@ -31,14 +31,14 @@ class CopyViewTestCase(AppTestCase):
     def test_invalid_form_responds(self):
         response = self.client.post(self.copy_url, data={})
         self.assertEqual(response.status_code, 200)
-        self.assertInHTML("This field is required.", str(response.content))
+        self.assertIn("This field is required.", str(response.content))
 
     def test_invalid_form_slug_in_use_error(self):
         response = self.client.post(
             self.copy_url, data={"title": "new copy", "slug": self.form.slug}
         )
         self.assertEqual(response.status_code, 200)
-        self.assertInHTML("This slug is already in use", str(response.content))
+        self.assertIn("This slug is already in use", str(response.content))
 
     def test_invalid_pk_raises_404(self):
         response = self.client.get(self.invalid_copy_url)

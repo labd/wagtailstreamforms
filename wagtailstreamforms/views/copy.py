@@ -51,7 +51,6 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
         form = CopyForm(request.POST)
 
         if form.is_valid():
-
             copied = self.object.copy()
             copied.title = form.cleaned_data["title"]
             copied.slug = form.cleaned_data["slug"]
