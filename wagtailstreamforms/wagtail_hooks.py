@@ -15,7 +15,7 @@ from wagtail.contrib.modeladmin.views import (
     EditView,
     InspectView,
 )
-from wagtail.core import hooks
+from wagtail import hooks
 
 from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from django.test import override_settings
 from django.test.client import Client
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.wagtail_hooks import process_form
@@ -221,7 +221,7 @@ class TestHook(AppTestCase):
         self.assertIsNone(response)
 
     def test_no_form_id_returns_nothing(self):
-        form = self.test_form()
+        self.test_form()
         fake_request = self.rf.post("/fake/", {})
         fake_request.user = AnonymousUser()
 

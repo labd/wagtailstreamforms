@@ -14,7 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # wagtail
-    "wagtail.core",
+    "wagtail",
     "wagtail.admin",
     "wagtail.documents",
     "wagtail.snippets",

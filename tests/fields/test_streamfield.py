@@ -21,11 +21,11 @@ class TestCorrectTypeRegistering(AppTestCase):
         del fields._fields["good"]
 
     def test_child_blocks(self):
-        field = FormFieldsStreamField([])
+        field = FormFieldsStreamField([], use_json_field=True)
         self.assertIn("good", field.stream_block.child_blocks)
 
     def test_dependencies(self):
-        field = FormFieldsStreamField([])
+        field = FormFieldsStreamField([], use_json_field=True)
         self.assertListEqual(
             [b.__class__ for b in field.stream_block.dependencies],
             [b.__class__ for b in field.stream_block.child_blocks.values()],
@@ -52,6 +52,6 @@ class TestIncorrectTypeRegistering(AppTestCase):
         )
 
         with self.assertRaises(ImproperlyConfigured) as e:
-            FormFieldsStreamField([])
+            FormFieldsStreamField([], use_json_field=True)
 
         self.assertEqual(e.exception.args[0], expected_error)

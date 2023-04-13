@@ -2,7 +2,7 @@ from django import forms
 from django.core import exceptions
 from django.db import models
 from django.utils.text import capfirst
-from wagtail.core import blocks
+from wagtail import blocks
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.utils.apps import get_app_submodules
