@@ -96,9 +96,7 @@ class SubmissionListView(SingleObjectMixin, ListView):
             form_data = s.get_data()
             form_files = s.files.all()
             data_row = [form_data.get(name) for name, label in data_fields]
-            data_rows.append(
-                {"model_id": s.id, "fields": data_row, "files": form_files}
-            )
+            data_rows.append({"model_id": s.id, "fields": data_row, "files": form_files})
 
         context.update(
             {

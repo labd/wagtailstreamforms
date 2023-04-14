@@ -28,6 +28,4 @@ def save_form_submission_data(instance, form):
     # save the form files
     for field in form.files:
         for file in form.files.getlist(field):
-            FormSubmissionFile.objects.create(
-                submission=submission, field=field, file=file
-            )
+            FormSubmissionFile.objects.create(submission=submission, field=field, file=file)

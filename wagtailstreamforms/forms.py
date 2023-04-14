@@ -34,9 +34,7 @@ class FormBuilder:
 
             # check we have the field
             if field_type not in registered_fields:
-                raise AttributeError(
-                    "Could not find a registered field of type %s" % field_type
-                )
+                raise AttributeError("Could not find a registered field of type %s" % field_type)
 
             # get the field
             registered_cls = registered_fields[field_type]()

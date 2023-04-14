@@ -13,9 +13,7 @@ class InfoBlock(blocks.CharBlock):
     def render_form(self, value, prefix="", errors=None):
         field = self.field
         shown_value = value if value else field.help_text
-        return mark_safe(
-            '<div style="margin-top:5px;padding:0.9em 1.2em;">%s</div>' % shown_value
-        )
+        return mark_safe('<div style="margin-top:5px;padding:0.9em 1.2em;">%s</div>' % shown_value)
 
 
 class FormChooserBlock(blocks.ChooserBlock):
