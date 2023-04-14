@@ -24,16 +24,12 @@ class AdvancedSettingsTests(AppTestCase):
         with self.assertRaisesMessage(ImproperlyConfigured, msg):
             get_advanced_settings_model()
 
-    @override_settings(
-        WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.InvalidFormSettingsModel"
-    )
+    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.InvalidFormSettingsModel")
     def test_invalid_model_inheritance(self):
         msg = "must inherit from 'wagtailstreamforms.models.AbstractFormSetting'"
         with self.assertRaisesMessage(ImproperlyConfigured, msg):
             get_advanced_settings_model()
 
-    @override_settings(
-        WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel"
-    )
+    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel")
     def test_valid_model_returns_class(self):
         self.assertIs(get_advanced_settings_model(), ValidFormSettingsModel)

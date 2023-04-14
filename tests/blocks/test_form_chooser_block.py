@@ -19,12 +19,8 @@ class TestFormChooserBlockTestCase(AppTestCase):
     def test_value_from_form(self):
         block = FormChooserBlock()
 
-        self.assertTrue(
-            isinstance(block.value_from_form(self.form.pk), self.form.__class__)
-        )
-        self.assertTrue(
-            isinstance(block.value_from_form(self.form), self.form.__class__)
-        )
+        self.assertTrue(isinstance(block.value_from_form(self.form.pk), self.form.__class__))
+        self.assertTrue(isinstance(block.value_from_form(self.form), self.form.__class__))
 
     def test_to_python(self):
         block = FormChooserBlock()

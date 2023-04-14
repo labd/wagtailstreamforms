@@ -61,6 +61,4 @@ class TestHook(AppTestCase):
             json.loads(instance.get_submission_class().objects.all()[0].form_data),
             expected_data,
         )
-        self.assertEqual(
-            instance.get_submission_class().objects.all()[0].files.count(), 2
-        )
+        self.assertEqual(instance.get_submission_class().objects.all()[0].files.count(), 2)
