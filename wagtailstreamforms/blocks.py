@@ -5,9 +5,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
-from wagtailstreamforms.models import Form
-from wagtailstreamforms.wagtail_hooks import WagtailStreamFormsChooser
-
 
 class InfoBlock(blocks.CharBlock):
     def render_form(self, value, prefix="", errors=None):
@@ -19,10 +16,14 @@ class InfoBlock(blocks.CharBlock):
 class FormChooserBlock(blocks.ChooserBlock):
     @cached_property
     def target_model(self):
+        from .models import Form
+
         return Form
 
     @cached_property
     def widget(self):
+        from .wagtail_hooks import WagtailStreamFormsChooser
+
         return WagtailStreamFormsChooser()
 
     def get_form_state(self, value):
