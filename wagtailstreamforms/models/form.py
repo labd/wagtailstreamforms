@@ -142,11 +142,14 @@ class AbstractForm(models.Model):
     copy.alters_data = True
 
     def get_data_fields(self):
-        """Returns a list of tuples with (field_name, field_label)."""
+        """Returns a list of tuples with (field_name, field_label).
+
+        Source https://github.com/vinodMS/wagtailstreamforms/pull/1
+        """
 
         data_fields = [("submit_time", _("Submission date"))]
         data_fields += [
-            (get_slug_from_string(field["value"]["label"]), field["value"]["label"])
+            (get_slug_from_string(field["id"]), field["value"]["label"])
             for field in self.get_form_fields()
         ]
         if getattr(settings, "WAGTAILSTREAMFORMS_SHOW_FORM_REFERENCE", False):
