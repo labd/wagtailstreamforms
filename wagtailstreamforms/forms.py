@@ -31,6 +31,7 @@ class FormBuilder:
         for field in self.fields:
             field_type = field.get("type")
             field_value = field.get("value")
+            field_id = field.get('id')
 
             # check we have the field
             if field_type not in registered_fields:
@@ -38,9 +39,8 @@ class FormBuilder:
 
             # get the field
             registered_cls = registered_fields[field_type]()
-            field_name = registered_cls.get_formfield_name(field_value)
             field_cls = registered_cls.get_formfield(field_value)
-            formfields[field_name] = field_cls
+            formfields[field_id] = field_cls
 
         # add fields to uniquely identify the form
         formfields["form_id"] = forms.CharField(widget=forms.HiddenInput)
