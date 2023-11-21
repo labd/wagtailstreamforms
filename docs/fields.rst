@@ -198,7 +198,7 @@ An example model choice field of users.
    from django import forms
    from django.contrib.auth.models import User
 
-   from wagtail.core import blocks
+   from wagtail import blocks
    from wagtailstreamforms.fields import BaseField, register
 
 
