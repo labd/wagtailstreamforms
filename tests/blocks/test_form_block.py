@@ -13,6 +13,7 @@ class TestFormBlockTestCase(AppTestCase):
         self.form = Form.objects.get(pk=1)
 
     def test_render(self):
+        self.maxDiff = None
         block = WagtailFormBlock()
 
         html = block.render(
@@ -53,7 +54,7 @@ class TestFormBlockTestCase(AppTestCase):
                     "</div>"
                     '<div class="field-row">'
                     '<label for="id_email">email</label>'
-                    '<input type="email" name="email" required id="id_email" />'
+                    '<input type="email" maxlength="320" name="email" required id="id_email" />'
                     '<p class="help-text">Help</p>'
                     "</div>"
                     '<div class="field-row">'
@@ -153,7 +154,7 @@ class TestFormBlockTestCase(AppTestCase):
                     "</div>"
                     '<div class="field-row">'
                     '<label for="id_email">email</label>'
-                    '<input type="email" name="email" required id="id_email" />'
+                    '<input type="email" maxlength="320" name="email" required id="id_email" />'
                     '<p class="help-text">Help</p>'
                     "</div>"
                     '<div class="field-row">'
