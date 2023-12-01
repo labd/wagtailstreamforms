@@ -23,23 +23,11 @@ jobs:
       max-parallel: 4
       matrix:
         tox_env:
-          - py311-dj40-wt41
-          - py311-dj40-wt50
-          - py311-dj40-wt51
-          - py311-dj40-wt52
           - py311-dj41-wt41
           - py311-dj41-wt50
           - py311-dj41-wt51
           - py311-dj41-wt52
         include:
-          - python-version: "3.11"
-            tox_env: py311-dj40-wt41
-          - python-version: "3.11"
-            tox_env: py311-dj40-wt50
-          - python-version: "3.11"
-            tox_env: py311-dj40-wt51
-          - python-version: "3.11"
-            tox_env: py311-dj40-wt52
           - python-version: "3.11"
             tox_env: py311-dj41-wt41
           - python-version: "3.11"
