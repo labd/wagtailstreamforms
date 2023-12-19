@@ -155,15 +155,27 @@ class BaseField:
         :return: The ``wagtail.blocks.StructBlock`` to be used in the StreamField
         """
         return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("default_value", blocks.CharBlock(required=False)),
-            ],
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
+
+    def get_local_blocks(self):
+        """The blocks that should be added to the StructBlock for this field.
+
+        Override this to add blocks to, or remove blocks from, the StructBlock
+        before it is instantiated. This is useful because adding blocks to the
+        StructBlock after instantiation requires mucking with the StructBlock's
+        internal, undocumented API.
+
+        :return: A list of tuples containing the block name and block instance.
+        """
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("default_value", blocks.CharBlock(required=False)),
+        ]
 
 
 class HookMultiSelectFormField(forms.MultipleChoiceField):
