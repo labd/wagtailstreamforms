@@ -23,9 +23,7 @@ class FormBuilderTests(AppTestCase):
         fields = [{"type": "foo", "value": {}}]
         with self.assertRaises(AttributeError) as ex:
             FormBuilder(fields).formfields
-        self.assertEqual(
-            ex.exception.args[0], "Could not find a registered field of type foo"
-        )
+        self.assertEqual(ex.exception.args[0], "Could not find a registered field of type foo")
 
     def test_formfields__missing_label_in_value(self):
         fields = [{"type": "singleline", "value": {}}]

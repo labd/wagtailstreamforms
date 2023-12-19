@@ -9,6 +9,8 @@ from wagtailstreamforms import __version__
 
 tests_require = [
     "mock==4.0.2",
+    "pytest-django==4.7.0",
+    "pytest==7.3.2",
     # Linting
     "isort[pyproject]==4.3.21",
     "flake8==3.7.9",
@@ -18,9 +20,9 @@ tests_require = [
 
 
 install_requires = [
-    "wagtail>=2,<4.3",
+    "wagtail>=4.1,<5.3",
     "Unidecode>=0.04.14,<2.0",
-    "wagtail-generic-chooser>=0.5.0,<0.6",
+    "wagtail-generic-chooser>=0.5.0,<0.7",
 ]
 
 documentation_extras = [
@@ -58,21 +60,17 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Framework :: Wagtail",
-        "Framework :: Wagtail :: 2",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Framework :: Django",
-        "Framework :: Django :: 2.2",
         "Framework :: Django :: 3.2",
         "Framework :: Django :: 4",
+        "Framework :: Django :: 4.0",
         "Framework :: Django :: 4.1",
+        "Framework :: Django :: 4.2",
         "Framework :: Wagtail",
-        "Framework :: Wagtail :: 2",
-        "Framework :: Wagtail :: 3",
         "Framework :: Wagtail :: 4",
         "Topic :: Internet :: WWW/HTTP :: Site Management",
     ],

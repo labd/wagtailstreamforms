@@ -120,9 +120,7 @@ class ModelPropertyTests(AppTestCase):
 
         self.assertEqual(FormSubmission.objects.filter(form=copied).count(), 0)
 
-    @override_settings(
-        WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel"
-    )
+    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel")
     def test_copy_copies_advanced_settings(self):
         from wagtailstreamforms.utils.loading import get_advanced_settings_model
 

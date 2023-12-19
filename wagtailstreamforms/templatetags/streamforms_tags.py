@@ -35,9 +35,7 @@ def streamforms_form(context, slug, reference, action=".", **kwargs):
         # the context is a RequestContext, we need to turn it into a dict or
         # the blocks in wagtail will start to fail with dict(context)
         return block.render(
-            block.to_python(
-                {"form": form.pk, "form_action": action, "form_reference": reference}
-            ),
+            block.to_python({"form": form.pk, "form_action": action, "form_reference": reference}),
             context.flatten(),
         )
 

@@ -12,6 +12,7 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.models import Site
+
 from wagtailstreamforms import hooks
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import HookSelectField
@@ -58,9 +59,7 @@ class AbstractForm(models.Model):
         _("Error message"),
         blank=True,
         max_length=255,
-        help_text=_(
-            "An optional error message to show when the form has validation errors"
-        ),
+        help_text=_("An optional error message to show when the form has validation errors"),
     )
     post_redirect_page = models.ForeignKey(
         "wagtailcore.Page",
@@ -71,9 +70,7 @@ class AbstractForm(models.Model):
         related_name="+",
         help_text=_("The page to redirect to after a successful submission"),
     )
-    process_form_submission_hooks = HookSelectField(
-        verbose_name=_("Submission hooks"), blank=True
-    )
+    process_form_submission_hooks = HookSelectField(verbose_name=_("Submission hooks"), blank=True)
 
     objects = FormQuerySet.as_manager()
 

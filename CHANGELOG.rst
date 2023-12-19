@@ -1,6 +1,22 @@
 *********
 Changelog
 *********
+
+4.0.3
+-----
+* no BigAutoField in tests
+* add missing migrations; fail when migrations are incomplete
+
+4.0.2
+-----
+* pass use_json_field to StreamField initializer
+
+4.0.1
+-----
+* cleanup non-pep version hack
+* cleanup test matrix in workflow
+* only support wagtail>=4.1
+
 3.22
 ----
 * Add Wagtail 4.2 support

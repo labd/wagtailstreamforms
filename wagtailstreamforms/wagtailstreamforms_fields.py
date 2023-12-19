@@ -212,9 +212,27 @@ class SingleFileField(BaseField):
         )
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if data and isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
 class MultiFileField(BaseField):
-    field_class = forms.FileField
-    widget = forms.widgets.FileInput(attrs={"multiple": True})
+    field_class = MultipleFileField
+    widget = MultipleFileInput(attrs={"multiple": True})
     icon = "doc-full-inverse"
     label = _("Files field")
 
