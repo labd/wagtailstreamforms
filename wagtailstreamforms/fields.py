@@ -147,14 +147,27 @@ class BaseField:
             "initial": self.get_formfield_initial(block_value),
         }
 
+    def get_form_block_class(self):
+        """
+        The StreamField block class to be created for this field. This is
+        almost always a StructBlock, but conceptually it could be any structural block.
+
+        Override this method and return a subclass of a structural block for further
+        control over the block class, such as overriding the clean() method to provide
+        custom validation.
+        :return: The ``wagtail.blocks.StructBlock`` to be used in the StreamField
+        """
+        return blocks.StructBlock
+
     def get_form_block(self):
-        """The StreamField StructBlock.
+        """The StreamField block class.
 
         Override this to provide additional fields in the StreamField.
 
-        :return: The ``wagtail.blocks.StructBlock`` to be used in the StreamField
+        :return: The resuld of calling get_form_block_class() is to be used in the
+        StreamField
         """
-        return blocks.StructBlock(
+        return self.get_form_block_class()(
             self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
