@@ -3,7 +3,6 @@ from typing import List, Tuple
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
-
 from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.fields import BaseField, register
 
@@ -67,15 +66,18 @@ class DropdownField(BaseField):
         options.update({"choices": choices})
         return options
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("empty_label", blocks.CharBlock(required=False)),
+            ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("empty_label", blocks.CharBlock(required=False)),
-                ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
@@ -97,14 +99,17 @@ class MultiSelectField(BaseField):
         options.update({"choices": choices})
         return options
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
@@ -127,14 +132,17 @@ class RadioField(BaseField):
         options.update({"choices": choices})
         return options
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
@@ -157,14 +165,17 @@ class CheckboxesField(BaseField):
         options.update({"choices": choices})
         return options
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("choices", blocks.ListBlock(blocks.CharBlock(label="Option"))),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
@@ -175,13 +186,16 @@ class CheckboxField(BaseField):
     icon = "tick-inverse"
     label = _("Checkbox field")
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
@@ -200,13 +214,16 @@ class SingleFileField(BaseField):
     icon = "doc-full-inverse"
     label = _("File field")
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
@@ -236,13 +253,16 @@ class MultiFileField(BaseField):
     icon = "doc-full-inverse"
     label = _("Files field")
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-            ],
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
             icon=self.icon,
             label=self.label,
         )
