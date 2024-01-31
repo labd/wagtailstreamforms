@@ -25,7 +25,6 @@ def register(field_name, cls=None):
     """
 
     if cls is None:
-
         def decorator(cls):
             register(field_name, cls)
             return cls
@@ -159,6 +158,18 @@ class BaseField:
         """
         return blocks.StructBlock
 
+    def get_form_block_kwargs(self):
+        """The kwargs to be passed into the StreamField block class.
+
+        Override this to provide additional kwargs to the StreamField block class.
+
+        :return: The kwargs to be passed into the StreamField block class
+        """
+        return {
+            "icon": self.icon,
+            "label": self.label,
+        }
+
     def get_form_block(self):
         """The StreamField block class.
 
@@ -169,8 +180,7 @@ class BaseField:
         """
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
     def get_local_blocks(self):

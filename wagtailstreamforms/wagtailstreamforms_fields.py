@@ -78,8 +78,7 @@ class DropdownField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -110,8 +109,7 @@ class MultiSelectField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -143,8 +141,7 @@ class RadioField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -176,8 +173,7 @@ class CheckboxesField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -196,8 +192,7 @@ class CheckboxField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -224,8 +219,7 @@ class SingleFileField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -263,8 +257,7 @@ class MultiFileField(BaseField):
     def get_form_block(self):
         return self.get_form_block_class()(
             self.get_local_blocks(),
-            icon=self.icon,
-            label=self.label,
+            **self.get_form_block_kwargs(),
         )
 
 
