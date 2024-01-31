@@ -26,12 +26,20 @@ class FormFieldStreamBlock(blocks.StreamBlock):
                     "'%s' must be a subclass of '%s'" % (field_class, BaseField)
                 )
 
-            # assign the block
-            block = field_class().get_form_block()
-            block.set_name(name)
-            self._child_blocks[name] = block
+            # assign the block if instantiation returns non None
+            if block := self.instantiate_block(field_class, name):
+                self._child_blocks[name] = block
 
         self._dependencies = self._child_blocks.values()
+
+    def instantiate_block(self, field_class, name):
+        """
+        Provides an extension point for changing attributes of blocks, like the
+        meta.group
+        """
+        block = field_class().get_form_block()
+        block.set_name(name)
+        return block
 
     @property
     def child_blocks(self):
