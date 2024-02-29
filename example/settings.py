@@ -8,7 +8,7 @@ SITE_DIR = dirname(abspath(__file__))
 
 # Security
 
-SECRET_KEY = environ.get('SECRET_KEY', '')
+SECRET_KEY = environ.get('SECRET_KEY', 's3cr3t')
 
 DEBUG = True
 
@@ -38,11 +38,10 @@ INSTALLED_APPS = [
     'wagtail.contrib.redirects',
     'wagtail.sites',
     'wagtail_modeladmin',
-    'wagtail.contrib.postgres_search',
     'wagtail.contrib.settings',
     'wagtail.contrib.search_promotions',
 
-    'captcha',
+    'django_recaptcha',
     'taggit',
 
     # app specific
@@ -90,14 +89,14 @@ WSGI_APPLICATION = 'example.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': environ.get('RDS_HOSTNAME'),
-        'PORT': environ.get('RDS_PORT'),
-        'NAME': environ.get('RDS_DB_NAME'),
-        'USER': environ.get('RDS_USERNAME'),
-        'PASSWORD': environ.get('RDS_PASSWORD'),
+        'HOST': environ.get('DB_HOSTNAME'),
+        'PORT': environ.get('DB_PORT'),
+        'NAME': environ.get('DB_NAME'),
+        'USER': environ.get('DB_USERNAME'),
+        'PASSWORD': environ.get('DB_PASSWORD'),
     }
 }
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Email
 
@@ -143,7 +142,7 @@ MEDIA_URL = "/media/"
 # Wagtail
 
 WAGTAIL_SITE_NAME = 'example.com'
-
+WAGTAILADMIN_BASE_URL = "/"
 
 # Forms
 
@@ -156,4 +155,5 @@ WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'example.AdvancedFormSetting'
 RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 NOCAPTCHA = True
-SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
+

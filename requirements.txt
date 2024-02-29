@@ -7,3 +7,4 @@ psycopg2-binary
 
 # example site
 django-recaptcha
+wagtail_modeladmin
