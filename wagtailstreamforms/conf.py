@@ -24,7 +24,7 @@ SETTINGS_DEFAULTS = {
         "singlefile",
         "multifile",
     ),
-    "FORM_TEMPLATES": (("streamforms/form_block.html", "Default Form Template"),),
+    "FORM_TEMPLATES": [("streamforms/form_block.html", "Default Form Template")],
 }
 
 

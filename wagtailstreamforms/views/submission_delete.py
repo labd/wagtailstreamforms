@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import ngettext
 from django.views.generic import DeleteView
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms.models import Form
 

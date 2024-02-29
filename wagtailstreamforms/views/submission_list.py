@@ -7,7 +7,7 @@ from django.utils.encoding import smart_str
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.forms import SelectDateForm

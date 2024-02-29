@@ -1,7 +1,7 @@
 from django.db import models
 
-from wagtail.admin.panels import StreamFieldPanel
 from wagtail import blocks
+from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 from wagtail.models import Page
 from wagtailstreamforms.blocks import WagtailFormBlock
@@ -23,5 +23,5 @@ class BasicPage(Page):
     show_in_menus_default = True
 
     content_panels = Page.content_panels + [
-        StreamFieldPanel('body'),
+        FieldPanel('body'),
     ]

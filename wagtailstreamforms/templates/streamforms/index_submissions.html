@@ -77,7 +77,7 @@
                     <div class="col search-bar">
                         <ul class="fields row rowflush">
                             {% for field in filter_form %}
-                                {% include "wagtailadmin/shared/field_as_li.html" with field=field field_classes="field-small" li_classes="col4" %}
+                                {% include "wagtailadmin/shared/field.html" with field=field field_classes="field-small" li_classes="col4" %}
                             {% endfor %}
                             <li class="submit col2">
                                 <button name="action" value="filter" class="button button-filter">{% trans 'Filter' %}</button>
