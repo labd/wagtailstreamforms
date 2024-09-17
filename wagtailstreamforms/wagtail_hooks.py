@@ -6,16 +6,11 @@ from django.urls import include, path, reverse
 from django.utils.translation import gettext_lazy as _
 from generic_chooser.views import ModelChooserViewSet
 from generic_chooser.widgets import AdminChooser
-from wagtail.admin import messages as wagtail_messages
-from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.contrib.modeladmin.views import (
-    CreateView,
-    DeleteView,
-    EditView,
-    InspectView,
-)
 from wagtail import hooks
+from wagtail.admin import messages as wagtail_messages
+from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail_modeladmin.views import CreateView, DeleteView, EditView, InspectView
 
 from wagtailstreamforms import hooks as form_hooks
 from wagtailstreamforms.conf import get_setting
