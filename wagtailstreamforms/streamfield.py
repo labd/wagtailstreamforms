@@ -51,6 +51,6 @@ class FormFieldStreamBlock(blocks.StreamBlock):
 
 
 class FormFieldsStreamField(StreamField):
-    def __init__(self, block_types, use_json_field=None, **kwargs):
-        super().__init__(block_types, use_json_field=use_json_field, **kwargs)
+    def __init__(self, block_types, **kwargs):
+        super().__init__(block_types, **kwargs)
         self.stream_block = FormFieldStreamBlock(block_types, required=not self.blank)
