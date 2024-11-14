@@ -234,8 +234,8 @@ class WagtailStreamFormsChooserViewSet(ChooserViewSet):
 
 
 class WagtailStreamFormsChooser(BaseChooser):
-    model = Form
     icon = "form"
+    model = Form
     choose_one_text = _("Choose a form")
     choose_another_text = _("Choose another form")
     link_to_chosen_text = _("Edit this form")
