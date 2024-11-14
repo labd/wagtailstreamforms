@@ -20,9 +20,9 @@ tests_require = [
 
 
 install_requires = [
-    "wagtail>=4.1,<5.3",
+    "wagtail>6.0,<=6.3",
     "Unidecode>=0.04.14,<2.0",
-    "wagtail-generic-chooser>=0.5.0,<0.7",
+    "wagtail-modeladmin",
 ]
 
 documentation_extras = [
@@ -61,17 +61,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.12",
         "Framework :: Django",
-        "Framework :: Django :: 3.2",
-        "Framework :: Django :: 4",
-        "Framework :: Django :: 4.0",
-        "Framework :: Django :: 4.1",
-        "Framework :: Django :: 4.2",
+        "Framework :: Django :: 5",
         "Framework :: Wagtail",
-        "Framework :: Wagtail :: 4",
+        "Framework :: Wagtail :: 6",
         "Topic :: Internet :: WWW/HTTP :: Site Management",
     ],
 )
