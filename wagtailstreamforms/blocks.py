@@ -42,7 +42,7 @@ class WagtailFormBlock(blocks.StructBlock):
     )
 
     class Meta:
-        icon = "icon icon-form"
+        icon = "form"
         template = None
 
     def render(self, value, context=None):
