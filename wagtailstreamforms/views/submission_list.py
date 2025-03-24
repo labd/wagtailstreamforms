@@ -7,7 +7,7 @@ from django.utils.encoding import smart_str
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
 from django.views.generic.detail import SingleObjectMixin
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms import hooks
 from wagtailstreamforms.forms import SelectDateForm
@@ -96,7 +96,9 @@ class SubmissionListView(SingleObjectMixin, ListView):
             form_data = s.get_data()
             form_files = s.files.all()
             data_row = [form_data.get(name) for name, label in data_fields]
-            data_rows.append({"model_id": s.id, "fields": data_row, "files": form_files})
+            data_rows.append(
+                {"model_id": s.id, "fields": data_row, "files": form_files}
+            )
 
         context.update(
             {

@@ -1,12 +1,66 @@
-[tool.black]
-line-length=99
-target-version=["py39"]
-exclude = '''
-/(
-    \.git
-  | \.tox
-  | build
-  | dist
-  | migrations
-)/
-'''
+[tool.djlint]
+format_css=false
+ignore="H031"
+
+[tool.ruff]
+line-length = 99
+extend-exclude = ["**/migrations/"]
+lint.extend-ignore = ["F405", "E731"]
+
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+testpaths = ["tests/"]
+django_find_project = false
+addopts = ["--nomigrations"]
+filterwarnings = ["ignore::DeprecationWarning","ignore::PendingDeprecationWarning"]
+
+[tool.uv]
+dev-dependencies = [
+    "mock",
+    "pytest-django",
+    "pytest",
+    "pre-commit",
+    "ruff"
+]
+
+[tool.setuptools.packages.find]
+include = ["wagtailstreamforms*"]
+exclude = ["tests*", "docs*"]
+
+
+[project]
+name = "wagtailstreamforms"
+dynamic = ["version"]
+description = ""
+authors = [
+    {name = "Lab Digital BV", email = "info@labdigital.nl"},
+]
+dependencies = [
+    "wagtail>=4.1,<7.0",
+    "Unidecode>=0.04.14,<2.0",
+    "wagtail-generic-chooser>=0.5.0,<0.7",
+    "wagtail-modeladmin>=2.1.0",
+    "django-recaptcha>=4.0.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "Proprietary"}
+classifiers = [
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[build-system]
+requires = ["setuptools",  "wheel", "setuptools_scm[toml]"]
+build-backend = "setuptools.build_meta"
+packages = ["wagtailstreamforms"]

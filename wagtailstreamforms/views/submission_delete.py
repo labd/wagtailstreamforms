@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import ngettext
 from django.views.generic import DeleteView
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms.models import Form
 
@@ -19,7 +19,9 @@ class SubmissionDeleteView(DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if not self.permission_helper.user_can_delete_obj(self.request.user, self.object):
+        if not self.permission_helper.user_can_delete_obj(
+            self.request.user, self.object
+        ):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
@@ -70,4 +72,6 @@ class SubmissionDeleteView(DeleteView):
         )
 
     def get_success_url(self):
-        return reverse("wagtailstreamforms:streamforms_submissions", kwargs={"pk": self.object.pk})
+        return reverse(
+            "wagtailstreamforms:streamforms_submissions", kwargs={"pk": self.object.pk}
+        )

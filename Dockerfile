@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
 # Copy the application code to the container:
 RUN mkdir /code/
@@ -15,8 +15,9 @@ RUN set -ex \
         libjpeg62-turbo-dev \
         libpq-dev \
         make \
-        postgresql-client \
-    && pip install --no-cache-dir -r /code/requirements.txt
+        postgresql-client
+
+RUN uv sync
 
 # expose port
 EXPOSE 8000
@@ -28,4 +29,4 @@ ENV DJANGO_MANAGEPY_MIGRATE=on \
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start python runserver:
-CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

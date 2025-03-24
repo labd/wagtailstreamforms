@@ -1,0 +1,16 @@
+# File format: https://pre-commit.com/#plugins
+# Supported hooks: https://pre-commit.com/hooks.html
+# Running "make format" fixes most issues for you
+repos:
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: "v0.11.0"
+    hooks:
+      - id: ruff
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: trailing-whitespace
