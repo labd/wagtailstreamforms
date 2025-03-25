@@ -1,6 +1,77 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wagtailstreamforms"
+dynamic = ["version"]
+description = "Wagtail forms in a streamfield"
+readme = "README.rst"
+license = "MIT"
+authors = [
+    { name = "Stuart George", email = "stuart@accentdesign.co.uk" },
+]
+keywords = [
+    "accent",
+    "design",
+    "forms",
+    "streamfield",
+    "wagtail",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Django",
+    "Framework :: Django :: 5.0",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 5",
+    "Framework :: Wagtail :: 6",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
+]
+dependencies = [
+    "Unidecode>=0.04.14,<2.0",
+    "wagtail-modeladmin",
+    "wagtail>6.0,<=6.3",
+]
+
+[project.optional-dependencies]
+docs = [
+    "karma_sphinx_theme>=0.0.6",
+    "sphinx-autobuild>=0.6.0",
+    "Sphinx>=1.5.2",
+    "sphinxcontrib-spelling>=2.3.0",
+]
+test = [
+    "flake8-blind-except==0.1.1",
+    "flake8-debugger==3.1.0",
+    "flake8==3.7.9",
+    "isort[pyproject]==4.3.21",
+    "mock==4.0.2",
+    "pytest-django==4.7.0",
+    "pytest==7.3.2",
+]
+
+[project.urls]
+Download = "https://pypi.python.org/pypi/wagtailstreamforms"
+Homepage = "https://github.com/AccentDesign/wagtailstreamforms/"
+
+[tool.hatch.version]
+path = "wagtailstreamforms/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/wagtailstreamforms",
+]
+
 [tool.black]
 line-length=99
-target-version=["py39"]
+target-version=["py312"]
 exclude = '''
 /(
     \.git

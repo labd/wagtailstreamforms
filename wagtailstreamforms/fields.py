@@ -25,7 +25,6 @@ def register(field_name, cls=None):
     """
 
     if cls is None:
-
         def decorator(cls):
             register(field_name, cls)
             return cls
@@ -147,23 +146,59 @@ class BaseField:
             "initial": self.get_formfield_initial(block_value),
         }
 
+    def get_form_block_class(self):
+        """
+        The StreamField block class to be created for this field. This is
+        almost always a StructBlock, but conceptually it could be any structural block.
+
+        Override this method and return a subclass of a structural block for further
+        control over the block class, such as overriding the clean() method to provide
+        custom validation.
+        :return: The ``wagtail.blocks.StructBlock`` to be used in the StreamField
+        """
+        return blocks.StructBlock
+
+    def get_form_block_kwargs(self):
+        """The kwargs to be passed into the StreamField block class.
+
+        Override this to provide additional kwargs to the StreamField block class.
+
+        :return: The kwargs to be passed into the StreamField block class
+        """
+        return {
+            "icon": self.icon,
+            "label": self.label,
+        }
+
     def get_form_block(self):
-        """The StreamField StructBlock.
+        """The StreamField block class.
 
         Override this to provide additional fields in the StreamField.
 
-        :return: The ``wagtail.core.blocks.StructBlock`` to be used in the StreamField
+        :return: The resuld of calling get_form_block_class() is to be used in the
+        StreamField
         """
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("default_value", blocks.CharBlock(required=False)),
-            ],
-            icon=self.icon,
-            label=self.label,
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
+            **self.get_form_block_kwargs(),
         )
+
+    def get_local_blocks(self):
+        """The blocks that should be added to the StructBlock for this field.
+
+        Override this to add blocks to, or remove blocks from, the StructBlock
+        before it is instantiated. This is useful because adding blocks to the
+        StructBlock after instantiation requires mucking with the StructBlock's
+        internal, undocumented API.
+
+        :return: A list of tuples containing the block name and block instance.
+        """
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("default_value", blocks.CharBlock(required=False)),
+        ]
 
 
 class HookMultiSelectFormField(forms.MultipleChoiceField):
