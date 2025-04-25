@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     "wagtail.contrib.forms",
     "wagtail.sites",
-    "wagtail_modeladmin",
     "wagtail.contrib.settings",
     "taggit",
     "wagtailstreamforms",
