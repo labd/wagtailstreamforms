@@ -8,9 +8,9 @@ from generic_chooser.views import ModelChooserViewSet
 from generic_chooser.widgets import AdminChooser
 from wagtail import hooks
 from wagtail.admin import messages as wagtail_messages
-from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.contrib.modeladmin.views import (
+from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail_modeladmin.views import (
     CreateView,
     DeleteView,
     EditView,

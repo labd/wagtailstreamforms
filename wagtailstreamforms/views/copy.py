@@ -7,7 +7,7 @@ from django.views.generic.detail import (
     BaseDetailView,
     SingleObjectTemplateResponseMixin,
 )
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.helpers import PermissionHelper
 
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.wagtail_hooks import FormURLHelper
