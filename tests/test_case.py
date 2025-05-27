@@ -59,7 +59,9 @@ class AppTestCase(TestCase):
 
     _non_blankable_fields = [models.BooleanField]
 
-    def assertModelField(self, field, expected_class, null=False, blank=False, default=None):
+    def assertModelField(
+        self, field, expected_class, null=False, blank=False, default=None
+    ):
         self.assertEqual(field.__class__, expected_class)
         self.assertEqual(field.null, null)
         if expected_class not in self._non_blankable_fields:
@@ -68,7 +70,9 @@ class AppTestCase(TestCase):
         if default:
             self.assertEqual(field.default, default)
 
-    def assertModelDecimalField(self, field, max_digits, decimal_places, null=False, blank=False):
+    def assertModelDecimalField(
+        self, field, max_digits, decimal_places, null=False, blank=False
+    ):
         self.assertEqual(field.__class__, models.DecimalField)
         self.assertEqual(field.max_digits, max_digits)
         self.assertEqual(field.decimal_places, decimal_places)

@@ -11,7 +11,9 @@ class UrlsTests(AppTestCase):
         self.reload_module("wagtailstreamforms.urls")
         self.assertEqual(len(urlpatterns), 3)
 
-    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel")
-    def test_no_advanced_url_when_no_setting(self):
+    @override_settings(
+        WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel"
+    )
+    def test_advanced_url_when_setting_exists(self):
         self.reload_module("wagtailstreamforms.urls")
         self.assertEqual(len(urlpatterns), 4)

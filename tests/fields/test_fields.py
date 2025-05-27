@@ -13,7 +13,11 @@ class TestFields(AppTestCase):
         self.form = Form.objects.get(pk=1)
 
     def get_form_field_data(self, name):
-        return [item["value"] for item in self.form.get_form_fields() if item["type"] == name][0]
+        return [
+            item["value"]
+            for item in self.form.get_form_fields()
+            if item["type"] == name
+        ][0]
 
     def test_singleline_field(self):
         data = self.get_form_field_data("singleline")

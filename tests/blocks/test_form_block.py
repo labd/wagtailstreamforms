@@ -1,4 +1,3 @@
-
 from wagtailstreamforms.blocks import WagtailFormBlock
 from wagtailstreamforms.models import Form
 

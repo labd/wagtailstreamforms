@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.urls import reverse
 
@@ -29,10 +28,14 @@ class SubmissionListViewTestCase(AppTestCase):
         self.invalid_list_url = reverse(
             "wagtailstreamforms:streamforms_submissions", kwargs={"pk": 100}
         )
-        self.filter_url = "{}?date_from=2017-01-01&date_to=2017-01-02&action=filter".format(
+        self.filter_url = (
+            "{}?date_from=2017-01-01&date_to=2017-01-02&action=filter".format(
+                self.list_url
+            )
+        )
+        self.invalid_filter_url = "{}?date_from=xx&date_to=xx&action=filter".format(
             self.list_url
         )
-        self.invalid_filter_url = "{}?date_from=xx&date_to=xx&action=filter".format(self.list_url)
         self.csv_url = "{}?date_from=2017-01-01&date_to=2017-01-02&action=CSV".format(
             self.list_url
         )
@@ -64,7 +67,9 @@ class SubmissionListViewTestCase(AppTestCase):
 
     def test_get_csv(self):
         response = self.client.get(self.csv_url)
-        self.assertEqual(response.get("Content-Disposition"), "attachment;filename=export.csv")
+        self.assertEqual(
+            response.get("Content-Disposition"), "attachment;filename=export.csv"
+        )
 
 
 class ListViewPermissionTestCase(AppTestCase):
@@ -80,7 +85,9 @@ class ListViewPermissionTestCase(AppTestCase):
     def test_no_user_no_access(self):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith("/cms/login/?next=/cms/wagtailstreamforms"))
+        self.assertTrue(
+            response.url.startswith("/cms/login/?next=/cms/wagtailstreamforms")
+        )
 
     def test_user_with_no_perm_no_access(self):
         access_admin = Permission.objects.get(codename="access_admin")

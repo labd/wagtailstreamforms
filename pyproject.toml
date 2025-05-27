@@ -7,28 +7,6 @@ line-length = 99
 extend-exclude = ["**/migrations/"]
 lint.extend-ignore = ["F405", "E731"]
 
-[tool.black]
-line-length = 120
-target-version = ['py311']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | migrations
-)/
-'''
-
-
-
 [tool.isort]
 profile = "black"
 line_length = 120

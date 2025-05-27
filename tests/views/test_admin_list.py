@@ -8,7 +8,9 @@ class AdminListViewTestCase(AppTestCase):
     fixtures = ["test.json"]
 
     def setUp(self):
-        self.user = User.objects.create_user("user", "user@test.com", "password", is_staff=True)
+        self.user = User.objects.create_user(
+            "user", "user@test.com", "password", is_staff=True
+        )
         self.access_admin = Permission.objects.get(codename="access_admin")
         self.add_perm = Permission.objects.get(codename="add_form")
         self.change_perm = Permission.objects.get(codename="change_form")
@@ -33,7 +35,9 @@ class AdminListViewTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('title="Copy this form">Copy</a>', str(response.content))
 
-    @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel")
+    @override_settings(
+        WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel"
+    )
     def test_advanced_button_enabled_when_setup(self):
         url = "/cms/wagtailstreamforms/form/"
         expected_html = 'title="Advanced settings">Advanced</a>'

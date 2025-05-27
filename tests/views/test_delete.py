@@ -75,7 +75,9 @@ class DeleteViewPermissionTestCase(AppTestCase):
         self.user = User.objects.create_user("user", "user@test.com", "password")
 
         self.form = Form.objects.get(pk=1)
-        self.form_submission = FormSubmission.objects.create(form=self.form, form_data="{}")
+        self.form_submission = FormSubmission.objects.create(
+            form=self.form, form_data="{}"
+        )
 
         self.delete_url = "{}?selected-submissions={}".format(
             reverse(
@@ -88,7 +90,9 @@ class DeleteViewPermissionTestCase(AppTestCase):
     def test_no_user_no_access(self):
         response = self.client.get(self.delete_url)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith("/cms/login/?next=/cms/wagtailstreamforms"))
+        self.assertTrue(
+            response.url.startswith("/cms/login/?next=/cms/wagtailstreamforms")
+        )
 
     def test_user_with_no_perm_no_access(self):
         access_admin = Permission.objects.get(codename="access_admin")

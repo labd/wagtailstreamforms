@@ -1,4 +1,3 @@
-
 from wagtailstreamforms.models import Form
 
 from ..test_case import AppTestCase

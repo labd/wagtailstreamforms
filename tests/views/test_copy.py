@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.urls import reverse
 
@@ -15,8 +14,12 @@ class CopyViewTestCase(AppTestCase):
         User.objects.create_superuser("user", "user@test.com", "password")
         self.form = Form.objects.get(pk=1)
 
-        self.copy_url = reverse("wagtailstreamforms:streamforms_copy", kwargs={"pk": self.form.pk})
-        self.invalid_copy_url = reverse("wagtailstreamforms:streamforms_copy", kwargs={"pk": 100})
+        self.copy_url = reverse(
+            "wagtailstreamforms:streamforms_copy", kwargs={"pk": self.form.pk}
+        )
+        self.invalid_copy_url = reverse(
+            "wagtailstreamforms:streamforms_copy", kwargs={"pk": 100}
+        )
 
         self.client.login(username="user", password="password")
 
@@ -45,7 +48,9 @@ class CopyViewTestCase(AppTestCase):
         self.assertEqual(Form.objects.count(), 2)
 
     def test_post_redirects(self):
-        response = self.client.post(self.copy_url, data={"title": "new copy", "slug": "new-slug"})
+        response = self.client.post(
+            self.copy_url, data={"title": "new copy", "slug": "new-slug"}
+        )
         url_helper = FormURLHelper(model=Form)
         self.assertRedirects(response, url_helper.index_url)
 
@@ -56,12 +61,16 @@ class CopyViewPermissionTestCase(AppTestCase):
     def setUp(self):
         self.user = User.objects.create_user("user", "user@test.com", "password")
         form = Form.objects.get(pk=1)
-        self.copy_url = reverse("wagtailstreamforms:streamforms_copy", kwargs={"pk": form.pk})
+        self.copy_url = reverse(
+            "wagtailstreamforms:streamforms_copy", kwargs={"pk": form.pk}
+        )
 
     def test_no_user_no_access(self):
         response = self.client.get(self.copy_url)
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(response.url.startswith("/cms/login/?next=/cms/wagtailstreamforms"))
+        self.assertTrue(
+            response.url.startswith("/cms/login/?next=/cms/wagtailstreamforms")
+        )
 
     def test_user_with_no_perm_no_access(self):
         access_admin = Permission.objects.get(codename="access_admin")
