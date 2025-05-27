@@ -68,7 +68,9 @@ class CopyFormView(SingleObjectTemplateResponseMixin, BaseDetailView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(object=self.object)
-        context["form"] = CopyForm(initial={"title": self.object.title, "slug": self.object.slug})
+        context["form"] = CopyForm(
+            initial={"title": self.object.title, "slug": self.object.slug}
+        )
 
         return self.render_to_response(context)
 

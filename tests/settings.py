@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     "wagtail.contrib.forms",
     "wagtail.sites",
-    "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
     "taggit",
     "wagtailstreamforms",
@@ -43,8 +42,12 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
-DJANGO_VERSION = int(re.search("dj([0-9]+)", os.environ.get("TOX_ENV_NAME", "dj40")).group(1))
-WAGTAIL_VERSION = int(re.search("wt([0-9]+)", os.environ.get("TOX_ENV_NAME", "wt216")).group(1))
+DJANGO_VERSION = int(
+    re.search("dj([0-9]+)", os.environ.get("TOX_ENV_NAME", "dj40")).group(1)
+)
+WAGTAIL_VERSION = int(
+    re.search("wt([0-9]+)", os.environ.get("TOX_ENV_NAME", "wt216")).group(1)
+)
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testdb"}}
 

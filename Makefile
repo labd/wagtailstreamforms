@@ -7,6 +7,9 @@ install:
 test:
 	DJANGO_SETTINGS_MODULE=tests.settings ./manage.py test
 
+retest:
+	py.test --nomigrations --reuse-db --lf --ignore=tests/functional tests/
+
 docs:
 	$(MAKE) -C docs html
 

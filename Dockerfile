@@ -1,4 +1,5 @@
-FROM python:3.8
+FROM python:3.13-slim-bookworm
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Copy the application code to the container:
 RUN mkdir /code/
@@ -8,15 +9,18 @@ ADD . /code/
 # Install all build deps:
 RUN set -ex \
     && apt-get update \
-    && apt-get install -y \
+    && apt-get install -y --no-install-recommends \
         gcc \
         gettext \
-        libjpeg62 \
-        libjpeg62-turbo-dev \
+        libjpeg-dev \
         libpq-dev \
         make \
         postgresql-client \
-    && pip install --no-cache-dir -r /code/requirements.txt
+    || (cat /var/log/apt/term.log || true) \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN uv sync --frozen
 
 # expose port
 EXPOSE 8000
@@ -25,7 +29,8 @@ EXPOSE 8000
 ENV DJANGO_MANAGEPY_MIGRATE=on \
     DJANGO_MANAGEPY_COLLECTSTATIC=on \
     DJANGO_MANAGEPY_UPDATEINDEX=on
+
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start python runserver:
-CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]

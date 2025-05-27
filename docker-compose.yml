@@ -1,8 +1,4 @@
----
-version: '2'
-
 # run the app in development mode
-
 services:
   app:
     build: .
@@ -24,7 +20,7 @@ services:
     ports:
       - 8000:8000
   db:
-    image: postgres:9.6
+    image: postgres:16.0
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password

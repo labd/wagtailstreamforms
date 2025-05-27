@@ -19,7 +19,9 @@ class SubmissionDeleteView(DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if not self.permission_helper.user_can_delete_obj(self.request.user, self.object):
+        if not self.permission_helper.user_can_delete_obj(
+            self.request.user, self.object
+        ):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
@@ -70,4 +72,6 @@ class SubmissionDeleteView(DeleteView):
         )
 
     def get_success_url(self):
-        return reverse("wagtailstreamforms:streamforms_submissions", kwargs={"pk": self.object.pk})
+        return reverse(
+            "wagtailstreamforms:streamforms_submissions", kwargs={"pk": self.object.pk}
+        )
