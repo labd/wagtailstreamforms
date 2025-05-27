@@ -14,8 +14,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.13
+      - name: Create virtual environment
+        run: uv venv
       - name: Install dependencies
-        run: uv pip install tox --system
+        run: uv pip install tox
       - name: Validate formatting
         run: tox -e format
 
@@ -47,6 +49,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Create virtual environment
+        run: uv venv
       - name: Install dependencies
         run: |
           uv pip install tox tox-gh-actions
@@ -74,6 +78,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.13
+      - name: Create virtual environment
+        run: uv venv
       - name: Install dependencies
         run: |
           uv pip install tox
