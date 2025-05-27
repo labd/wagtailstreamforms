@@ -33,4 +33,4 @@ ENV DJANGO_MANAGEPY_MIGRATE=on \
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
 # Start python runserver:
-CMD ["uv", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
