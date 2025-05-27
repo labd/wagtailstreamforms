@@ -29,9 +29,7 @@ SettingsModel = get_advanced_settings_model()
 class FormURLHelper(AdminURLHelper):
     def get_action_url(self, action, *args, **kwargs):
         if action in ["advanced", "copy", "submissions"]:
-            return reverse(
-                "wagtailstreamforms:streamforms_%s" % action, args=args, kwargs=kwargs
-            )
+            return reverse("wagtailstreamforms:streamforms_%s" % action, args=args, kwargs=kwargs)
 
         return super().get_action_url(action, *args, **kwargs)
 
@@ -48,21 +46,15 @@ class FormButtonHelper(ButtonHelper):
 
         return button
 
-    def get_buttons_for_obj(
-        self, obj, exclude=None, classnames_add=None, classnames_exclude=None
-    ):
-        buttons = super().get_buttons_for_obj(
-            obj, exclude, classnames_add, classnames_exclude
-        )
+    def get_buttons_for_obj(self, obj, exclude=None, classnames_add=None, classnames_exclude=None):
+        buttons = super().get_buttons_for_obj(obj, exclude, classnames_add, classnames_exclude)
         pk = getattr(obj, self.opts.pk.attname)
         ph = self.permission_helper
         usr = self.request.user
 
         # if there is a form settings model defined
         # users that either create or edit forms should be able edit advanced settings
-        if SettingsModel and (
-            ph.user_can_create(usr) or ph.user_can_edit_obj(usr, obj)
-        ):
+        if SettingsModel and (ph.user_can_create(usr) or ph.user_can_edit_obj(usr, obj)):
             buttons.append(
                 self.button(
                     pk,
@@ -173,11 +165,7 @@ class FormModelAdmin(ModelAdmin):
 
     def latest_submission(self, obj):
         submission_class = obj.get_submission_class()
-        return (
-            submission_class._default_manager.filter(form=obj)
-            .latest("submit_time")
-            .submit_time
-        )
+        return submission_class._default_manager.filter(form=obj).latest("submit_time").submit_time
 
     latest_submission.short_description = _("Latest submission")
 
@@ -207,9 +195,7 @@ def process_form(page, request, *args, **kwargs):
         form_def = get_form_instance_from_request(request)
 
         if form_def:
-            form = form_def.get_form(
-                request.POST, request.FILES, page=page, user=request.user
-            )
+            form = form_def.get_form(request.POST, request.FILES, page=page, user=request.user)
             context = page.get_context(request, *args, **kwargs)
 
             if form.is_valid():
@@ -218,9 +204,7 @@ def process_form(page, request, *args, **kwargs):
 
                 # create success message
                 if form_def.success_message:
-                    messages.success(
-                        request, form_def.success_message, fail_silently=True
-                    )
+                    messages.success(request, form_def.success_message, fail_silently=True)
 
                 # redirect to the page defined in the form
                 # or the current page as a fallback - this will avoid refreshing
@@ -233,9 +217,7 @@ def process_form(page, request, *args, **kwargs):
                 # update the context with the invalid form and serve the page
                 context.update(
                     {
-                        "invalid_stream_form_reference": form.data.get(
-                            "form_reference"
-                        ),
+                        "invalid_stream_form_reference": form.data.get("form_reference"),
                         "invalid_stream_form": form,
                     }
                 )

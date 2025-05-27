@@ -25,8 +25,7 @@ class TestFormBlockTestCase(AppTestCase):
                 "<h2>Basic Form</h2>",
                 '<form enctype="multipart/form-data" action="." method="post" novalidate>',
                 '<input type="hidden" name="hidden" aria-describedby="id_hidden_helptext" id="id_hidden">',
-                '<input type="hidden" name="form_id" value="%s" id="id_form_id">'
-                % self.form.pk,
+                '<input type="hidden" name="form_id" value="%s" id="id_form_id">' % self.form.pk,
                 '<input type="hidden" name="form_reference" value="some-ref" id="id_form_reference">',
                 '<div class="field-row">',
                 '<label for="id_singleline">singleline</label>',
@@ -128,9 +127,7 @@ class TestFormBlockTestCase(AppTestCase):
         block = WagtailFormBlock()
 
         html = block.render(
-            block.to_python(
-                {"form": 100, "form_action": "/foo/", "form_reference": "some-ref"}
-            )
+            block.to_python({"form": 100, "form_action": "/foo/", "form_reference": "some-ref"})
         )
 
         expected_html = "\n".join(["<p>Sorry, this form has been deleted.</p>"])
@@ -171,9 +168,7 @@ class TestFormBlockTestCase(AppTestCase):
     def test_context_form_is_invalid_when_parent_context_has_this_form_with_errors(
         self,
     ):
-        invalid_form = self.form.get_form(
-            {"form_id": self.form.id, "form_reference": "some-ref"}
-        )
+        invalid_form = self.form.get_form({"form_id": self.form.id, "form_reference": "some-ref"})
         assert not invalid_form.is_valid()
 
         self.assertDictEqual(

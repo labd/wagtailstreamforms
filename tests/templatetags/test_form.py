@@ -23,8 +23,7 @@ class TemplateTagTests(AppTestCase):
                 "<h2>Basic Form</h2>",
                 '<form enctype="multipart/form-data" action="." method="post" novalidate>',
                 '<input type="hidden" name="hidden" aria-describedby="id_hidden_helptext" id="id_hidden">',
-                '<input type="hidden" name="form_id" value="%s" id="id_form_id">'
-                % self.form.pk,
+                '<input type="hidden" name="form_id" value="%s" id="id_form_id">' % self.form.pk,
                 '<input type="hidden" name="form_reference" value="some-ref" id="id_form_reference">',
                 '<div class="field-row">',
                 '<label for="id_singleline">singleline</label>',

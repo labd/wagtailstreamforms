@@ -8,9 +8,7 @@ from wagtailstreamforms.wagtail_hooks import FormURLHelper
 from ..test_case import AppTestCase
 
 
-@override_settings(
-    WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel"
-)
+@override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel")
 class AdvancedSettingsViewTestCase(AppTestCase):
     fixtures = ["test.json"]
 
@@ -39,8 +37,6 @@ class AdvancedSettingsViewTestCase(AppTestCase):
         self.assertEqual(self.form.advanced_settings.name, "foo")
 
     def test_post_redirects(self):
-        response = self.client.post(
-            self.advanced_url, data={"name": "foo", "number": 1}
-        )
+        response = self.client.post(self.advanced_url, data={"name": "foo", "number": 1})
         url_helper = FormURLHelper(model=Form)
         self.assertRedirects(response, url_helper.index_url)
