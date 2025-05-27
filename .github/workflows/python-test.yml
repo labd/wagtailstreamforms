@@ -19,7 +19,9 @@ jobs:
       - name: Install dependencies
         run: uv pip install tox
       - name: Validate formatting
-        run: tox -e format
+        run: |
+          uv venv activate
+          tox -e format
 
   test:
     runs-on: ubuntu-latest
