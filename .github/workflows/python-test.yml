@@ -14,14 +14,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.13
-      - name: Create virtual environment
-        run: uv venv
       - name: Install dependencies
-        run: uv pip install tox
+        run: uv pip install --system tox
       - name: Validate formatting
-        run: |
-          uv venv activate
-          tox -e format
+        run: uv run tox -e format
 
   test:
     runs-on: ubuntu-latest
@@ -42,7 +38,7 @@ jobs:
             tox_env: py311-dj41-wt51
           - python-version: "3.11"
             tox_env: py311-dj41-wt52
- 
+
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -51,13 +47,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Create virtual environment
-        run: uv venv
       - name: Install dependencies
-        run: |
-          uv pip install tox tox-gh-actions
+        run: uv pip install --system tox tox-gh-actions
       - name: Test with tox
-        run: tox -e ${{ matrix.tox_env }} -- index-url=https://pypi.python.org/simple/
+        run: uv run tox -e ${{ matrix.tox_env }} -- index-url=https://pypi.python.org/simple/
       - name: Prepare artifacts
         run: mkdir -p .coverage-data && mv .coverage.* .coverage-data/
       - uses: actions/upload-artifact@master
@@ -80,12 +73,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.13
-      - name: Create virtual environment
-        run: uv venv
       - name: Install dependencies
-        run: |
-          uv pip install tox
+        run: uv pip install --system tox
       - name: Prepare Coverage report
-        run: tox -e coverage-report
+        run: uv run tox -e coverage-report
       - name: Upload to codecov
         uses: codecov/codecov-action@v5
