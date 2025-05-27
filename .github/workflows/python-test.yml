@@ -25,20 +25,16 @@ jobs:
       max-parallel: 4
       matrix:
         tox_env:
-          - py311-dj41-wt41
-          - py311-dj41-wt50
-          - py311-dj41-wt51
-          - py311-dj41-wt52
+          - py311-dj42-wt60
+          - py311-dj42-wt62
+          - py311-dj42-wt64
         include:
           - python-version: "3.11"
-            tox_env: py311-dj41-wt41
+            tox_env: py311-dj42-wt60
           - python-version: "3.11"
-            tox_env: py311-dj41-wt50
+            tox_env: py311-dj42-wt62
           - python-version: "3.11"
-            tox_env: py311-dj41-wt51
-            pip_extra: "django-taggit<3.0.0"
-          - python-version: "3.11"
-            tox_env: py311-dj41-wt52
+            tox_env: py311-dj42-wt64
 
     steps:
       - uses: actions/checkout@v4
