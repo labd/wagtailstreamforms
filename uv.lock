@@ -575,6 +575,19 @@ wheels = [
 ]
 
 [[package]]
+name = "psycopg"
+version = "3.2.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "tzdata", marker = "sys_platform == 'win32'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/27/4a/93a6ab570a8d1a4ad171a1f4256e205ce48d828781312c0bbaff36380ecb/psycopg-3.2.9.tar.gz", hash = "sha256:2fbb46fcd17bc81f993f28c47f1ebea38d66ae97cc2dbc3cad73b37cefbff700", size = 158122 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/b0/a73c195a56eb6b92e937a5ca58521a5c3346fb233345adc80fd3e2f542e2/psycopg-3.2.9-py3-none-any.whl", hash = "sha256:01a8dadccdaac2123c916208c96e06631641c0566b22005493f09663c7a8d3b6", size = 202705 },
+]
+
+[[package]]
 name = "pytest"
 version = "7.3.2"
 source = { registry = "https://pypi.org/simple" }
@@ -854,14 +867,14 @@ wheels = [
 
 [[package]]
 name = "wagtail-modeladmin"
-version = "2.1.0"
+version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "wagtail" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d1/bc/338d8a371099eb7c4e4cc2cdb4166d48771faa201e90797bf59c59b577ac/wagtail_modeladmin-2.1.0.tar.gz", hash = "sha256:a83502b0c02d2376cde33d81eb607ae10be95840b35072404cca877da161f7da", size = 136808 }
+sdist = { url = "https://files.pythonhosted.org/packages/44/72/e687aa58e21708655ceaa731586803031385be82eea0876e4268665e8dc4/wagtail_modeladmin-2.2.0.tar.gz", hash = "sha256:41e12f9a79f8c1595fce73bd6b51007422f258089564f9df8e09a82246a8e133", size = 140057 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d7/d7/6dc6f966cd3aeab43adc8dc8e2cee3adeda94ee2ede488e45eb598e74ec6/wagtail_modeladmin-2.1.0-py3-none-any.whl", hash = "sha256:4ef3cfde4fb4858e8e17e26bb322ea1d44836c07b3e016d6921599caba67503a", size = 265600 },
+    { url = "https://files.pythonhosted.org/packages/0b/29/0f5f4e7ce521836092ad878d032410dd7563e1ac2b06af0deb9e19032ef0/wagtail_modeladmin-2.2.0-py3-none-any.whl", hash = "sha256:60ea08b128761b5b6a1cbfe3c8ab828fba13e41ff3d7563a0b8c62c8fe36c4ce", size = 265632 },
 ]
 
 [[package]]
@@ -870,6 +883,7 @@ version = "0.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "django-recaptcha" },
+    { name = "psycopg" },
     { name = "unidecode" },
     { name = "wagtail" },
     { name = "wagtail-generic-chooser" },
@@ -888,10 +902,11 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "django-recaptcha", specifier = ">=4.0.0" },
+    { name = "psycopg", specifier = ">=3.2.9" },
     { name = "unidecode", specifier = ">=0.4.14,<2.0" },
     { name = "wagtail", specifier = ">=4.1,<7.0" },
     { name = "wagtail-generic-chooser", specifier = ">=0.5.0,<0.7" },
-    { name = "wagtail-modeladmin", specifier = ">=2.1.0" },
+    { name = "wagtail-modeladmin", specifier = ">=2.2.0" },
 ]
 
 [package.metadata.requires-dev]
