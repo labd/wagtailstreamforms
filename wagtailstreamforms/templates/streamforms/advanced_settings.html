@@ -13,7 +13,7 @@
             <ul class="fields">
                 {% block visible_fields %}
                     {% for field in form.visible_fields %}
-                        {% include "wagtail/admin/shared/field_as_li.html" %}
+                        {% include "wagtail/admin/shared/field.html" %}
                     {% endfor %}
                 {% endblock %}
                 <li>
