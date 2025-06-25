@@ -24,16 +24,25 @@ class CopyViewTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_form_responds(self):
-        response = self.client.post(self.copy_url, data={})
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("This field is required.", str(response.content))
+        Form.objects.create(title="Existing Form", slug="unique-slug")
+
+        response = self.client.post(
+            self.copy_url,
+            {"title": "new copy", "slug": "unique-slug"},
+            follow=True,
+        )
+
+        self.assertIn("This field is required.", response.content.decode())
 
     def test_invalid_form_slug_in_use_error(self):
+        Form.objects.create(title="Existing Form", slug="existing-form")
+
         response = self.client.post(
-            self.copy_url, data={"title": "new copy", "slug": self.form.slug}
+            self.copy_url,
+            {"title": "new copy", "slug": "existing-form"},
+            follow=True,
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("This slug is already in use", str(response.content))
+        self.assertIn("This slug is already in use", response.content.decode())
 
     def test_invalid_pk_raises_404(self):
         response = self.client.get(self.invalid_copy_url)

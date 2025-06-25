@@ -1,4 +1,3 @@
----
 name: Python Tests
 
 on: [push]
@@ -46,12 +45,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: uv pip install --system tox tox-gh-actions
-      - name: Fix tox.ini for py311-dj41-wt51
-        if: matrix.tox_env == 'py311-dj41-wt51'
-        run: |
-          sed -i '/deps =/a \    django-taggit<3.0.0' tox.ini
       - name: Test with tox
-        run: uv run tox -e ${{ matrix.tox_env }} -- index-url=https://pypi.python.org/simple/
+        run: uv run tox -e ${{ matrix.tox_env }} -- --index-url=https://pypi.python.org/simple/
       - name: Prepare artifacts
         run: mkdir -p .coverage-data && mv .coverage.* .coverage-data/
       - uses: actions/upload-artifact@master

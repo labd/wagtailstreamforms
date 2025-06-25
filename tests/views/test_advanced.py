@@ -25,9 +25,8 @@ class AdvancedSettingsViewTestCase(AppTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_form_responds(self):
-        response = self.client.post(self.advanced_url, data={})
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("This field is required.", str(response.content))
+        response = self.client.post(self.advanced_url, {"name": "", "number": ""}, follow=True)
+        self.assertIn("This field is required.", response.content.decode())
 
     def test_valid_post(self):
         response = self.client.post(

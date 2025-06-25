@@ -22,15 +22,16 @@ class AdminListViewTestCase(AppTestCase):
 
     def test_copy_button_uses_add_perm(self):
         self.user.user_permissions.add(self.access_admin, self.change_perm)
-
-        response = self.client.get("/cms/wagtailstreamforms/form/")
+        url = "/cms/wagtailstreamforms/form/"
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertNotIn('title="Copy this form">Copy</a>', str(response.content))
 
         self.user.user_permissions.add(self.access_admin, self.add_perm)
 
-        response = self.client.get("/cms/wagtailstreamforms/form/")
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
         self.assertIn('title="Copy this form">Copy</a>', str(response.content))
 
     @override_settings(WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL="tests.ValidFormSettingsModel")
@@ -38,23 +39,25 @@ class AdminListViewTestCase(AppTestCase):
         url = "/cms/wagtailstreamforms/form/"
         expected_html = 'title="Advanced settings">Advanced</a>'
 
-        # disabled with delete perm
-        self.user.user_permissions.add(self.access_admin, self.delete_perm)
+        # Make sure user has basic admin access first
+        self.user.user_permissions.add(self.access_admin)
 
+        # Test with delete permission only
+        self.user.user_permissions.add(self.delete_perm)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertNotIn(expected_html, str(response.content))
 
-        # enabled with add perm
+        # Test with add permission
         self.user.user_permissions.remove(self.delete_perm)
         self.user.user_permissions.add(self.add_perm)
-
         response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
         self.assertIn(expected_html, str(response.content))
 
-        # enabled with change perm
+        # Test with change permission
         self.user.user_permissions.remove(self.add_perm)
         self.user.user_permissions.add(self.change_perm)
-
         response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
         self.assertIn(expected_html, str(response.content))

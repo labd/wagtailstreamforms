@@ -17,7 +17,6 @@ class TemplateTagTests(AppTestCase):
             """{% load streamforms_tags %}{% streamforms_form "basic-form" "some-ref" "." %}""",
             {"request": fake_request},
         )
-
         expected_html = "\n".join(
             [
                 "<h2>Basic Form</h2>",
@@ -112,7 +111,7 @@ class TemplateTagTests(AppTestCase):
                 "</div>",
                 '<div class="field-row">',
                 '<label for="id_multifile">multifile</label>',
-                '<input type="file" name="multifile" multiple required aria-describedby="id_multifile_helptext" id="id_multifile">',
+                '<input aria-describedby="id_multifile_helptext" id="id_multifile" multiple name="multifile" required type="file">',
                 '<p class="help-text">Help</p>',
                 "</div>",
                 '<input type="submit" value="Submit">',

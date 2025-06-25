@@ -49,6 +49,7 @@ dependencies = [
     "wagtail-modeladmin>=2.2.0",
     "django-recaptcha>=4.0.0",
     "psycopg>=3.2.9",
+    "tox>=4.26.0",
 ]
 requires-python = ">=3.9"
 readme = "README.md"
