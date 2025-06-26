@@ -1,11 +1,11 @@
-{% extends "wagtail/admin/base.html" %}.
+{% extends "wagtailadmin/base.html" %}.
 {% load i18n %}
 {% block titletag %}{% blocktrans with form_title=object.title|capfirst %}Submissions of {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block bodyclass %}menu-explorer{% endblock %}
 
 {% block content %}
     {% trans "Delete form data" as del_str %}
-    {% include "wagtail/admin/shared/header.html" with title=del_str subtitle=object.title icon="doc-empty-inverse" %}
+    {% include "wagtailadmin/shared/header.html" with title=del_str subtitle=object.title icon="doc-empty-inverse" %}
 
     <div class="nice-padding">
         <p>

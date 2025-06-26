@@ -1,11 +1,11 @@
-{% extends "wagtail/admin/base.html" %}
+{% extends "wagtailadmin/base.html" %}
 {% load i18n %}
 {% block titletag %}{% blocktrans with form_title=object %}Advanced form settings for {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block bodyclass %}menu-explorer{% endblock %}
 
 {% block content %}
     {% trans "Advanced form settings" as title_str %}
-    {% include "wagtail/admin/shared/header.html" with title=title_str subtitle=object icon="doc-empty-inverse" %}
+    {% include "wagtailadmin/shared/header.html" with title=title_str subtitle=object icon="doc-empty-inverse" %}
 
     <div class="nice-padding">
         <form action="." method="POST" novalidate>
@@ -13,7 +13,7 @@
             <ul class="fields">
                 {% block visible_fields %}
                     {% for field in form.visible_fields %}
-                        {% include "wagtail/admin/shared/field.html" %}
+                        {% include "wagtailadmin/shared/field.html" %}
                     {% endfor %}
                 {% endblock %}
                 <li>
