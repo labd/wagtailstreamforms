@@ -2,7 +2,6 @@ import os
 import re
 
 from django.urls import reverse_lazy
-import wagtail_modeladmin
 import wagtail
 
 SECRET_KEY = "secret"
@@ -57,7 +56,11 @@ TEMPLATES = [
             # Standard template locations
             os.path.join(os.path.dirname(wagtail.__file__), "admin", "templates"),
             # For modeladmin in Wagtail 6.0+
-            os.path.join(os.path.dirname(os.path.dirname(wagtail.__file__)), "wagtail_modeladmin", "templates"),
+            os.path.join(
+                os.path.dirname(os.path.dirname(wagtail.__file__)),
+                "wagtail_modeladmin",
+                "templates",
+            ),
             # Fallback locations
             os.path.dirname(os.path.dirname(wagtail.__file__)),
         ],

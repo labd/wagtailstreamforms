@@ -6,6 +6,7 @@
 .python-version
 .tox
 .coverage.*
+.venv
 **__pycache__**
 *.pyc
 /dist/
