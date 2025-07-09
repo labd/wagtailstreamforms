@@ -1,34 +1,24 @@
 [tool.djlint]
-format_css=false
-ignore="H031"
+format_css = false
+ignore = "H031"
 
 [tool.ruff]
 line-length = 99
 extend-exclude = ["**/migrations/"]
 lint.extend-ignore = ["F405", "E731"]
 
-[tool.isort]
-profile = "black"
-line_length = 120
-multi_line_output = 3
-include_trailing_comma = true
-skip = ["migrations"]
-
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.settings"
 testpaths = ["tests/"]
 django_find_project = false
 addopts = ["--nomigrations"]
-filterwarnings = ["ignore::DeprecationWarning","ignore::PendingDeprecationWarning"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
 
 [tool.uv]
-dev-dependencies = [
-    "mock",
-    "pytest-django",
-    "pytest",
-    "pre-commit",
-    "ruff"
-]
+dev-dependencies = ["mock", "pytest-django", "pytest", "pre-commit", "ruff"]
 
 [tool.setuptools.packages.find]
 include = ["wagtailstreamforms*"]
@@ -39,9 +29,7 @@ exclude = ["tests*", "docs*"]
 name = "wagtailstreamforms"
 dynamic = ["version"]
 description = ""
-authors = [
-    {name = "Lab Digital BV", email = "info@labdigital.nl"},
-]
+authors = [{ name = "Lab Digital BV", email = "info@labdigital.nl" }]
 dependencies = [
     "wagtail>=4.1,<7.0",
     "Unidecode>=0.04.14,<2.0",
@@ -53,7 +41,7 @@ dependencies = [
 ]
 requires-python = ">=3.9"
 readme = "README.md"
-license = {text = "Proprietary"}
+license = { text = "Proprietary" }
 classifiers = [
     "License :: Other/Proprietary License",
     "Programming Language :: Python",
@@ -66,6 +54,6 @@ classifiers = [
 ]
 
 [build-system]
-requires = ["setuptools",  "wheel", "setuptools_scm[toml]"]
+requires = ["setuptools", "wheel", "setuptools_scm[toml]"]
 build-backend = "setuptools.build_meta"
 packages = ["wagtailstreamforms"]

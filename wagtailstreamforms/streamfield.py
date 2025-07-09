@@ -8,7 +8,7 @@ from wagtailstreamforms.fields import BaseField, get_fields
 class FormFieldStreamBlock(blocks.StreamBlock):
     """Add all registered instances of BaseField's get_form_block method to the streamfield."""
 
-    def __init__(self, local_blocks=None, **kwargs):
+    def __init__(self, local_blocks=None, **kwargs) -> None:
         self._constructor_kwargs = kwargs
 
         # Note, this is calling BaseStreamBlock's super __init__, not FormFieldStreamBlock's.
@@ -43,6 +43,6 @@ class FormFieldStreamBlock(blocks.StreamBlock):
 
 
 class FormFieldsStreamField(StreamField):
-    def __init__(self, block_types, use_json_field=None, **kwargs):
-        super().__init__(block_types, use_json_field=use_json_field, **kwargs)
+    def __init__(self, block_types, **kwargs) -> None:
+        super().__init__(block_types, **kwargs)
         self.stream_block = FormFieldStreamBlock(block_types, required=not self.blank)
