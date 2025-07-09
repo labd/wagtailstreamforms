@@ -1,8 +1,8 @@
 import os
 import re
 
-from django.urls import reverse_lazy
 import wagtail
+from django.urls import reverse_lazy
 
 SECRET_KEY = "secret"
 

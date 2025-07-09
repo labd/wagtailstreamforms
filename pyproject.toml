@@ -5,6 +5,7 @@ ignore = "H031"
 [tool.ruff]
 line-length = 99
 extend-exclude = ["**/migrations/"]
+lint.extend-select = ["I"]
 lint.extend-ignore = ["F405", "E731"]
 
 [tool.pytest.ini_options]

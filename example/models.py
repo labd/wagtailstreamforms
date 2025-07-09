@@ -13,7 +13,6 @@ class AdvancedFormSetting(AbstractFormSetting):
 
 
 class BasicPage(Page):
-
     body = StreamField(
         [("rich_text", blocks.RichTextBlock()), ("form", WagtailFormBlock())],
         use_json_field=True,
