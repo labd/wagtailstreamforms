@@ -144,7 +144,7 @@ class FormModelAdmin(ModelAdmin):
     edit_view_class = EditFormView
     delete_view_class = DeleteFormView
     url_helper_class = FormURLHelper
-    index_template_name = "wagtail_modeladmin/index.html"
+    index_template_name = "modeladmin/index.html"
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

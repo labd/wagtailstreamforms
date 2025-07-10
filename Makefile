@@ -14,7 +14,7 @@ docs:
 	$(MAKE) -C docs html
 
 format:
-	ruff check --fix wagtailstreamforms/ tests/
+	ruff check --fix --select I wagtailstreamforms/ tests/
 	ruff format wagtailstreamforms/ tests/
 
 #
