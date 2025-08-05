@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from generic_chooser.views import ModelChooserViewSet
 from wagtail import hooks
 from wagtail.admin import messages as wagtail_messages
+from wagtail.admin.widgets import AdminPageChooser
 from wagtail_modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail_modeladmin.views import (
@@ -21,7 +22,6 @@ from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.models import Form
 from wagtailstreamforms.utils.loading import get_advanced_settings_model
 from wagtailstreamforms.utils.requests import get_form_instance_from_request
-from wagtail.admin.widgets import AdminPageChooser
 
 SettingsModel = get_advanced_settings_model()
 
@@ -144,7 +144,7 @@ class FormModelAdmin(ModelAdmin):
     edit_view_class = EditFormView
     delete_view_class = DeleteFormView
     url_helper_class = FormURLHelper
-    index_template_name = "wagtail_modeladmin/index.html"
+    index_template_name = "modeladmin/index.html"
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

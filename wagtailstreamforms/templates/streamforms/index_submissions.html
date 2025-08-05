@@ -1,9 +1,9 @@
-{% extends "wagtail/admin/base.html" %}
+{% extends "wagtailadmin/base.html" %}
 {% load i18n %}
 {% block titletag %}{% blocktrans with form_title=object.title|capfirst %}Submissions of {{ form_title }}{% endblocktrans %}{% endblock %}
 {% block extra_js %}
     {{ block.super }}
-    {% include "streamforms/wagtail/admin/shared/datetimepicker_translations.html" %}
+    {% include "streamforms/wagtailadmin/shared/datetimepicker_translations.html" %}
 
     <script>
         $(function() {
@@ -77,7 +77,7 @@
                     <div class="col search-bar">
                         <ul class="fields row rowflush">
                             {% for field in filter_form %}
-                                {% include "wagtail/admin/shared/field.html" with field=field field_classes="field-small" li_classes="col4" %}
+                                {% include "wagtailadmin/shared/field.html" with field=field field_classes="field-small" li_classes="col4" %}
                             {% endfor %}
                             <li class="submit col2">
                                 <button name="action" value="filter" class="button button-filter">{% trans 'Filter' %}</button>

@@ -13,19 +13,19 @@ class GoodField(fields.BaseField):
 
 class TestCorrectTypeRegistering(AppTestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         fields.register("good", GoodField)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         del fields._fields["good"]
 
-    def test_child_blocks(self):
-        field = FormFieldsStreamField([], use_json_field=True)
+    def test_child_blocks(self) -> None:
+        field = FormFieldsStreamField([])
         self.assertIn("good", field.stream_block.child_blocks)
 
-    def test_dependencies(self):
-        field = FormFieldsStreamField([], use_json_field=True)
+    def test_dependencies(self) -> None:
+        field = FormFieldsStreamField([])
         self.assertListEqual(
             [b.__class__ for b in field.stream_block.dependencies],
             [b.__class__ for b in field.stream_block.child_blocks.values()],
@@ -38,20 +38,20 @@ class BadField:
 
 class TestIncorrectTypeRegistering(AppTestCase):
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(cls) -> None:
         fields.register("bad", BadField)
 
     @classmethod
-    def tearDownClass(cls):
+    def tearDownClass(cls) -> None:
         del fields._fields["bad"]
 
-    def test_is_invalid_class(self):
+    def test_is_invalid_class(self) -> None:
         expected_error = "'%s' must be a subclass of '%s'" % (
             BadField,
             fields.BaseField,
         )
 
         with self.assertRaises(ImproperlyConfigured) as e:
-            FormFieldsStreamField([], use_json_field=True)
+            FormFieldsStreamField([])
 
         self.assertEqual(e.exception.args[0], expected_error)

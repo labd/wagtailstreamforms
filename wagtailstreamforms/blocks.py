@@ -1,13 +1,13 @@
 import uuid
 
 from django.utils.functional import cached_property
-from django.utils.safestring import mark_safe
+from django.utils.safestring import SafeText, mark_safe
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
 
 class InfoBlock(blocks.CharBlock):
-    def render_form(self, value, prefix="", errors=None):
+    def render_form(self, value, prefix="", errors=None) -> SafeText:
         field = self.field
         shown_value = value if value else field.help_text
         return mark_safe('<div style="margin-top:5px;padding:0.9em 1.2em;">%s</div>' % shown_value)
@@ -26,7 +26,7 @@ class FormChooserBlock(blocks.ChooserBlock):
 
         return WagtailStreamFormsChooser()
 
-    def get_form_state(self, value):
+    def get_form_state(self, value: dict):
         return self.widget.get_value_data(value)
 
 
@@ -42,10 +42,10 @@ class WagtailFormBlock(blocks.StructBlock):
     )
 
     class Meta:
-        icon = "icon icon-form"
+        icon = "form"
         template = None
 
-    def render(self, value, context=None):
+    def render(self, value: dict, context: dict | None = None) -> str | SafeText:
         form = value.get("form")
 
         # check if we have a form, as they can be deleted, and we dont want to break the site with
@@ -57,7 +57,7 @@ class WagtailFormBlock(blocks.StructBlock):
 
         return super().render(value, context)
 
-    def get_context(self, value, parent_context=None):
+    def get_context(self, value: dict, parent_context: dict | None = None) -> dict:
         context = super().get_context(value, parent_context)
 
         form = value.get("form")
@@ -82,7 +82,7 @@ class WagtailFormBlock(blocks.StructBlock):
 
         return context
 
-    def clean(self, value):
+    def clean(self, value: dict) -> dict:
         result = super().clean(value)
 
         # set to a new uuid so we can ensure we can identify this form
