@@ -28,7 +28,7 @@ exclude = ["tests*", "docs*"]
 
 [project]
 name = "wagtailstreamforms"
-dynamic = ["version"]
+version = "5.0.1"
 description = ""
 authors = [{ name = "Lab Digital BV", email = "info@labdigital.nl" }]
 dependencies = [
@@ -41,7 +41,7 @@ dependencies = [
     "tox>=4.26.0",
 ]
 requires-python = ">=3.9"
-readme = "README.md"
+readme = "README.rst"
 license = { text = "Proprietary" }
 classifiers = [
     "License :: Other/Proprietary License",
@@ -55,6 +55,5 @@ classifiers = [
 ]
 
 [build-system]
-requires = ["setuptools", "wheel", "setuptools_scm[toml]"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
-packages = ["wagtailstreamforms"]
