@@ -28,11 +28,11 @@ exclude = ["tests*", "docs*"]
 
 [project]
 name = "wagtailstreamforms"
-version = "5.0.1"
+version = "5.1.0"
 description = ""
 authors = [{ name = "Lab Digital BV", email = "info@labdigital.nl" }]
 dependencies = [
-    "wagtail>=4.1,<7.0",
+    "wagtail>=6.0,<8.0",
     "Unidecode>=0.04.14,<2.0",
     "wagtail-generic-chooser>=0.5.0,<0.7",
     "wagtail-modeladmin>=2.2.0",
