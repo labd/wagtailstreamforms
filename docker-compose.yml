@@ -18,7 +18,9 @@ services:
     depends_on:
       - db
     ports:
-      - 8000:8000
+      - 8001:8000
+    networks:
+      - wagtailstreamforms-net
   db:
     image: postgres:16.0
     environment:
@@ -28,5 +30,9 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ./.postgres:/var/lib/postgresql/data/pgdata
-    ports:
-      - 5432:5432
+    networks:
+      - wagtailstreamforms-net
+
+networks:
+  wagtailstreamforms-net:
+    driver: bridge

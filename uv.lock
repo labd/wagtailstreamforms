@@ -933,7 +933,7 @@ wheels = [
 
 [[package]]
 name = "wagtailstreamforms"
-version = "5.0.0"
+version = "5.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "django-recaptcha" },
@@ -960,8 +960,8 @@ requires-dist = [
     { name = "psycopg", specifier = ">=3.2.9" },
     { name = "tox", specifier = ">=4.26.0" },
     { name = "unidecode", specifier = ">=0.4.14,<2.0" },
-    { name = "wagtail", specifier = ">=4.1,<7.0" },
-    { name = "wagtail-generic-chooser", specifier = ">=0.5.0,<0.7" },
+    { name = "wagtail", specifier = ">=6.0,<8.0" },
+    { name = "wagtail-generic-chooser", specifier = ">=0.5.0" },
     { name = "wagtail-modeladmin", specifier = ">=2.2.0" },
 ]
 

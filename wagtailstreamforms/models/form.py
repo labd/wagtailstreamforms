@@ -47,12 +47,34 @@ class AbstractForm(models.Model):
     submit_button_text = models.CharField(
         _("Submit button text"), max_length=100, default="Submit"
     )
+    # MIG - This is a custom field used to display title on modal https://app.clickup.com/t/1tdvqwe
+    success_title = models.CharField(
+        _("Success Title"),
+        null=True,
+        blank=False,
+        max_length=64,
+        default=_("Vielen Dank für Ihren Beitrag"),
+        help_text=_(
+            "An optional success title to show when the form has validation errors"
+        ),
+    )
     success_message = models.CharField(
         _("Success message"),
         blank=True,
         max_length=255,
         help_text=_(
             "An optional success message to show when the form has been successfully submitted"
+        ),
+    )
+    # MIG - This is a custom field used to display title on modal https://app.clickup.com/t/1tdvqwe
+    error_title = models.CharField(
+        _("Error Title"),
+        null=True,
+        blank=False,
+        max_length=64,
+        default=_("Achtung! Bitte korrigieren Sie die Formfehler"),
+        help_text=_(
+            "An optional error title to show when the form has validation errors"
         ),
     )
     error_message = models.CharField(
