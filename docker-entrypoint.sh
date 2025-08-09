@@ -10,15 +10,15 @@ done;
 echo 'Connected to db...';
 
 if [ "x$DJANGO_MANAGEPY_MIGRATE" = 'xon' ]; then
-    python manage.py migrate --noinput
+    uv run python manage.py migrate --noinput
 fi
 
 if [ "x$DJANGO_MANAGEPY_COLLECTSTATIC" = 'xon' ]; then
-    python manage.py collectstatic --noinput
+    uv run python manage.py collectstatic --noinput
 fi
 
 if [ "x$DJANGO_MANAGEPY_UPDATEINDEX" = 'xon' ]; then
-    python manage.py update_index
+    uv run python manage.py update_index
 fi
 
 exec "$@"
