@@ -1,12 +1,17 @@
 FROM python:3.13-slim-bookworm
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Copy the application code to the container:
-RUN mkdir /code/
+# Set the working directory
 WORKDIR /code/
-ADD . /code/
 
-# Install all build deps:
+# Copy dependency definition files and install dependencies first for better caching
+COPY pyproject.toml uv.lock* ./
+RUN uv sync --frozen
+
+# Copy the rest of the application code
+COPY . .
+
+# Install system-level build dependencies
 RUN set -ex \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -16,21 +21,21 @@ RUN set -ex \
         libpq-dev \
         make \
         postgresql-client \
-    || (cat /var/log/apt/term.log || true) \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN uv sync --frozen
-
-# expose port
+# Expose the application port
 EXPOSE 8000
 
-# Docker entrypoint:
+# Set environment variables for the entrypoint script
+# and add the virtual environment to the PATH. This is the key fix.
 ENV DJANGO_MANAGEPY_MIGRATE=on \
     DJANGO_MANAGEPY_COLLECTSTATIC=on \
-    DJANGO_MANAGEPY_UPDATEINDEX=on
+    DJANGO_MANAGEPY_UPDATEINDEX=on \
+    PATH="/code/.venv/bin:$PATH"
 
+# Set the entrypoint
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
 
-# Start python runserver:
-CMD ["uv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Set the default command to run the development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
