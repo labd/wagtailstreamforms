@@ -27,11 +27,7 @@ class FormChooserBlock(blocks.ChooserBlock):
         return WagtailStreamFormsChooser()
 
     def get_form_state(self, value: dict):
-        try:
-            prep_value = self.get_prep_value(value)
-            return self.widget.get_value_data(prep_value)
-        except Exception:
-            return self.widget.get_value_data(value)
+        return self.widget.get_value_data(value)
 
 
 class WagtailFormBlock(blocks.StructBlock):
