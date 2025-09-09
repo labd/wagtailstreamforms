@@ -246,6 +246,7 @@ class WagtailStreamFormsChooser(BaseChooser):
     model = Form
     chooser_modal_url_name = "wagtailstreamforms_chooser:choose"
     icon = "form"
+    template = "generic_chooser/widgets/chooser.html"
 
 
 @hooks.register("register_admin_viewset")
