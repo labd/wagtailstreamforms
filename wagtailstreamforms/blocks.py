@@ -1,5 +1,6 @@
 import uuid
 
+from django.utils.functional import cached_property
 from django.utils.safestring import SafeText, mark_safe
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
@@ -13,13 +14,13 @@ class InfoBlock(blocks.CharBlock):
 
 
 class FormChooserBlock(blocks.ChooserBlock):
-    @property
+    @cached_property
     def target_model(self):
         from .models import Form
 
         return Form
 
-    @property
+    @cached_property
     def widget(self):
         from .wagtail_hooks import WagtailStreamFormsChooser
 
