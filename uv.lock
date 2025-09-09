@@ -909,14 +909,14 @@ wheels = [
 
 [[package]]
 name = "wagtail-generic-chooser"
-version = "0.6.1"
+version = "0.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ac/41/f0b5ba08ff98b64991dec601b2c0aafbf65d5599460346e65c58f4ae5c7b/wagtail-generic-chooser-0.6.1.tar.gz", hash = "sha256:a9962c8cbf5b65d05fe6d7feea15ab5a169a2046f7344f31bbb5851714a29267", size = 25442, upload-time = "2023-11-03T20:55:17.866Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ad/18/644395a069d94e4d5c3914b85a53d687993d1d3b7414644c2a4111061d43/wagtail_generic_chooser-0.7.tar.gz", hash = "sha256:a79ade8189e23813b0c65dbf0f9617cd462fc36cab1ed3a26c01c835fa4e113d", size = 26027, upload-time = "2025-06-06T09:42:48.179Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/de/5d/1f2fa036d3a3b619c56550194a53d4e396034917602db61c87f36fea4089/wagtail_generic_chooser-0.6.1-py3-none-any.whl", hash = "sha256:ec7b080e006d5560d4f0d26f351e7bf732d31645247157af427ccda3d4a75ab5", size = 25121, upload-time = "2023-11-03T20:55:16.138Z" },
+    { url = "https://files.pythonhosted.org/packages/cb/be/64265f3cc8353464121bf7007bfb543aaf9d5cc94977064e0d43bfa74b27/wagtail_generic_chooser-0.7-py3-none-any.whl", hash = "sha256:42ec66e4c4154f52e0ee6219d098a424e32349518176ebc213eade789585e746", size = 25412, upload-time = "2025-06-06T09:42:46.959Z" },
 ]
 
 [[package]]
@@ -933,7 +933,7 @@ wheels = [
 
 [[package]]
 name = "wagtailstreamforms"
-version = "5.0.0"
+version = "5.2.4"
 source = { editable = "." }
 dependencies = [
     { name = "django-recaptcha" },
@@ -960,8 +960,8 @@ requires-dist = [
     { name = "psycopg", specifier = ">=3.2.9" },
     { name = "tox", specifier = ">=4.26.0" },
     { name = "unidecode", specifier = ">=0.4.14,<2.0" },
-    { name = "wagtail", specifier = ">=4.1,<7.0" },
-    { name = "wagtail-generic-chooser", specifier = ">=0.5.0,<0.7" },
+    { name = "wagtail", specifier = ">=6.0,<8.0" },
+    { name = "wagtail-generic-chooser", specifier = ">=0.7.0" },
     { name = "wagtail-modeladmin", specifier = ">=2.2.0" },
 ]
 
