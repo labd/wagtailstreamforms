@@ -17,14 +17,25 @@ class ReCaptchaField(BaseField):
         options.update({"required": True})
         return options
 
+    def get_form_block_class(self):
+        return blocks.StructBlock
+
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+        ]
+
+    def get_form_block_kwargs(self):
+        return {
+            "icon": self.icon,
+            "label": self.label,
+        }
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-            ],
-            icon=self.icon,
-            label=self.label,
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
+            **self.get_form_block_kwargs(),
         )
 
 
@@ -49,18 +60,20 @@ class RegexValidatedField(BaseField):
             ("^[a-zA-Z0-9]+$", "Letters and numbers only"),
         )
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+            ("regex", blocks.ChoiceBlock(choices=self.get_regex_choices())),
+            ("error_message", blocks.CharBlock()),
+            ("default_value", blocks.CharBlock(required=False)),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-                ("regex", blocks.ChoiceBlock(choices=self.get_regex_choices())),
-                ("error_message", blocks.CharBlock()),
-                ("default_value", blocks.CharBlock(required=False)),
-            ],
-            icon=self.icon,
-            label=self.label,
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
+            **self.get_form_block_kwargs()
         )
 
 
@@ -79,13 +92,15 @@ class UserChoiceField(BaseField):
         options.update({"queryset": self.get_queryset()})
         return options
 
+    def get_local_blocks(self):
+        return [
+            ("label", blocks.CharBlock()),
+            ("help_text", blocks.CharBlock(required=False)),
+            ("required", blocks.BooleanBlock(required=False)),
+        ]
+
     def get_form_block(self):
-        return blocks.StructBlock(
-            [
-                ("label", blocks.CharBlock()),
-                ("help_text", blocks.CharBlock(required=False)),
-                ("required", blocks.BooleanBlock(required=False)),
-            ],
-            icon=self.icon,
-            label=self.label,
+        return self.get_form_block_class()(
+            self.get_local_blocks(),
+            **self.get_form_block_kwargs()
         )
