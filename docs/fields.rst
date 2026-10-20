@@ -198,7 +198,7 @@ An example model choice field of users.
    from django import forms
    from django.contrib.auth.models import User
 
-   from wagtail.core import blocks
+   from wagtail import blocks
    from wagtailstreamforms.fields import BaseField, register
 
 
@@ -236,7 +236,7 @@ the same for any given regex pattern.
 
    from django import forms
 
-   from wagtail.core import blocks
+   from wagtail import blocks
    from wagtailstreamforms.fields import BaseField, register
 
    @register('regex_validated')
@@ -275,7 +275,7 @@ Adding a ReCAPTCHA field is as simple as follows.
 
 Installing ``django-recaptcha``:
 
-.. code-block:: python
+.. code-block:: bash
 
     pip install django-recaptcha
 
@@ -285,23 +285,21 @@ Django ``settings.py`` file:
 
     INSTALLED_APPS = [
         ...
-        'captcha'
+        'django_recaptcha'
         ...
     ]
 
     # developer keys
     RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
     RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
-    # enable no captcha
-    NOCAPTCHA = True
 
 
 ``wagtailstreamforms_fields.py`` file:
 
 .. code-block:: python
 
-    from captcha.fields import ReCaptchaField
-    from wagtail.core import blocks
+    from django_recaptcha.fields import ReCaptchaField
+    from wagtail import blocks
     from wagtailstreamforms.fields import BaseField, register
 
     @register('recaptcha')

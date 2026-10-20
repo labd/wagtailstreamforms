@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import Permission, User
 from django.urls import reverse
+from django.utils.timezone import make_aware
 
 from wagtailstreamforms.models import Form, FormSubmission
 
@@ -15,10 +16,10 @@ class SubmissionListViewTestCase(AppTestCase):
         User.objects.create_superuser("user", "user@test.com", "password")
         form = Form.objects.get(pk=1)
         s1 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
-        s1.submit_time = datetime(2017, 1, 1, 0, 0, 0, 0)
+        s1.submit_time = make_aware(datetime(2017, 1, 1, 0, 0, 0, 0))
         s1.save()
         s2 = FormSubmission.objects.create(form=form, form_data='{"foo":1}')
-        s2.submit_time = datetime(2017, 1, 2, 10, 0, 0, 0)
+        s2.submit_time = make_aware(datetime(2017, 1, 2, 10, 0, 0, 0))
         s2.save()
         FormSubmission.objects.create(form=form, form_data='{"foo":1}')
 

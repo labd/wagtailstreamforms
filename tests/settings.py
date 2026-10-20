@@ -1,5 +1,5 @@
 import os
-import re
+import tempfile
 
 import wagtail
 from django.urls import reverse_lazy
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "wagtail.sites",
     "wagtail.contrib.settings",
     "wagtail_modeladmin",
+    "generic_chooser",
     "taggit",
     "wagtailstreamforms",
     "tests",
@@ -43,9 +44,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
-
-DJANGO_VERSION = int(re.search("dj([0-9]+)", os.environ.get("TOX_ENV_NAME", "dj40")).group(1))
-WAGTAIL_VERSION = int(re.search("wt([0-9]+)", os.environ.get("TOX_ENV_NAME", "wt216")).group(1))
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "testdb"}}
 
@@ -79,6 +77,9 @@ TEMPLATES = [
 ROOT_URLCONF = "tests.urls"
 
 STATIC_URL = "/static/"
+
+# keep files uploaded by the tests out of the working tree
+MEDIA_ROOT = os.path.join(tempfile.gettempdir(), "wagtailstreamforms-tests")
 
 LOGIN_URL = reverse_lazy("admin:login")
 

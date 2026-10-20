@@ -152,6 +152,12 @@ class ModelPropertyTests(AppTestCase):
         ]
         self.assertEqual(self.test_form.get_data_fields(), expected_fields)
 
+    def test_get_data_fields_uses_custom_field_name(self):
+        form = Form(
+            fields='[{"type": "singleline", "value": {"label": "Your name", "name": "full_name"}}]'
+        )
+        self.assertEqual(form.get_data_fields()[1:], [("full_name", "Your name")])
+
     def test_get_form(self):
         actual_fields = [f for f in self.test_form.get_form().fields]
         expected_fields = [

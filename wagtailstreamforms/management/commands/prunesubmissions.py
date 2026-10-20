@@ -12,7 +12,7 @@ class Command(BaseCommand):
         parser.add_argument("days_to_keep", type=int)
 
     def get_queryset(self, date):
-        return FormSubmission.objects.filter(submit_time__lt=date)
+        return FormSubmission.objects.filter(submit_time__date__lt=date)
 
     def handle(self, *args, **options):
         keep_from_date = datetime.today().date() - timedelta(days=options["days_to_keep"])

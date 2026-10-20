@@ -2,6 +2,24 @@
 Changelog
 *********
 
+5.3.0
+-----
+* Add Wagtail 8.0 and Django 6.0/6.1 support
+* Drop Wagtail 6.x and Python 3.9 support; require Wagtail 7.0+, wagtail-modeladmin 2.5+
+  and wagtail-generic-chooser 0.8+ (older versions fail on Wagtail 8)
+* Remove ``psycopg``, ``tox`` and ``django-recaptcha`` from the runtime dependencies. If your
+  project uses django-recaptcha, add it to your own requirements
+* Fix ``prunesubmissions`` passing a naive datetime to the database when ``USE_TZ`` is enabled
+* Fix ``wagtailstreamforms.__version__`` reporting an outdated version
+* Fix submissions list and CSV export showing empty columns for fields with a custom ``name`` (#223)
+* Fix package metadata: MIT license, description, classifiers and project URLs
+* Document that ``generic_chooser`` must be in ``INSTALLED_APPS``
+* Move development tooling to uv dependency groups; test matrix runs through tox-uv
+* Update GitHub Actions and pin them to commit hashes
+
+Releases 4.1.0 to 5.2.6 are described on the
+`GitHub releases page <https://github.com/labd/wagtailstreamforms/releases>`_.
+
 4.0.3
 -----
 * no BigAutoField in tests

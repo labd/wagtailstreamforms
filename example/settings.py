@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     "wagtail.sites",
     "wagtail_modeladmin",
+    "generic_chooser",
     "wagtail.contrib.settings",
     "wagtail.contrib.search_promotions",
     "django_recaptcha",
@@ -85,7 +86,7 @@ WSGI_APPLICATION = "example.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql",
         "HOST": environ.get("RDS_HOSTNAME"),
         "PORT": environ.get("RDS_PORT"),
         "NAME": environ.get("RDS_DB_NAME"),

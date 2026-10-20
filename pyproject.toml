@@ -5,7 +5,7 @@ ignore = "H031"
 [tool.ruff]
 line-length = 99
 extend-exclude = ["**/migrations/"]
-lint.extend-select = ["I"]
+lint.select = ["E4", "E7", "E9", "F", "I"]
 lint.extend-ignore = ["F405", "E731"]
 
 [tool.pytest.ini_options]
@@ -18,8 +18,23 @@ filterwarnings = [
     "ignore::PendingDeprecationWarning",
 ]
 
-[tool.uv]
-dev-dependencies = ["mock", "pytest-django", "pytest", "pre-commit", "ruff"]
+[dependency-groups]
+dev = [
+    "django-recaptcha>=4.0.0",
+    "pre-commit",
+    "psycopg>=3.2.9",
+    "pytest",
+    "pytest-django",
+    "ruff",
+    "tox>=4.26.0",
+    "tox-uv",
+]
+docs = [
+    "karma-sphinx-theme>=0.0.8",
+    # karma-sphinx-theme uses the "style" template field that Sphinx 7 removed
+    "sphinx<7",
+    "sphinx-autobuild",
+]
 
 [tool.setuptools.packages.find]
 include = ["wagtailstreamforms*"]
@@ -28,32 +43,47 @@ exclude = ["tests*", "docs*"]
 
 [project]
 name = "wagtailstreamforms"
-version = "5.2.6"
-description = ""
+version = "5.3.0"
+description = "Wagtail forms in a streamfield"
 authors = [{ name = "Lab Digital BV", email = "info@labdigital.nl" }]
 dependencies = [
-    "wagtail>=6.0,<8.0",
+    "wagtail>=7.0,<9.0",
     "Unidecode>=0.04.14,<2.0",
-    "wagtail-generic-chooser>=0.7.0",
-    "wagtail-modeladmin>=2.2.0",
-    "django-recaptcha>=4.0.0",
-    "psycopg>=3.2.9",
-    "tox>=4.26.0",
+    "wagtail-generic-chooser>=0.8",
+    "wagtail-modeladmin>=2.5.0",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 readme = "README.rst"
-license = { text = "Proprietary" }
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["wagtail", "streamfield", "forms"]
 classifiers = [
-    "License :: Other/Proprietary License",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Framework :: Django :: 6.1",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 7",
+    "Framework :: Wagtail :: 8",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
 ]
 
+[project.urls]
+Homepage = "https://github.com/labd/wagtailstreamforms"
+Documentation = "https://wagtailstreamforms.readthedocs.io/"
+Changelog = "https://github.com/labd/wagtailstreamforms/blob/master/CHANGELOG.rst"
+Issues = "https://github.com/labd/wagtailstreamforms/issues"
+
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
