@@ -9,7 +9,7 @@ from ..test_case import AppTestCase
 
 
 class TestHook(AppTestCase):
-    def test_form(self):
+    def get_form(self):
         form = Form.objects.create(
             title="Form",
             template_name="streamforms/form_block.html",
@@ -32,7 +32,7 @@ class TestHook(AppTestCase):
         return form
 
     def test_saves_record_with_files(self):
-        instance = self.test_form()
+        instance = self.get_form()
 
         data_dict = {
             "singleline": "text",

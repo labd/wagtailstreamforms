@@ -1,31 +1,32 @@
-.PHONY: install test upload docs
-
+.PHONY: install test tox docs format lint makemessages compilemessages build
 
 install:
-	pip install -e .[docs,test]
+	uv sync --all-groups
 
 test:
-	DJANGO_SETTINGS_MODULE=tests.settings ./manage.py test
+	uv run python manage.py test --settings=tests.settings
 
-retest:
-	py.test --nomigrations --reuse-db --lf --ignore=tests/functional tests/
+tox:
+	uvx --with tox-uv tox run-parallel
 
 docs:
-	$(MAKE) -C docs html
+	uv run --group docs $(MAKE) -C docs html
 
 format:
-	ruff check --fix --select I wagtailstreamforms/ tests/
-	ruff format wagtailstreamforms/ tests/
+	uv run ruff check --fix --select I wagtailstreamforms/ tests/
+	uv run ruff format wagtailstreamforms/ tests/
+
+lint:
+	uv run ruff format --check wagtailstreamforms/ tests/
+	uv run ruff check wagtailstreamforms/ tests/
 
 #
 # Utility
 makemessages:
-	./manage.py makemessages -all
+	cd wagtailstreamforms && uv run django-admin makemessages --all
 
 compilemessages:
-	./manage.py compilemessages
+	cd wagtailstreamforms && uv run django-admin compilemessages
 
-release:
-	rm -rf dist/*
-	python setup.py sdist bdist_wheel
-	twine upload dist/*
+build:
+	uv build

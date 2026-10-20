@@ -2,48 +2,65 @@ name: Python Tests
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.11
-      - name: Install dependencies
-        run: uv pip install --system tox
       - name: Validate formatting
-        run: uv run tox -e format
+        run: uvx --with tox-uv tox -e format
 
   test:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
+      fail-fast: false
       matrix:
-        tox_env:
-          - py311-dj42-wt60
-          - py311-dj42-wt62
-          - py311-dj42-wt64
         include:
-          - python-version: "3.11"
-            tox_env: py311-dj42-wt60
-          - python-version: "3.11"
-            tox_env: py311-dj42-wt62
-          - python-version: "3.11"
-            tox_env: py311-dj42-wt64
+          - python-version: "3.10"
+            tox_env: py310-dj52-wt70
+          - python-version: "3.13"
+            tox_env: py313-dj52-wt70
+          - python-version: "3.10"
+            tox_env: py310-dj52-wt74
+          - python-version: "3.14"
+            tox_env: py314-dj52-wt74
+          - python-version: "3.12"
+            tox_env: py312-dj60-wt74
+          - python-version: "3.14"
+            tox_env: py314-dj60-wt74
+          - python-version: "3.10"
+            tox_env: py310-dj52-wt80
+          - python-version: "3.14"
+            tox_env: py314-dj52-wt80
+          - python-version: "3.12"
+            tox_env: py312-dj60-wt80
+          - python-version: "3.12"
+            tox_env: py312-dj61-wt80
+          - python-version: "3.14"
+            tox_env: py314-dj60-wt80
+          - python-version: "3.14"
+            tox_env: py314-dj61-wt80
+          - python-version: "3.10"
+            tox_env: py310-lowest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: uv pip install --system tox tox-gh-actions
       - name: Test with tox
-        run: uv run tox -e ${{ matrix.tox_env }} -- --index-url=https://pypi.python.org/simple/
+        run: uvx --with tox-uv tox -e "$TOX_ENV"
+        env:
+          TOX_ENV: ${{ matrix.tox_env }}

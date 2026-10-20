@@ -3,7 +3,6 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
@@ -141,8 +140,12 @@ class AbstractForm(models.Model):
         """Returns a list of tuples with (field_name, field_label)."""
 
         data_fields = [("submit_time", _("Submission date"))]
+        # same key as BaseField.get_formfield_name, so fields with a custom name show their data
         data_fields += [
-            (get_slug_from_string(field["value"]["label"]), field["value"]["label"])
+            (
+                field["value"].get("name") or get_slug_from_string(field["value"]["label"]),
+                field["value"]["label"],
+            )
             for field in self.get_form_fields()
         ]
         if getattr(settings, "WAGTAILSTREAMFORMS_SHOW_FORM_REFERENCE", False):
@@ -163,10 +166,7 @@ class AbstractForm(models.Model):
     def get_form_fields(self):
         """Returns the form field's stream data."""
 
-        if WAGTAIL_VERSION >= (2, 12):
-            form_fields = self.fields.raw_data
-        else:
-            form_fields = self.fields.stream_data
+        form_fields = self.fields.raw_data
         for fn in hooks.get_hooks("construct_submission_form_fields"):
             form_fields = fn(form_fields)
         return form_fields

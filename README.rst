@@ -9,6 +9,33 @@ of file fields. Form submissions are controlled by hooks that you can add that p
 Templates can be created which will then appear as choices when you build your form,
 allowing you to display and submit a form however you want.
 
+Installation
+------------
+
+.. code:: bash
+
+    $ pip install wagtailstreamforms
+
+or, in a project managed with `uv <https://docs.astral.sh/uv/>`_:
+
+.. code:: bash
+
+    $ uv add wagtailstreamforms
+
+Then follow the `installation guide <https://wagtailstreamforms.readthedocs.io/en/latest/installation.html>`_.
+
+Compatibility
+-------------
+
+==================  ==============  ==========================  ===============
+wagtailstreamforms  Wagtail         Django                      Python
+==================  ==============  ==========================  ===============
+5.3                 7.0 - 8.x       5.2, 6.0, 6.1 [#django]_    3.10 - 3.14
+5.1 - 5.2           6.0 - 7.x       as supported by Wagtail     3.9+
+==================  ==============  ==========================  ===============
+
+.. [#django] Whichever of these the installed Wagtail version supports. Django 6.x requires Python 3.12+.
+
 Backwards Compatibility
 -----------------------
 
@@ -64,6 +91,21 @@ Screenshots
    :width: 728 px
 
    Form Fields Selection
+
+Development
+-----------
+
+The project is managed with `uv <https://docs.astral.sh/uv/>`_.
+
+.. code:: bash
+
+    $ git clone https://github.com/labd/wagtailstreamforms.git
+    $ cd wagtailstreamforms
+    $ make install   # uv sync --all-groups
+    $ make test      # run the test suite against the locked versions
+    $ make tox       # run the full Python/Django/Wagtail matrix via tox-uv
+    $ make format    # ruff
+    $ make docs      # build the Sphinx documentation
 
 Example site with docker
 ------------------------
