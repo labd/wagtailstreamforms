@@ -2,6 +2,12 @@
 Changelog
 *********
 
+Unreleased
+----------
+* Drop Python 3.10 and 3.11 support; require Python 3.12+
+* Update locked dependencies to resolve security advisories (Pillow, urllib3, requests, sqlparse, ...)
+* Replace deprecated ``node-sass`` with ``sass`` for the example CSS build
+
 5.3.0
 -----
 * Add Wagtail 8.0 and Django 6.0/6.1 support
