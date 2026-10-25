@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "css": "npm-run-all css-compile* --sequential css-prefix* css-minify*",
-    "css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 example/scss/karma.scss example/static/css/karma.css",
+    "css-compile": "sass --style=expanded --embed-sources --no-error-css example/scss/karma.scss example/static/css/karma.css",
     "css-prefix": "postcss --config postcss.config.js --replace \"example/static/css/*.css\" \"!example/static/css/*.min.css\"",
     "css-minify": "cleancss --level 1 --source-map --source-map-inline-sources --output example/static/css/karma.min.css example/static/css/karma.css",
     "watch-css": "nodemon -e scss -x \"npm run css\""
@@ -18,10 +18,10 @@
     "autoprefixer": "^7.2.5",
     "clean-css-cli": "^4.1.10",
     "karma-css": "^1.9.5",
-    "node-sass": "^4.7.2",
     "nodemon": "^1.14.11",
     "npm-run-all": "^4.1.2",
-    "postcss-cli": "^5.0.0"
+    "postcss-cli": "^5.0.0",
+    "sass": "^1.80.0"
   },
   "browserslist": [
     "last 1 major version",

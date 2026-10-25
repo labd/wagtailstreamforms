@@ -1,7 +1,7 @@
 Wagtail StreamForms
 ===================
 
-|tests| |Codecov| |pypi| |github|
+|tests| |pypi| |github|
 
 Allows you to build forms in the CMS admin area and add them to any StreamField in your site.
 You can add your own fields along with the vast array of default fields which include the likes
@@ -30,6 +30,7 @@ Compatibility
 ==================  ==============  ==========================  ===============
 wagtailstreamforms  Wagtail         Django                      Python
 ==================  ==============  ==========================  ===============
+unreleased          7.0 - 8.x       5.2, 6.0, 6.1 [#django]_    3.12 - 3.14
 5.3                 7.0 - 8.x       5.2, 6.0, 6.1 [#django]_    3.10 - 3.14
 5.1 - 5.2           6.0 - 7.x       as supported by Wagtail     3.9+
 ==================  ==============  ==========================  ===============
@@ -134,8 +135,6 @@ Go to http://127.0.0.1:8000
 
 .. |tests| image:: https://github.com/labd/wagtailstreamforms/workflows/Python%20Tests/badge.svg
    :target: https://github.com/labd/wagtailstreamforms/actions?query=workflow%3A%22Python+Tests%22
-.. |Codecov| image:: https://codecov.io/gh/labd/wagtailstreamforms/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/labd/wagtailstreamforms
 .. |pypi| image:: https://img.shields.io/pypi/v/wagtailstreamforms.svg
    :target: https://pypi.org/project/wagtailstreamforms/
 .. |github| image:: https://img.shields.io/github/stars/labd/wagtailstreamforms.svg?style=social&logo=github
