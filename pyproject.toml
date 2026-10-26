@@ -92,7 +92,7 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/labd/wagtailstreamforms"
 Documentation = "https://wagtailstreamforms.readthedocs.io/"
-Changelog = "https://github.com/labd/wagtailstreamforms/blob/master/CHANGELOG.rst"
+Changelog = "https://github.com/labd/wagtailstreamforms/blob/master/CHANGELOG.md"
 Issues = "https://github.com/labd/wagtailstreamforms/issues"
 
 [build-system]
