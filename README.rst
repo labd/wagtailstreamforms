@@ -133,6 +133,17 @@ Create yourself a superuser
 
 Go to http://127.0.0.1:8000
 
+Releasing
+---------
+
+Releases are managed with `changie <https://changie.dev>`_:
+
+1. Add a changelog entry to your pull request with ``changie new``.
+2. After merging to ``master``, a release pull request is opened (or updated)
+   automatically, with the new version and the updated ``CHANGELOG.md``.
+3. Merging the release pull request creates the GitHub release, which publishes
+   the package to PyPI.
+
 .. |tests| image:: https://github.com/labd/wagtailstreamforms/actions/workflows/python-test.yml/badge.svg
    :target: https://github.com/labd/wagtailstreamforms/actions/workflows/python-test.yml
 .. |pypi| image:: https://img.shields.io/pypi/v/wagtailstreamforms.svg
