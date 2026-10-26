@@ -1,7 +1,7 @@
 Wagtail StreamForms
 ===================
 
-|tests| |pypi| |github|
+|pypi| |tests| |github|
 
 Allows you to build forms in the CMS admin area and add them to any StreamField in your site.
 You can add your own fields along with the vast array of default fields which include the likes
@@ -133,8 +133,8 @@ Create yourself a superuser
 
 Go to http://127.0.0.1:8000
 
-.. |tests| image:: https://github.com/labd/wagtailstreamforms/workflows/Python%20Tests/badge.svg
-   :target: https://github.com/labd/wagtailstreamforms/actions?query=workflow%3A%22Python+Tests%22
+.. |tests| image:: https://github.com/labd/wagtailstreamforms/actions/workflows/python-test.yml/badge.svg
+   :target: https://github.com/labd/wagtailstreamforms/actions/workflows/python-test.yml
 .. |pypi| image:: https://img.shields.io/pypi/v/wagtailstreamforms.svg
    :target: https://pypi.org/project/wagtailstreamforms/
 .. |github| image:: https://img.shields.io/github/stars/labd/wagtailstreamforms.svg?style=social&logo=github
